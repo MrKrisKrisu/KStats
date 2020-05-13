@@ -1,0 +1,40 @@
+<?php
+
+/*
+  |--------------------------------------------------------------------------
+  | Web Routes
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register web routes for your application. These
+  | routes are loaded by the RouteServiceProvider within a group which
+  | contains the "web" middleware group. Now create something great!
+  |
+ */
+
+Route::view('/', 'welcome');
+Route::view('/opensource/', 'opensource');
+
+Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('redirectProvider');
+Route::get('/auth/callback/{provider}', 'SocialController@callback');
+
+Auth::routes();
+
+
+Route::get('/home/', 'HomeController@index')->name('home');
+
+Route::get('/settings/', 'SettingsController@index')->name('settings');
+Route::post('/settings/', 'SettingsController@save');
+
+Route::get('/spotify/', 'SpotifyController@index')->name('spotify');
+Route::get('/spotify/top-tracks/{term?}', 'SpotifyController@topTracks')->name('spotify.topTracks');
+Route::get('/spotify/lost-tracks/', 'SpotifyController@lostTracks')->name('spotify.lostTracks');
+Route::post('/spotify/lost-tracks/', 'SpotifyController@saveLostTracks')->name('spotify.saveLostTracks');
+
+Route::get('/rewe/', 'ReweController@index')->name('rewe');
+Route::get('/rewe/receipt/{id}', 'ReweController@renderBonDetails')->name('rewe_receipt');
+
+Route::get('/crowdsourcing/rewe/', 'CrowdsourceController@renderRewe')->name('crowdsourcing_rewe');
+Route::post('/crowdsourcing/rewe/', 'CrowdsourceController@handleSubmit');
+
+Route::view('/imprint/', 'imprint');
+Route::view('/disclaimer/', 'disclaimer');
