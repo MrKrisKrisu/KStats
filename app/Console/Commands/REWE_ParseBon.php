@@ -54,7 +54,8 @@ class REWE_ParseBon extends Command
             try {
                 $userEmail = UserEmail::firstOrCreate(['email' => $bonAttachment->getEMail()]);
                 $pdf = new Pdf(env('PDFTOTEXT_PATH'));
-                $text = $pdf->setPdf($bonAttachment->getFilename())->text();
+                $filename = $bonAttachment->getFilename();
+                $text = $pdf->setPdf($filename)->text();
 
                 $parser = new ReweBonParser($text);
 
@@ -84,7 +85,7 @@ class REWE_ParseBon extends Command
                     'payed_contactless' => 0, //TODO,
                     'total' => $parser->getTotal(),
                     'earned_payback_points' => $parser->getEarnedPaybackPoints(),
-                    'raw_bon' => $text
+                    'receipt_pdf' => file_get_contents($filename)
                 ]);
 
                 $positions = $parser->getPositions();

@@ -32,6 +32,7 @@ Route::post('/spotify/lost-tracks/', 'SpotifyController@saveLostTracks')->name('
 
 Route::get('/rewe/', 'ReweController@index')->name('rewe');
 Route::get('/rewe/receipt/{id}', 'ReweController@renderBonDetails')->name('rewe_receipt');
+Route::get('/rewe/receipt/download/{id}', 'ReweController@downloadRawReceipt')->name('download_raw_rewe_receipt');
 
 Route::get('/crowdsourcing/rewe/', 'CrowdsourceController@renderRewe')->name('crowdsourcing_rewe');
 Route::post('/crowdsourcing/rewe/', 'CrowdsourceController@handleSubmit');

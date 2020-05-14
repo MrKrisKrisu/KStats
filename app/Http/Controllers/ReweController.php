@@ -125,9 +125,20 @@ class ReweController extends Controller
         ]);
     }
 
-    public function renderBonDetails(int $id)
+    public function downloadRawReceipt(int $receipt_id)
     {
-        $bon = ReweBon::find($id);
+        $receipt = ReweBon::find($receipt_id);
+
+        if ($receipt == NULL || $receipt->user_id != auth()->user()->id)
+            return response("No permission", 401);
+
+        return response($receipt->receipt_pdf, 200)
+            ->header('Content-Type', 'application/pdf');
+    }
+
+    public function renderBonDetails(int $receipt_id)
+    {
+        $bon = ReweBon::find($receipt_id);
 
         if ($bon->user->id != auth()->user()->id)
             return Redirect::route('rewe')->withErrors(['msg', 'No Permissions to access this bon.']);

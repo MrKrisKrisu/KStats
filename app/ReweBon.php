@@ -9,7 +9,7 @@ class ReweBon extends Model
 
     protected $fillable = [
         'user_id', 'shop_id', 'timestamp_bon', 'bon_nr', 'cashier_nr', 'cashregister_nr', 'paymentmethod',
-        'payed_cashless', 'payed_contactless', 'total', 'earned_payback_points', 'raw_bon'
+        'payed_cashless', 'payed_contactless', 'total', 'earned_payback_points', 'receipt_pdf'
     ];
 
     protected $dates = array('timestamp_bon');

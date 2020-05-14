@@ -28,11 +28,16 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <pre>{{$bon->raw_bon}}</pre>
+
+                    @if($bon->receipt_pdf !== NULL)
+                        <a class="btn btn-primary" href="{{ route('download_raw_rewe_receipt', ['id' => $bon->id]) }}">Bon
+                            herunterladen</a>
+                    @endif
+
+                    @if($bon->raw_bon !== NULL)
+                        <hr/>
+                        <pre>{{$bon->raw_bon}}</pre>
+                    @endif
                 </div>
             </div>
         </div>

@@ -3,8 +3,9 @@
   "type": "project",
   "require": {
     "php": "^7.2",
-    "ext-json": "*",
     "ext-imap": "*",
+    "ext-json": "*",
+    "doctrine/dbal": "^2.10",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^6.5",
     "laravel/framework": "^6.2",
