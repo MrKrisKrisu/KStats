@@ -176,7 +176,7 @@ class SpotifyController extends Controller
         if (!in_array($term, ['long_term', 'short_term', 'medium_term']))
             $term = 'short_term';
 
-        $access_token = auth()->user()->first()->socialProfile->spotify_accessToken;
+        $access_token = auth()->user()->socialProfile->spotify_accessToken;
 
         try {
             $top_tracks = SpotifyAPIController::getTopTracks($access_token, $term);
