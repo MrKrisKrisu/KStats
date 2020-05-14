@@ -41,9 +41,13 @@ class Spotify_PlaylistRefresh extends Command
     {
         $users = UserSettings::where('name', 'spotify_createOldPlaylist')->where('val', '1')->select('user_id')->get();
         foreach ($users as $user) {
-            $user = User::find($user->user_id);
+            try {
+                $user = User::find($user->user_id);
 
-            SpotifyController::generateLostPlaylist($user);
+                SpotifyController::generateLostPlaylist($user);
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
         }
 
         return 0;

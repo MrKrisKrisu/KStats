@@ -163,7 +163,7 @@ class SpotifyController extends Controller
      * @param String $term expect 'long_term', 'medium_term' or 'short_term'
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function topTracks(String $term = 'long_term')
+    public function topTracks(string $term = 'long_term')
     {
         $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
         if ($socialProfile->spotify_accessToken == null)
@@ -268,9 +268,11 @@ class SpotifyController extends Controller
     /**
      * @param User $user
      * @return bool
+     * @throws SpotifyTokenExpiredException
      * TODO: Exceptions handlen
      */
-    public static function generateLostPlaylist(User $user) {
+    public static function generateLostPlaylist(User $user)
+    {
         $settings_minutes = UserSettings::get($user->id, 'spotify_oldPlaylist_minutesTop', '120');
         $settings_days = UserSettings::get($user->id, 'spotify_oldPlaylist_days', '30');
         $settings_limit = UserSettings::get($user->id, 'spotify_oldPlaylist_songlimit', '30');
@@ -285,6 +287,9 @@ class SpotifyController extends Controller
                 'Authorization' => 'Bearer ' . $user->socialProfile->spotify_accessToken
             ]
         ]);
+
+        if ($result->getStatusCode() == 401)
+            throw new SpotifyTokenExpiredException();
 
         if ($result->getStatusCode() != 200)
             return false;
@@ -336,7 +341,8 @@ class SpotifyController extends Controller
         dump($data);
     }
 
-    public static function getWeekdayName(int $wd) {
+    public static function getWeekdayName(int $wd)
+    {
         $a = [
             0 => 'Montag',
             1 => 'Dienstag',
