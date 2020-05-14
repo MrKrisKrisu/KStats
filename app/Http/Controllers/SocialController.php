@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SocialLoginProfile;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,7 @@ class SocialController extends Controller
             $socialProfile->spotify_user_id = $getInfo->id;
             $socialProfile->spotify_accessToken = $getInfo->token;
             $socialProfile->spotify_refreshToken = $getInfo->refreshToken;
+            $socialProfile->spotify_lastRefreshed = Carbon::now();
             $socialProfile->save();
             return redirect()->to('/spotify');
         }
