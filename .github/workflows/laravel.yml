@@ -27,8 +27,8 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
+    - name: Execute tests (Unit and Feature tests) via Laravel internal test management and PHPUnit
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+      run: php artisan test
