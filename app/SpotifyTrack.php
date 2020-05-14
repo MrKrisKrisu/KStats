@@ -9,9 +9,7 @@ class SpotifyTrack extends Model
 
     protected $fillable = [
         'track_id', 'name', 'album_id', 'preview_url', 'popularity', 'explicit', 'duration_ms', 'danceability',
-        'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'valence', 'key', 'mode', 'bpm',
-
-        'created_at' //TODO: Remove after migration
+        'energy', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'valence', 'key', 'mode', 'bpm'
     ];
     protected $hidden = [
         'created_at', 'updated_at'

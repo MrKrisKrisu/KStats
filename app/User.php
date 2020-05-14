@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id', 'username', 'email', 'password' //TODO: remove 'id' after migration
+        'username', 'email', 'password'
     ];
 
     /**
