@@ -48,7 +48,6 @@ class REWE_ParseBon extends Command
      */
     public function handle()
     {
-        return;
         $files = ReweMailController::fetchMailAttachments();
 
         foreach ($files as $bonAttachment) {
