@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\SocialLoginProfile;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use App\User;
 
-class SocialController extends Controller {
+class SocialController extends Controller
+{
 
     /**
      * Redirects to login-provider authentication
@@ -17,7 +18,8 @@ class SocialController extends Controller {
      *
      * @return redirect
      */
-    public function redirect($provider) {
+    public function redirect($provider)
+    {
         $sl = Socialite::driver($provider);
         if ($provider == 'spotify')
             $sl->scopes(['user-top-read', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'playlist-modify-private']);
@@ -25,13 +27,29 @@ class SocialController extends Controller {
     }
 
     /**
-     *
      * @param $provider
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function callback($provider) {
+    public function callback($provider)
+    {
         $getInfo = Socialite::driver($provider)->user();
+
+        //User is not logged in, try to log in with social profile
+        if (!Auth::check()) {
+            if ($provider !== "spotify")
+                return redirect('login')->with('status', $provider . ' is not supported');
+
+            $slp = SocialLoginProfile::where('spotify_user_id', $getInfo->id)->first();
+            if ($slp == NULL)
+                return redirect('login')->with('status', 'You are not connected to an KStats Account. Please register first and connect your Spotify Account.');
+
+            $slp->spotify_accessToken = $getInfo->token;
+            $slp->spotify_refreshToken = $getInfo->refreshToken;
+            $slp->update();
+
+            Auth::login($slp->user);
+        }
 
         $user = User::where('id', auth()->user()->id)->first();
         $socialProfile = $user->socialProfile ?: new SocialLoginProfile;

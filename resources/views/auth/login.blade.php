@@ -8,6 +8,12 @@
                     <div class="card-header">{{ __('Login') }}</div>
 
                     <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-danger">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
@@ -64,11 +70,15 @@
                                         {{ __('Login') }}
                                     </button>
 
+
                                     @if (Route::has('password.request'))
                                         <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif
+                                    <hr/>
+                                    <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">Login via
+                                        Spotify</a>
                                 </div>
                             </div>
                         </form>
