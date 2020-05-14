@@ -123,8 +123,7 @@ class TelegramController extends Controller
             self::sendMessageToChat($chatID, "Hallo " . $us->user->username . '! Dein Account ist jetzt erfolgreich verknüpft.');
 
             UserSettings::set($us->user->id, 'telegramID', $chatID);
-            UserSettings::set($us->user->id, 'telegram_connectCode', $chatID);
-            UserSettings::set($us->user->id, 'telegram_codeValidUntil', $chatID);
+            UserSettings::set($us->user->id, 'telegram_connectCode', '');
             return;
 
         }
