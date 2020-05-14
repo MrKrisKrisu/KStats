@@ -40,7 +40,11 @@
         html,
         body {
             height: 100%;
-            background-color: #333;
+            background: url("{{env('APP_URL')}}/img/bg_cover.png") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
 
         body {
