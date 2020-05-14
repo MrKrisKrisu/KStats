@@ -57,11 +57,13 @@ class ReweController extends Controller
         $shops = ReweBon::where('user_id', auth()->user()->id)
             ->groupBy('shop_id')
             ->select('shop_id', DB::raw('COUNT(*) as cnt'))
+            ->orderBy(DB::raw('COUNT(*)'), 'desc')
             ->get();
 
         $payment_methods = ReweBon::where('user_id', auth()->user()->id)
             ->groupBy('paymentmethod')
             ->select('paymentmethod', DB::raw('COUNT(*) as cnt'))
+            ->orderBy(DB::raw('COUNT(*)'), 'desc')
             ->get();
 
         $products_vegetarian = DB::table('rewe_products')
@@ -72,6 +74,7 @@ class ReweController extends Controller
             ->where('rewe_products.hide', 0)
             ->groupBy('rewe_crowdsourcing_vegetarian_view.vegetarian')
             ->select(['rewe_crowdsourcing_vegetarian_view.vegetarian', DB::raw('COUNT(*) AS cnt')])
+            ->orderBy(DB::raw('COUNT(*)'), 'desc')
             ->get();
 
         $forecast = self::getForecast();
