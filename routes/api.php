@@ -17,4 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/telegram/webhook/', 'TelegramController@handleWebhook');
+Route::post('/telegram/webhook', 'TelegramController@handleWebhook');

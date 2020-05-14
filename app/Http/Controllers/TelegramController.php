@@ -21,7 +21,7 @@ class TelegramController extends Controller
                 'Content-type' => 'application/json'
             ],
             'body' => json_encode([
-                'url' => env('APP_URL') . '/api/telegram/webhook/'
+                'url' => env('APP_URL') . '/api/telegram/webhook'
             ])
         ]);
 
