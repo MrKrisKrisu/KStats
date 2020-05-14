@@ -107,7 +107,7 @@ class REWE_ParseBon extends Command
                     $message .= count($positions) . " Produkte für " . $bon->total . " €\r\n";
                     $message .= "Erhaltenes Cashback: " . round($bon->earned_payback_points / ($bon->total * 100) * 100, 2) . '%';
 
-                    TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
+                    //TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
                 }
             } catch (\Exception $e) {
                 dump($e);

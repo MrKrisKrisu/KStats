@@ -20,7 +20,33 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Telegram Connect') }}</h5>
-                    <p>Die Verbindung mit Telegram ist temporär nicht verfügbar.</p>
+                    @if($isConnectedToTelegram)
+                        <p>Du bist bereits mit einem Telegram Chat verbunden. Selbstverständlich kannst du deinen
+                            Account aber mit einem neuen Chat verbinden.</p>
+                    @else
+                        <p>Du bist aktuell mit <b>keinem</b> Telegram Chat verbunden.</p>
+                    @endif
+                    @if($telegramConnectCode != NULL && $telegramConnectCode->val != '')
+
+                        <div style="text-align: center;">
+                            <p style="font-size: 20px;">Dein Telegram-ConnectCode lautet
+                                "<b>{{$telegramConnectCode->val}}</b>"
+                                <br/><small>Code gültig
+                                    bis {{$telegramConnectCode->updated_at->addHour()->isoFormat('Do MMMM YYYY, HH:mm')}}</small>
+                            </p>
+                        </div>
+                        <p>Um Telegram mit KStats nutzen zu können musst du den
+                            <a target="tg" href="https://t.me/kstat_bot">KStats Bot</a> starten und den Anweisungen
+                            folgen.
+                        </p>
+                        <small>Wenn du die Anweisungen nicht erhältst schicke dem Bot bitte "/start".</small>
+                    @endif
+
+                    <form method="POST" action="{{ route('settings') }}">
+                        @csrf
+                        <input type="hidden" name="action" value="createTelegramToken"/>
+                        <button type="submit" class="btn btn-primary">Neuen Connect-Code generieren</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -44,7 +70,8 @@
                     @endif
                     <form method="POST" action="/settings" class="form-inline">
                         @csrf
-                        <input type="email" name="addEmail" placeholder="E-Mail Adresse" class="form-control"/>
+                        <input type="hidden" name="action" value="addEMail"/>
+                        <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
                         <button type="submit" class="btn btn-primary">Speichern</button>
                     </form>
                     <hr/>
