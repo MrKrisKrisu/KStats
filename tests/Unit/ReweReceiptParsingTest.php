@@ -9,15 +9,13 @@ use Spatie\PdfToText\Pdf;
 class ReweReceiptParsingTest extends TestCase
 {
     /**
-     * A basic unit test example.
-     *
      * @return void
      */
     public function testBonParsing()
     {
         $this->assertTrue(true);
 
-        $pdf = new Pdf('/usr/local/bin/pdftotext');
+        $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
         $text = $pdf->setPdf(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/weight_eccash.pdf')->text();
 
         $parser = new ReweBonParser($text);
@@ -33,7 +31,7 @@ class ReweReceiptParsingTest extends TestCase
         //TODO: Test für Positionen
 
 
-        $pdf = new Pdf('/usr/local/bin/pdftotext');
+        $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
         $text = $pdf->setPdf(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/multipleProducts_multiplePaymentMethods_paybackCoupon.pdf')->text();
 
         $parser = new ReweBonParser($text);
