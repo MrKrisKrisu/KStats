@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Http\Controllers\TelegramController;
 use Illuminate\Console\Command;
 
-class TelegramSetWebhook extends Command
+class Telegram_SetWebhook extends Command
 {
     /**
      * The name and signature of the console command.
@@ -40,5 +40,7 @@ class TelegramSetWebhook extends Command
     {
         $res = TelegramController::setWebhook();
         echo $res ? 'Webhook set successfully.' : 'Error while create Webhook.';
+
+        return 0;
     }
 }

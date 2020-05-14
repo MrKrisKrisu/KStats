@@ -65,6 +65,8 @@ class Spotify_TokenRefresh extends Command
                 dump($e->getMessage());
             }
         }
+
+        return 0;
     }
 
 }

@@ -45,6 +45,8 @@ class Spotify_PlaylistRefresh extends Command
 
             SpotifyController::generateLostPlaylist($user);
         }
+
+        return 0;
     }
 
 }

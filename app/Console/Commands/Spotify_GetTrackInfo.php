@@ -66,5 +66,7 @@ class Spotify_GetTrackInfo extends Command
                 ]
             );
         }
+
+        return 0;
     }
 }

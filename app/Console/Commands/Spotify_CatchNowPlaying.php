@@ -180,6 +180,8 @@ class Spotify_CatchNowPlaying extends Command
                 dump($e);
             }
         }
+
+        return 0;
     }
 
 }

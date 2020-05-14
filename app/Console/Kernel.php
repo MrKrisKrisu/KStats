@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\TelegramSetWebhook;
+use App\Console\Commands\Telegram_SetWebhook;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        TelegramSetWebhook::class
+        Telegram_SetWebhook::class
     ];
 
     /**

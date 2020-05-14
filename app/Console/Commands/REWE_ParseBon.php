@@ -115,6 +115,8 @@ class REWE_ParseBon extends Command
                 dump("Error while parsing eBon. Is the format compatible?");
             }
         }
+
+        return 0;
     }
 
 }
