@@ -44,7 +44,7 @@ class Spotify_TokenRefresh extends Command
     public function handle()
     {
         $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
-            ->where('spotify_lastRefreshed', '<', \Carbon\Carbon::now()->subMinutes(10)->toDateTimeString())
+            ->where('spotify_lastRefreshed', '<', \Carbon\Carbon::now()->subMinutes(30)->toDateTimeString())
             ->orWhere('spotify_lastRefreshed', null)
             ->get();
 

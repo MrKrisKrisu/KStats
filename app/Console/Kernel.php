@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('spotify:tokenRefresh')->everyFifteenMinutes();
         $schedule->command('spotify:catchNowPlaying')->everyMinute();
-        $schedule->command('spotify:tokenRefresh')->everyFiveMinutes();
         $schedule->command('spotify:getTrackInfo')->everyFifteenMinutes();
         $schedule->command('spotify:playlistRefresh')->daily();
 
