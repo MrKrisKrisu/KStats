@@ -3,12 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\SpotifyAPIController;
-use App\Http\Controllers\SpotifyTrackController;
 use App\SocialLoginProfile;
-use App\SpotifyTrack;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use App\User;
 use Illuminate\Support\Facades\Log;
 
 class Spotify_TokenRefresh extends Command

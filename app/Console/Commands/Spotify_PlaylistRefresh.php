@@ -3,15 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\SpotifyController;
-use App\Http\Controllers\SpotifyTrackController;
-use App\SocialLoginProfile;
-use App\SpotifyTrack;
 use App\UserSettings;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use App\User;
-use Illuminate\Support\Facades\Log;
 
 class Spotify_PlaylistRefresh extends Command
 {

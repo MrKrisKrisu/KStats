@@ -4,8 +4,6 @@ namespace App\Console\Commands;
 
 use App\Exceptions\SpotifyTokenExpiredException;
 use App\Http\Controllers\SpotifyAPIController;
-use App\Http\Controllers\SpotifyPlayActivityController;
-use App\Http\Controllers\SpotifyTrackController;
 use App\SocialLoginProfile;
 use App\SpotifyAlbum;
 use App\SpotifyAlbumArtist;
@@ -17,7 +15,6 @@ use App\SpotifyTrack;
 use App\SpotifyTrackArtist;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
