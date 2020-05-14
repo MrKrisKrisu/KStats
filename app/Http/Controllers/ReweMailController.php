@@ -15,11 +15,11 @@ class ReweMailController extends Controller
         $this->mailconnection = imap_open('{' . $host . ':' . $port . '/imap/ssl}' . $folder, $username, $password);
     }
 
-    public static function fetchMailAttachments()
+    public static function fetchMailAttachments(int $days)
     {
         $mailmanager = new self;
         $mailmanager->connect(env('REWE_MAILER_SERVER'), env('REWE_MAILER_USERNAME'), env('REWE_MAILER_PASSWORD'), env('REWE_MAILER_IMAP_PORT'), env('REWE_MAILER_INBOX'));
-        $mails = $mailmanager->getMails(strtotime('-10 days'));
+        $mails = $mailmanager->getMails(strtotime("-" . $days . " days"));
 
         if (!$mails || is_null($mails) || count($mails) == 0)
             die('Keine neuen Mails zum verarbeiten vorhanden.');

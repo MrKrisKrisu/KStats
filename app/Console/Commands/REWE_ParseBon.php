@@ -22,7 +22,7 @@ class REWE_ParseBon extends Command
      *
      * @var string
      */
-    protected $signature = 'rewe:parse';
+    protected $signature = 'rewe:parse {days=2}';
 
     /**
      * The console command description.
@@ -48,7 +48,7 @@ class REWE_ParseBon extends Command
      */
     public function handle()
     {
-        $files = ReweMailController::fetchMailAttachments();
+        $files = ReweMailController::fetchMailAttachments($this->argument('days'));
 
         foreach ($files as $bonAttachment) {
             try {
