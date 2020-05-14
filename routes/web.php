@@ -11,7 +11,7 @@
   |
  */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->name('welcome');
 Route::view('/opensource/', 'opensource');
 
 Route::get('/auth/redirect/{provider}', 'SocialController@redirect')->name('redirectProvider');

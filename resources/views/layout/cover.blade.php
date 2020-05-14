@@ -137,7 +137,7 @@
         <div class="inner">
             <h3 class="masthead-brand">KStats</h3>
             <nav class="nav nav-masthead justify-content-center">
-                <a class="nav-link active" href="#">Home</a>
+                <a class="nav-link active" href="{{ route('welcome') }}">Home</a>
                 @guest
                     <a class="nav-link" href="{{ route('login') }}">Login</a>
                     <a class="nav-link" href="{{ route('register') }}">Registrieren</a>
