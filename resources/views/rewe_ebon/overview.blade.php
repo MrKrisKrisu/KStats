@@ -344,7 +344,7 @@
                             var data = google.visualization.arrayToDataTable([
                                 ['Kategorie', 'Ausgaben'],
                                     @foreach($topByCategoryPrice as $cc)
-                                ['{{$cc->category_name}}', {{$cc->price}}],
+                                ['{!! $cc->category_name !!}', {{$cc->price}}],
                                 @endforeach
                             ]);
 
@@ -377,7 +377,7 @@
                             var data = google.visualization.arrayToDataTable([
                                 ['Kategorie', 'Anzahl Käufe'],
                                     @foreach($topByCategoryCount as $cc)
-                                ['{{$cc->category_name}}', {{$cc->cnt}}],
+                                ['{!! $cc->category_name !!}', {{$cc->cnt}}],
                                 @endforeach
                             ]);
 
