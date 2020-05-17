@@ -38,7 +38,8 @@
   margin-bottom: 15px;
 }
 
-#dashboard .pagination .page-item.active .page-link {
+#dashboard .pagination .page-item.active .page-link,
+.dropdown-item:active {
   background-color: $color_main;
   border-color: $color_main;
   color: #fff;

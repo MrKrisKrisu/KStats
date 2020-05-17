@@ -12,6 +12,7 @@ use App\User;
 use App\UserSettings;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SpotifyController extends Controller
@@ -214,7 +215,8 @@ class SpotifyController extends Controller
         $lostTracks = self::getLikedAndNotHearedTracks(auth()->user()->id, $settings_limit, $settings_days, $settings_minutes);
 
         return view('spotify.lost_tracks', [
-            'settings_active' => UserSettings::get(auth()->user()->id, 'spotify_createOldPlaylist', '0'),
+            'settings_active' => UserSettings::get(Auth::user()->id, 'spotify_createOldPlaylist', '0'),
+            'playlist_id' => UserSettings::get(Auth::user()->id, 'spotify_oldPlaylist_id'),
             'settings_minutes' => $settings_minutes,
             'settings_days' => $settings_days,
             'settings_limit' => $settings_limit,

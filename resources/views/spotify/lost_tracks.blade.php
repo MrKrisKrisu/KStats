@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Playlist erstellen</h5>
-                    <p>Wir erstellen dir eine Playlist mit Songs, die du länger, aber früher öfters gehört hast.</p>
+                    <p>KStats erstellt dir eine Playlist mit Tracks, die du länger nicht mehr gehört hast.</p>
                     <form method="POST" action="{{route('spotify.saveLostTracks')}}">
                         @csrf
                         <div class="form-check">
@@ -32,6 +32,10 @@
                                    class="form-control">
                         </div>
                         <button type="submit" name="saveSettings" class="btn btn-primary">Speichern</button>
+
+                        @if($settings_active && $playlist_id != NULL)
+                            <a href="https://open.spotify.com/playlist/{{$playlist_id}}" target="_blank" style="float: right;">Zur Playlist</a>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -39,21 +43,32 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Tracks</h5>
+                    <h5 class="card-title">Deine aktuell verschollenen Tracks</h5>
                     @if(count($lostTracks) == 0)
-                        <p style="font-weight: bold; color: #E70000;">Du hast aktuelle keine verschollenen Tracks. Passe den Filter an oder schaue in einigen Tagen
+                        <p style="font-weight: bold; color: #E70000;">Du hast aktuelle keine verschollenen Tracks. Passe
+                            den Filter an oder schaue in einigen Tagen
                             nochmal vorbei.</p>
                     @else
                         <table class="ui table unstackable">
-                            <thead>
-                            <tr>
-                                <th>Song</th>
-                            </tr>
-                            </thead>
                             <tbody>
                             @foreach($lostTracks as $track)
                                 <tr>
-                                    <td>{{$track->name}}</td>
+                                    <td>
+                                        @isset($track->album->imageUrl)
+                                            <img src="{{$track->album->imageUrl}}" class="spotify-cover"
+                                                 style="max-width: 100px;"/>
+                                        @endisset
+                                    </td>
+                                    <td>
+                                        {{$track->name}}<br/>
+                                        <small>
+                                            @foreach($track->artists as $artist)
+                                                @if($loop->first)von @endif
+                                                {{$artist->name}}
+                                                @if(!$loop->last) und @endif
+                                            @endforeach
+                                        </small>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
