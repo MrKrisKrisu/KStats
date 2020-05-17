@@ -6,8 +6,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Such 's dir aus!</div>
                 <div class="card-body">
+                    <h5 class="card-title">Zeitraum wählen</h5>
                     <p>Welche Statistiken möchtest du sehen? Wir haben drei mögliche Zeiträume!</p>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a class="btn btn-danger" href="{{route('spotify.topTracks', ['term' => 'long_term'])}}">die letzten Jahre</a>
@@ -22,8 +22,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Top Tracks</div>
                 <div class="card-body">
+                    <h5 class="card-title">Top Tracks</h5>
                     <table class="ui table unstackable">
                         <thead>
                         <tr>
