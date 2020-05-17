@@ -8,6 +8,7 @@ use App\ReweProduct;
 use App\ReweProductCategory;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CrowdsourceController extends Controller
@@ -78,30 +79,49 @@ class CrowdsourceController extends Controller
 
         switch ($request->action) {
             case 'deleteCategory':
+                $validated = $request->validate([
+                    'product_id' => ['required', 'integer', 'exists:rewe_products,id']
+                ]);
+
                 ReweCrowdsourcingCategory::where('user_id', auth()->user()->id)
-                    ->where('product_id', $request->product_id)
+                    ->where('product_id', $validated['product_id'])
                     ->delete();
                 break;
 
             case 'setCategory':
+                $validated = $request->validate([
+                    'btn' => ['required'],
+                    'product_id' => ['required', 'integer', 'exists:rewe_products,id'],
+                    'category_id' => ['required', 'integer', 'exists:rewe_product_categories,id']
+                ]);
+
                 ReweCrowdsourcingCategory::create([
-                    'user_id' => auth()->user()->id,
-                    'product_id' => $request->product_id,
-                    'category_id' => $request->btn == 'ka' ? NULL : $request->category_id
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $validated['product_id'],
+                    'category_id' => $validated['btn'] == 'ka' ? NULL : $validated['category_id']
                 ]);
                 break;
 
             case 'deleteVegetarian':
+                $validated = $request->validate([
+                    'product_id' => ['required', 'integer', 'exists:rewe_products,id']
+                ]);
+
                 ReweCrowdsourcingVegetarian::where('user_id', auth()->user()->id)
-                    ->where('product_id', $request->product_id)
+                    ->where('product_id', $validated['product_id'])
                     ->delete();
                 break;
 
             case 'setVegetarian':
+                $validated = $request->validate([
+                    'setVegetarian' => ['required', 'in:ka,1,0,-1'],
+                    'product_id' => ['required', 'integer', 'exists:rewe_products,id']
+                ]);
+
                 ReweCrowdsourcingVegetarian::create([
-                    'user_id' => auth()->user()->id,
-                    'product_id' => $request->product_id,
-                    'vegetarian' => $request->setVegetarian == 'ka' ? NULL : $request->setVegetarian
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $validated['product_id'],
+                    'vegetarian' => $validated['setVegetarian'] == 'ka' ? NULL : $validated['setVegetarian']
                 ]);
                 break;
 

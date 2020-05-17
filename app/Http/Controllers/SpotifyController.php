@@ -229,10 +229,17 @@ class SpotifyController extends Controller
      */
     public function saveLostTracks(Request $request)
     {
-        UserSettings::set(auth()->user()->id, 'spotify_createOldPlaylist', $request->spotify_createOldPlaylist == 'on');
-        UserSettings::set(auth()->user()->id, 'spotify_oldPlaylist_minutesTop', (int)$request->spotify_oldPlaylist_minutesTop);
-        UserSettings::set(auth()->user()->id, 'spotify_oldPlaylist_days', (int)$request->spotify_oldPlaylist_days);
-        UserSettings::set(auth()->user()->id, 'spotify_oldPlaylist_songlimit', (int)$request->spotify_oldPlaylist_songlimit);
+        $validated = $request->validate([
+            'spotify_createOldPlaylist' => [],
+            'spotify_oldPlaylist_minutesTop' => ['required', 'integer', 'min:1'],
+            'spotify_oldPlaylist_days' => ['required', 'integer', 'min:1'],
+            'spotify_oldPlaylist_songlimit' => ['required', 'integer', 'max:99'],
+        ]);
+
+        UserSettings::set(auth()->user()->id, 'spotify_createOldPlaylist', isset($validated['spotify_createOldPlaylist']));
+        UserSettings::set(auth()->user()->id, 'spotify_oldPlaylist_minutesTop', $validated['spotify_oldPlaylist_minutesTop']);
+        UserSettings::set(auth()->user()->id, 'spotify_oldPlaylist_days', $validated['spotify_oldPlaylist_days']);
+        UserSettings::set(auth()->user()->id, 'spotify_oldPlaylist_songlimit', $validated['spotify_oldPlaylist_songlimit']);
 
         return $this->lostTracks();
     }
@@ -266,7 +273,10 @@ class SpotifyController extends Controller
                 if ($t1 == $t2 && !in_array($t1, $trackList) && count($trackList) < $limit)
                     $trackList[] = $t1;
 
-        return SpotifyTrack::whereIn('track_id', $trackList)->orderBy('popularity', 'desc')->get();
+        return SpotifyTrack::whereIn('track_id', $trackList)
+            ->orderBy('popularity', 'desc')
+            ->limit(UserSettings::get($user_id, 'spotify_oldPlaylist_songlimit', 99))
+            ->get();
 
     }
 

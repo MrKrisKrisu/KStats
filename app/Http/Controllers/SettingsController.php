@@ -6,6 +6,7 @@ use App\SocialLoginProfile;
 use App\UserEmail;
 use App\UserSettings;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 class SettingsController extends Controller
@@ -67,10 +68,14 @@ class SettingsController extends Controller
                         dd("Dieser E-Mail Adresse ist bereits einem Accounts zugewiesen. Bitte wende sich an den Support.");
                         //TODO: Schönere Meldung
                     } else {
-                        $email = UserEmail::create([
-                            'email' => $request->email,
-                            'unverified_user_id' => auth()->user()->id,
-                            'verification_key' => md5(rand(0, 99999) . time() . auth()->user()->id)
+                        $validated = $request->validate([
+                            'email' => ['required', 'email:rfc,dns,spoof']
+                        ]);
+
+                        UserEmail::create([
+                            'email' => $validated['email'],
+                            'unverified_user_id' => Auth::user()->id,
+                            'verification_key' => md5(rand(0, 99999) . time() . Auth::user()->id)
                         ]);
 
                         //TODO: Email Bestätigung senden
