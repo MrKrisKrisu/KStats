@@ -11,6 +11,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(UsersTableSeeder::class);
+        $this->call(UserSeeder::class);
+
+        //REWE eBon Analyzer Tables
+        $this->call(ReweShopSeeder::class);
+        $this->call(ReweBonSeeder::class);
+        $this->call(ReweProductSeeder::class);
+        $this->call(ReweBonPositionSeeder::class);
+        $this->call(ReweProductCategorySeeder::class);
+        $this->call(ReweCrowdsourcingCategorySeeder::class);
+        $this->call(ReweCrowdsourcingVegetariansSeeder::class);
     }
 }
