@@ -47,17 +47,17 @@
                             </div>
                         @endisset
                         <div class="col">
-                            <b>{{$lastPlayActivity->track->name ?? "Unknown Song"}}</b><br>
-                            <small>von <i>{{$lastPlayActivity->track->artists[0]->name ?? "Unknown Artist"}}</i></small>
-                            <hr>
-                            @if($lastPlayActivity->track->preview_url != NULL)
+                            <b>{{$lastPlayActivity->track->name ?? "Unknown Song"}}</b><br/>
+                            @isset($lastPlayActivity->track->artists[0]->name)
+                                <small>von <i>{{$lastPlayActivity->track->artists[0]->name}}</i></small>
+                            @endisset
+                            @isset($lastPlayActivity->track->preview_url)
+                                <hr/>
                                 <audio controls="">
                                     <source src="{{$lastPlayActivity->track->preview_url}}" type="audio/mpeg">
                                     Your browser does not support the audio element.
                                 </audio>
-                            @else
-                                <p>Keine Preview verfügbar.</p>
-                            @endif
+                            @endisset
 
                         </div>
                     </div>
@@ -102,9 +102,9 @@
                     @foreach($topTracksTotal as $ttList)
                         <div class="row">
                             @isset($ttList->track->album->imageUrl)
-                            <div class="col-md-4">
+                                <div class="col-md-4">
                                     <img src="{{$ttList->track->album->imageUrl}}" class="cover"/>
-                            </div>
+                                </div>
                             @endisset
                             <div class="col">
                                 <b>{{$ttList->track->name}}</b><br>
@@ -112,18 +112,15 @@
                                     <small>von <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
                                 @endisset
                                 <small>{{$ttList->minutes}} Minuten gehört</small>
-                                <hr>
-                                @if($ttList->track->preview_url != NULL)
+                                @isset($ttList->track->preview_url)
                                     <audio controls="">
                                         <source src="{{$ttList->track->preview_url}}" type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
-                                @else
-                                    <p>Keine Preview verfügbar.</p>
-                                @endif
-
+                                @endisset
                             </div>
                         </div>
+                        <hr />
                     @endforeach
                 </div>
             </div>
@@ -145,18 +142,15 @@
                                     <small>von <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
                                 @endisset
                                 <small>{{$ttList->minutes}} Minuten gehört</small>
-                                <hr>
-                                @if($ttList->track->preview_url != NULL)
+                                @isset($ttList->track->preview_url)
                                     <audio controls="">
                                         <source src="{{$ttList->track->preview_url}}" type="audio/mpeg">
                                         Your browser does not support the audio element.
                                     </audio>
-                                @else
-                                    <p>Keine Preview verfügbar.</p>
-                                @endif
-
+                                @endisset
                             </div>
                         </div>
+                        <hr/>
                     @endforeach
                 </div>
             </div>
