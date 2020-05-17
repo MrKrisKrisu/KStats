@@ -12,3 +12,21 @@
 @import '~datatables.net-responsive-bs4';
 
 @import '~chart.js/dist/Chart.css';
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #38a3a6;
+}
+
+.cover {
+  border: #38a3a6 solid 2px;
+  max-width: 100%;
+}
+
+.card {
+  margin-bottom: 15px;
+}

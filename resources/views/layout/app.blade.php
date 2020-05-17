@@ -7,7 +7,6 @@
     <title>{{__('KStats')}}</title>
 
     <link rel="stylesheet" href="/css/app.css"/>
-    <link rel="stylesheet" href="/css/style.css"/>
 
     <script src="/js/app.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -106,7 +105,7 @@
 
 <footer class="text-muted">
     <div class="container">
-        <hr />
+        <hr/>
         <p class="float-right">
             <a href="/imprint/">Impressum</a> -
             <a href="/disclaimer/">Disclaimer</a> -
