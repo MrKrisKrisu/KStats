@@ -20,9 +20,10 @@ class SpotifySessionSeeder extends Seeder
         foreach (User::all() as $user) {
             for ($i = 0; $i < rand(10, 2000); $i++) {
                 $time_start = $faker->dateTimeBetween('-2 months');
-                SpotifySession::create([
+                SpotifySession::updateOrCreate([
                     'user_id' => $user->id,
-                    'timestamp_start' => $time_start,
+                    'timestamp_start' => $time_start
+                ], [
                     'timestamp_end' => Carbon::parse($time_start)->addMinutes(rand(5, 120))
                 ]);
             }
