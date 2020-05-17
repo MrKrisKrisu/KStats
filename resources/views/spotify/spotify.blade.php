@@ -327,6 +327,13 @@
                                 animation: {
                                     animateScale: true,
                                     animateRotate: true
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 0
+                                        }
+                                    }]
                                 }
                             }
                         });
@@ -371,6 +378,13 @@
                                 animation: {
                                     animateScale: true,
                                     animateRotate: true
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 0
+                                        }
+                                    }]
                                 }
                             }
                         });
