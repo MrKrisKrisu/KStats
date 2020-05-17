@@ -8,11 +8,13 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Zeitraum wählen</h5>
-                    <p>Welche Statistiken möchtest du sehen? Wir haben drei mögliche Zeiträume!</p>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a class="btn btn-danger" href="{{route('spotify.topTracks', ['term' => 'long_term'])}}">die letzten Jahre</a>
-                        <a class="btn btn-warning" href="{{route('spotify.topTracks', ['term' => 'medium_term'])}}">letzte 6 Monate</a>
-                        <a class="btn btn-success" href="{{route('spotify.topTracks', ['term' => 'short_term'])}}">letzte 4 Wochen</a>
+                        <a class="btn btn-danger" href="{{route('spotify.topTracks', ['term' => 'long_term'])}}">die
+                            letzten Jahre</a>
+                        <a class="btn btn-warning" href="{{route('spotify.topTracks', ['term' => 'medium_term'])}}">letzte
+                            6 Monate</a>
+                        <a class="btn btn-success" href="{{route('spotify.topTracks', ['term' => 'short_term'])}}">letzte
+                            4 Wochen</a>
                     </div>
                 </div>
             </div>
@@ -28,16 +30,35 @@
                         <thead>
                         <tr>
                             <th>Platz</th>
+                            <th></th>
                             <th>Titel</th>
                             <th>Preview</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @php($i = 1)
                         @foreach($top_tracks->items as $track)
                             <tr>
-                                <td>#{{$i++}}</td>
-                                <td><b>{{$track->name}}</b></td>
+                                <td>#{{$loop->index + 1}}</td>
+                                <td>
+                                    @isset($track->album->images[0]->url)
+                                        <img src="{{$track->album->images[0]->url}}" class="spotify-cover"
+                                             style="max-width: 100px;"/>
+                                    @endisset
+                                </td>
+                                <td>
+                                    <b>{{$track->name}}</b><br/>
+                                    <small>
+                                        @foreach($track->artists as $artist)
+                                            @if($loop->first)von @endif
+                                            {{$artist->name}}
+                                            @if(!$loop->last) und @endif
+                                        @endforeach
+                                    </small>
+
+                                    @if($track->popularity > 80)
+                                        <span class="badge badge-primary">Aktuell populäres Lied</span>
+                                        @endif
+                                </td>
                                 <td>
                                     <audio controls>
                                         <source src="{{$track->preview_url}}" type="audio/mpeg">
