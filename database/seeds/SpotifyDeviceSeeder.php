@@ -1,5 +1,8 @@
 <?php
 
+use App\SpotifyDevice;
+use App\User;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class SpotifyDeviceSeeder extends Seeder
@@ -11,11 +14,11 @@ class SpotifyDeviceSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create('de_DE');
+        $faker = Factory::create('de_DE');
 
-        foreach (\App\User::all() as $user) {
+        foreach (User::all() as $user) {
             for ($i = 0; $i < rand(1, 10); $i++) {
-                \App\SpotifyDevice::create([
+                SpotifyDevice::create([
                     'device_id' => md5($faker->randomAscii . rand(0, 9999) . time()),
                     'user_id' => $user->id,
                     'name' => $faker->firstName . "'s " . $faker->randomElement(['iPhone', 'Smartphone', 'Smartwatch', 'Chromecast']),

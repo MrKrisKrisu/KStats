@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 //TODO: Maybe there is a library available make it more comfortable?
+use Illuminate\Support\Facades\Log;
+
 class ReweMailController extends Controller
 {
 
@@ -21,8 +21,10 @@ class ReweMailController extends Controller
         $mailmanager->connect(env('REWE_MAILER_SERVER'), env('REWE_MAILER_USERNAME'), env('REWE_MAILER_PASSWORD'), env('REWE_MAILER_IMAP_PORT'), env('REWE_MAILER_INBOX'));
         $mails = $mailmanager->getMails(strtotime("-" . $days . " days"));
 
-        if (!$mails || is_null($mails) || count($mails) == 0)
-            die('Keine neuen Mails zum verarbeiten vorhanden.');
+        if (!$mails || is_null($mails) || count($mails) == 0) {
+            Log::info('There is no mail to fetch.');
+            return;
+        }
 
         $files = array();
 

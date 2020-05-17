@@ -1,5 +1,8 @@
 <?php
 
+use App\SpotifySession;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class SpotifySessionSeeder extends Seeder
@@ -14,13 +17,13 @@ class SpotifySessionSeeder extends Seeder
     {
         $faker = Faker\Factory::create('de_DE');
 
-        foreach (\App\User::all() as $user) {
+        foreach (User::all() as $user) {
             for ($i = 0; $i < rand(10, 2000); $i++) {
                 $time_start = $faker->dateTimeBetween('-2 months');
-                \App\SpotifySession::create([
+                SpotifySession::create([
                     'user_id' => $user->id,
                     'timestamp_start' => $time_start,
-                    'timestamp_end' => \Carbon\Carbon::parse($time_start)->addMinutes(rand(5, 120))
+                    'timestamp_end' => Carbon::parse($time_start)->addMinutes(rand(5, 120))
                 ]);
             }
         }

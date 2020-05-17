@@ -1,5 +1,6 @@
 <?php
 
+use App\ReweProduct;
 use Illuminate\Database\Seeder;
 
 class ReweProductSeeder extends Seeder
@@ -14,7 +15,7 @@ class ReweProductSeeder extends Seeder
         $faker = Faker\Factory::create('de_DE');
 
         foreach ($this->exampleProducts() as $product) {
-            \App\ReweProduct::create([
+            ReweProduct::create([
                 'name' => $product["name"],
                 'hide' => $product["hide"]
             ]);

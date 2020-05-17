@@ -1,5 +1,7 @@
 <?php
 
+use App\SpotifyAlbum;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class SpotifyAlbumSeeder extends Seeder
@@ -11,9 +13,9 @@ class SpotifyAlbumSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create('de_DE');
+        $faker = Factory::create('de_DE');
         for ($i = 0; $i < rand(5, 100); $i++) {
-            \App\SpotifyAlbum::create([
+            SpotifyAlbum::create([
                 'album_id' => $faker->md5,
                 'name' => $faker->slug,
                 'imageUrl' => $faker->imageUrl(640, 640, 'abstract'),

@@ -1,5 +1,7 @@
 <?php
 
+use App\SpotifyAlbum;
+use App\SpotifyArtist;
 use Illuminate\Database\Seeder;
 
 class SpotifyAlbumArtistSeeder extends Seeder
@@ -11,7 +13,7 @@ class SpotifyAlbumArtistSeeder extends Seeder
      */
     public function run()
     {
-        foreach (\App\SpotifyAlbum::all() as $album)
-            $album->artists()->sync(\App\SpotifyArtist::all()->random(rand(1, 3)));
+        foreach (SpotifyAlbum::all() as $album)
+            $album->artists()->sync(SpotifyArtist::all()->random(rand(1, 3)));
     }
 }

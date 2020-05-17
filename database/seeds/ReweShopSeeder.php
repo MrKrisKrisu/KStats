@@ -1,5 +1,6 @@
 <?php
 
+use App\ReweShop;
 use Illuminate\Database\Seeder;
 
 class ReweShopSeeder extends Seeder
@@ -14,7 +15,7 @@ class ReweShopSeeder extends Seeder
         $faker = Faker\Factory::create('de_DE');
 
         for ($i = 0; $i < rand(4, 10); $i++) {
-            DB::table('rewe_shops')->insert([
+            ReweShop::create([
                 'name' => "REWE " . $faker->lastName . " oHG",
                 'address' => $faker->streetAddress,
                 'zip' => $faker->postcode,

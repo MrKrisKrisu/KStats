@@ -1,5 +1,6 @@
 <?php
 
+use App\ReweProductCategory;
 use Illuminate\Database\Seeder;
 
 class ReweProductCategorySeeder extends Seeder
@@ -12,16 +13,16 @@ class ReweProductCategorySeeder extends Seeder
     public function run()
     {
         foreach ($this->parents() as $category) {
-            \App\ReweProductCategory::create([
+            ReweProductCategory::create([
                 'name' => $category,
                 'parent_id' => NULL
             ]);
         }
 
         foreach ($this->categories() as $category) {
-            \App\ReweProductCategory::create([
+            ReweProductCategory::create([
                 'name' => $category,
-                'parent_id' => \App\ReweProductCategory::where('parent_id', null)->get()->random()->id
+                'parent_id' => ReweProductCategory::where('parent_id', null)->get()->random()->id
             ]);
         }
     }

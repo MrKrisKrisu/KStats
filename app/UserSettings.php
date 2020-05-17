@@ -11,9 +11,9 @@ class UserSettings extends Model
         'user_id', 'name', 'val'
     ];
 
-    public static function get(int $user_id, $key, $defaultVal = NULL)
+    public static function get(int $userID, $key, $defaultVal = NULL)
     {
-        $setting = UserSettings::where('user_id', $user_id)->where('name', $key)->first();
+        $setting = UserSettings::where('user_id', $userID)->where('name', $key)->first();
         if ($setting !== NULL)
             return $setting->val;
 
@@ -21,7 +21,7 @@ class UserSettings extends Model
             return NULL;
 
         $setting = UserSettings::create([
-            'user_id' => $user_id,
+            'user_id' => $userID,
             'name' => $key,
             'val' => $defaultVal
         ]);
@@ -29,11 +29,11 @@ class UserSettings extends Model
         return $setting->val;
     }
 
-    public static function set(int $user_id, $key, $val)
+    public static function set(int $userID, $key, $val)
     {
         UserSettings::updateOrCreate(
             [
-                'user_id' => $user_id,
+                'user_id' => $userID,
                 'name' => $key,
             ],
             [

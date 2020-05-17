@@ -1,5 +1,8 @@
 <?php
 
+use App\SpotifyAlbum;
+use App\SpotifyTrack;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class SpotifyTrackSeeder extends Seeder
@@ -11,12 +14,12 @@ class SpotifyTrackSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create('de_DE');
+        $faker = Factory::create('de_DE');
         for ($i = 0; $i < rand(100, 1000); $i++) {
-            \App\SpotifyTrack::create([
+            SpotifyTrack::create([
                 'track_id' => $faker->md5,
                 'name' => $faker->slug,
-                'album_id' => \App\SpotifyAlbum::all()->random()->album_id, //TODO: use "real" ID instead of spotify ID
+                'album_id' => SpotifyAlbum::all()->random()->album_id, //TODO: use "real" ID instead of spotify ID
                 'explicit' => rand(0, 10) < 1 ? NULL : rand(0, 1),
                 'popularity' => rand(0, 100),
                 'bpm' => rand(0, 10) < 1 ? NULL : rand(50, 200),

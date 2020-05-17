@@ -1,5 +1,9 @@
 <?php
 
+use App\ReweCrowdsourcingCategory;
+use App\ReweProduct;
+use App\ReweProductCategory;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class ReweCrowdsourcingCategorySeeder extends Seeder
@@ -12,11 +16,11 @@ class ReweCrowdsourcingCategorySeeder extends Seeder
     public function run()
     {
         for ($i = 3; $i < 20; $i++) {
-            \App\ReweCrowdsourcingCategory::updateOrCreate([
-                'user_id' => \App\User::all()->random()->id,
-                'product_id' => \App\ReweProduct::all()->random()->id
+            ReweCrowdsourcingCategory::updateOrCreate([
+                'user_id' => User::all()->random()->id,
+                'product_id' => ReweProduct::all()->random()->id
             ], [
-                'category_id' => \App\ReweProductCategory::all()->random()->id
+                'category_id' => ReweProductCategory::all()->random()->id
             ]);
         }
     }

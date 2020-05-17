@@ -3,13 +3,13 @@
 
 ## Features
 * Track your heared Songs from Spotify
-	* See your Top tracks, artists
-	* See how many minutes you've listened to music
-	* Generate Playlists with "Lost Tracks" which you like but haven't heard for a long time
-	* Generate Playlists with your TopTracks - updated daily
+  * See your Top tracks, artists
+  * See how many minutes you've listened to music
+  * Generate Playlists with "Lost Tracks" which you like but haven't heard for a long time
+  * Generate Playlists with your TopTracks - updated daily
 * Analyze what you've bought in the supermarket
-	* Send your Receipts to an E-Mail Catcher
-	* See your top Products
-	* Get an prediction of what you could buy
-	* See how many money you spent by categories
-	* Currently only compatible with digital receipts from REWE (in Germany)
+  * Send your Receipts to an E-Mail Catcher
+  * See your top Products
+  * Get an prediction of what you could buy
+  * See how many money you spent by categories
+  * Currently only compatible with digital receipts from REWE (in Germany)

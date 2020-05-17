@@ -94,7 +94,6 @@ class TelegramController extends Controller
             return;
 
         $chatID = $update['message']['chat']['id'];
-        $username = $update['message']['chat']['username'];
         $messageText = $update['message']['text'];
         $commandEx = explode(' ', explode('@', $messageText)[0]);
 
