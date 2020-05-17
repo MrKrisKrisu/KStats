@@ -43,14 +43,16 @@ class SpotifyController extends Controller
             return view('spotify.nodata');
 
         $uniqueSongs = SpotifyPlayActivity::where('user_id', auth()->user()->id)->groupBy('track_id')->select('track_id')->get()->count();
-        $favouriteYear = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+        $favouriteYear_q = SpotifyPlayActivity::where('user_id', auth()->user()->id)
             ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
             ->join('spotify_albums', 'spotify_tracks.album_id', '=', 'spotify_albums.album_id')
             ->where('spotify_albums.release_date', '<>', null)
             ->groupBy('release_year')
             ->select(DB::raw('YEAR(spotify_albums.release_date) as release_year'))
             ->orderBy(DB::raw('COUNT(*)'), 'desc')
-            ->first()->release_year;
+            ->first();
+
+        $favouriteYear = $favouriteYear_q == NULL ? '?' : $favouriteYear_q->release_year;
 
         $bpm = SpotifyPlayActivity::where('user_id', auth()->user()->id)
             ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')

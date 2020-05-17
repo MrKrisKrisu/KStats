@@ -40,10 +40,12 @@
                 <div class="card-body">
                     <h5 class="card-title">Zuletzt angehört</h5>
                     <div class="row">
-                        <div class="col-md-4">
-                            <img src="{{$lastPlayActivity->track->album->imageUrl ?? "TODO URL Missing Image"}}"
-                                 class="cover"/>
-                        </div>
+                        @isset($lastPlayActivity->track->album->imageUrl)
+                            <div class="col-md-4">
+                                <img src="{{$lastPlayActivity->track->album->imageUrl}}"
+                                     class="cover"/>
+                            </div>
+                        @endisset
                         <div class="col">
                             <b>{{$lastPlayActivity->track->name ?? "Unknown Song"}}</b><br>
                             <small>von <i>{{$lastPlayActivity->track->artists[0]->name ?? "Unknown Artist"}}</i></small>
@@ -99,14 +101,16 @@
                     <h5 class="card-title">Deine Top Tracks [gesamt]</h5>
                     @foreach($topTracksTotal as $ttList)
                         <div class="row">
+                            @isset($ttList->track->album->imageUrl)
                             <div class="col-md-4">
-                                @isset($ttList->track->album->imageUrl)
                                     <img src="{{$ttList->track->album->imageUrl}}" class="cover"/>
-                                @endisset
                             </div>
+                            @endisset
                             <div class="col">
                                 <b>{{$ttList->track->name}}</b><br>
-                                <small>von <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
+                                @isset($ttList->track->artists[0])
+                                    <small>von <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
+                                @endisset
                                 <small>{{$ttList->minutes}} Minuten gehört</small>
                                 <hr>
                                 @if($ttList->track->preview_url != NULL)
@@ -130,12 +134,16 @@
                     <h5 class="card-title">Deine Top Tracks [letzte 30 Tage]</h5>
                     @foreach($topTracks30d as $ttList)
                         <div class="row">
-                            <div class="col-md-4">
-                                <img src="{{$ttList->track->album->imageUrl}}" class="cover"/>
-                            </div>
+                            @isset($ttList->track->album->imageUrl)
+                                <div class="col-md-4">
+                                    <img src="{{$ttList->track->album->imageUrl}}" class="cover"/>
+                                </div>
+                            @endisset
                             <div class="col">
                                 <b>{{$ttList->track->name}}</b><br>
-                                <small>von <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
+                                @isset($ttList->track->artists[0])
+                                    <small>von <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
+                                @endisset
                                 <small>{{$ttList->minutes}} Minuten gehört</small>
                                 <hr>
                                 @if($ttList->track->preview_url != NULL)
