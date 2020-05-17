@@ -212,7 +212,7 @@ class SpotifyController extends Controller
         $settings_days = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_days', '30');
         $settings_limit = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_songlimit', '30');
 
-        $lostTracks = self::getLikedAndNotHearedTracks(auth()->user()->id, $settings_limit, $settings_days, $settings_minutes);
+        $lostTracks = self::getLikedAndNotHearedTracks(Auth::user()->id, $settings_limit, $settings_days, $settings_minutes);
 
         return view('spotify.lost_tracks', [
             'settings_active' => UserSettings::get(Auth::user()->id, 'spotify_createOldPlaylist', '0'),
@@ -266,7 +266,7 @@ class SpotifyController extends Controller
                 if ($t1 == $t2 && !in_array($t1, $trackList) && count($trackList) < $limit)
                     $trackList[] = $t1;
 
-        return SpotifyTrack::whereIn('track_id', $trackList)->get();
+        return SpotifyTrack::whereIn('track_id', $trackList)->orderBy('popularity', 'desc')->get();
 
     }
 

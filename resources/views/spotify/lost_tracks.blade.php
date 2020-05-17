@@ -34,7 +34,8 @@
                         <button type="submit" name="saveSettings" class="btn btn-primary">Speichern</button>
 
                         @if($settings_active && $playlist_id != NULL)
-                            <a href="https://open.spotify.com/playlist/{{$playlist_id}}" target="_blank" style="float: right;">Zur Playlist</a>
+                            <a href="https://open.spotify.com/playlist/{{$playlist_id}}" target="_blank"
+                               style="float: right;">Zur Playlist</a>
                         @endif
                     </form>
                 </div>
@@ -56,7 +57,7 @@
                                     <td>
                                         @isset($track->album->imageUrl)
                                             <img src="{{$track->album->imageUrl}}" class="spotify-cover"
-                                                 style="max-width: 100px;"/>
+                                                 style="max-width: 110px;"/>
                                         @endisset
                                     </td>
                                     <td>
@@ -68,6 +69,13 @@
                                                 @if(!$loop->last) und @endif
                                             @endforeach
                                         </small>
+                                        @isset($track->preview_url)
+                                            <hr/>
+                                            <audio controls>
+                                                <source src="{{$track->preview_url}}" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        @endisset
                                     </td>
                                 </tr>
                             @endforeach
