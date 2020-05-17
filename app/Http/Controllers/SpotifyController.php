@@ -121,8 +121,9 @@ class SpotifyController extends Controller
             ->get();
 
         $chartData_hearedByWeek = SpotifyPlayActivity::where('user_id', auth()->user()->id)
-            ->select(DB::raw('YEARWEEK(created_at) AS week'), DB::raw('COUNT(*) as minutes'))
-            ->groupBy(DB::raw('week'))
+            ->select(DB::raw('YEAR(created_at) AS year'), DB::raw('WEEK(created_at) AS week'), DB::raw('COUNT(*) as minutes'))
+            ->groupBy('year', 'week')
+            ->orderBy('year', 'asc')
             ->orderBy('week', 'asc')
             ->get();
 

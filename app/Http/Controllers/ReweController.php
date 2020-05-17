@@ -47,10 +47,18 @@ class ReweController extends Controller
             ->limit(5)
             ->get();
 
-        $shoppingByHour = ReweBon::where('user_id', auth()->user()->id)
+        $shoppingByHour_q = ReweBon::where('user_id', auth()->user()->id)
             ->groupBy(DB::raw("HOUR(timestamp_bon)"))
             ->select(DB::raw('HOUR(timestamp_bon) as hour'), DB::raw('COUNT(*) as cnt'))
             ->get();
+
+        $shoppingByHour = [];
+        foreach ($shoppingByHour_q as $d)
+            $shoppingByHour[$d->hour] = $d->cnt;
+        for ($hour = 0; $hour < 24; $hour++)
+            if (!isset($shoppingByHour[$hour]))
+                $shoppingByHour[$hour] = 0;
+
 
         $bonList = ReweBon::where('user_id', auth()->user()->id)->orderByDesc('timestamp_bon')->get();
 

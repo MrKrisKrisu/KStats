@@ -46,27 +46,41 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Bezahlmethoden</h5>
-                    <div id="chart_payment"></div>
+                    <canvas id="chart_payment"></canvas>
                 </div>
                 <script type="text/javascript">
-                    google.charts.load('current', {'packages': ['corechart']});
-                    google.charts.setOnLoadCallback(drawChartShops);
-
-                    function drawChartShops() {
-
-                        var data = google.visualization.arrayToDataTable([
-                            ['Shop', 'Anzahl Einkäufe'],
-                                @foreach($payment_methods as $pm)
-                            ['{{$pm->paymentmethod}}', {{$pm->cnt}}],
-                            @endforeach
-                        ]);
-
-                        var options = {};
-
-                        var chart = new google.visualization.PieChart(document.getElementById('chart_payment'));
-
-                        chart.draw(data, options);
-                    }
+                    $(document).ready(function () {
+                        var chart_payment = document.getElementById('chart_payment').getContext('2d');
+                        window.chart_payment = new Chart(chart_payment, {
+                            type: 'doughnut',
+                            data: {
+                                datasets: [{
+                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    data: [
+                                        @foreach($payment_methods as $pm)
+                                            '{{$pm->cnt}}',
+                                        @endforeach
+                                    ],
+                                    label: 'Zahlungsart'
+                                }],
+                                labels: [
+                                    @foreach($payment_methods as $pm)
+                                        '{{$pm->paymentmethod}}',
+                                    @endforeach
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
                 </script>
                 <div class="card-footer"><small>Umsatz je Zahlungsmethode in Prozent</small></div>
             </div>
@@ -75,27 +89,41 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Meine Märkte</h5>
-                    <div id="chart_shops"></div>
+                    <canvas id="chart_shops"></canvas>
                 </div>
                 <script type="text/javascript">
-                    google.charts.load('current', {'packages': ['corechart']});
-                    google.charts.setOnLoadCallback(drawChartShops);
-
-                    function drawChartShops() {
-
-                        var data = google.visualization.arrayToDataTable([
-                            ['Shop', 'Anzahl Einkäufe'],
-                                @foreach($shops as $shop)
-                            ['{{$shop->shop_id}}', {{$shop->cnt}}],
-                            @endforeach
-                        ]);
-
-                        var options = {};
-
-                        var chart = new google.visualization.PieChart(document.getElementById('chart_shops'));
-
-                        chart.draw(data, options);
-                    }
+                    $(document).ready(function () {
+                        var chart_shops = document.getElementById('chart_shops').getContext('2d');
+                        window.chart_shops = new Chart(chart_shops, {
+                            type: 'doughnut',
+                            data: {
+                                datasets: [{
+                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    data: [
+                                        @foreach($shops as $shop)
+                                            '{{$shop->cnt}}',
+                                        @endforeach
+                                    ],
+                                    label: 'Markt Nr.'
+                                }],
+                                labels: [
+                                    @foreach($shops as $shop)
+                                        '{{$shop->shop->name ?? "Markt " . $shop->shop->id}}',
+                                    @endforeach
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
                 </script>
                 <div class="card-footer"><small>Anzahl an Einkäufen im Markt</small></div>
             </div>
@@ -104,27 +132,40 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Ernährung</h5>
-                    <div id="chart_vegetarian"></div>
+                    <canvas id="chart_vegetarian"></canvas>
                 </div>
                 <script type="text/javascript">
-                    google.charts.load('current', {'packages': ['corechart']});
-                    google.charts.setOnLoadCallback(drawChartVegetarian);
-
-                    function drawChartVegetarian() {
-
-                        var data = google.visualization.arrayToDataTable([
-                            ['Art', 'Anzahl Käufe'],
-                                @foreach($products_vegetarian as $pm)
-                            ['{{$pm->vegetarian === NULL ? 'Unbekannt' : str_replace(array('-1', '0', '1'), array('Kein Lebensmittel', 'Nicht vegetarisch', 'vegetarisch'), $pm->vegetarian)}}', {{$pm->cnt}}],
-                            @endforeach
-                        ]);
-
-                        var options = {};
-
-                        var chart = new google.visualization.PieChart(document.getElementById('chart_vegetarian'));
-
-                        chart.draw(data, options);
-                    }
+                    $(document).ready(function () {
+                        var chart_vegetarian = document.getElementById('chart_vegetarian').getContext('2d');
+                        window.chart_vegetarian = new Chart(chart_vegetarian, {
+                            type: 'doughnut',
+                            data: {
+                                datasets: [{
+                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    data: [
+                                        @foreach($products_vegetarian as $pv)
+                                            '{{$pv->cnt}}',
+                                        @endforeach
+                                    ]
+                                }],
+                                labels: [
+                                    @foreach($products_vegetarian as $pv)
+                                        '{{$pv->vegetarian === NULL ? 'Unbekannt' : str_replace(array('-1', '0', '1'), array('Kein Lebensmittel', 'Nicht vegetarisch', 'vegetarisch'), $pv->vegetarian)}}',
+                                    @endforeach
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
                 </script>
                 <div class="card-footer"><small>Anzahl gekaufter Produkte</small></div>
             </div>
@@ -256,43 +297,46 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Einkauf nach Tageszeit</h5>
-                    <div id="chart_dayTime"></div>
+                    <canvas id="chart_dayTime"></canvas>
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        var chart_dayTime = document.getElementById('chart_dayTime').getContext('2d');
+                        window.chart_dayTime = new Chart(chart_dayTime, {
+                            type: 'bar',
+                            data: {
+                                labels: [
+                                    @for($hour = 0; $hour < 24; $hour++)
+                                        '{{$hour}} Uhr',
+                                    @endfor
+                                ],
+                                datasets: [{
+                                    label: 'Anzahl Einkäufe',
+                                    backgroundColor: '#38a3a6',
+                                    borderWidth: 1,
+                                    data: [
+                                        @for($hour = 0; $hour < 24; $hour++)
+                                        {{$shoppingByHour[$hour]}},
+                                        @endfor
+                                    ]
+                                }]
+
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
+                </script>
                 <div class="card-footer"><small>Anzahl an Einkäufen pro Stunde</small></div>
             </div>
-
-            <script>
-                google.charts.load('current', {packages: ['corechart', 'bar']});
-                google.charts.setOnLoadCallback(drawMultSeries);
-
-                function drawMultSeries() {
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('timeofday', 'Time of Day');
-                    data.addColumn('number', 'Anzahl Einkäufe');
-
-                    data.addRows([
-                            @foreach($shoppingByHour as $data)
-                        [{v: [{{$data->hour}}, 0, 0], f: '{{$data->hour}} Uhr'}, {{$data->cnt}}],
-                        @endforeach
-                    ]);
-
-                    var options = {
-                        hAxis: {
-                            title: 'Zeit',
-                            format: 'H',
-                            viewWindow: {
-                                min: [0, 0, 0],
-                                max: [23, 59, 0]
-                            }
-                        }
-                    };
-
-                    var chart = new google.visualization.ColumnChart(
-                        document.getElementById('chart_dayTime'));
-
-                    chart.draw(data, options);
-                }
-            </script>
         </div>
     </div>
 
@@ -334,28 +378,42 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Produktkategorien nach Umsatz</h5>
-                    <div id="chart_categoryPrice"></div>
-                    <script type="text/javascript">
-                        google.charts.load('current', {'packages': ['corechart']});
-                        google.charts.setOnLoadCallback(drawChartCategoryPrice);
-
-                        function drawChartCategoryPrice() {
-
-                            var data = google.visualization.arrayToDataTable([
-                                ['Kategorie', 'Ausgaben'],
-                                    @foreach($topByCategoryPrice as $cc)
-                                ['{{$cc->category_name}}', {{$cc->price}}],
-                                @endforeach
-                            ]);
-
-                            var options = {};
-
-                            var chart = new google.visualization.PieChart(document.getElementById('chart_categoryPrice'));
-
-                            chart.draw(data, options);
-                        }
-                    </script>
+                    <canvas id="chart_categoryPrice"></canvas>
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        var chart_categoryPrice = document.getElementById('chart_categoryPrice').getContext('2d');
+                        window.chart_categoryPrice = new Chart(chart_categoryPrice, {
+                            type: 'doughnut',
+                            data: {
+                                datasets: [{
+                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    data: [
+                                        @foreach($topByCategoryPrice as $cc)
+                                            '{{$cc->price}}',
+                                        @endforeach
+                                    ],
+                                    label: 'Zahlungsart'
+                                }],
+                                labels: [
+                                    @foreach($topByCategoryPrice as $cc)
+                                        '{!! $cc->category_name !!}',
+                                    @endforeach
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
+                </script>
                 <div class="card-footer">
                     <small>Ausgaben (in €) in den jeweiligen Kategorien seit Beginn der Aufzeichnung. Dieses
                         Diagramm wird
@@ -367,28 +425,42 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Produktkategorien nach Anzahl</h5>
-                    <div id="chart_categoryCount"></div>
-                    <script type="text/javascript">
-                        google.charts.load('current', {'packages': ['corechart']});
-                        google.charts.setOnLoadCallback(drawChartCategoryCount);
-
-                        function drawChartCategoryCount() {
-
-                            var data = google.visualization.arrayToDataTable([
-                                ['Kategorie', 'Anzahl Käufe'],
-                                    @foreach($topByCategoryCount as $cc)
-                                ['{{$cc->category_name}}', {{$cc->cnt}}],
-                                @endforeach
-                            ]);
-
-                            var options = {};
-
-                            var chart = new google.visualization.PieChart(document.getElementById('chart_categoryCount'));
-
-                            chart.draw(data, options);
-                        }
-                    </script>
+                    <canvas id="chart_categoryCount"></canvas>
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        var chart_categoryCount = document.getElementById('chart_categoryCount').getContext('2d');
+                        window.chart_categoryCount = new Chart(chart_categoryCount, {
+                            type: 'doughnut',
+                            data: {
+                                datasets: [{
+                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    data: [
+                                        @foreach($topByCategoryCount as $cc)
+                                            '{{$cc->cnt}}',
+                                        @endforeach
+                                    ],
+                                    label: 'Zahlungsart'
+                                }],
+                                labels: [
+                                    @foreach($topByCategoryCount as $cc)
+                                        '{!! $cc->category_name !!}',
+                                    @endforeach
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
+                </script>
                 <div class="card-footer">
                     <small>Dieses Diagramm wird durch <a href="{{route('crowdsourcing_rewe')}}">Crowdsourcing</a>
                         ermöglicht.</small>

@@ -8,6 +8,9 @@ require("./bootstrap");
 require("datatables.net-bs4");
 require("datatables.net-responsive-bs4");
 
+require("moment/dist/moment.js");
+require("chart.js/dist/Chart.bundle.min");
+
 //window.Vue = require('vue');
 
 /**

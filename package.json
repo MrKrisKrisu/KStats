@@ -24,7 +24,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "chart.js": "^2.9.3",
         "datatables.net-bs4": "^1.10.20",
-        "datatables.net-responsive-bs4": "^2.2.3"
+        "datatables.net-responsive-bs4": "^2.2.3",
+        "moment": "^2.25.3"
     }
 }

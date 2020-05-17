@@ -120,7 +120,7 @@
                                 @endisset
                             </div>
                         </div>
-                        <hr />
+                        <hr/>
                     @endforeach
                 </div>
             </div>
@@ -162,8 +162,51 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Gehörte Minuten nach Woche</h5>
-                    <div id="chart_hearedByWeek" style="width: 100%; height: 400px;"></div>
+                    <canvas id="chart_hearedByWeek"></canvas>
+
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        var chart_hearedByWeek = document.getElementById('chart_hearedByWeek').getContext('2d');
+                        window.chart_hearedByWeek = new Chart(chart_hearedByWeek, {
+                            type: 'line',
+                            data: {
+                                datasets: [{
+                                    backgroundColor: ["#38a2a6"],
+                                    data: [
+                                        @foreach($chartData_hearedByWeek as $weekData)
+                                        {{$weekData->minutes}},
+                                        @endforeach
+                                    ]
+                                }],
+                                labels: [
+                                    @foreach($chartData_hearedByWeek as $weekData)
+                                        'KW {{$weekData->week}} / {{$weekData->year}}',
+                                    @endforeach
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                },
+                                tooltips: {
+                                    enabled: true,
+                                    mode: 'single',
+                                    callbacks: {
+                                        label: function (tooltipItems, data) {
+                                            return tooltipItems.yLabel + 'min';
+                                        }
+                                    }
+                                },
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>
@@ -250,89 +293,90 @@
 
         <div class="col-md-12">
             <div class="card" style="margin-top: 10px;">
-                <div class="card-body" id="chart_barWeekday" style="height: 400px;">
+                <div class="card-body">
                     <h5 class="card-title">Gehörte Minuten nach Wochentag</h5>
-                    <div id="listenedByWeekday"></div>
+                    <canvas id="chart_listenedByWeekday"></canvas>
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        var chart_listenedByWeekday = document.getElementById('chart_listenedByWeekday').getContext('2d');
+                        window.chart_listenedByWeekday = new Chart(chart_listenedByWeekday, {
+                            type: 'bar',
+                            data: {
+                                labels: [
+                                    @foreach($chartData_hearedByWeekday as $weekData)
+                                        '{{\App\Http\Controllers\SpotifyController::getWeekdayName($weekData->weekday)}}',
+                                    @endforeach
+                                ],
+                                datasets: [{
+                                    label: 'Gehörte Minuten',
+                                    backgroundColor: '#38a3a6',
+                                    borderWidth: 1,
+                                    data: [@foreach($chartData_hearedByWeekday as $weekData)
+                                        {{$weekData->minutes}},
+                                        @endforeach
+                                    ]
+                                }]
+
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
         <div class="col-md-12">
             <div class="card" style="margin-top: 10px;">
-                <div class="card-body" style="height: 400px;">
+                <div class="card-body">
                     <h5 class="card-title">Gehörte Minuten nach Uhrzeit</h5>
-                    <div id="listenedByHour"></div>
+                    <canvas id="chart_listenedByHour"></canvas>
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        var chart_listenedByHour = document.getElementById('chart_listenedByHour').getContext('2d');
+                        window.chart_listenedByHour = new Chart(chart_listenedByHour, {
+                            type: 'bar',
+                            data: {
+                                labels: [
+                                    @foreach($chartData_hearedByHour as $weekData)
+                                        '{{$weekData->hour}} Uhr',
+                                    @endforeach
+                                ],
+                                datasets: [{
+                                    label: 'Gehörte Minuten',
+                                    backgroundColor: '#38a3a6',
+                                    borderWidth: 1,
+                                    data: [
+                                        @foreach($chartData_hearedByHour as $weekData)
+                                        {{$weekData->minutes}},
+                                        @endforeach
+                                    ]
+                                }]
+
+                            },
+                            options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
+                                }
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>
-@endsection
-
-
-@section('javascript')
-    <script type="text/javascript">
-        google.charts.load('current', {'packages': ['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Week', 'Minutes listened to music'],
-                    @foreach($chartData_hearedByWeek as $weekData)
-                ['{{$weekData->week}}', {{$weekData->minutes}}],
-                @endforeach
-            ]);
-
-            var options = {
-                curveType: 'function',
-                legend: {position: 'bottom'}
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('chart_hearedByWeek'));
-
-            chart.draw(data, options);
-        }
-
-
-        google.charts.load('current', {packages: ['corechart', 'bar']});
-        google.charts.setOnLoadCallback(drawWeekdayChart);
-
-        function drawWeekdayChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Weekday', 'Minutes listened to music'],
-                    @foreach($chartData_hearedByWeekday as $weekData)
-                ['{{\App\Http\Controllers\SpotifyController::getWeekdayName($weekData->weekday)}}', {{$weekData->minutes}}],
-                @endforeach
-            ]);
-
-            var materialOptions = {
-                vAxis: {
-                    minValue: 0,
-                },
-                legend: {position: 'none'}
-            };
-            var chart = new google.visualization.ColumnChart(document.getElementById('listenedByWeekday'));
-            chart.draw(data, materialOptions);
-        }
-
-
-        google.charts.load('current', {packages: ['corechart', 'bar']});
-        google.charts.setOnLoadCallback(drawHourlyChart);
-
-        function drawHourlyChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Weekday', 'Minutes listened to music'],
-                    @foreach($chartData_hearedByHour as $weekData)
-                ['{{$weekData->hour}} Uhr', {{$weekData->minutes}}],
-                @endforeach
-            ]);
-
-            var materialOptions = {
-                vAxis: {
-                    minValue: 0,
-                },
-                legend: {position: 'none'}
-            };
-            var chart = new google.visualization.ColumnChart(document.getElementById('listenedByHour'));
-            chart.draw(data, materialOptions);
-        }
-    </script>
 @endsection
