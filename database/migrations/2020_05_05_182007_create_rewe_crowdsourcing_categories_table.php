@@ -26,6 +26,8 @@ class CreateReweCrowdsourcingCategoriesTable extends Migration
                 ->references('id')->on('rewe_product_categories')
                 ->index();
             $table->timestamps();
+
+            $table->unique(['user_id', 'product_id']);
         });
     }
 

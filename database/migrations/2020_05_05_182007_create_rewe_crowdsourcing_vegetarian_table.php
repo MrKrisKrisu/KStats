@@ -24,6 +24,8 @@ class CreateReweCrowdsourcingVegetarianTable extends Migration
             $table->boolean('vegetarian')
                 ->nullable();
             $table->timestamps();
+
+            $table->unique(['user_id', 'product_id']);
         });
     }
 
