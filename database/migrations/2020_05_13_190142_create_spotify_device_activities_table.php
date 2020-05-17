@@ -13,6 +13,11 @@ class CreateSpotifyDeviceActivitiesTable extends Migration
      */
     public function up()
     {
+        /**
+         * TODO
+         * This table is deprecated... In the main Instance it contains a huge amount of data
+         * which needs to migrate to spotify_play_activities
+         */
         Schema::create('spotify_device_activities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('device_id');
