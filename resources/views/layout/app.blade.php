@@ -91,28 +91,30 @@
         </div>
     </nav>
 </header>
+<div id="dashboard">
+    <main role="main">
+        @yield('jumbotron')
 
-<main role="main">
-    @yield('jumbotron')
-
-    <div class="album py-5 bg-light">
-        <div class="container">
+        <div class="container" id="container_main">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">@yield('title', 'KStats')</h1>
+            </div>
             @yield('content')
         </div>
-    </div>
 
-</main>
+    </main>
 
-<footer class="text-muted">
-    <div class="container">
-        <hr/>
-        <p class="float-right">
-            <a href="/imprint/">Impressum</a> -
-            <a href="/disclaimer/">Disclaimer</a> -
-            <a href="#">Back to top</a>
-        </p>
-    </div>
-</footer>
+    <footer class="text-muted">
+        <div class="container">
+            <hr/>
+            <p class="float-right">
+                <a href="/imprint/">Impressum</a> -
+                <a href="/disclaimer/">Disclaimer</a> -
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </footer>
+</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

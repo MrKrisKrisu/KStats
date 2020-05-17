@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title')No data, yet! @endsection
+
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">

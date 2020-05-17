@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title')Deine Top Tracks @endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">

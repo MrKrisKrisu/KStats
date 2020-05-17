@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title')Einstellungen @endsection
+
 @section('content')
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-6">
@@ -13,7 +15,7 @@
                         {{ _('You are not connected to Spotify.') }}
                         {{ _('Click the button to connect.') }}
                     @endif
-
+                    <br/>
                     <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">Spotify Connect</a>
                 </div>
             </div>

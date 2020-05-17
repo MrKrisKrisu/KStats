@@ -17,20 +17,38 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #38a3a6;
+#dashboard h1,
+#dashboard h2,
+#dashboard h3,
+#dashboard h4,
+#dashboard h5,
+#dashboard h6,
+#dashboard a:not(.btn),
+#dashboard .color-highlight,
+#dashboard .pagination .page-item:not(.active) .page-link {
+  color: $color_main;
 }
 
-.cover {
-  border: #38a3a6 solid 2px;
+#dashboard .spotify-cover {
+  border: $color_main solid 2px;
   max-width: 100%;
 }
 
-.card {
+#dashboard .card {
   margin-bottom: 15px;
+}
+
+#dashboard .pagination .page-item.active .page-link {
+  background-color: $color_main;
+  border-color: $color_main;
+  color: #fff;
+}
+
+#dashboard #container_main {
+  margin-top: 1em;
+}
+
+#dashboard .btn.btn-primary {
+  background-color: $color_main;
+  border-color: $color_main;
 }

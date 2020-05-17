@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title')Not connected to Spotify @endsection
+
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">

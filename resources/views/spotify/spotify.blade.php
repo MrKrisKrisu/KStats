@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+@section('title')Spotify Statistik @endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -7,22 +9,22 @@
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col">
-                                <span style="color: #38A3A6; font-size: 50px;"
+                                <span class="color-highlight" style="font-size: 50px;"
                                       id="lieblingsjahr">{{$favouriteYear}}</span><br>
                             <small><b>Dein Lieblingsjahr</b></small>
                         </div>
                         <div class="col">
-                            <span style="color: #38A3A6; font-size: 50px;"
+                            <span class="color-highlight" style="font-size: 50px;"
                                   id="bpm">{{$bpm}}<small>BPM</small></span><br>
                             <small><b>Deine Lieblingsgeschwindigkeit</b></small>
                         </div>
                         <div class="col">
-                                <span style="color: #38A3A6; font-size: 50px;"
+                                <span class="color-highlight" style="font-size: 50px;"
                                       id="trackcount">{{$uniqueSongs}}</span><br>
                             <small><b>Versch. Lieder gehört</b></small>
                         </div>
                         <div class="col">
-                        <span style="color: #38A3A6; font-size: 50px;"
+                        <span class="color-highlight" style="font-size: 50px;"
                               id="avgPerSession">{{$avgSession}}<small>min</small>
         <i class="mdi mdi-trending-down" style="font-size: 25px; color: rgb(255, 99, 132)"></i>
         </span><br>

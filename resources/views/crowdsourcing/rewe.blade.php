@@ -1,26 +1,30 @@
 @extends('layout.app')
 
+@section('title')Crowdsourcing @endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Produktkategorie</div>
                 <div class="card-body">
+                    <h5 class="card-title">Produktkategorie</h5>
                     @empty($categories_product)
                         <p style="color: #E70000; font-weight: bold;">Es sind aktuell keine Aufgaben für dich Verfügbar.
                             Komme gerne später wieder!</p>
                     @else
 
                         <p>Du hast mal <b>"{{$categories_product->name}}"</b> gekauft. Kannst du das bitte in eine
-                            Kategorie
-                            einordnen?</p>
-                        <p>Zuletzt gekauft: {{$categories_product->lastReceipt}}</p>
+                            Kategorie einordnen?
+                            <small><i>Zuletzt
+                                    gekauft {{\Carbon\Carbon::parse($categories_product->lastReceipt)->diffForHumans()}}
+                                    .</i></small>
+                        </p>
+                        <hr/>
                         <form method="POST">
                             @csrf
                             <div class="form-group">
-                                <label>Kategorie</label>
                                 <div class="dropdown bootstrap-select">
-                                    <select name="category_id">
+                                    <select name="category_id" class="form-control">
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}">{{$category->parent->name}}
                                                 -> {{$category->name}}</option>
@@ -40,9 +44,9 @@
 
             @if(count($lastCategories) > 0)
                 <div class="card">
-                    <div class="card-header">Deine letzten Eingaben</div>
                     <div class="card-body">
-                        <table class="table">
+                        <h5 class="card-title">Deine letzten Eingaben</h5>
+                        <table class="table table-striped table-hover">
                             <thead>
                             <tr>
                                 <th>Produkt</th>
@@ -60,7 +64,7 @@
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
                                             <button type="submit" class="btn btn-sm btn-danger" name="action"
-                                                    value="deleteCategory"><i class="fa fa-trash"></i></button>
+                                                    value="deleteCategory"><i class="fas fa-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -74,14 +78,17 @@
 
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Vegetarisch</div>
                 <div class="card-body">
+                    <h5 class="card-title">Vegetarisch</h5>
                     @empty($vegetarian_product)
                         <p style="color: #E70000; font-weight: bold;">Es sind aktuell keine Aufgaben für dich Verfügbar.
                             Komme gerne später wieder!</p>
                     @else
-                        <p>Du hast mal <b>"{{$vegetarian_product->name}}"</b> gekauft. Ist es vegetarisch?</p>
-                        <p>Zuletzt gekauft: {{$vegetarian_product->lastReceipt}}</p>
+                        <p>Du hast mal <b>"{{$vegetarian_product->name}}"</b> gekauft. Ist es vegetarisch?
+                            <small><i>Zuletzt
+                                    gekauft {{\Carbon\Carbon::parse($vegetarian_product->lastReceipt)->diffForHumans()}}
+                                    .</i></small></p>
+                    <hr />
                         <form method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{$vegetarian_product->id}}"/>
@@ -101,9 +108,9 @@
 
             @if(count($lastVegetarians) > 0)
                 <div class="card">
-                    <div class="card-header">Deine letzten Eingaben</div>
                     <div class="card-body">
-                        <table class="table">
+                        <h5 class="card-title">Deine letzten Eingaben</h5>
+                        <table class="table table-striped table-hover">
                             <thead>
                             <tr>
                                 <th>Produkt</th>
@@ -121,7 +128,7 @@
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
                                             <button type="submit" class="btn btn-sm btn-danger" name="action"
-                                                    value="deleteVegetarian"><i class="fa fa-trash"></i></button>
+                                                    value="deleteVegetarian"><i class="fas fa-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>

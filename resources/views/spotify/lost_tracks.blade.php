@@ -1,15 +1,13 @@
 @extends('layout.app')
 
-@section('content')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Entdecke alte Lieder wieder!</h1>
-    </div>
+@section('title')Verschollene Tracks - Entdecke alte Lieder wieder! @endsection
 
+@section('content')
     <div class="row">
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Playlist erstellen</div>
                 <div class="card-body">
+                    <h5 class="card-title">Playlist erstellen</h5>
                     <p>Wir erstellen dir eine Playlist mit Songs, die du länger, aber früher öfters gehört hast.</p>
                     <form method="POST" action="{{route('spotify.saveLostTracks')}}">
                         @csrf
@@ -40,8 +38,8 @@
         </div>
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Tracks</div>
                 <div class="card-body">
+                    <h5 class="card-title">Tracks</h5>
                     @if(count($lostTracks) == 0)
                         <p style="font-weight: bold; color: #E70000;">Du hast aktuelle keine verschollenen Tracks. Passe den Filter an oder schaue in einigen Tagen
                             nochmal vorbei.</p>
