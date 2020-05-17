@@ -42,8 +42,7 @@
                     <div class="row">
                         @isset($lastPlayActivity->track->album->imageUrl)
                             <div class="col-md-4">
-                                <img src="{{$lastPlayActivity->track->album->imageUrl}}"
-                                     class="cover"/>
+                                <img src="{{$lastPlayActivity->track->album->imageUrl}}" class="spotify-cover"/>
                             </div>
                         @endisset
                         <div class="col">
@@ -103,7 +102,7 @@
                         <div class="row">
                             @isset($ttList->track->album->imageUrl)
                                 <div class="col-md-4">
-                                    <img src="{{$ttList->track->album->imageUrl}}" class="cover"/>
+                                    <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
                                 </div>
                             @endisset
                             <div class="col">
@@ -133,7 +132,7 @@
                         <div class="row">
                             @isset($ttList->track->album->imageUrl)
                                 <div class="col-md-4">
-                                    <img src="{{$ttList->track->album->imageUrl}}" class="cover"/>
+                                    <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
                                 </div>
                             @endisset
                             <div class="col">
