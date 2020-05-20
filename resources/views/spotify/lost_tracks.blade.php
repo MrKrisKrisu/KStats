@@ -1,41 +1,43 @@
 @extends('layout.app')
 
-@section('title')Verschollene Tracks - Entdecke alte Lieder wieder! @endsection
+@section('title'){{ __('spotify.title.lost_tracks') }} - {{ __('spotify.find_tracks_again') }} @endsection
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Playlist erstellen</h5>
-                    <p>KStats erstellt dir eine Playlist mit Tracks, die du länger nicht mehr gehört hast.</p>
+                    <h5 class="card-title">{{ __('spotify.create_playlist') }}</h5>
+                    <p>{{ __('spotify.lost_tracks.description') }}</p>
                     <form method="POST" action="{{route('spotify.saveLostTracks')}}">
                         @csrf
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="spotify_createOldPlaylist"
                                    id="playlistcreate" {{$settings_active ? 'checked=""' : ''}})>
-                            <label class="form-check-label" for="playlistcreate">Playlist erstellen</label>
+                            <label class="form-check-label"
+                                   for="playlistcreate">{{ __('spotify.create_playlist') }}</label>
                         </div>
                         <div class="form-group">
-                            <label>Gehörte Minuten, ab dem ein Lied als "Mag ich" eingestuft wird</label>
+                            <label>{{__('spotify.lost_tracks.minutes_until_liked')}}</label>
                             <input type="number" name="spotify_oldPlaylist_minutesTop" value="{{$settings_minutes}}"
                                    class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Anzahl an Tagen, bis ein Lied als "alt" gilt</label>
+                            <label>{{__('spotify.lost_tracks.daycount_lost_tracks')}}</label>
                             <input type="number" name="spotify_oldPlaylist_days" value="{{$settings_days}}"
                                    class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Maximale Lieder in der Playlist (max. 99)</label>
+                            <label>{{__('spotify.lost_tracks.max_tracks', ['max' => 99])}}</label>
                             <input type="number" name="spotify_oldPlaylist_songlimit" value="{{$settings_limit}}"
                                    class="form-control">
                         </div>
-                        <button type="submit" name="saveSettings" class="btn btn-primary">Speichern</button>
+                        <button type="submit" name="saveSettings"
+                                class="btn btn-primary">{{__('general.save')}}</button>
 
                         @if($settings_active && $playlist_id != NULL)
                             <a href="https://open.spotify.com/playlist/{{$playlist_id}}" target="_blank"
-                               style="float: right;">Zur Playlist</a>
+                               style="float: right;">{{ __('spotify.show_playlist') }}</a>
                         @endif
                     </form>
                 </div>
@@ -44,11 +46,9 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Deine aktuell verschollenen Tracks</h5>
+                    <h5 class="card-title">{{ __('spotify.lost_tracks.your_lost_tracks') }}</h5>
                     @if(count($lostTracks) == 0)
-                        <p style="font-weight: bold; color: #E70000;">Du hast aktuelle keine verschollenen Tracks. Passe
-                            den Filter an oder schaue in einigen Tagen
-                            nochmal vorbei.</p>
+                        <p style="font-weight: bold; color: #E70000;">{{ __('spotify.lost_tracks.no_tracks') }}</p>
                     @else
                         <table class="ui table unstackable">
                             <tbody>
@@ -64,9 +64,9 @@
                                         {{$track->name}}<br/>
                                         <small>
                                             @foreach($track->artists as $artist)
-                                                @if($loop->first)von @endif
+                                                @if($loop->first){{__('general.from')}} @endif
                                                 {{$artist->name}}
-                                                @if(!$loop->last) und @endif
+                                                @if(!$loop->last) {{__('general.and')}} @endif
                                             @endforeach
                                         </small>
                                         @isset($track->preview_url)

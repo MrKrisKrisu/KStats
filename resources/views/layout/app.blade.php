@@ -121,10 +121,16 @@
     <footer class="text-muted">
         <div class="container">
             <hr/>
+            <p class="float-left">
+                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=bug" target="ghub"
+                   style="color: #E70000;">{{ __('general.report_bug') }}</a> |
+                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement" target="ghub">{{ __('general.suggestion') }}</a> |
+                <a href="https://github.com/MrKrisKrisu/KStats/" target="ghub">{{ __('general.show_sourcecode') }}</a>
+            </p>
             <p class="float-right">
-                <a href="/imprint/">Impressum</a> -
-                <a href="/disclaimer/">Disclaimer</a> -
-                <a href="#">Back to top</a>
+                <a href="/imprint/">{{ __('general.imprint') }}</a> |
+                <a href="/disclaimer/">{{ __('general.disclaimer') }}</a> |
+                <a href="#">{{ __('general.back_to_top') }}</a>
             </p>
         </div>
     </footer>

@@ -359,13 +359,13 @@ class SpotifyController extends Controller
     public static function getWeekdayName(int $wd)
     {
         $a = [
-            0 => 'Montag',
-            1 => 'Dienstag',
-            2 => 'Mittwoch',
-            3 => 'Donnerstag',
-            4 => 'Freitag',
-            5 => 'Samstag',
-            6 => 'Sonntag'
+            0 => __('general.weekday.mon'),
+            1 => __('general.weekday.tue'),
+            2 => __('general.weekday.wed'),
+            3 => __('general.weekday.thu'),
+            4 => __('general.weekday.fri'),
+            5 => __('general.weekday.sat'),
+            6 => __('general.weekday.sun'),
         ];
         return $a[$wd] ?? $wd;
     }
