@@ -57,18 +57,18 @@ class Spotify_CatchNowPlaying extends Command
         foreach ($slProfile as $profile) {
             try {
                 $user = $profile->user()->first();
-                Log::info("[Spotify] [CatchNowPlaying] Checking User " . $user->id . ' / ' . $user->username);
+                Log::debug("[Spotify] [CatchNowPlaying] Checking User " . $user->id . ' / ' . $user->username);
                 dump("[Spotify] [CatchNowPlaying] Checking User " . $user->id . ' / ' . $user->username);
 
                 $nowPlaying = SpotifyAPIController::getNowPlaying($profile->spotify_accessToken);
 
                 if (!$nowPlaying) {
-                    Log::info("[Spotify] [CatchNowPlaying] Skipping User " . $user->id . "...");
+                    Log::debug("[Spotify] [CatchNowPlaying] Skipping User " . $user->id . "...");
                     continue;
                 }
 
                 if (strpos($nowPlaying->item->uri, 'spotify:local:') !== false) {
-                    Log::info('Local tracks are currently not supported.'); //TODO
+                    Log::debug('Local tracks are currently not supported.'); //TODO
                     continue;
                 }
 

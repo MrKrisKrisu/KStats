@@ -7,6 +7,7 @@ use App\Http\Controllers\TwitterController;
 use App\SocialLoginProfile;
 use App\TwitterFollower;
 use App\TwitterUnfollower;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class Twitter_CheckUnfollows extends Command
@@ -49,7 +50,7 @@ class Twitter_CheckUnfollows extends Command
                 continue;
 
             if (!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15))
-                return false;
+                continue;
 
             $connection = TwitterApiController::getNewConnection($sl_profile);
             $result = $connection->get("friendships/lookup", ['user_id' => $relationship->follower_id]); //TODO: multiple requests
@@ -57,6 +58,7 @@ class Twitter_CheckUnfollows extends Command
 
             foreach ($result as $real_relationship) {
                 if (!isset($real_relationship->connections)) {
+                    dump($real_relationship);
                     dump("No Connection array?");
                     continue;
                 }
@@ -73,6 +75,9 @@ class Twitter_CheckUnfollows extends Command
                         'account_id' => $relationship->followed->id,
                         'unfollower_id' => $relationship->follower->id
                     ]);
+                } else {
+                    $relationship->updated_at = Carbon::now();
+                    $relationship->update();
                 }
             }
         }
