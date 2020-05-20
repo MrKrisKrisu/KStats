@@ -15,8 +15,30 @@
                         {{ _('You are not connected to Spotify.') }}
                         {{ _('Click the button to connect.') }}
                     @endif
-                    <br/>
+                    <hr/>
                     <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">Spotify Connect</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ _('Twitter Connect') }}</h5>
+
+                    <p>Status:
+                        @if($isConnectedToTwitter)
+                            <span style="color: green; font-weight: bold;">Connected</span>
+                        @else
+                            <span style="color: red; font-weight: bold;">Not Connected</span>
+                        @endif
+
+                    </p>
+                    <hr/>
+                    <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-success">
+                        @if($isConnectedToTwitter)
+                            Reconnect to Twitter
+                        @else
+                            Connect to Twitter
+                        @endif
+                    </a>
                 </div>
             </div>
             <div class="card">

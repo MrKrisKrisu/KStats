@@ -59,6 +59,9 @@
                         <a class="nav-link" href="{{ route('rewe') }}">{{ __('REWE eBon Analyzer') }}</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('twitter') }}">{{ __('Twitter') }}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('crowdsourcing_rewe') }}">{{ __('Crowdsourcing') }}</a>
                     </li>
                 </ul>

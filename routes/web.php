@@ -37,5 +37,7 @@ Route::get('/rewe/receipt/download/{id}', 'ReweController@downloadRawReceipt')->
 Route::get('/crowdsourcing/rewe/', 'CrowdsourceController@renderRewe')->name('crowdsourcing_rewe');
 Route::post('/crowdsourcing/rewe/', 'CrowdsourceController@handleSubmit');
 
+Route::get('/twitter', 'TwitterController@index')->name('twitter');
+
 Route::view('/imprint/', 'imprint');
 Route::view('/disclaimer/', 'disclaimer');

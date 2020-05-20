@@ -52,7 +52,7 @@ class SocialController extends Controller
             Auth::login($slp->user);
         }
 
-        $user = User::where('id', auth()->user()->id)->first();
+        $user = User::find(Auth::user()->id);
         $socialProfile = $user->socialProfile ?: new SocialLoginProfile;
         $socialProfile->user_id = auth()->user()->id;
 
@@ -60,6 +60,8 @@ class SocialController extends Controller
             $socialProfile->twitter_token = $getInfo->token;
             $socialProfile->twitter_tokenSecret = $getInfo->tokenSecret;
             $socialProfile->save();
+
+            TwitterController::verifyProfile($socialProfile);
         } elseif ($provider == "spotify") {
             $socialProfile->spotify_user_id = $getInfo->id;
             $socialProfile->spotify_accessToken = $getInfo->token;

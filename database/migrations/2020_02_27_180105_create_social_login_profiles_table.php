@@ -18,6 +18,10 @@ class CreateSocialLoginProfilesTable extends Migration
             $table->integer('user_id')->index()
                 ->references('id')->on('users');
 
+            $table->bigInteger('twitter_id')
+                ->index()
+                ->references('id')->on('twitter_profiles')
+                ->nullable();
             $table->string('twitter_token')->nullable();
             $table->string('twitter_tokenSecret')->nullable();
             $table->string('spotify_user_id')->nullable();

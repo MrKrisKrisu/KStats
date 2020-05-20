@@ -21,17 +21,41 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('spotify:tokenRefresh')->everyFifteenMinutes();
-        $schedule->command('spotify:catchNowPlaying')->everyMinute();
-        $schedule->command('spotify:getTrackInfo')->everyFifteenMinutes();
-        $schedule->command('spotify:playlistRefresh')->daily();
+        //Spotify
+        $schedule->command('spotify:tokenRefresh')
+            ->everyFifteenMinutes()
+            ->evenInMaintenanceMode();
 
-        $schedule->command('rewe:parse')->everyFiveMinutes();
+        $schedule->command('spotify:catchNowPlaying')
+            ->everyMinute()
+            ->evenInMaintenanceMode()
+            ->runInBackground();
+
+        $schedule->command('spotify:getTrackInfo')
+            ->everyFifteenMinutes();
+
+        $schedule->command('spotify:playlistRefresh')
+            ->daily();
+
+        //REWE eBon Analyzer
+        $schedule->command('rewe:parse')
+            ->everyFiveMinutes()
+            ->runInBackground();
+
+        //Twitter
+        $schedule->command('twitter:crawl_followers')
+            ->everyMinute()
+            ->runInBackground()
+            ->withoutOverlapping();
+        $schedule->command('twitter:check_unfollows')
+            ->everyMinute()
+            ->runInBackground()
+            ->withoutOverlapping();
     }
 
     /**
