@@ -4,17 +4,17 @@ namespace Tests\Unit;
 
 use App\Http\Controllers\ReweBonParser;
 use PHPUnit\Framework\TestCase;
+use Spatie\PdfToText\Exceptions\PdfNotFound;
 use Spatie\PdfToText\Pdf;
 
 class ReweReceiptParsingTest extends TestCase
 {
     /**
      * @return void
+     * @throws PdfNotFound
      */
-    public function testBonParsing()
+    public function testBonParsingWeight()
     {
-        $this->assertTrue(true);
-
         $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
         $text = $pdf->setPdf(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/weight_eccash.pdf')->text();
 
@@ -28,9 +28,33 @@ class ReweReceiptParsingTest extends TestCase
         $this->assertEquals(5, $parser->getEarnedPaybackPoints());
         $this->assertContains("EC-Cash", $parser->getPaymentMethods());
         $this->assertEquals(1577880000, $parser->getTimestamp()->getTimestamp());
-        //TODO: Test für Positionen
 
+        $positions = [];
+        foreach ($parser->getPositions() as $position)
+            $positions[$position['name']] = $position;
 
+        $this->assertEquals(1, $positions['BROT']['price_single']);
+        $this->assertEquals(0.5, $positions['AUFSCHNITT']['price_single']);
+        $this->assertEquals(0.5, $positions['NATUR-JOGHURT']['price_single']);
+        $this->assertEquals(0.01, $positions['ESSEN']['price_single']);
+        $this->assertEquals(1.99, $positions['BANANE']['price_single']);
+        $this->assertEquals(2.99, $positions['BANANE']['price_total']);
+        $this->assertEquals(1.5, $positions['BANANE']['weight']);
+        $this->assertEquals(1, $positions['EIER']['price_single']);
+        $this->assertEquals(1, $positions['WEIZENMEHL']['price_single']);
+        $this->assertEquals(1, $positions['WASSER']['price_single']);
+        $this->assertEquals(1, $positions['SOFTDRINK']['price_single']);
+        $this->assertEquals(1, $positions['MILCH']['price_single']);
+        $this->assertEquals(1, $positions['EIS']['price_single']);
+
+    }
+
+    /**
+     * @return void
+     * @throws PdfNotFound
+     */
+    public function testBonParsingPaymentMethods()
+    {
         $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
         $text = $pdf->setPdf(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/multipleProducts_multiplePaymentMethods_paybackCoupon.pdf')->text();
 
@@ -45,6 +69,18 @@ class ReweReceiptParsingTest extends TestCase
         $this->assertContains("BAR", $parser->getPaymentMethods());
         $this->assertContains("VISA", $parser->getPaymentMethods());
         $this->assertEquals(1577880000, $parser->getTimestamp()->getTimestamp());
-        //TODO: Test für Positionen
+
+        $positions = [];
+        foreach ($parser->getPositions() as $position)
+            $positions[$position['name']] = $position;
+
+        $this->assertEquals(0.25, $positions['LEERGUT']['price_single']);
+        $this->assertEquals(2.99, $positions['KARTOFFELN']['price_single']);
+        $this->assertEquals(1.49, $positions['NUDELN']['price_single']);
+        $this->assertEquals(0.49, $positions['QUARK']['price_single']);
+        $this->assertEquals(1.99, $positions['SÜßIGKEITEN']['price_single']);
+        $this->assertEquals(0.69, $positions['SCHOKOLADE']['price_single']);
+        $this->assertEquals(1.38, $positions['SCHOKOLADE']['price_total']);
+        $this->assertEquals(0.53, $positions['SCHMAND 24%']['price_single']);
     }
 }
