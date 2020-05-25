@@ -18,7 +18,7 @@ class ReweBonParser extends Controller
 
     public function __construct(string $pdf_path)
     {
-        $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/local/bin/pdftotext'));
+        $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
         $text = $pdf->setPdf($pdf_path)->setOptions(['layout'])->text();
         $this->bonRaw = $text;
     }
