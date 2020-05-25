@@ -13,6 +13,15 @@ class ReweReceiptParsingTest extends TestCase
     /**
      * @return void
      */
+    public function testNegativeTotalAmount()
+    {
+        $parser = new ReweBonParser(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/negative_amount.pdf');
+        $this->assertEquals(-0.25, $parser->getTotal());
+    }
+
+    /**
+     * @return void
+     */
     public function testBonParsingWeight()
     {
         $parser = new ReweBonParser(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/weight_eccash.pdf');

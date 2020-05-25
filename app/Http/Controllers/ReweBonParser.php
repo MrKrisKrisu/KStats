@@ -29,7 +29,7 @@ class ReweBonParser extends Controller
      */
     public function getTotal()
     {
-        if (preg_match('/SUMME *EUR *([0-9]{1,},[0-9]{2})/', $this->bonRaw, $match))
+        if (preg_match('/SUMME *EUR *(-?[0-9]{1,},[0-9]{2})/', $this->bonRaw, $match))
             return (float)str_replace(',', '.', $match[1]);
         return NULL;
     }
