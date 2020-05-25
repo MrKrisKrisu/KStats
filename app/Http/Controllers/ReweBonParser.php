@@ -171,6 +171,15 @@ class ReweBonParser extends Controller
 
             } else {
                 if ($lastPos != NULL && isset($lastPos['name']) && isset($lastPos['price_total'])) {
+                    if (!isset($lastPos['price_single']) && isset($lastPos['weight']))
+                        $lastPos['price_single'] = $lastPos['price_total'] / $lastPos['weight'];
+                    if (!isset($lastPos['price_single']) && isset($lastPos['amount']))
+                        $lastPos['price_single'] = $lastPos['price_total'] / $lastPos['amount'];
+                    if (!isset($lastPos['price_single'])) {
+                        $lastPos['price_single'] = $lastPos['price_total'];
+                        $lastPos['amount'] = 1;
+                    }
+
                     $positions[] = $lastPos;
                     $lastPos = NULL;
                 }
@@ -185,6 +194,20 @@ class ReweBonParser extends Controller
                 $lastPos['price_total'] = $p;
             }
         }
+
+        if ($lastPos != NULL && isset($lastPos['name']) && isset($lastPos['price_total'])) {
+            if (!isset($lastPos['price_single']) && isset($lastPos['weight']))
+                $lastPos['price_single'] = $lastPos['price_total'] / $lastPos['weight'];
+            if (!isset($lastPos['price_single']) && isset($lastPos['amount']))
+                $lastPos['price_single'] = $lastPos['price_total'] / $lastPos['amount'];
+            if (!isset($lastPos['price_single'])) {
+                $lastPos['price_single'] = $lastPos['price_total'];
+                $lastPos['amount'] = 1;
+            }
+            $positions[] = $lastPos;
+            $lastPos = NULL;
+        }
+
         return $positions;
     }
 }
