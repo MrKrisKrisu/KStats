@@ -147,18 +147,20 @@ class ReweBonParser extends Controller
         for ($lineNr = $startLine; $lineNr <= $endLine; $lineNr++) {
             $line = trim($rawPos[$lineNr]);
 
-            if (strpos($line, ' Stk x') !== false && $lastPos != NULL) { //Wenn die Stückzahl des vorherigen Postens...
+            if (strpos($line, ' Stk x') !== false && $lastPos != NULL) {
 
                 if (preg_match('/(\d{1,}) Stk x *(\d{1,},\d{2})/', $line, $match)) {
                     $lastPos['amount'] = (int)$match[1];
                     $lastPos['price_single'] = (float)str_replace(',', '.', $match[2]);
                 }
 
-            } else if (strpos($line, 'kg x') !== false && $lastPos != NULL) { //Wenn die Stückzahl des vorherigen Postens...
+            } else if (strpos($line, 'kg') !== false && $lastPos != NULL) {
 
                 if (preg_match('/(\d{1,},\d{3}) kg x *(\d{1,},\d{2}) EUR/', $line, $match)) {
                     $lastPos['weight'] = (float)str_replace(',', '.', $match[1]);
                     $lastPos['price_single'] = (float)str_replace(',', '.', $match[2]);
+                } else if (preg_match('/Handeingabe E-Bon *(\d{1,},\d{3}) kg/', $line, $match)) {
+                    $lastPos['weight'] = (float)str_replace(',', '.', $match[1]);
                 }
 
             } else {
