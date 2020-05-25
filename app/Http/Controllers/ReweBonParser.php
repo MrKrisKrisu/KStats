@@ -96,6 +96,8 @@ class ReweBonParser extends Controller
         foreach (explode("\n", $this->bonRaw) as $line)
             if (preg_match('/Geg. (.*) *EUR/', $line, $match))
                 $paymentMethods[] = trim($match[1]);
+            else if (preg_match('/BAR *EUR *-\d{1,},\d{2}/', $line, $match))
+                $paymentMethods[] = "BAR";
         return $paymentMethods;
     }
 
