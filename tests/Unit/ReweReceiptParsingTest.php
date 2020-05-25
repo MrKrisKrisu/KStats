@@ -9,16 +9,13 @@ use Spatie\PdfToText\Pdf;
 
 class ReweReceiptParsingTest extends TestCase
 {
+
     /**
      * @return void
-     * @throws PdfNotFound
      */
     public function testBonParsingWeight()
     {
-        $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
-        $text = $pdf->setPdf(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/weight_eccash.pdf')->text();
-
-        $parser = new ReweBonParser($text);
+        $parser = new ReweBonParser(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/weight_eccash.pdf');
 
         $this->assertEquals(11.0, $parser->getTotal());
         $this->assertEquals(1234, $parser->getBonNr());
@@ -51,14 +48,10 @@ class ReweReceiptParsingTest extends TestCase
 
     /**
      * @return void
-     * @throws PdfNotFound
      */
     public function testBonParsingPaymentMethods()
     {
-        $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
-        $text = $pdf->setPdf(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/multipleProducts_multiplePaymentMethods_paybackCoupon.pdf')->text();
-
-        $parser = new ReweBonParser($text);
+        $parser = new ReweBonParser(dirname(__FILE__) . '/ReweReceiptParsingTestFiles/multipleProducts_multiplePaymentMethods_paybackCoupon.pdf');
 
         $this->assertEquals(8.62, $parser->getTotal());
         $this->assertEquals(9999, $parser->getBonNr());

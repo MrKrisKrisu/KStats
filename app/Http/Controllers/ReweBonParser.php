@@ -16,9 +16,11 @@ class ReweBonParser extends Controller
 {
     private $bonRaw;
 
-    public function __construct(string $bonRaw)
+    public function __construct(string $pdf_path)
     {
-        $this->bonRaw = $bonRaw;
+        $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/local/bin/pdftotext'));
+        $text = $pdf->setPdf($pdf_path)->setOptions(['layout'])->text();
+        $this->bonRaw = $text;
     }
 
 
@@ -27,7 +29,7 @@ class ReweBonParser extends Controller
      */
     public function getTotal()
     {
-        if (preg_match('/SUMME\nEUR\n([0-9]{1,4},[0-9]{2})/', $this->bonRaw, $match))
+        if (preg_match('/SUMME *EUR *([0-9]{1,},[0-9]{2})/', $this->bonRaw, $match))
             return (float)str_replace(',', '.', $match[1]);
         return NULL;
     }
@@ -92,8 +94,8 @@ class ReweBonParser extends Controller
     {
         $paymentMethods = [];
         foreach (explode("\n", $this->bonRaw) as $line)
-            if (preg_match('/Geg. (.*)/', $line, $match))
-                $paymentMethods[] = $match[1];
+            if (preg_match('/Geg. (.*) *EUR/', $line, $match))
+                $paymentMethods[] = trim($match[1]);
         return $paymentMethods;
     }
 
@@ -146,28 +148,18 @@ class ReweBonParser extends Controller
             $line = trim($rawPos[$lineNr]);
 
             if (strpos($line, ' Stk x') !== false && $lastPos != NULL) { //Wenn die Stückzahl des vorherigen Postens...
-                if (preg_match('/(.*) Stk x/', $line, $match)) {
-                    $lastPos['amount'] = (int)$match[1];
-                }
 
-                $lineNr++; //Einzelpreis befindet sich in der nächsten Zeile
-                $line = trim($rawPos[$lineNr]);
-                $p = (float)str_replace(',', '.', $line);
-                if ($p < 0)
-                    $p *= -1;
-                $lastPos['price_single'] = $p;
+                if (preg_match('/(\d{1,}) Stk x *(\d{1,},\d{2})/', $line, $match)) {
+                    $lastPos['amount'] = (int)$match[1];
+                    $lastPos['price_single'] = (float)str_replace(',', '.', $match[2]);
+                }
 
             } else if (strpos($line, 'kg x') !== false && $lastPos != NULL) { //Wenn die Stückzahl des vorherigen Postens...
 
-                if (preg_match('/(.*) kg x/', $line, $match))
+                if (preg_match('/(\d{1,},\d{3}) kg x *(\d{1,},\d{2}) EUR/', $line, $match)) {
                     $lastPos['weight'] = (float)str_replace(',', '.', $match[1]);
-
-                $lineNr++; //Einzelpreis befindet sich in der nächsten Zeile
-                $line = trim($rawPos[$lineNr]);
-                $p = (float)str_replace(',', '.', $line);
-                if ($p < 0)
-                    $p *= -1;
-                $lastPos['price_single'] = $p;
+                    $lastPos['price_single'] = (float)str_replace(',', '.', $match[2]);
+                }
 
             } else {
                 if ($lastPos != NULL && isset($lastPos['name']) && isset($lastPos['price_total'])) {
@@ -184,14 +176,15 @@ class ReweBonParser extends Controller
                     $lastPos = NULL;
                 }
 
-                $lastPos = [
-                    'name' => $line
-                ];
 
-                $lineNr++;
-                $line = trim($rawPos[$lineNr]);
-                $p = (float)str_replace(',', '.', substr($line, 0, -2));
-                $lastPos['price_total'] = $p;
+                if (preg_match('/(.*)  (\d{1,},\d{2}) (.{1})/', $line, $match)) {
+                    $lastPos = [
+                        'name' => trim($match[1]),
+                        'price_total' => (float)str_replace(',', '.', $match[2]),
+                        'tax_code' => $match[3]
+                    ];
+                }
+
             }
         }
 

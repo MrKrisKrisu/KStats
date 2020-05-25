@@ -53,11 +53,10 @@ class REWE_ParseBon extends Command
         foreach ($files as $bonAttachment) {
             try {
                 $userEmail = UserEmail::firstOrCreate(['email' => $bonAttachment->getEMail()]);
-                $pdf = new Pdf(env('PDFTOTEXT_PATH'));
-                $filename = $bonAttachment->getFilename();
-                $text = $pdf->setPdf($filename)->text();
 
-                $parser = new ReweBonParser($text);
+                $filename = $bonAttachment->getFilename();
+
+                $parser = new ReweBonParser($filename);
 
                 if ($parser->getBonNr() === NULL || $parser->getTimestamp() === NULL || $parser->getShopNr() === NULL) {
                     dump("Error while parsing eBon. Some important data can't be retrieved.");
