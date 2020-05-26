@@ -16,10 +16,10 @@ class ReweBonParser extends Controller
 {
     private $bonRaw;
 
-    public function __construct(string $pdf_path)
+    public function __construct(string $pdfPath)
     {
         $pdf = new Pdf(env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
-        $text = $pdf->setPdf($pdf_path)->setOptions(['layout'])->text();
+        $text = $pdf->setPdf($pdfPath)->setOptions(['layout'])->text();
         $this->bonRaw = $text;
     }
 
@@ -151,17 +151,17 @@ class ReweBonParser extends Controller
 
             if (strpos($line, ' Stk x') !== false && $lastPos != NULL) {
 
-                if (preg_match('/(\d{1,}) Stk x *(\d{1,},\d{2})/', $line, $match)) {
+                if (preg_match('/(-?\d{1,}) Stk x *(-?\d{1,},\d{2})/', $line, $match)) {
                     $lastPos['amount'] = (int)$match[1];
                     $lastPos['price_single'] = (float)str_replace(',', '.', $match[2]);
                 }
 
             } else if (strpos($line, 'kg') !== false && $lastPos != NULL) {
 
-                if (preg_match('/(\d{1,},\d{3}) kg x *(\d{1,},\d{2}) EUR/', $line, $match)) {
+                if (preg_match('/(-?\d{1,},\d{3}) kg x *(-?\d{1,},\d{2}) EUR/', $line, $match)) {
                     $lastPos['weight'] = (float)str_replace(',', '.', $match[1]);
                     $lastPos['price_single'] = (float)str_replace(',', '.', $match[2]);
-                } else if (preg_match('/Handeingabe E-Bon *(\d{1,},\d{3}) kg/', $line, $match)) {
+                } else if (preg_match('/Handeingabe E-Bon *(-?\d{1,},\d{3}) kg/', $line, $match)) {
                     $lastPos['weight'] = (float)str_replace(',', '.', $match[1]);
                 }
 
@@ -181,7 +181,7 @@ class ReweBonParser extends Controller
                 }
 
 
-                if (preg_match('/(.*)  (\d{1,},\d{2}) (.{1})/', $line, $match)) {
+                if (preg_match('/(.*)  (-?\d{1,},\d{2}) (.{1})/', $line, $match)) {
                     $lastPos = [
                         'name' => trim($match[1]),
                         'price_total' => (float)str_replace(',', '.', $match[2]),
