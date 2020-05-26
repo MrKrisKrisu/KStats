@@ -59,7 +59,7 @@ class ReweBonParser extends Controller
      */
     public function getCashierNr()
     {
-        if (preg_match('/Bed.:([0-9]{4,6})/', $this->bonRaw, $match))
+        if (preg_match('/Bed.: ?([0-9]{4,6})/', $this->bonRaw, $match))
             return (int)$match[1];
         return NULL;
     }
