@@ -45,6 +45,9 @@ class TelegramController extends Controller
     {
         $telegramID = UserSettings::get($user->id, 'telegram_id');
 
+        if ($telegramID === NULL)
+            return false;
+
         return self::sendMessageToChat($telegramID, $message);
     }
 
