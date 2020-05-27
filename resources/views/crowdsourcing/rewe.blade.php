@@ -84,7 +84,7 @@
                         <p style="color: #E70000; font-weight: bold;">Es sind aktuell keine Aufgaben für dich Verfügbar.
                             Komme gerne später wieder!</p>
                     @else
-                        <p>Du hast mal <b>"{{$vegetarian_product->name}}"</b> gekauft. Ist es vegetarisch?
+                        <p>Du hast mal <b>"{{$vegetarian_product->name}}"</b> gekauft. Ist es vegetarisch?<br>
                             <small><i>Zuletzt
                                     gekauft {{\Carbon\Carbon::parse($vegetarian_product->lastReceipt)->diffForHumans()}}
                                     .</i></small></p>
