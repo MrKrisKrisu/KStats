@@ -17,9 +17,10 @@ return [
         'last_heared' => 'Zuletzt gehört',
         'top_tracks' => 'Deine Top Tracks',
         'top_artists' => 'Deine Top Künstler',
-        'heared_minutes_by_week' => 'Gehörte Minuten nach Woche',
-        'heared_minutes_by_weekday' => 'Gehörte Minuten nach Wochentag',
-        'heared_minutes_by_daytime' => 'Gehörte Minuten nach Tageszeit',
+        'heared_minutes_by_week' => 'Gehörte Minuten pro Woche',
+        'heared_minutes_by_day' => 'Gehörte Minuten pro Tag',
+        'heared_minutes_by_weekday' => 'Gehörte Minuten je Wochentag',
+        'heared_minutes_by_daytime' => 'Gehörte Minuten je Tageszeit',
         'lost_tracks' => 'Verschollene Tracks',
     ],
     'total' => 'gesamt',
@@ -40,6 +41,7 @@ return [
         'minutes_until_liked' => 'Gehörte Minuten, ab dem ein Lied als "Mag ich" eingestuft wird',
         'description' => 'KStats erstellt dir eine Playlist mit Tracks, die du länger nicht mehr gehört hast.'
     ],
+    'no_track_found' => 'Es konnte kein Track gefunden werden.'
 
 
 ];

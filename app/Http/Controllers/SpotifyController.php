@@ -10,6 +10,7 @@ use App\SpotifySession;
 use App\SpotifyTrack;
 use App\User;
 use App\UserSettings;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -368,6 +369,41 @@ class SpotifyController extends Controller
             6 => __('general.weekday.sun'),
         ];
         return $a[$wd] ?? $wd;
+    }
+
+    public function trackDetails($id)
+    {
+        $track = SpotifyTrack::findOrFail($id);
+        $listening_days_query = SpotifyPlayActivity::where('user_id', Auth::user()->id)
+            ->where('track_id', $track->track_id)
+            ->groupBy(DB::raw('DATE(timestamp_start)'))
+            ->select(DB::raw('DATE(timestamp_start) AS date'), DB::raw('COUNT(*) AS minutes'))
+            ->orderBy(DB::raw('DATE(timestamp_start)'))
+            ->get();
+
+        $listening_days = [];
+        foreach ($listening_days_query as $ld) {
+            $listening_days[$ld->date] = new \stdClass();
+            $listening_days[$ld->date]->date = $ld->date;
+            $listening_days[$ld->date]->minutes = $ld->minutes;
+        }
+        if (count($listening_days) > 0) {
+            $date = Carbon::parse(array_values($listening_days)[0]->date);
+            while ($date->isPast()) {
+                $date = $date->addDays(1);
+                if (!isset($listening_days[$date->isoFormat('YYYY-MM-DD')])) {
+                    $listening_days[$date->isoFormat('YYYY-MM-DD')] = new \stdClass();
+                    $listening_days[$date->isoFormat('YYYY-MM-DD')]->date = $date->isoFormat('YYYY-MM-DD');
+                    $listening_days[$date->isoFormat('YYYY-MM-DD')]->minutes = 0;
+                }
+            }
+        }
+        ksort($listening_days);
+
+        return view('spotify.track_details', [
+            'track' => $track,
+            'listening_days' => $listening_days
+        ]);
     }
 
 }

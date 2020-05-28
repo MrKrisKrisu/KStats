@@ -41,27 +41,32 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{__('spotify.title.last_heared')}}</h5>
-                    <div class="row">
-                        @isset($lastPlayActivity->track->album->imageUrl)
-                            <div class="col-md-4">
-                                <img src="{{$lastPlayActivity->track->album->imageUrl}}" class="spotify-cover"/>
-                            </div>
-                        @endisset
-                        <div class="col">
-                            <b>{{$lastPlayActivity->track->name ?? "Unknown Song"}}</b><br/>
-                            @isset($lastPlayActivity->track->artists[0]->name)
-                                <small>{{__('spotify.from')}} <i>{{$lastPlayActivity->track->artists[0]->name}}</i></small>
+                    @isset($lastPlayActivity->track)
+                        <div class="row">
+                            @isset($lastPlayActivity->track->album->imageUrl)
+                                <div class="col-md-4">
+                                    <img src="{{$lastPlayActivity->track->album->imageUrl}}" class="spotify-cover"/>
+                                </div>
                             @endisset
-                            @isset($lastPlayActivity->track->preview_url)
-                                <hr/>
-                                <audio controls="">
-                                    <source src="{{$lastPlayActivity->track->preview_url}}" type="audio/mpeg">
-                                    Your browser does not support the audio element.
-                                </audio>
-                            @endisset
+                            <div class="col">
+                                <b><a href="{{route('spotify.track', $lastPlayActivity->track->id)}}">{{$lastPlayActivity->track->name ?? "Unknown Song"}}</a></b><br/>
+                                @isset($lastPlayActivity->track->artists[0]->name)
+                                    <small>{{__('general.from')}}
+                                        <i>{{$lastPlayActivity->track->artists[0]->name}}</i></small>
+                                @endisset
+                                @isset($lastPlayActivity->track->preview_url)
+                                    <hr/>
+                                    <audio controls="">
+                                        <source src="{{$lastPlayActivity->track->preview_url}}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                @endisset
 
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <p>{{__('spotify.no_track_found')}}</p>
+                    @endisset
                 </div>
             </div>
         </div>
@@ -104,13 +109,19 @@
                         <div class="row">
                             @isset($ttList->track->album->imageUrl)
                                 <div class="col-md-4">
-                                    <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
+                                    <a href="{{route('spotify.track', $ttList->track->id)}}">
+                                        <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
+                                    </a>
                                 </div>
                             @endisset
                             <div class="col">
-                                <b>{{$ttList->track->name}}</b><br>
+                                <a href="{{route('spotify.track', $ttList->track->id)}}">
+                                    <b>{{$ttList->track->name}}</b>
+                                </a>
+                                <br>
                                 @isset($ttList->track->artists[0])
-                                    <small>{{__('spotify.from')}} <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
+                                    <small>{{__('general.from')}} <i>{{$ttList->track->artists[0]->name}}</i></small>
+                                    <br/>
                                 @endisset
                                 <small>{{$ttList->minutes}} Minuten gehört</small>
                                 @isset($ttList->track->preview_url)
@@ -135,13 +146,19 @@
                         <div class="row">
                             @isset($ttList->track->album->imageUrl)
                                 <div class="col-md-4">
-                                    <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
+                                    <a href="{{route('spotify.track', $ttList->track->id)}}">
+                                        <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
+                                    </a>
                                 </div>
                             @endisset
                             <div class="col">
-                                <b>{{$ttList->track->name}}</b><br>
+                                <a href="{{route('spotify.track', $ttList->track->id)}}">
+                                    <b>{{$ttList->track->name}}</b>
+                                </a>
+                                <br>
                                 @isset($ttList->track->artists[0])
-                                    <small>{{__('spotify.from')}} <i>{{$ttList->track->artists[0]->name}}</i></small><br/>
+                                    <small>{{__('general.from')}} <i>{{$ttList->track->artists[0]->name}}</i></small>
+                                    <br/>
                                 @endisset
                                 <small>{{$ttList->minutes}} {{ __('spotify.minutes.heared') }}</small>
                                 @isset($ttList->track->preview_url)
@@ -205,8 +222,16 @@
                                         }
                                     }
                                 },
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 0
+                                        }
+                                    }]
+                                }
                             }
-                        });
+                        })
+                        ;
                     });
                 </script>
             </div>
