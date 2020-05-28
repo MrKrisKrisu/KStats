@@ -376,9 +376,9 @@ class SpotifyController extends Controller
         $track = SpotifyTrack::findOrFail($id);
         $listening_days_query = SpotifyPlayActivity::where('user_id', Auth::user()->id)
             ->where('track_id', $track->track_id)
-            ->groupBy(DB::raw('DATE(timestamp_start)'))
-            ->select(DB::raw('DATE(timestamp_start) AS date'), DB::raw('COUNT(*) AS minutes'))
-            ->orderBy(DB::raw('DATE(timestamp_start)'))
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->select(DB::raw('DATE(created_at) AS date'), DB::raw('COUNT(*) AS minutes'))
+            ->orderBy(DB::raw('DATE(created_at)'))
             ->get();
 
         $listening_days = [];
