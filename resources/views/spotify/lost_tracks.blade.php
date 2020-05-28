@@ -56,12 +56,14 @@
                                 <tr>
                                     <td>
                                         @isset($track->album->imageUrl)
-                                            <img src="{{$track->album->imageUrl}}" class="spotify-cover"
-                                                 style="max-width: 110px;"/>
+                                            <a href="{{route('spotify.track', $track->id)}}">
+                                                <img src="{{$track->album->imageUrl}}" class="spotify-cover"
+                                                     style="max-width: 110px;"/>
+                                            </a>
                                         @endisset
                                     </td>
                                     <td>
-                                        {{$track->name}}<br/>
+                                        <a href="{{route('spotify.track', $track->id)}}">{{$track->name}}</a><br/>
                                         <small>
                                             @foreach($track->artists as $artist)
                                                 @if($loop->first){{__('general.from')}} @endif
