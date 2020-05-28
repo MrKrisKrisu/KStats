@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password'
+        'username', 'email', 'password', 'last_login'
     ];
 
     /**
@@ -60,7 +60,8 @@ class User extends Authenticatable
         return $this->hasMany(SpotifySession::class);
     }
 
-    public function reweReceipts() {
+    public function reweReceipts()
+    {
         return $this->hasMany(ReweBon::class, 'user_id', 'id');
     }
 
