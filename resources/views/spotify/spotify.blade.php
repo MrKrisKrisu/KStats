@@ -10,25 +10,56 @@
                     <div class="row">
                         <div class="col">
                                 <span class="color-highlight" style="font-size: 50px;"
-                                      id="lieblingsjahr">{{$favouriteYear}}</span><br>
+                                      id="lieblingsjahr">...</span><br>
                             <small><b>{{__('spotify.title.favourite_year')}}</b></small>
+                            <script>
+                                $.ajax({
+                                    url: '/api/spotify/user/favourite_year',
+                                    success: function (data) {
+                                        $('#lieblingsjahr').html(data);
+                                    }
+                                });
+                            </script>
                         </div>
                         <div class="col">
-                            <span class="color-highlight" style="font-size: 50px;"
-                                  id="bpm">{{$bpm}}<small>BPM</small></span><br>
+                            <span class="color-highlight" style="font-size: 50px;"><span
+                                        id="bpm">...</span><small>BPM</small></span>
+                            <br/>
                             <small><b>{{__('spotify.title.favourite_bpm')}}</b></small>
+                            <script>
+                                $.ajax({
+                                    url: '/api/spotify/user/average_bpm',
+                                    success: function (data) {
+                                        $('#bpm').html(data);
+                                    }
+                                });
+                            </script>
                         </div>
                         <div class="col">
                                 <span class="color-highlight" style="font-size: 50px;"
-                                      id="trackcount">{{$uniqueSongs}}</span><br>
+                                      id="track_count">...</span><br>
                             <small><b>{{__('spotify.title.count_tracks')}}</b></small>
+                            <script>
+                                $.ajax({
+                                    url: '/api/spotify/user/track_count',
+                                    success: function (data) {
+                                        $('#track_count').html(data);
+                                    }
+                                });
+                            </script>
                         </div>
                         <div class="col">
-                        <span class="color-highlight" style="font-size: 50px;"
-                              id="avgPerSession">{{$avgSession}}<small>{{__('spotify.minutes.short')}}</small>
-        <i class="mdi mdi-trending-down" style="font-size: 25px; color: rgb(255, 99, 132)"></i>
-        </span><br>
+                            <span class="color-highlight" style="font-size: 50px;"><span
+                                        id="avgPerSession">...</span><small>{{__('spotify.minutes.short')}}</small></span><br>
                             <small><b>{{__('spotify.title.avg_session_length')}}</b></small>
+                            <script>
+                                $.ajax({
+                                    url: '/api/spotify/user/average_session_length',
+                                    success: function (data) {
+                                        $('#avgPerSession').html(data);
+                                    }
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -41,32 +72,45 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{__('spotify.title.last_heared')}}</h5>
-                    @isset($lastPlayActivity->track)
-                        <div class="row">
-                            @isset($lastPlayActivity->track->album->imageUrl)
-                                <div class="col-md-4">
-                                    <img src="{{$lastPlayActivity->track->album->imageUrl}}" class="spotify-cover"/>
-                                </div>
-                            @endisset
-                            <div class="col">
-                                <b><a href="{{route('spotify.track', $lastPlayActivity->track->id)}}">{{$lastPlayActivity->track->name ?? "Unknown Song"}}</a></b><br/>
-                                @isset($lastPlayActivity->track->artists[0]->name)
-                                    <small>{{__('general.from')}}
-                                        <i>{{$lastPlayActivity->track->artists[0]->name}}</i></small>
-                                @endisset
-                                @isset($lastPlayActivity->track->preview_url)
-                                    <hr/>
-                                    <audio controls="">
-                                        <source src="{{$lastPlayActivity->track->preview_url}}" type="audio/mpeg">
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                @endisset
+                    <div id="last_played"></div>
+                    <script>
+                        $.ajax({
+                            url: '/api/spotify/user/last_played',
+                            success: function (data) {
+                                var component = '';
 
-                            </div>
-                        </div>
-                    @else
-                        <p>{{__('spotify.no_track_found')}}</p>
-                    @endisset
+                                component += '<div class="row">';
+                                component += '<div class="col-md-4">';
+                                if (typeof data.track.album.imageUrl !== 'undefined' && data.track.album.imageUrl !== null) {
+                                    component += '<a href="/spotify/track/' + data.track.id + '">';
+                                    component += '<img src="' + data.track.album.imageUrl + '" class="spotify-cover"/>';
+                                    component += '</a>';
+                                }
+                                component += '</div>';
+                                component += '<div class="col">';
+                                component += '<a href="/spotify/track/' + data.track.id + '">';
+                                component += '<b>' + data.track.name + '</b>';
+                                component += '</a>';
+                                component += '<br>';
+                                if (typeof data.track.artists[0].name !== 'undefined' && data.track.artists[0].name !== null) {
+                                    component += '<small>von <i>' + data.track.artists[0].name + '</i></small>';
+                                    component += '<br/>';
+                                }
+
+                                if (typeof data.track.preview_url !== 'undefined' && data.track.preview_url !== null) {
+                                    component += '<audio controls="">';
+                                    component += '<source src="' + data.track.preview_url + '" type="audio/mpeg">';
+                                    component += 'Your browser does not support the audio element.';
+                                    component += '</audio>';
+                                }
+                                component += '</div>';
+                                component += '</div>';
+
+                                $("#last_played")
+                                    .append(component);
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -79,22 +123,40 @@
                         <tbody>
                         <tr>
                             <td><b>{{ __('spotify.total') }}</b></td>
-                            <td>{{ $hearedMinutesTotal }} {{ $hearedMinutesTotal == 1 ?__('spotify.minutes.singular') :  __('spotify.minutes.plural') }}</td>
+                            <td><span id="playtime_total">...</span>min</td>
                         </tr>
                         <tr>
                             <td><b>{{ __('spotify.last_days', ['days' => 30]) }}</b></td>
-                            <td>{{ $hearedMinutes30d }} {{ $hearedMinutes30d == 1 ?__('spotify.minutes.singular') :  __('spotify.minutes.plural') }}</td>
+                            <td><span id="playtime_30">...</span>min</td>
                         </tr>
                         <tr>
                             <td><b>{{ __('spotify.last_days', ['days' => 7]) }}</b></td>
-                            <td>{{ $hearedMinutes7d }} {{ $hearedMinutes7d == 1 ?__('spotify.minutes.singular') :  __('spotify.minutes.plural') }}</td>
-                        </tr>
-                        <tr>
-                            <td><b>{{ __('spotify.last_hours', ['hours' => 24]) }}</b></td>
-                            <td>{{ $hearedMinutes1d }} {{ $hearedMinutes1d == 1 ?__('spotify.minutes.singular') :  __('spotify.minutes.plural') }}</td>
+                            <td><span id="playtime_7">...</span>min</td>
                         </tr>
                         </tbody>
                     </table>
+                    <script>
+                        $.ajax({
+                            url: '/api/spotify/user/playtime',
+                            success: function (data) {
+                                $('#playtime_total').html(data);
+                            }
+                        });
+
+                        $.ajax({
+                            url: '/api/spotify/user/playtime/{{\Carbon\Carbon::parse('-30 days')->toDateString()}}',
+                            success: function (data) {
+                                $('#playtime_30').html(data);
+                            }
+                        });
+
+                        $.ajax({
+                            url: '/api/spotify/user/playtime/{{\Carbon\Carbon::parse('-7 days')->toDateString()}}',
+                            success: function (data) {
+                                $('#playtime_7').html(data);
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -105,35 +167,49 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }} [{{ __('spotify.total') }}]</h5>
-                    @foreach($topTracksTotal as $ttList)
-                        <div class="row">
-                            @isset($ttList->track->album->imageUrl)
-                                <div class="col-md-4">
-                                    <a href="{{route('spotify.track', $ttList->track->id)}}">
-                                        <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
-                                    </a>
-                                </div>
-                            @endisset
-                            <div class="col">
-                                <a href="{{route('spotify.track', $ttList->track->id)}}">
-                                    <b>{{$ttList->track->name}}</b>
-                                </a>
-                                <br>
-                                @isset($ttList->track->artists[0])
-                                    <small>{{__('general.from')}} <i>{{$ttList->track->artists[0]->name}}</i></small>
-                                    <br/>
-                                @endisset
-                                <small>{{$ttList->minutes}} Minuten gehört</small>
-                                @isset($ttList->track->preview_url)
-                                    <audio controls="">
-                                        <source src="{{$ttList->track->preview_url}}" type="audio/mpeg">
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                @endisset
-                            </div>
-                        </div>
-                        <hr/>
-                    @endforeach
+                    <div id="top_tracks_total"></div>
+                    <script>
+                        $.ajax({
+                            url: '/api/spotify/user/top_tracks',
+                            success: function (data) {
+                                $.each(data, function (index, value) {
+                                    var component = '';
+
+                                    component += '<div class="row">';
+                                    component += '<div class="col-md-4">';
+                                    if (typeof value.track.album.imageUrl !== 'undefined' && value.track.album.imageUrl !== null) {
+                                        component += '<a href="/spotify/track/' + value.track.id + '">';
+                                        component += '<img src="' + value.track.album.imageUrl + '" class="spotify-cover"/>';
+                                        component += '</a>';
+                                    }
+                                    component += '</div>';
+                                    component += '<div class="col">';
+                                    component += '<a href="/spotify/track/' + value.track.id + '">';
+                                    component += '<b>' + value.track.name + '</b>';
+                                    component += '</a>';
+                                    component += '<br>';
+                                    if (typeof value.track.artists[0].name !== 'undefined' && value.track.artists[0].name !== null) {
+                                        component += '<small>von <i>' + value.track.artists[0].name + '</i></small>';
+                                        component += '<br/>';
+                                    }
+                                    component += '<small>' + value.minutes + ' Minuten gehört</small>';
+
+                                    if (typeof value.track.preview_url !== 'undefined' && value.track.preview_url !== null) {
+                                        component += '<audio controls="">';
+                                        component += '<source src="' + value.track.preview_url + '" type="audio/mpeg">';
+                                        component += 'Your browser does not support the audio element.';
+                                        component += '</audio>';
+                                    }
+                                    component += '</div>';
+                                    component += '</div>';
+                                    component += '<hr/>';
+
+                                    $("#top_tracks_total")
+                                        .append(component);
+                                });
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -142,35 +218,49 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }}
                         [{{ __('spotify.last_days', ['days' => 30]) }}]</h5>
-                    @foreach($topTracks30d as $ttList)
-                        <div class="row">
-                            @isset($ttList->track->album->imageUrl)
-                                <div class="col-md-4">
-                                    <a href="{{route('spotify.track', $ttList->track->id)}}">
-                                        <img src="{{$ttList->track->album->imageUrl}}" class="spotify-cover"/>
-                                    </a>
-                                </div>
-                            @endisset
-                            <div class="col">
-                                <a href="{{route('spotify.track', $ttList->track->id)}}">
-                                    <b>{{$ttList->track->name}}</b>
-                                </a>
-                                <br>
-                                @isset($ttList->track->artists[0])
-                                    <small>{{__('general.from')}} <i>{{$ttList->track->artists[0]->name}}</i></small>
-                                    <br/>
-                                @endisset
-                                <small>{{$ttList->minutes}} {{ __('spotify.minutes.heared') }}</small>
-                                @isset($ttList->track->preview_url)
-                                    <audio controls="">
-                                        <source src="{{$ttList->track->preview_url}}" type="audio/mpeg">
-                                        Your browser does not support the audio element.
-                                    </audio>
-                                @endisset
-                            </div>
-                        </div>
-                        <hr/>
-                    @endforeach
+                    <div id="top_tracks_30"></div>
+                    <script>
+                        $.ajax({
+                            url: '/api/spotify/user/top_tracks/{{\Carbon\Carbon::parse('-30 days')->toDateString()}}',
+                            success: function (data) {
+                                $.each(data, function (index, value) {
+                                    var component = '';
+
+                                    component += '<div class="row">';
+                                    component += '<div class="col-md-4">';
+                                    if (typeof value.track.album.imageUrl !== 'undefined' && value.track.album.imageUrl !== null) {
+                                        component += '<a href="/spotify/track/' + value.track.id + '">';
+                                        component += '<img src="' + value.track.album.imageUrl + '" class="spotify-cover"/>';
+                                        component += '</a>';
+                                    }
+                                    component += '</div>';
+                                    component += '<div class="col">';
+                                    component += '<a href="/spotify/track/' + value.track.id + '">';
+                                    component += '<b>' + value.track.name + '</b>';
+                                    component += '</a>';
+                                    component += '<br>';
+                                    if (typeof value.track.artists[0].name !== 'undefined' && value.track.artists[0].name !== null) {
+                                        component += '<small>von <i>' + value.track.artists[0].name + '</i></small>';
+                                        component += '<br/>';
+                                    }
+                                    component += '<small>' + value.minutes + ' Minuten gehört</small>';
+
+                                    if (typeof value.track.preview_url !== 'undefined' && value.track.preview_url !== null) {
+                                        component += '<audio controls="">';
+                                        component += '<source src="' + value.track.preview_url + '" type="audio/mpeg">';
+                                        component += 'Your browser does not support the audio element.';
+                                        component += '</audio>';
+                                    }
+                                    component += '</div>';
+                                    component += '</div>';
+                                    component += '<hr/>';
+
+                                    $("#top_tracks_30")
+                                        .append(component);
+                                });
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -243,7 +333,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }} [{{ __('spotify.total') }}]</h5>
-                    <table class="ui table unstackable">
+                    <table class="ui table unstackable" id="top_artists_total">
                         <thead>
                         <tr>
                             <th>{{ __('spotify.rank') }}</th>
@@ -252,16 +342,35 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @php($i = 1)
-                        @foreach($topArtistsTotal as $artist)
-                            <tr>
-                                <td>#{{$i++}}</td>
-                                <td><b>{{$artist->name}}</b></td>
-                                <td>{{$artist->minutes}} {{ __('spotify.minutes.short') }}</td>
-                            </tr>
-                        @endforeach
                         </tbody>
                     </table>
+                    <script>
+                        $.ajax({
+                            url: '/api/spotify/user/top_artists',
+                            success: function (data) {
+                                $.each(data, function (index, value) {
+                                    $("#top_artists_total").find('tbody')
+                                        .append($('<tr>')
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text('#' + (index + 1))
+                                                )
+                                            )
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text(value.name)
+                                                )
+                                            )
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text(value.minutes + 'min')
+                                                )
+                                            )
+                                        );
+                                });
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -270,7 +379,8 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }}
                         [{{ __('spotify.last_days', ['days' => 30]) }}]</h5>
-                    <table class="ui table unstackable">
+
+                    <table class="ui table unstackable" id="top_artists_30days">
                         <thead>
                         <tr>
                             <th>{{ __('spotify.rank') }}</th>
@@ -279,16 +389,35 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @php($i = 1)
-                        @foreach($topArtists30d as $artist)
-                            <tr>
-                                <td>#{{$i++}}</td>
-                                <td><b>{{$artist->name}}</b></td>
-                                <td>{{$artist->minutes}} {{ __('spotify.minutes.short') }}</td>
-                            </tr>
-                        @endforeach
                         </tbody>
                     </table>
+                    <script>
+                        $.ajax({
+                            url: '/api/spotify/user/top_artists/{{\Carbon\Carbon::parse('-30 days')->toDateString()}}',
+                            success: function (data) {
+                                $.each(data, function (index, value) {
+                                    $("#top_artists_30days").find('tbody')
+                                        .append($('<tr>')
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text('#' + (index + 1))
+                                                )
+                                            )
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text(value.name)
+                                                )
+                                            )
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text(value.minutes + 'min')
+                                                )
+                                            )
+                                        );
+                                });
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>
@@ -297,7 +426,8 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }}
                         [{{ __('spotify.last_days', ['days' => 7]) }}]</h5>
-                    <table class="ui table unstackable">
+
+                    <table class="ui table unstackable" id="top_artists_7days">
                         <thead>
                         <tr>
                             <th>{{ __('spotify.rank') }}</th>
@@ -306,16 +436,35 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @php($i = 1)
-                        @foreach($topArtists7d as $artist)
-                            <tr>
-                                <td>#{{$i++}}</td>
-                                <td><b>{{$artist->name}}</b></td>
-                                <td>{{$artist->minutes}} {{ __('spotify.minutes.short') }}</td>
-                            </tr>
-                        @endforeach
                         </tbody>
                     </table>
+                    <script>
+                        $.ajax({
+                            url: '/api/spotify/user/top_artists/{{\Carbon\Carbon::parse('-7 days')->toDateString()}}',
+                            success: function (data) {
+                                $.each(data, function (index, value) {
+                                    $("#top_artists_7days").find('tbody')
+                                        .append($('<tr>')
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text('#' + (index + 1))
+                                                )
+                                            )
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text(value.name)
+                                                )
+                                            )
+                                            .append($('<td>')
+                                                .append($('<span>')
+                                                    .text(value.minutes + 'min')
+                                                )
+                                            )
+                                        );
+                                });
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </div>

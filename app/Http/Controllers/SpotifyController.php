@@ -44,86 +44,6 @@ class SpotifyController extends Controller
         if ($dataCount == 0)
             return view('spotify.nodata');
 
-        $uniqueSongs = SpotifyPlayActivity::where('user_id', auth()->user()->id)->groupBy('track_id')->select('track_id')->get()->count();
-        $favouriteYear_q = SpotifyPlayActivity::where('user_id', auth()->user()->id)
-            ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
-            ->join('spotify_albums', 'spotify_tracks.album_id', '=', 'spotify_albums.album_id')
-            ->where('spotify_albums.release_date', '<>', null)
-            ->groupBy('release_year')
-            ->select(DB::raw('YEAR(spotify_albums.release_date) as release_year'))
-            ->orderBy(DB::raw('COUNT(*)'), 'desc')
-            ->first();
-
-        $favouriteYear = $favouriteYear_q == NULL ? '?' : $favouriteYear_q->release_year;
-
-        $bpm = SpotifyPlayActivity::where('user_id', auth()->user()->id)
-            ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
-            ->select(DB::raw('AVG(bpm) as bpm'))
-            ->first()->bpm;
-
-        $avgSession = SpotifySession::where('user_id', auth()->user()->id)
-            ->select(DB::raw('AVG(TIMESTAMPDIFF(MINUTE, timestamp_start, timestamp_end)) as sessionTime'))
-            ->first()->sessionTime;
-
-        $hearedMinutesTotal = SpotifyPlayActivity::where('user_id', auth()->user()->id)->count();
-        $hearedMinutes30d = SpotifyPlayActivity::where('user_id', auth()->user()->id)->where('created_at', '>', DB::raw('(NOW() - INTERVAL 30 DAY)'))->count();
-        $hearedMinutes7d = SpotifyPlayActivity::where('user_id', auth()->user()->id)->where('created_at', '>', DB::raw('(NOW() - INTERVAL 7 DAY)'))->count();
-        $hearedMinutes1d = SpotifyPlayActivity::where('user_id', auth()->user()->id)->where('created_at', '>', DB::raw('(NOW() - INTERVAL 1 DAY)'))->count();
-
-        $lastPlayActivity = SpotifyPlayActivity::where('user_id', auth()->user()->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(1)
-            ->first();
-
-        $topTracksTotal = SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
-            ->where('user_id', auth()->user()->id)
-            ->groupBy('track_id')
-            ->select('track_id', DB::raw('COUNT(*) as minutes'))
-            ->orderBy('minutes', 'DESC')
-            ->limit(3)
-            ->get();
-
-        $topTracks30d = SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
-            ->where('user_id', auth()->user()->id)
-            ->where('created_at', '>', DB::raw('(NOW() - INTERVAL 30 DAY)'))
-            ->groupBy('track_id')
-            ->select('track_id', DB::raw('COUNT(*) as minutes'))
-            ->orderBy('minutes', 'DESC')
-            ->limit(3)
-            ->get();
-
-        $topArtistsTotal = SpotifyArtist::join('spotify_track_artists', 'spotify_track_artists.artist_id', '=', 'spotify_artists.id')
-            ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_track_artists.track_id')
-            ->join('spotify_play_activities', 'spotify_play_activities.track_id', '=', 'spotify_tracks.track_id')
-            ->where('spotify_play_activities.user_id', auth()->user()->id)
-            ->groupBy('spotify_artists.id')
-            ->select('spotify_artists.*', DB::raw('COUNT(*) AS minutes'))
-            ->orderBy('minutes', 'desc')
-            ->limit(5)
-            ->get();
-
-        $topArtists30d = SpotifyArtist::join('spotify_track_artists', 'spotify_track_artists.artist_id', '=', 'spotify_artists.id')
-            ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_track_artists.track_id')
-            ->join('spotify_play_activities', 'spotify_play_activities.track_id', '=', 'spotify_tracks.track_id')
-            ->where('spotify_play_activities.user_id', auth()->user()->id)
-            ->where('spotify_play_activities.created_at', '>', DB::raw('(NOW() - INTERVAL 30 DAY)'))
-            ->groupBy('spotify_artists.id')
-            ->select('spotify_artists.*', DB::raw('COUNT(*) AS minutes'))
-            ->orderBy('minutes', 'desc')
-            ->limit(5)
-            ->get();
-
-        $topArtists7d = SpotifyArtist::join('spotify_track_artists', 'spotify_track_artists.artist_id', '=', 'spotify_artists.id')
-            ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_track_artists.track_id')
-            ->join('spotify_play_activities', 'spotify_play_activities.track_id', '=', 'spotify_tracks.track_id')
-            ->where('spotify_play_activities.user_id', auth()->user()->id)
-            ->where('spotify_play_activities.created_at', '>', DB::raw('(NOW() - INTERVAL 7 DAY)'))
-            ->groupBy('spotify_artists.id')
-            ->select('spotify_artists.*', DB::raw('COUNT(*) AS minutes'))
-            ->orderBy('minutes', 'desc')
-            ->limit(5)
-            ->get();
-
         $chartData_hearedByWeek = SpotifyPlayActivity::where('user_id', auth()->user()->id)
             ->select(DB::raw('YEAR(created_at) AS year'), DB::raw('WEEK(created_at) AS week'), DB::raw('COUNT(*) as minutes'))
             ->groupBy('year', 'week')
@@ -144,20 +64,6 @@ class SpotifyController extends Controller
             ->get();
 
         return view('spotify.spotify', [
-            'hearedMinutesTotal' => $hearedMinutesTotal,
-            'hearedMinutes30d' => $hearedMinutes30d,
-            'hearedMinutes7d' => $hearedMinutes7d,
-            'hearedMinutes1d' => $hearedMinutes1d,
-            'uniqueSongs' => $uniqueSongs,
-            'bpm' => round($bpm),
-            'avgSession' => round($avgSession),
-            'lastPlayActivity' => $lastPlayActivity,
-            'topTracksTotal' => $topTracksTotal,
-            'topTracks30d' => $topTracks30d,
-            'topArtistsTotal' => $topArtistsTotal,
-            'topArtists30d' => $topArtists30d,
-            'topArtists7d' => $topArtists7d,
-            'favouriteYear' => $favouriteYear,
             'chartData_hearedByWeek' => $chartData_hearedByWeek,
             'chartData_hearedByWeekday' => $chartData_hearedByWeekday,
             'chartData_hearedByHour' => $chartData_hearedByHour
@@ -407,6 +313,111 @@ class SpotifyController extends Controller
             'track' => $track,
             'listening_days' => $listening_days
         ]);
+    }
+
+    public function getFavouriteYear()
+    {
+        $favouriteYear_q = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+            ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
+            ->join('spotify_albums', 'spotify_tracks.album_id', '=', 'spotify_albums.album_id')
+            ->where('spotify_albums.release_date', '<>', null)
+            ->groupBy('release_year')
+            ->select(DB::raw('YEAR(spotify_albums.release_date) as release_year'))
+            ->orderBy(DB::raw('COUNT(*)'), 'desc')
+            ->first();
+
+        return $favouriteYear_q == NULL ? '?' : $favouriteYear_q->release_year;
+    }
+
+    public function getAverageBPM()
+    {
+        $bpm = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+            ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
+            ->select(DB::raw('AVG(bpm) as bpm'))
+            ->first()->bpm;
+        return round($bpm);
+    }
+
+    public function getAverageSessionLength()
+    {
+        $avgSession = SpotifySession::where('user_id', auth()->user()->id)
+            ->select(DB::raw('AVG(TIMESTAMPDIFF(MINUTE, timestamp_start, timestamp_end)) as sessionTime'))
+            ->first()->sessionTime;
+        return round($avgSession);
+    }
+
+    public function getTrackCount()
+    {
+        return SpotifyPlayActivity::where('user_id', auth()->user()->id)->groupBy('track_id')->select('track_id')->get()->count();
+    }
+
+    public function getTopArtists($time_from = NULL, $time_to = NULL, int $limit = 5)
+    {
+        $q = SpotifyArtist::join('spotify_track_artists', 'spotify_track_artists.artist_id', '=', 'spotify_artists.id')
+            ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_track_artists.track_id')
+            ->join('spotify_play_activities', 'spotify_play_activities.track_id', '=', 'spotify_tracks.track_id')
+            ->where('spotify_play_activities.user_id', auth()->user()->id)
+            ->groupBy('spotify_artists.id')
+            ->select('spotify_artists.*', DB::raw('COUNT(*) AS minutes'))
+            ->orderBy('minutes', 'desc')
+            ->limit($limit);
+
+        if ($time_to != NULL) {
+            $time_to = Carbon::parse($time_to);
+            $q->where('spotify_play_activities.created_at', '<=', $time_to);
+        }
+        if ($time_from != NULL) {
+            $time_from = Carbon::parse($time_from);
+            $q->where('spotify_play_activities.created_at', '>=', $time_from);
+        }
+
+        return $q->get();
+    }
+
+    public function getPlaytime($time_from = NULL, $time_to = NULL)
+    {
+        $q = SpotifyPlayActivity::where('user_id', auth()->user()->id);
+
+        if ($time_from != NULL) {
+            $time_from = Carbon::parse($time_from);
+            $q->where('created_at', '>=', $time_from);
+        }
+        if ($time_to != NULL) {
+            $time_to = Carbon::parse($time_to);
+            $q->where('created_at', '<=', $time_to);
+        }
+
+        return $q->count();
+    }
+
+    public function getTopTracks($time_from = NULL, $time_to = NULL, int $limit = 5)
+    {
+        $q = SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
+            ->where('user_id', auth()->user()->id)
+            ->groupBy('track_id')
+            ->select('track_id', DB::raw('COUNT(*) as minutes'))
+            ->orderBy('minutes', 'DESC')
+            ->limit($limit);
+
+        if ($time_to != NULL) {
+            $time_to = Carbon::parse($time_to);
+            $q->where('created_at', '<=', $time_to);
+        }
+        if ($time_from != NULL) {
+            $time_from = Carbon::parse($time_from);
+            $q->where('created_at', '>=', $time_from);
+        }
+
+        return $q->get();
+    }
+
+    public function getLastPlayed()
+    {
+        return SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
+            ->where('user_id', auth()->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->limit(1)
+            ->first();
     }
 
 }
