@@ -62,7 +62,7 @@ class ReweController extends Controller
 
         $bonList = ReweBon::where('user_id', auth()->user()->id)->orderByDesc('timestamp_bon')->get();
 
-        $shops = ReweBon::where('user_id', auth()->user()->id)
+        $shops = ReweBon::with(['shop'])->where('user_id', auth()->user()->id)
             ->groupBy('shop_id')
             ->select('shop_id', DB::raw('COUNT(*) as cnt'))
             ->orderBy(DB::raw('COUNT(*)'), 'desc')

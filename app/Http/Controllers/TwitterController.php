@@ -25,7 +25,7 @@ class TwitterController extends Controller
             return view('twitter.notconnected');
 
         return view('twitter.overview', [
-            'twitter_profile' => $user->socialProfile->twitterUser,
+            'twitter_profile' => TwitterProfile::with(['unfollower.unfollower_profile'])->where('id', $user->socialProfile->twitter_id)->first(),
         ]);
     }
 

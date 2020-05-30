@@ -29,7 +29,7 @@ class CrowdsourceController extends Controller
      */
     public function renderRewe()
     {
-        $categories = ReweProductCategory::where('parent_id', '<>', null)->get();
+        $categories = ReweProductCategory::with(['parent'])->where('parent_id', '<>', null)->get();
 
         $nextProductAtCategory = ReweProduct::join('rewe_bon_positions', 'rewe_bon_positions.product_id', '=', 'rewe_products.id')
             ->join('rewe_bons', 'rewe_bon_positions.bon_id', '=', 'rewe_bons.id')
@@ -45,7 +45,7 @@ class CrowdsourceController extends Controller
             ->limit(1)
             ->first();
 
-        $lastCategories = ReweCrowdsourcingCategory::where('user_id', auth()->user()->id)->orderByDesc('created_at')->limit(7)->get();
+        $lastCategories = ReweCrowdsourcingCategory::with(['category', 'product'])->where('user_id', auth()->user()->id)->orderByDesc('created_at')->limit(7)->get();
 
 
         $nextProductAtVegetarian = ReweProduct::join('rewe_bon_positions', 'rewe_bon_positions.product_id', '=', 'rewe_products.id')
@@ -63,7 +63,7 @@ class CrowdsourceController extends Controller
             ->first();
 
 
-        $lastVegetarians = ReweCrowdsourcingVegetarian::where('user_id', auth()->user()->id)->orderByDesc('created_at')->limit(7)->get();
+        $lastVegetarians = ReweCrowdsourcingVegetarian::with(['product'])->where('user_id', auth()->user()->id)->orderByDesc('created_at')->limit(7)->get();
 
         return view('crowdsourcing.rewe', [
             'categories' => $categories,

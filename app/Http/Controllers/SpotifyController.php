@@ -75,14 +75,16 @@ class SpotifyController extends Controller
             ->limit(1)
             ->first();
 
-        $topTracksTotal = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+        $topTracksTotal = SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
+            ->where('user_id', auth()->user()->id)
             ->groupBy('track_id')
             ->select('track_id', DB::raw('COUNT(*) as minutes'))
             ->orderBy('minutes', 'DESC')
             ->limit(3)
             ->get();
 
-        $topTracks30d = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+        $topTracks30d = SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
+            ->where('user_id', auth()->user()->id)
             ->where('created_at', '>', DB::raw('(NOW() - INTERVAL 30 DAY)'))
             ->groupBy('track_id')
             ->select('track_id', DB::raw('COUNT(*) as minutes'))
@@ -274,7 +276,8 @@ class SpotifyController extends Controller
                 if ($t1 == $t2 && !in_array($t1, $trackList) && count($trackList) < $limit)
                     $trackList[] = $t1;
 
-        return SpotifyTrack::whereIn('track_id', $trackList)
+        return SpotifyTrack::with(['artists', 'album'])
+            ->whereIn('track_id', $trackList)
             ->orderBy('popularity', 'desc')
             ->limit(UserSettings::get($user_id, 'spotify_oldPlaylist_songlimit', 99))
             ->get();
