@@ -8,21 +8,21 @@
             <div class="card">
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-md-3">
                             <span class="color-highlight" style="font-size: 40px;">{{$bonCount}}</span><br>
                             <small><b>Erfasste Einkäufe</b></small>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                             <span class="color-highlight" style="font-size: 40px;">{{$mostUsedPaymentMethod}}</span><br>
                             <small><b>Meistgenutzte Zahlungsmethode</b></small>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                                 <span class="color-highlight" style="font-size: 40px;">{{ number_format($avgPer, 2, ',', '.') }}<small>€</small><i
                                             class="mdi mdi-trending-up"
                                             style="font-size: 25px; color: rgb(255, 99, 132)"></i></span><br>
                             <small><b>durchschn. pro Einkauf</b></small>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                             <span class="color-highlight" style="font-size: 40px;">{{ number_format($total, 2, ',', '.') }}<small>€</small></span><br>
                             <small><b>Insgesamt ausgegeben</b></small>
                         </div>
