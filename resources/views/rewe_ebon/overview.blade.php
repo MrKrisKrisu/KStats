@@ -257,6 +257,7 @@
                     <table class="table" id="kassenzettel">
                         <thead>
                         <tr>
+                            <th>Zeitpunkt</th>
                             <th>MarktNr.</th>
                             <th>Kasse</th>
                             <th>Zahlungsart</th>
@@ -268,10 +269,11 @@
 
                         @foreach($bonList as $bon)
                             <tr>
+                                <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->isoFormat('DD.MM.YYYY HH:mm')}}</td>
                                 <td>{{$bon->shop_id}}</td>
                                 <td>{{$bon->cashregister_nr}}</td>
                                 <td>{{$bon->paymentmethod}}</td>
-                                <td>{{$bon->total}}</td>
+                                <td>{{$bon->total}} €</td>
                                 <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">Details</a></td>
                             </tr>
                         @endforeach
@@ -282,7 +284,7 @@
                             "language": {
                                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/German.json"
                             },
-                            "order": [[1, 'desc']],
+                            "order": [[0, 'desc']],
                             "pageLength": 5,
                             "lengthMenu": [5, 10, 25, 50, 75, 100]
                         });
