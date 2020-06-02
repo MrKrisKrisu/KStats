@@ -390,7 +390,7 @@ class SpotifyController extends Controller
         return $q->count();
     }
 
-    public function getTopTracks($time_from = NULL, $time_to = NULL, int $limit = 5)
+    public function getTopTracks($time_from = NULL, $time_to = NULL, int $limit = 3)
     {
         $q = SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
             ->where('user_id', auth()->user()->id)
