@@ -9,21 +9,21 @@
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col">
-                            <span class="color-highlight" style="font-size: 50px;">{{$bonCount}}</span><br>
+                            <span class="color-highlight" style="font-size: 40px;">{{$bonCount}}</span><br>
                             <small><b>Erfasste Einkäufe</b></small>
                         </div>
                         <div class="col">
-                            <span class="color-highlight" style="font-size: 50px;">{{$mostUsedPaymentMethod}}</span><br>
+                            <span class="color-highlight" style="font-size: 40px;">{{$mostUsedPaymentMethod}}</span><br>
                             <small><b>Meistgenutzte Zahlungsmethode</b></small>
                         </div>
                         <div class="col">
-                                <span class="color-highlight" style="font-size: 50px;">{{ number_format($avgPer, 2, ',', '.') }}<small>€</small><i
+                                <span class="color-highlight" style="font-size: 40px;">{{ number_format($avgPer, 2, ',', '.') }}<small>€</small><i
                                             class="mdi mdi-trending-up"
                                             style="font-size: 25px; color: rgb(255, 99, 132)"></i></span><br>
                             <small><b>durchschn. pro Einkauf</b></small>
                         </div>
                         <div class="col">
-                            <span class="color-highlight" style="font-size: 50px;">{{ number_format($total, 2, ',', '.') }}<small>€</small></span><br>
+                            <span class="color-highlight" style="font-size: 40px;">{{ number_format($total, 2, ',', '.') }}<small>€</small></span><br>
                             <small><b>Insgesamt ausgegeben</b></small>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
                         <thead>
                         <tr>
                             <th>Zeitpunkt</th>
-                            <th>MarktNr.</th>
+                            <th>Markt</th>
                             <th>Kasse</th>
                             <th>Zahlungsart</th>
                             <th>Gesamtbetrag</th>
@@ -270,7 +270,10 @@
                         @foreach($bonList as $bon)
                             <tr>
                                 <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->isoFormat('DD.MM.YYYY HH:mm')}}</td>
-                                <td>{{$bon->shop_id}}</td>
+                                <td>
+                                    {{$bon->shop->name}}<br/>
+                                    {{$bon->shop->zip}} {{$bon->shop->city}}
+                                </td>
                                 <td>{{$bon->cashregister_nr}}</td>
                                 <td>{{$bon->paymentmethod}}</td>
                                 <td>{{$bon->total}} €</td>

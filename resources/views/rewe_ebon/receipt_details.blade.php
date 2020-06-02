@@ -11,11 +11,14 @@
                         <tbody>
                         <tr>
                             <td>Markt</td>
-                            <td>DEV</td>
+                            <td>
+                                {{$bon->shop->name}}<br/>
+                                {{$bon->shop->zip}} {{$bon->shop->city}}
+                            </td>
                         </tr>
                         <tr>
                             <td>Zeit</td>
-                            <td>{{$bon->timestamp_bon->toDateTimeString()}}</td>
+                            <td>{{$bon->timestamp_bon->isoFormat('DD.MM.YYYY HH:mm')}}</td>
                         </tr>
                         <tr>
                             <td>Gesamtsumme</td>
