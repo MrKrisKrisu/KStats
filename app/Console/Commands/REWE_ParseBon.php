@@ -64,12 +64,17 @@ class REWE_ParseBon extends Command
                     return;
                 }
 
+                $shop = $parser->getShop();
+
                 ReweShop::updateOrCreate(
                     [
                         "id" => $parser->getShopNr()
                     ],
                     [
-                        "name" => "coming soon"
+                        "name" => $shop['name'],
+                        "address" => $shop['address'],
+                        "zip" => $shop['zip'],
+                        "city" => $shop['city'],
                     ]
                 );
                 $bon = ReweBon::updateOrCreate([

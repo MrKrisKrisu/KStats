@@ -8,6 +8,6 @@ class ReweShop extends Model
 {
 
     protected $fillable = [
-        'id', 'name'
+        'id', 'name', 'address', 'zip', 'city', 'phone', 'opening_hours'
     ];
 }
