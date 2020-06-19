@@ -33,8 +33,8 @@ class SpotifyAPIController extends Controller
         }
 
         if ($result->getStatusCode() != 200) {
-            Log::debug("Error while trying to retrieve currently-playing from Spotify API.");
-            Log::debug($result->getBody());
+            Log::error("Error while trying to retrieve currently-playing from Spotify API. StatusCode: " . $result->getStatusCode());
+            Log::error($result->getBody());
             return false;
         }
 
@@ -62,7 +62,8 @@ class SpotifyAPIController extends Controller
         ]);
 
         if ($result->getStatusCode() != 200) {
-            Log::info("Error while trying to retrieve from Spotify API.");
+            Log::error("Error while trying to retrieve device from Spotify API. StatusCode: " . $result->getStatusCode());
+            Log::error($result->getBody());
             return false;
         }
 
@@ -108,7 +109,8 @@ class SpotifyAPIController extends Controller
         ]);
 
         if ($result->getStatusCode() != 200) {
-            Log::error('Error while retrieving audio-features from Spotify API.');
+            Log::error("Error while trying to retrieve audio-features from Spotify API. StatusCode: " . $result->getStatusCode());
+            Log::error($result->getBody());
             return false;
         }
 
@@ -139,7 +141,8 @@ class SpotifyAPIController extends Controller
             throw new SpotifyTokenExpiredException();
 
         if ($result->getStatusCode() != 200) {
-            Log::error('Error while retrieving audio-features from Spotify API.');
+            Log::error("Error while trying to retrieve top-tracks from Spotify API. StatusCode: " . $result->getStatusCode());
+            Log::error($result->getBody());
             return false;
         }
 
