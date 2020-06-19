@@ -46,11 +46,14 @@ class Twitter_CrawlFollowers extends Command
     {
         $sl_profiles = SocialLoginProfile::where('twitter_token', '<>', null)->get();
         foreach ($sl_profiles as $sl_profile) {
-            $connection = TwitterApiController::getNewConnection($sl_profile);
+            try {
+                $connection = TwitterApiController::getNewConnection($sl_profile);
 
-            $profile = TwitterController::verifyProfile($sl_profile);
-            $this->crawlFollowers($connection, $profile, $sl_profile);
-
+                $profile = TwitterController::verifyProfile($sl_profile);
+                $this->crawlFollowers($connection, $profile, $sl_profile);
+            }catch(\Exception $e) {
+                report($e);
+            }
         }
     }
 

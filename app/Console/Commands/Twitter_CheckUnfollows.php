@@ -45,40 +45,44 @@ class Twitter_CheckUnfollows extends Command
     {
         $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit(5)->get();
         foreach ($toCheck as $relationship) {
-            $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->first();
-            if ($sl_profile == NULL)
-                continue;
-
-            if (!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15))
-                continue;
-
-            $connection = TwitterApiController::getNewConnection($sl_profile);
-            $result = $connection->get("friendships/lookup", ['user_id' => $relationship->follower_id]); //TODO: multiple requests
-            TwitterApiController::saveRequest($sl_profile, 'friendships/lookup');
-
-            foreach ($result as $real_relationship) {
-                if (!isset($real_relationship->connections)) {
-                    dump($real_relationship);
-                    dump("No Connection array?");
+            try {
+                $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->first();
+                if ($sl_profile == NULL)
                     continue;
+
+                if (!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15))
+                    continue;
+
+                $connection = TwitterApiController::getNewConnection($sl_profile);
+                $result = $connection->get("friendships/lookup", ['user_id' => $relationship->follower_id]); //TODO: multiple requests
+                TwitterApiController::saveRequest($sl_profile, 'friendships/lookup');
+
+                foreach ($result as $real_relationship) {
+                    if (!isset($real_relationship->connections)) {
+                        dump($real_relationship);
+                        dump("No Connection array?");
+                        continue;
+                    }
+
+                    //$following = in_array('following', $real_relationship->connections);
+                    $followed_by = in_array('followed_by', $real_relationship->connections);
+
+                    if (!$followed_by) {
+                        dump("User " . $relationship->follower->screen_name . ' hat ' . $relationship->followed->screen_name . ' entfolgt.');
+
+                        $relationship->delete();
+
+                        TwitterUnfollower::create([
+                            'account_id' => $relationship->followed->id,
+                            'unfollower_id' => $relationship->follower->id
+                        ]);
+                    } else {
+                        $relationship->updated_at = Carbon::now();
+                        $relationship->update();
+                    }
                 }
-
-                //$following = in_array('following', $real_relationship->connections);
-                $followed_by = in_array('followed_by', $real_relationship->connections);
-
-                if (!$followed_by) {
-                    dump("User " . $relationship->follower->screen_name . ' hat ' . $relationship->followed->screen_name . ' entfolgt.');
-
-                    $relationship->delete();
-
-                    TwitterUnfollower::create([
-                        'account_id' => $relationship->followed->id,
-                        'unfollower_id' => $relationship->follower->id
-                    ]);
-                } else {
-                    $relationship->updated_at = Carbon::now();
-                    $relationship->update();
-                }
+            } catch (\Exception $e) {
+                report($e);
             }
         }
     }
