@@ -108,7 +108,7 @@ class REWE_ParseBon extends Command
                     ]);
                 }
 
-                if (Carbon::now()->diffInSeconds($bon->created_at) < 10 && $userEmail->verified_user_id != NULL) {
+                if ($bon->wasRecentlyCreated == 1 && $userEmail->verified_user_id != NULL) {
                     $message = "<b>Neuer REWE Einkauf registriert</b>\r\n";
                     $message .= count($positions) . " Produkte für " . $bon->total . " €\r\n";
                     $message .= "Erhaltenes Cashback: " . $bon->cashback_rate . "% \r\n";
