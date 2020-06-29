@@ -53,13 +53,38 @@ class Twitter_CheckUnfollows extends Command
         foreach ($toCheck as $relationship) {
             try {
                 $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->first();
-                if ($sl_profile == NULL)
+                if ($sl_profile == NULL) {
+                    dump("No SL Profile " . $relationship->followed_id);
                     continue;
-
-                if (!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15))
-                    continue;
+                }
 
                 $connection = TwitterApiController::getNewConnection($sl_profile);
+                if (!TwitterApiController::canRequest($sl_profile, 'users/show', 900)) {
+                    dump("No Requests " . $sl_profile->twitter_id);
+                    continue;
+                }
+
+                $follower = $connection->get('users/show', ['user_id' => $relationship->follower_id]);
+                if (isset($follower->errors)) {
+                    foreach ($follower->errors as $error) {
+                        if ($error->code == 50 || $error->code == 63) { //not found, suspendet
+                            dump("User not found -> handle Unfollow");
+                            $relationship->delete();
+
+                            TwitterUnfollower::create([
+                                'account_id' => $relationship->followed->id,
+                                'unfollower_id' => $relationship->follower->id
+                            ]);
+                            continue;
+                        }
+                    }
+                }
+
+                if (!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15)) {
+                    dump("No Requests " . $sl_profile->twitter_id);
+                    continue;
+                }
+
                 $result = $connection->get("friendships/lookup", ['user_id' => $relationship->follower_id]); //TODO: multiple requests
                 TwitterApiController::saveRequest($sl_profile, 'friendships/lookup');
 
@@ -83,11 +108,13 @@ class Twitter_CheckUnfollows extends Command
                             'unfollower_id' => $relationship->follower->id
                         ]);
                     } else {
+                        dump("Is following");
                         $relationship->updated_at = Carbon::now();
                         $relationship->update();
                     }
                 }
             } catch (\Exception $e) {
+                dump($e);
                 report($e);
             }
         }
