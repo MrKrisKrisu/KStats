@@ -43,6 +43,12 @@ class Twitter_CheckUnfollows extends Command
      */
     public function handle()
     {
+
+        if (!env('TWITTER_CRAWL')) {
+            dump("Twitter crawling currently deactivated.");
+            return;
+        }
+
         $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit(5)->get();
         foreach ($toCheck as $relationship) {
             try {

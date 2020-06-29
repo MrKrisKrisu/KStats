@@ -44,6 +44,11 @@ class Twitter_CrawlFollowers extends Command
      */
     public function handle()
     {
+        if (!env('TWITTER_CRAWL')) {
+            dump("Twitter crawling currently deactivated.");
+            return;
+        }
+
         $sl_profiles = SocialLoginProfile::where('twitter_token', '<>', null)->get();
         foreach ($sl_profiles as $sl_profile) {
             try {
@@ -51,7 +56,7 @@ class Twitter_CrawlFollowers extends Command
 
                 $profile = TwitterController::verifyProfile($sl_profile);
                 $this->crawlFollowers($connection, $profile, $sl_profile);
-            }catch(\Exception $e) {
+            } catch (\Exception $e) {
                 report($e);
             }
         }
