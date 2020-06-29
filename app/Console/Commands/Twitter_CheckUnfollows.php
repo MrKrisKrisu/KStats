@@ -49,7 +49,7 @@ class Twitter_CheckUnfollows extends Command
             return;
         }
 
-        $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit(5)->get();
+        $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit(50)->get();
         foreach ($toCheck as $relationship) {
             try {
                 $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->first();
