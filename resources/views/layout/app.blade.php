@@ -113,6 +113,16 @@
                 </div>
             @endif
 
+            <div class="flash-message">
+                @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                    @if(Session::has('alert-' . $msg))
+                        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }}
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        </p>
+                    @endif
+                @endforeach
+            </div>
+
             @yield('content')
         </div>
 
@@ -124,7 +134,8 @@
             <p class="float-left">
                 <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=bug" target="ghub"
                    style="color: #E70000;">{{ __('general.report_bug') }}</a> |
-                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement" target="ghub">{{ __('general.suggestion') }}</a> |
+                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement"
+                   target="ghub">{{ __('general.suggestion') }}</a> |
                 <a href="https://github.com/MrKrisKrisu/KStats/" target="ghub">{{ __('general.show_sourcecode') }}</a>
             </p>
             <p class="float-right">

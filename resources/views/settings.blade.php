@@ -92,10 +92,13 @@
                             @endforeach
                         </ul>
                     @endif
-                    <form method="POST" action="/settings" class="form-inline">
+                    <hr />
+                    <h6>E-Mail Adresse hinzufügen</h6>
+                    <form method="POST" action="{{route('settings.save.email')}}">
                         @csrf
-                        <input type="hidden" name="action" value="addEMail"/>
-                        <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
+                        </div>
                         <button type="submit" class="btn btn-primary">Speichern</button>
                     </form>
                     <hr/>

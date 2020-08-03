@@ -22,8 +22,10 @@ Auth::routes();
 
 Route::get('/home/', 'HomeController@index')->name('home');
 
-Route::get('/settings/', 'SettingsController@index')->name('settings');
-Route::post('/settings/', 'SettingsController@save');
+Route::get('/settings', 'SettingsController@index')->name('settings');
+Route::post('/settings', 'SettingsController@save');
+Route::post('/settings/add_mail', 'SettingsController@addEmail')->name('settings.save.email');
+Route::get('/user/verify_mail/{user_id}/{verification_key}', 'UnauthorizedSettingsController@verifyMail')->name('user.verify');
 
 Route::get('/spotify/', 'SpotifyController@index')->name('spotify');
 Route::get('/spotify/track/{id}', 'SpotifyController@trackDetails')->name('spotify.track');
