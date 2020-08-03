@@ -78,21 +78,29 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <!-- TODO: Nur sporadisch mal gebastelt -->
                     <h5 class="card-title">Zugeordnete E-Mail Adressen</h5>
                     @if(empty($emails))
                         <p><b>Es sind aktuell keine E-Mail Adressen hinterlegt.</b></p>
                     @else
                         <p>Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:</p>
-                        <ul>
+                        <table class="table">
+                            <tbody>
                             @foreach($emails as $email)
-                                <li>{{$email->email}} <small>@if($email->verified_user_id !== NULL) <span
-                                                style="color: green;">verifiziert</span> @else <span
-                                                style="color: #E70000;">unverifiziert</span> @endif</small></li>
+                                <tr>
+                                    <td>{{$email->email}}</td>
+                                    <td>
+                                        @if($email->verified_user_id !== NULL)
+                                            <span style="color: green;">verifiziert</span>
+                                        @else
+                                            <span style="color: #E70000;">unverifiziert</span>
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforeach
-                        </ul>
+                            </tbody>
+                        </table>
                     @endif
-                    <hr />
+                    <hr/>
                     <h6>E-Mail Adresse hinzufügen</h6>
                     <form method="POST" action="{{route('settings.save.email')}}">
                         @csrf
