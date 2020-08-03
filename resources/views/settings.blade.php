@@ -25,9 +25,9 @@
 
                     <p>Status:
                         @if($isConnectedToTwitter)
-                            <span style="color: green; font-weight: bold;">Connected</span>
+                            <span class="text-success">Connected</span>
                         @else
-                            <span style="color: red; font-weight: bold;">Not Connected</span>
+                            <span class="text-danger">Not Connected</span>
                         @endif
 
                     </p>
@@ -48,7 +48,7 @@
                         <p>Du bist bereits mit einem Telegram Chat verbunden. Selbstverständlich kannst du deinen
                             Account aber mit einem neuen Chat verbinden.</p>
                     @else
-                        <p>Du bist aktuell mit <b>keinem</b> Telegram Chat verbunden.</p>
+                        <p class="text-danger">Du bist aktuell mit <b>keinem</b> Telegram Chat verbunden.</p>
                     @endif
                     @if($telegramConnectCode != NULL && $telegramConnectCode->val != '')
 
@@ -79,8 +79,8 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Zugeordnete E-Mail Adressen</h5>
-                    @if(empty($emails))
-                        <p><b>Es sind aktuell keine E-Mail Adressen hinterlegt.</b></p>
+                    @if(count($emails) == 0)
+                        <p class="text-danger">Es sind aktuell keine E-Mail Adressen hinterlegt.</p>
                     @else
                         <p>Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:</p>
                         <table class="table">
@@ -94,6 +94,14 @@
                                         @else
                                             <span style="color: #E70000;">unverifiziert</span>
                                         @endif
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{route('settings.delete.email')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$email->id}}"/>
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                        class="fas fa-trash"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

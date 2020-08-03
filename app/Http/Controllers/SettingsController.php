@@ -87,4 +87,22 @@ class SettingsController extends Controller
         return back();
     }
 
+    public function deleteEmail(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => ['required', 'exists:user_emails,id']
+        ]);
+
+        $userEmail = UserEmail::find($validated['id']);
+        if ($userEmail->verified_user_id != Auth::user()->id && $userEmail->unverified_user_id != Auth::user()->id) {
+            $request->session()->flash('alert-success', "Dazu besitzt du nicht die Berechtigung.");
+            return back();
+        }
+
+        $userEmail->delete();
+        $request->session()->flash('alert-success', "Die E-Mail Adresse wurde gelöscht.");
+
+        return back();
+    }
+
 }
