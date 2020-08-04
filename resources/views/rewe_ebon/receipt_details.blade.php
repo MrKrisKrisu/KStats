@@ -18,7 +18,7 @@
                         </tr>
                         <tr>
                             <td>Zeit</td>
-                            <td>{{$bon->timestamp_bon->isoFormat('DD.MM.YYYY HH:mm')}}</td>
+                            <td>{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
                         </tr>
                         <tr>
                             <td>Gesamtsumme</td>

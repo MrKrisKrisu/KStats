@@ -112,7 +112,7 @@ class REWE_ParseBon extends Command
                     $message = "<b>Neuer REWE Einkauf registriert</b>\r\n";
                     $message .= count($positions) . " Produkte für " . $bon->total . " €\r\n";
                     $message .= "Erhaltenes Cashback: " . $bon->cashback_rate . "% \r\n";
-                    $message .= "<i>" . $bon->timestamp_bon->isoFormat("DD.MM.YYYY HH:mm:ss") . "</i> \r\n";
+                    $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
                     $message .= "============================ \r\n";
                     foreach ($positions as $position)
                         $message .= (isset($position["weight"]) ? $position["weight"] . "kg" : $position["amount"] . "x") . " " . $position["name"] . " <i>" . $position['price_total'] . "€</i> \r\n";
