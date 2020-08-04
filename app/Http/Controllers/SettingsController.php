@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SocialLoginProfile;
+use App\User;
 use App\UserEmail;
 use App\UserSettings;
 use Carbon\Carbon;
@@ -84,6 +85,18 @@ class SettingsController extends Controller
                     return $this->index();
             }
         }
+    }
+
+    public function deleteTelegramConnection(Request $request)
+    {
+        $setting = User::find(Auth::user()->id)->settings->where('name', 'telegramID')->first();
+        if ($setting == NULL) {
+            $request->session()->flash('alert-danger', "Der Account ist nicht mit Telegram verknüpft.");
+            return back();
+        }
+        $setting->delete();
+        $request->session()->flash('alert-success', "Die Verknüpfung mit Telegram wurde entfernt.");
+        return back();
     }
 
 }

@@ -45,8 +45,14 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Telegram Connect') }}</h5>
                     @if($isConnectedToTelegram)
-                        <p>Du bist bereits mit einem Telegram Chat verbunden. Selbstverständlich kannst du deinen
-                            Account aber mit einem neuen Chat verbinden.</p>
+                        <p>Der Account ist bereits mit einem Telegram Konto verknüpft.</p>
+
+                        <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
+                              class="float-right">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-danger">Deaktivieren</button>
+                        </form>
+
                     @else
                         <p>Du bist aktuell mit <b>keinem</b> Telegram Chat verbunden.</p>
                     @endif
@@ -69,7 +75,9 @@
                     <form method="POST" action="{{ route('settings') }}">
                         @csrf
                         <input type="hidden" name="action" value="createTelegramToken"/>
-                        <button type="submit" class="btn btn-primary">Neuen Connect-Code generieren</button>
+                        <button type="submit" class="btn btn-primary">@if($isConnectedToTelegram) Neuen @endif Account
+                            verknüpfen
+                        </button>
                     </form>
                 </div>
             </div>
