@@ -276,7 +276,7 @@
                                 </td>
                                 <td>{{$bon->cashregister_nr}}</td>
                                 <td>{{$bon->paymentmethod}}</td>
-                                <td>{{$bon->total}} €</td>
+                                <td>{{number_format($bon->total, 2, ",", ".")}} €</td>
                                 <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">Details</a></td>
                             </tr>
                         @endforeach
