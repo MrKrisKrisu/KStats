@@ -420,4 +420,24 @@ class SpotifyController extends Controller
             ->first();
     }
 
+    public function renderDailyHistory(Request $request, $date = NULL)
+    {
+        if ($date == NULL) $date = Carbon::today();
+        else $date = Carbon::parse($date);
+
+        if ($date->isAfter(Carbon::now())) {
+            $request->session()->flash('alert-danger', "Es ist nicht möglich in die Zukunft zu schauen.");
+            return redirect()->route('spotify.history');
+        }
+
+        $history = SpotifyPlayActivity::where('user_id', Auth::user()->id)
+            ->where(DB::raw("DATE(`created_at`)"), $date->toDateString())
+            ->get();
+
+        return view('spotify.daily_history', [
+            'date' => $date,
+            'history' => $history
+        ]);
+    }
+
 }
