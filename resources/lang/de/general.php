@@ -19,6 +19,8 @@ return [
     ],
     'from' => 'von',
     'and' => 'und',
-    'save' => 'Speichern'
+    'save' => 'Speichern',
+    'activate' => 'Aktivieren',
+    'deactivate' => 'Deaktivieren'
 
 ];
