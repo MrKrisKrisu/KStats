@@ -97,7 +97,7 @@ class SettingsController extends Controller
             'new_confirm_password' => ['same:new_password'],
         ]);
 
-        User::find(auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
+        User::find(auth()->user()->id)->update(['password' => Hash::make($validated['new_password'])]);
 
         $request->session()->flash('alert-success', __('settings.password.changed_successfully'));
         return back();
