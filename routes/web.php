@@ -24,6 +24,7 @@ Route::get('/home/', 'HomeController@index')->name('home');
 
 Route::get('/settings/', 'SettingsController@index')->name('settings');
 Route::post('/settings/', 'SettingsController@save');
+Route::post('/settings/user/password/change', 'SettingsController@changePassword')->name('settings.user.password.change');
 
 Route::get('/spotify/', 'SpotifyController@index')->name('spotify');
 Route::get('/spotify/track/{id}', 'SpotifyController@trackDetails')->name('spotify.track');
