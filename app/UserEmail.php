@@ -10,12 +10,12 @@ class UserEmail extends Model
         'email', 'verified_user_id', 'unverified_user_id', 'verification_key'
     ];
 
-    public function unverified_user()
+    public function unverifiedUser()
     {
         return $this->belongsTo(User::class, 'unverified_user_id', 'id');
     }
 
-    public function verified_user()
+    public function verifiedUser()
     {
         return $this->belongsTo(User::class, 'verified_user_id', 'id');
     }
