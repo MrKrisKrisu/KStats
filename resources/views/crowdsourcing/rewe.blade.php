@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Produktkategorie</h5>
                     @empty($categories_product)
-                        <p style="color: #E70000; font-weight: bold;">Es sind aktuell keine Aufgaben für dich Verfügbar.
+                        <p class="text-danger">Es sind aktuell keine Aufgaben für dich Verfügbar.
                             Komme gerne später wieder!</p>
                     @else
 
@@ -81,7 +81,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Vegetarisch</h5>
                     @empty($vegetarian_product)
-                        <p style="color: #E70000; font-weight: bold;">Es sind aktuell keine Aufgaben für dich Verfügbar.
+                        <p class="text-danger">Es sind aktuell keine Aufgaben für dich Verfügbar.
                             Komme gerne später wieder!</p>
                     @else
                         <p>Du hast mal <b>"{{$vegetarian_product->name}}"</b> gekauft. Ist es vegetarisch?<br>

@@ -269,14 +269,14 @@
 
                         @foreach($bonList as $bon)
                             <tr>
-                                <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->isoFormat('DD.MM.YYYY HH:mm')}}</td>
+                                <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
                                 <td>
                                     {{$bon->shop->name}}<br/>
                                     {{$bon->shop->zip}} {{$bon->shop->city}}
                                 </td>
                                 <td>{{$bon->cashregister_nr}}</td>
                                 <td>{{$bon->paymentmethod}}</td>
-                                <td>{{$bon->total}} €</td>
+                                <td>{{number_format($bon->total, 2, ",", ".")}} €</td>
                                 <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">Details</a></td>
                             </tr>
                         @endforeach

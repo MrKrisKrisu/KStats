@@ -48,7 +48,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.lost_tracks.your_lost_tracks') }}</h5>
                     @if(count($lostTracks) == 0)
-                        <p style="font-weight: bold; color: #E70000;">{{ __('spotify.lost_tracks.no_tracks') }}</p>
+                        <p class="text-danger">{{ __('spotify.lost_tracks.no_tracks') }}</p>
                     @else
                         <table class="ui table unstackable">
                             <tbody>

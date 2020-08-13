@@ -56,7 +56,7 @@
                             <p style="font-size: 20px;">Dein Telegram-ConnectCode lautet
                                 "<b>{{$telegramConnectCode->val}}</b>"
                                 <br/><small>Code gültig
-                                    bis {{$telegramConnectCode->updated_at->addHour()->isoFormat('Do MMMM YYYY, HH:mm')}}</small>
+                                    bis {{$telegramConnectCode->updated_at->addHour()->format('d.m.Y H:i')}}</small>
                             </p>
                         </div>
                         <p>Um Telegram mit KStats nutzen zu können musst du den
