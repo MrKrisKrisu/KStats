@@ -70,8 +70,12 @@
                     <form method="POST" action="{{ route('settings') }}">
                         @csrf
                         <input type="hidden" name="action" value="createTelegramToken"/>
-                        <button type="submit" class="btn btn-primary">@if($isConnectedToTelegram) Neuen @endif Account
-                            verknüpfen
+                        <button type="submit" class="btn btn-primary">
+                            @if($isConnectedToTelegram)
+                                {{__('settings.telegram.connect')}}
+                            @else
+                                {{__('settings.telegram.connect_new')}}
+                            @endif
                         </button>
                     </form>
                 </div>
