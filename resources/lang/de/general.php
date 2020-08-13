@@ -19,6 +19,10 @@ return [
     ],
     'from' => 'von',
     'and' => 'und',
-    'save' => 'Speichern'
+    'save' => 'Speichern',
+    'mail' => [
+        'hello' => 'Hallo :name,',
+        'goodbye' => 'Viele Grüße!'
+    ]
 
 ];
