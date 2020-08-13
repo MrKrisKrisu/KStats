@@ -25,9 +25,9 @@
 
                     <p>Status:
                         @if($isConnectedToTwitter)
-                            <span style="color: green; font-weight: bold;">Connected</span>
+                            <span class="text-success">Connected</span>
                         @else
-                            <span style="color: red; font-weight: bold;">Not Connected</span>
+                            <span class="text-danger">Not Connected</span>
                         @endif
 
                     </p>
@@ -85,24 +85,43 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <!-- TODO: Nur sporadisch mal gebastelt -->
                     <h5 class="card-title">Zugeordnete E-Mail Adressen</h5>
-                    @if(empty($emails))
-                        <p><b>Es sind aktuell keine E-Mail Adressen hinterlegt.</b></p>
+                    @if(count($emails) == 0)
+                        <p class="text-danger">Es sind aktuell keine E-Mail Adressen hinterlegt.</p>
                     @else
                         <p>Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:</p>
-                        <ul>
+                        <table class="table">
+                            <tbody>
                             @foreach($emails as $email)
-                                <li>{{$email->email}} <small>@if($email->verified_user_id !== NULL) <span
-                                                style="color: green;">verifiziert</span> @else <span
-                                                style="color: #E70000;">unverifiziert</span> @endif</small></li>
+                                <tr>
+                                    <td>{{$email->email}}</td>
+                                    <td>
+                                        @if($email->verified_user_id !== NULL)
+                                            <span style="color: green;">verifiziert</span>
+                                        @else
+                                            <span style="color: #E70000;">unverifiziert</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{route('settings.delete.email')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$email->id}}"/>
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                        class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
                             @endforeach
-                        </ul>
+                            </tbody>
+                        </table>
                     @endif
-                    <form method="POST" action="/settings" class="form-inline">
+                    <hr/>
+                    <h6>E-Mail Adresse hinzufügen</h6>
+                    <form method="POST" action="{{route('settings.save.email')}}">
                         @csrf
-                        <input type="hidden" name="action" value="addEMail"/>
-                        <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
+                        </div>
                         <button type="submit" class="btn btn-primary">Speichern</button>
                     </form>
                     <hr/>

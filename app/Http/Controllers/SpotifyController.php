@@ -300,10 +300,10 @@ class SpotifyController extends Controller
             $date = Carbon::parse(array_values($listening_days)[0]->date);
             while ($date->isPast()) {
                 $date = $date->addDays(1);
-                if (!isset($listening_days[$date->isoFormat('YYYY-MM-DD')])) {
-                    $listening_days[$date->isoFormat('YYYY-MM-DD')] = new \stdClass();
-                    $listening_days[$date->isoFormat('YYYY-MM-DD')]->date = $date->isoFormat('YYYY-MM-DD');
-                    $listening_days[$date->isoFormat('YYYY-MM-DD')]->minutes = 0;
+                if (!isset($listening_days[$date->format('Y-m-d')])) {
+                    $listening_days[$date->format('Y-m-d')] = new \stdClass();
+                    $listening_days[$date->format('Y-m-d')]->date = $date->isoFormat('YYYY-MM-DD');
+                    $listening_days[$date->format('Y-m-d')]->minutes = 0;
                 }
             }
         }
@@ -418,6 +418,27 @@ class SpotifyController extends Controller
             ->orderBy('created_at', 'desc')
             ->limit(1)
             ->first();
+    }
+
+    public function renderDailyHistory(Request $request, $date = NULL)
+    {
+        if ($date == NULL) $date = Carbon::today();
+        else $date = Carbon::parse($date);
+
+        if ($date->isAfter(Carbon::now())) {
+            $request->session()->flash('alert-danger', __('general.error.future_not_possible'));
+            return redirect()->route('spotify.history');
+        }
+
+        $history = SpotifyPlayActivity::with(['track', 'device'])
+            ->where('user_id', Auth::user()->id)
+            ->whereDate('created_at', $date->toDateString())
+            ->get();
+
+        return view('spotify.daily_history', [
+            'date' => $date,
+            'history' => $history
+        ]);
     }
 
 }

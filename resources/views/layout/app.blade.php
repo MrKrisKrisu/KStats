@@ -16,30 +16,30 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">{{__('KStats')}}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-
-            @guest
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav mr-right">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+        <div class="container">
+            <a class="navbar-brand" href="/">{{__('KStats')}}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                @guest
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">Home</a>
                         </li>
-                    @endif
-                </ul>
-            @else
+                    </ul>
+                    <ul class="navbar-nav mr-right">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </li>
+                        @endif
+                    </ul>
+                @else
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
@@ -50,9 +50,10 @@
                             Spotify
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('spotify') }}">Meine Statistik</a>
-                            <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">Meine TopTracks</a>
-                            <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">Verschollene Tracks</a>
+                            <a class="dropdown-item" href="{{ route('spotify') }}">{{__('spotify.statistic')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">{{__('spotify.title.top_tracks')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.history') }}">{{__('spotify.title.history')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">{{__('spotify.title.lost_tracks')}}</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -71,6 +72,13 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->username }} <span class="caret"></span>
                         </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('settings') }}">{{ __('settings.settings') }}</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('settings') }}">{{ __('settings.settings') }}</a>
@@ -83,14 +91,13 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-
-
                         </div>
-                    </li>
+                      </li>
 
 
-                </ul>
-            @endguest
+                    </ul>
+                @endguest
+            </div>
         </div>
     </nav>
 </header>
@@ -113,6 +120,16 @@
                 </div>
             @endif
 
+            <div class="flash-message">
+                @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                    @if(Session::has('alert-' . $msg))
+                        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }}
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        </p>
+                    @endif
+                @endforeach
+            </div>
+
             @yield('content')
         </div>
 
@@ -124,7 +141,8 @@
             <p class="float-left">
                 <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=bug" target="ghub"
                    style="color: #E70000;">{{ __('general.report_bug') }}</a> |
-                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement" target="ghub">{{ __('general.suggestion') }}</a> |
+                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement"
+                   target="ghub">{{ __('general.suggestion') }}</a> |
                 <a href="https://github.com/MrKrisKrisu/KStats/" target="ghub">{{ __('general.show_sourcecode') }}</a>
             </p>
             <p class="float-right">
