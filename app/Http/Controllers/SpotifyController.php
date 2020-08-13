@@ -430,7 +430,8 @@ class SpotifyController extends Controller
             return redirect()->route('spotify.history');
         }
 
-        $history = SpotifyPlayActivity::where('user_id', Auth::user()->id)
+        $history = SpotifyPlayActivity::with(['track', 'device'])
+            ->where('user_id', Auth::user()->id)
             ->whereDate('created_at', $date->toDateString())
             ->get();
 
