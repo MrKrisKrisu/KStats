@@ -2,19 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\ReweBonParser;
-use App\Http\Controllers\ReweMailController;
-use App\Http\Controllers\TelegramController;
-use App\ReweBon;
-use App\ReweBonPosition;
-use App\ReweProduct;
-use App\ReweShop;
 use App\TwitterApiRequest;
-use App\User;
-use App\UserEmail;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Spatie\PdfToText\Pdf;
 
 class CleanUp extends Command
 {
