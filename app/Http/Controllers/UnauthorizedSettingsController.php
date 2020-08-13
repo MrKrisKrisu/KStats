@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class UnauthorizedSettingsController extends Controller
 {
-    public function verifyMail(Request $request, int $userId, string $verification_key)
+    public function verifyMail(Request $request, int $userId, string $verificationKey)
     {
-        $userEmail = UserEmail::where('unverified_user_id', $userId)->where('verification_key', $verification_key)->first();
+        $userEmail = UserEmail::where('unverified_user_id', $userId)->where('verification_key', $verificationKey)->first();
         if ($userEmail == NULL) {
             $request->session()->flash('alert-danger', "Der Verifizierungslink ist nicht gültig.");
             return redirect()->route('home');
