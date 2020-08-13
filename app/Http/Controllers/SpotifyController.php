@@ -426,7 +426,7 @@ class SpotifyController extends Controller
         else $date = Carbon::parse($date);
 
         if ($date->isAfter(Carbon::now())) {
-            $request->session()->flash('alert-danger', "Es ist nicht möglich in die Zukunft zu schauen.");
+            $request->session()->flash('alert-danger', __('general.error.future_not_possible'));
             return redirect()->route('spotify.history');
         }
 

@@ -50,10 +50,10 @@
                             Spotify
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('spotify') }}">Meine Statistik</a>
-                            <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">Meine TopTracks</a>
-                            <a class="dropdown-item" href="{{ route('spotify.history') }}">Musikverlauf</a>
-                            <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">Verschollene Tracks</a>
+                            <a class="dropdown-item" href="{{ route('spotify') }}">{{__('spotify.statistic')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">{{__('spotify.title.top_tracks')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.history') }}">{{__('spotify.title.history')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">{{__('spotify.title.lost_tracks')}}</a>
                         </div>
                     </li>
                     <li class="nav-item">

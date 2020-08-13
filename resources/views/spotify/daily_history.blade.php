@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title')Gehörte Lieder am {{$date->format('d.m.Y')}} @endsection
+@section('title'){{__('spotify.title.heared_tracks', ['date' => $date->format('d.m.Y')])}} @endsection
 
 @section('content')
     <div class="row">
@@ -9,12 +9,12 @@
                 <div class="card-body">
                     <a href="{{route('spotify.history', ['date' => $date->clone()->addDays(-1)->toDateString()])}}"
                        class="btn btn-sm btn-primary float-left">
-                        <i class="fas fa-arrow-left"></i> Vorheriger Tag
+                        <i class="fas fa-arrow-left"></i> {{__('general.pagination.previous_day')}}
                     </a>
                     @if($date->isBefore(\Carbon\Carbon::today()))
                         <a href="{{route('spotify.history', ['date' => $date->clone()->addDays(1)->toDateString()])}}"
                            class="btn btn-sm btn-primary float-right">
-                            Nächster Tag <i class="fas fa-arrow-right"></i>
+                            {{__('general.pagination.next_day')}} <i class="fas fa-arrow-right"></i>
                         </a>
                     @endif
                 </div>
@@ -24,14 +24,14 @@
             <div class="card">
                 <div class="card-body">
                     @if(count($history) == 0)
-                        <p class="text-danger">Es sind keine Aufzeichnungen an diesem Tag vorhanden.</p>
+                        <p class="text-danger">{{__('general.error.no_data_day')}}</p>
                     @else
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Uhrzeit</th>
-                                <th>Track</th>
-                                <th>Gerät</th>
+                                <th>{{__('spotify.time')}}</th>
+                                <th>{{__('spotify.track')}}</th>
+                                <th>{{__('spotify.device')}}</th>
                             </tr>
                             </thead>
                             <tbody>
