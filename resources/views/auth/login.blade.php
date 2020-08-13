@@ -5,7 +5,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ __('Login') }}</h5>
+                    <h5 class="card-title">{{ __('auth.login') }}</h5>
                     @if (session('status'))
                         <div class="alert alert-danger">
                             {{ session('status') }}
@@ -17,7 +17,7 @@
 
                         <div class="form-group row">
                             <label for="email"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('auth.username') }}</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="text"
@@ -34,7 +34,7 @@
 
                         <div class="form-group row">
                             <label for="password"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('auth.password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password"
@@ -56,7 +56,7 @@
                                            id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
+                                        {{ __('auth.remember_me') }}
                                     </label>
                                 </div>
                             </div>
@@ -65,18 +65,19 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                                    {{ __('auth.login') }}
                                 </button>
 
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                        {{ __('auth.pw_forget') }}
                                     </a>
                                 @endif
                                 <hr/>
-                                <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">Login via
-                                    Spotify</a>
+                                <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">
+                                    {{__('auth.login_via', ['name' => 'Spotify'])}}
+                                </a>
                             </div>
                         </div>
                     </form>

@@ -1,16 +1,16 @@
 @extends('layout.app')
 
-@section('title')Not connected to Spotify @endsection
+@section('title'){{__('settings.connect')}} @endsection
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Connect your Spotify Account</h5>
-                    <p>You need to connect your Spotify Account to KStats to see statistics.</p>
+                    <h5 class="card-title">{{__('settings.connect')}}</h5>
+                    <p>{{__('settings.not_connected', ['service' => 'Spotify'])}}</p>
 
-                    <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">Spotify Connect</a>
+                    <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">{{__('settings.connect')}}</a>
                 </div>
             </div>
         </div>

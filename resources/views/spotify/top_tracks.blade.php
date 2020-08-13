@@ -9,12 +9,15 @@
                 <div class="card-body">
                     <h5 class="card-title">Zeitraum wählen</h5>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a class="btn btn-danger" href="{{route('spotify.topTracks', ['term' => 'long_term'])}}">die
-                            letzten Jahre</a>
-                        <a class="btn btn-warning" href="{{route('spotify.topTracks', ['term' => 'medium_term'])}}">letzte
-                            6 Monate</a>
-                        <a class="btn btn-success" href="{{route('spotify.topTracks', ['term' => 'short_term'])}}">letzte
-                            4 Wochen</a>
+                        <a class="btn btn-danger" href="{{route('spotify.topTracks', ['term' => 'long_term'])}}">
+                            {{__('spotify.last_years')}}
+                        </a>
+                        <a class="btn btn-warning" href="{{route('spotify.topTracks', ['term' => 'medium_term'])}}">
+                            {{__('spotify.last_months')}}
+                        </a>
+                        <a class="btn btn-success" href="{{route('spotify.topTracks', ['term' => 'short_term'])}}">
+                            {{__('spotify.last_weeks')}}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -25,14 +28,13 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Top Tracks</h5>
                     <table class="ui table unstackable">
                         <thead>
                         <tr>
-                            <th>Platz</th>
+                            <th>{{__('spotify.place')}}</th>
                             <th></th>
-                            <th>Titel</th>
-                            <th>Preview</th>
+                            <th>{{__('spotify.track')}}</th>
+                            <th>{{__('spotify.preview')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,8 +58,8 @@
                                     </small>
 
                                     @if($track->popularity > 80)
-                                        <span class="badge badge-primary">Aktuell populäres Lied</span>
-                                        @endif
+                                        <span class="badge badge-primary">{{__('spotify.popular_track')}}</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <audio controls>

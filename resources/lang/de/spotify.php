@@ -38,6 +38,9 @@ return [
     'show_playlist' => 'Playlist anzeigen',
     'device' => 'Gerät',
     'track' => 'Track',
+    'place' => 'Platz',
+    'preview' => 'Vorschau',
+    'popular_track' => 'Aktuell populäres Lied',
     'lost_tracks' => [
         'your_lost_tracks' => 'Deine aktuell verschollenen Tracks',
         'no_tracks' => 'Du hast aktuelle keine verschollenen Tracks. Passe den Filter an oder schaue in einigen Tagen nochmal vorbei.',
@@ -46,7 +49,11 @@ return [
         'minutes_until_liked' => 'Gehörte Minuten, ab dem ein Lied als "Mag ich" eingestuft wird',
         'description' => 'KStats erstellt dir eine Playlist mit Tracks, die du länger nicht mehr gehört hast.'
     ],
-    'no_track_found' => 'Es konnte kein Track gefunden werden.'
+    'no_track_found' => 'Es konnte kein Track gefunden werden.',
+    'play_music' => 'Spiele ein wenig Musik ab und schaue in ein paar Minuten erneut vorbei.',
+    'last_years' => 'Die letzten Jahre',
+    'last_months' => 'letzte 6 Monate',
+    'last_weeks' => 'letzten 4 Wochen'
 
 
 ];

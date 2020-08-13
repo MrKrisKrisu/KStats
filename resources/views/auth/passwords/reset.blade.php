@@ -5,7 +5,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ __('Reset Password') }}</h5>
+                    <h5 class="card-title">{{ __('auth.pw_reset') }}</h5>
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
@@ -13,7 +13,7 @@
 
                         <div class="form-group row">
                             <label for="email"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('auth.email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email"
@@ -30,7 +30,7 @@
 
                         <div class="form-group row">
                             <label for="password"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('auth.password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password"
@@ -47,7 +47,7 @@
 
                         <div class="form-group row">
                             <label for="password-confirm"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('auth.pw_confirm') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control"
@@ -58,7 +58,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
+                                    {{ __('auth.pw_reset') }}
                                 </button>
                             </div>
                         </div>

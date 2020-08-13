@@ -72,9 +72,9 @@
                         <input type="hidden" name="action" value="createTelegramToken"/>
                         <button type="submit" class="btn btn-primary">
                             @if($isConnectedToTelegram)
-                                {{__('settings.telegram.connect')}}
+                                {{__('settings.connect')}}
                             @else
-                                {{__('settings.telegram.connect_new')}}
+                                {{__('settings.connect_new')}}
                             @endif
                         </button>
                     </form>

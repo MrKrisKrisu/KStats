@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title')Dein Einkauf {{ $bon->timestamp_bon->diffForHumans() }}@endsection
+@section('title'){{__('receipts.your_purchase')}} {{ $bon->timestamp_bon->diffForHumans() }}@endsection
 
 @section('content')
     <div class="row">
@@ -10,30 +10,31 @@
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td>Markt</td>
+                            <td>{{__('receipts.market')}}</td>
                             <td>
                                 {{$bon->shop->name}}<br/>
                                 {{$bon->shop->zip}} {{$bon->shop->city}}
                             </td>
                         </tr>
                         <tr>
-                            <td>Zeit</td>
+                            <td>{{__('general.time')}}</td>
                             <td>{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
                         </tr>
                         <tr>
-                            <td>Gesamtsumme</td>
+                            <td>{{__('receipts.total')}}</td>
                             <td>{{ number_format($bon->total, 2, ',', '.') }}€</td>
                         </tr>
                         <tr>
-                            <td>Zahlungsart</td>
+                            <td>{{__('receipts.payment_method')}}</td>
                             <td>{{ $bon->paymentmethod }}</td>
                         </tr>
                         </tbody>
                     </table>
 
                     @if($bon->receipt_pdf !== NULL)
-                        <a class="btn btn-primary" href="{{ route('download_raw_rewe_receipt', ['id' => $bon->id]) }}">Bon
-                            herunterladen</a>
+                        <a class="btn btn-primary" href="{{ route('download_raw_rewe_receipt', ['id' => $bon->id]) }}">
+                            {{__('receipts.dl_receipt')}}
+                        </a>
                     @endif
 
                     @if($bon->raw_bon !== NULL)
@@ -46,13 +47,13 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <table class="table" id="kassenzettel">
+                    <table class="table">
                         <thead>
                         <tr>
-                            <th>Produkt</th>
-                            <th>Anzahl / Gewicht</th>
-                            <th>Einzelpreis</th>
-                            <th>Zwischensumme</th>
+                            <th>{{__('receipts.product')}}</th>
+                            <th>{{__('receipts.amount')}} / {{__('receipts.weight')}}</th>
+                            <th>{{__('receipts.price_single')}}</th>
+                            <th>{{__('receipts.subtotal')}}</th>
                         </tr>
                         </thead>
                         <tbody>

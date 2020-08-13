@@ -26,75 +26,72 @@
                 @guest
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/">{{__('general.menu.home')}}</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav mr-right">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                         </li>
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('auth.register') }}</a>
                             </li>
                         @endif
                     </ul>
                 @else
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Spotify
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('spotify') }}">{{__('spotify.statistic')}}</a>
-                            <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">{{__('spotify.title.top_tracks')}}</a>
-                            <a class="dropdown-item" href="{{ route('spotify.history') }}">{{__('spotify.title.history')}}</a>
-                            <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">{{__('spotify.title.lost_tracks')}}</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rewe') }}">{{ __('REWE eBon Analyzer') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('twitter') }}">{{ __('Twitter') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('crowdsourcing_rewe') }}">{{ __('Crowdsourcing') }}</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav mr-right">
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->username }} <span class="caret"></span>
-                        </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('settings') }}">{{ __('settings.settings') }}</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('settings') }}">{{ __('settings.settings') }}</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ route('home') }}">{{__('general.menu.dashboard')}}</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Spotify
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('spotify') }}">{{__('spotify.statistic')}}</a>
+                                <a class="dropdown-item"
+                                   href="{{ route('spotify.topTracks') }}">{{__('spotify.title.top_tracks')}}</a>
+                                <a class="dropdown-item"
+                                   href="{{ route('spotify.history') }}">{{__('spotify.title.history')}}</a>
+                                <a class="dropdown-item"
+                                   href="{{ route('spotify.lostTracks') }}">{{__('spotify.title.lost_tracks')}}</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('rewe') }}">{{ __('general.menu.receipts') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('twitter') }}">Twitter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('crowdsourcing_rewe') }}">{{ __('general.menu.crowdsourcing') }}</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mr-right">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->username }} <span class="caret"></span>
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                      </li>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"
+                                   href="{{ route('settings') }}">{{ __('settings.settings') }}</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('auth.logout') }}
+                                </a>
 
-
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 @endguest
             </div>
@@ -146,8 +143,8 @@
                 <a href="https://github.com/MrKrisKrisu/KStats/" target="ghub">{{ __('general.show_sourcecode') }}</a>
             </p>
             <p class="float-right">
-                <a href="/imprint/">{{ __('general.imprint') }}</a> |
-                <a href="/disclaimer/">{{ __('general.disclaimer') }}</a> |
+                <a href="/imprint/">{{ __('general.menu.imprint') }}</a> |
+                <a href="/disclaimer/">{{ __('general.menu.disclaimer') }}</a> |
                 <a href="#">{{ __('general.back_to_top') }}</a>
             </p>
         </div>
