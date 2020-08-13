@@ -105,4 +105,16 @@ class SettingsController extends Controller
         return back();
     }
 
+    public function deleteTelegramConnection(Request $request)
+    {
+        $setting = User::find(Auth::user()->id)->settings->where('name', 'telegramID')->first();
+        if ($setting == NULL) {
+            $request->session()->flash('alert-danger', __('settings.telegram.not_connected'));
+            return back();
+        }
+        $setting->delete();
+        $request->session()->flash('alert-success', __('settings.telegram.connection_removed'));
+        return back();
+    }
+
 }

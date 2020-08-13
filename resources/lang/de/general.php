@@ -20,6 +20,8 @@ return [
     'from' => 'von',
     'and' => 'und',
     'save' => 'Speichern',
+    'activate' => 'Aktivieren',
+    'deactivate' => 'Deaktivieren',
     'error' => [
         'future_not_possible' => 'Es ist nicht möglich in die Zukunft zu schauen.',
         'no_data_day' => 'Es sind keine Aufzeichnungen an diesem Tag vorhanden.'

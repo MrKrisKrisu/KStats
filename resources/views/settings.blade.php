@@ -45,31 +45,38 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Telegram Connect') }}</h5>
                     @if($isConnectedToTelegram)
-                        <p>Du bist bereits mit einem Telegram Chat verbunden. Selbstverständlich kannst du deinen
-                            Account aber mit einem neuen Chat verbinden.</p>
+                        <p>{{__('settings.telegram.connected')}}</p>
+
+                        <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
+                              class="float-right">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
+                        </form>
+
                     @else
-                        <p class="text-danger">Du bist aktuell mit <b>keinem</b> Telegram Chat verbunden.</p>
+                        <p>{{__('settings.telegram.not_connected')}}</p>
                     @endif
                     @if($telegramConnectCode != NULL && $telegramConnectCode->val != '')
 
                         <div style="text-align: center;">
-                            <p style="font-size: 20px;">Dein Telegram-ConnectCode lautet
+                            <p style="font-size: 20px;">{{__('settings.telegram.connect_code')}}:
                                 "<b>{{$telegramConnectCode->val}}</b>"
-                                <br/><small>Code gültig
-                                    bis {{$telegramConnectCode->updated_at->addHour()->format('d.m.Y H:i')}}</small>
+                                <br/><small>{{__('settings.telegram.valid_until')}} {{$telegramConnectCode->updated_at->addHour()->isoFormat('Do MMMM YYYY, HH:mm')}}</small>
                             </p>
                         </div>
-                        <p>Um Telegram mit KStats nutzen zu können musst du den
-                            <a target="tg" href="https://t.me/kstat_bot">KStats Bot</a> starten und den Anweisungen
-                            folgen.
-                        </p>
-                        <small>Wenn du die Anweisungen nicht erhältst schicke dem Bot bitte "/start".</small>
+                        <p>{!! __('settings.telegram.description') !!}</p>
                     @endif
 
                     <form method="POST" action="{{ route('settings') }}">
                         @csrf
                         <input type="hidden" name="action" value="createTelegramToken"/>
-                        <button type="submit" class="btn btn-primary">Neuen Connect-Code generieren</button>
+                        <button type="submit" class="btn btn-primary">
+                            @if($isConnectedToTelegram)
+                                {{__('settings.telegram.connect')}}
+                            @else
+                                {{__('settings.telegram.connect_new')}}
+                            @endif
+                        </button>
                     </form>
                 </div>
             </div>
