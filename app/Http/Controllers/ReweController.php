@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\ReweBon;
-use App\ReweProduct;
-use App\User;
 use App\UserSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

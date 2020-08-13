@@ -2,12 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\ReweBonPosition;
-use App\ReweProduct;
-use App\ReweShop;
-use App\ReweBon;
-use App\User;
-use App\UserEmail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\PdfToText\Pdf;

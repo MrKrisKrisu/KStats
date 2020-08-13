@@ -6,7 +6,6 @@ use App\ReweCrowdsourcingCategory;
 use App\ReweCrowdsourcingVegetarian;
 use App\ReweProduct;
 use App\ReweProductCategory;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

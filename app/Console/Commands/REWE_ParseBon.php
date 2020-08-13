@@ -11,9 +11,7 @@ use App\ReweProduct;
 use App\ReweShop;
 use App\User;
 use App\UserEmail;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Spatie\PdfToText\Pdf;
 
 class REWE_ParseBon extends Command
 {

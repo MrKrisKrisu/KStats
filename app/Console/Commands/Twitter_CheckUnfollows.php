@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\TwitterApiController;
-use App\Http\Controllers\TwitterController;
 use App\SocialLoginProfile;
 use App\TwitterFollower;
 use App\TwitterUnfollower;
