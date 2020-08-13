@@ -21,4 +21,11 @@ return [
     'not_connected' => 'Um Statistiken zu erhalten musst du deinen Account zuerst mit :service verbinden.',
     'connect' => 'Account verknüpfen',
     'connect_new' => 'Neuen Account verknüpfen',
+    'lang' => [
+        'de' => 'Deutsch',
+        'en' => 'Englisch'
+    ],
+    'select' => 'Bitte wählen',
+    'set_language' => 'Sprache festlegen',
+    'alert_set_language' => 'Die Spracheinstellungen wurden gespeichert.'
 ];

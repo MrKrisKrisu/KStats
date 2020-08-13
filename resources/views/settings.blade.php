@@ -129,6 +129,23 @@
                         hinzugefügt werden, an die Kassenzettel geschickt werden.</small>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{__('settings.set_language')}}</h5>
+
+                    <form method="POST" action="{{route('settings.set.lang')}}">
+                        @csrf
+                        <div class="form-group">
+                            <select name="locale" class="form-control" required>
+                                <option value="">{{__('settings.select')}}</option>
+                                <option value="de" @if($user->locale == 'de') selected @endif>{{__('settings.lang.de')}}</option>
+                                <option value="en" @if($user->locale == 'en') selected @endif>{{__('settings.lang.en')}}</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">{{__('general.save')}}</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
