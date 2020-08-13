@@ -28,4 +28,8 @@ return [
         'previous_day' => 'Vorheriger Tag',
         'next_day' => 'Nächster Tag',
     ],
+    'mail' => [
+        'hello' => 'Hallo :name,',
+        'goodbye' => 'Viele Grüße!'
+    ],
 ];
