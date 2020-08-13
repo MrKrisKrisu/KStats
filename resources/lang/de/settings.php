@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'settings' => 'Einstellungen',
     'verify_mail' => [
         'intro' => 'jemand hat soeben deine E-Mail Adresse bei KStats deinem Account zugewiesen.',
         'confirmations' => 'Bitte bestätige, dass diese Adresse zu dir gehört, indem du auf folgenden Link klickst:',
