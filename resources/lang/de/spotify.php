@@ -22,10 +22,13 @@ return [
         'heared_minutes_by_weekday' => 'Gehörte Minuten je Wochentag',
         'heared_minutes_by_daytime' => 'Gehörte Minuten je Tageszeit',
         'lost_tracks' => 'Verschollene Tracks',
+        'history' => 'Musikverlauf',
+        'heared_tracks' => 'Gehörte Lieder am :date'
     ],
     'total' => 'gesamt',
     'last_days' => 'letzte :days Tage',
     'last_hours' => 'letzte :hours Stunden',
+    'time' => 'Uhrzeit',
     'time_suffix' => 'Uhr',
     'rank' => 'Platz',
     'artist' => 'Künstler',
@@ -33,6 +36,8 @@ return [
     'find_tracks_again' => 'Entdecke alte Lieder wieder!',
     'create_playlist' => 'Playlist erstellen',
     'show_playlist' => 'Playlist anzeigen',
+    'device' => 'Gerät',
+    'track' => 'Track',
     'lost_tracks' => [
         'your_lost_tracks' => 'Deine aktuell verschollenen Tracks',
         'no_tracks' => 'Du hast aktuelle keine verschollenen Tracks. Passe den Filter an oder schaue in einigen Tagen nochmal vorbei.',

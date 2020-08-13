@@ -31,6 +31,7 @@ Route::get('/user/verify_mail/{user_id}/{verification_key}', 'UnauthorizedSettin
 
 Route::get('/spotify/', 'SpotifyController@index')->name('spotify');
 Route::get('/spotify/track/{id}', 'SpotifyController@trackDetails')->name('spotify.track');
+Route::get('/spotify/history/{date?}', 'SpotifyController@renderDailyHistory')->name('spotify.history');
 Route::get('/spotify/top-tracks/{term?}', 'SpotifyController@topTracks')->name('spotify.topTracks');
 Route::get('/spotify/lost-tracks/', 'SpotifyController@lostTracks')->name('spotify.lostTracks');
 Route::post('/spotify/lost-tracks/', 'SpotifyController@saveLostTracks')->name('spotify.saveLostTracks');

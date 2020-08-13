@@ -40,38 +40,38 @@
                         @endif
                     </ul>
                 @else
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('home') }}">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Spotify
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('spotify') }}">Meine Statistik</a>
-                                <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">Meine TopTracks</a>
-                                <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">Verschollene Tracks</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('rewe') }}">{{ __('REWE eBon Analyzer') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('twitter') }}">{{ __('Twitter') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('crowdsourcing_rewe') }}">{{ __('Crowdsourcing') }}</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav mr-right">
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->username }} <span class="caret"></span>
-                            </a>
-
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ route('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Spotify
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('spotify') }}">{{__('spotify.statistic')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">{{__('spotify.title.top_tracks')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.history') }}">{{__('spotify.title.history')}}</a>
+                            <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">{{__('spotify.title.lost_tracks')}}</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('rewe') }}">{{ __('REWE eBon Analyzer') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('twitter') }}">{{ __('Twitter') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('crowdsourcing_rewe') }}">{{ __('Crowdsourcing') }}</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mr-right">
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->username }} <span class="caret"></span>
+                        </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('settings') }}">{{ __('Settings') }}</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
