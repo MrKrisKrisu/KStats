@@ -189,7 +189,7 @@
                         @foreach($favouriteProducts as $product)
                             <tr>
                                 <td>{{$product->name}}</td>
-                                <td>{{$product->cnt}}x</td>
+                                <td data-order="{{$product->cnt}}">{{$product->cnt}}x</td>
                             </tr>
                         @endforeach
                         </tbody>
