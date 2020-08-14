@@ -29,15 +29,20 @@ class DeviceMigrate extends Command
      */
     public function handle()
     {
-        $devices = SpotifyDeviceActivity::limit($this->argument("count"))->get();
+        $limit = $this->argument("count");
+        echo "Start migrating $limit rows...\r\n";
+        $devices = SpotifyDeviceActivity::limit($limit)->get();
         foreach ($devices as $device) {
-            SpotifyPlayActivity::where('user_id', $device->device->user_id)
-                ->where('created_at', '>', $device->created_at->addMinutes(-2))
-                ->where('created_at', '<', $device->created_at->addMinutes(2))
-                ->where('device_id', NULL)
-                ->update([
-                    'device_id' => $device->device->id
-                ]);
+            if ($device->device != NULL) {
+                $d = SpotifyPlayActivity::where('user_id', $device->device->user_id)
+                    ->where('created_at', '>', $device->created_at->addMinutes(-2))
+                    ->where('created_at', '<', $device->created_at->addMinutes(2))
+                    ->where('device_id', NULL)
+                    ->update([
+                        'device_id' => $device->device->id
+                    ]);
+                echo "* updated $d rows";
+            }
             $device->delete();
         }
         return 0;
