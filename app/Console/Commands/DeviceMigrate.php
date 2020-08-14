@@ -13,7 +13,7 @@ class DeviceMigrate extends Command
      *
      * @var string
      */
-    protected $signature = 'kstats:migratedevice';
+    protected $signature = 'kstats:migratedevice {count=10}';
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class DeviceMigrate extends Command
      */
     public function handle()
     {
-        $devices = SpotifyDeviceActivity::limit(10)->get();
+        $devices = SpotifyDeviceActivity::limit($this->argument("count"))->get();
         foreach ($devices as $device) {
             SpotifyPlayActivity::where('user_id', $device->device->user_id)
                 ->where('created_at', '>', $device->created_at->addMinutes(-2))
