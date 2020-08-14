@@ -41,7 +41,7 @@ class DeviceMigrate extends Command
                     ->update([
                         'device_id' => $device->device->id
                     ]);
-                echo "* updated $d rows";
+                echo "* updated $d rows \r\n";
             }
             $device->delete();
         }
