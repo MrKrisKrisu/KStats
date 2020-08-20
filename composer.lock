@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ee92057cda568f961a7162c91362b80",
+    "content-hash": "3ed795a13e8a4a279b8016165e7b70c2",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -1692,6 +1692,47 @@
                 }
             ],
             "time": "2020-07-23T08:41:23+00:00"
+        },
+        {
+            "name": "mrkriskrisu/rewe-ereceipt-parser",
+            "version": "0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MrKrisKrisu/REWE-eReceipt-Parser.git",
+                "reference": "7214c0bfae9759cd7a78fc8d63a54f6822d8a667"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MrKrisKrisu/REWE-eReceipt-Parser/zipball/7214c0bfae9759cd7a78fc8d63a54f6822d8a667",
+                "reference": "7214c0bfae9759cd7a78fc8d63a54f6822d8a667",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^2.38",
+                "php": ">=7.1",
+                "spatie/pdf-to-text": "^1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "REWEParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "MrKrisKrisu",
+                    "email": "git@k118.de"
+                }
+            ],
+            "description": "Library for parsing digital receipts from REWE (supermarket)",
+            "time": "2020-08-20T16:11:05+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -6408,6 +6449,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {

@@ -12,6 +12,9 @@ use App\ReweShop;
 use App\User;
 use App\UserEmail;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use REWEParser\Exception\ReceiptParseException;
+use REWEParser\Parser;
 
 class REWE_ParseBon extends Command
 {
@@ -55,43 +58,43 @@ class REWE_ParseBon extends Command
 
                 $filename = $bonAttachment->getFilename();
 
-                $parser = new ReweBonParser($filename);
+                $receipt = Parser::parseFromPDF($bonAttachment->getFilename(), env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
 
-                if ($parser->getBonNr() === NULL || $parser->getTimestamp() === NULL || $parser->getShopNr() === NULL) {
+                if ($receipt->getBonNr() === NULL || $receipt->getTimestamp() === NULL || $receipt->getShopNr() === NULL) {
                     dump("Error while parsing eBon. Some important data can't be retrieved.");
                     return;
                 }
 
-                $shop = $parser->getShop();
+                $shop = $receipt->getShop();
 
                 ReweShop::updateOrCreate(
                     [
-                        "id" => $parser->getShopNr()
+                        "id" => $receipt->getShopNr()
                     ],
                     [
-                        "name" => $shop['name'],
-                        "address" => $shop['address'],
-                        "zip" => $shop['zip'],
-                        "city" => $shop['city'],
+                        "name" => $shop->getName(),
+                        "address" => $shop->getAddress(),
+                        "zip" => $shop->getPostalCode(),
+                        "city" => $shop->getCity(),
                     ]
                 );
                 $bon = ReweBon::updateOrCreate([
-                    "shop_id" => $parser->getShopNr(),
-                    "timestamp_bon" => $parser->getTimestamp(),
-                    "bon_nr" => $parser->getBonNr()
+                    "shop_id" => $receipt->getShopNr(),
+                    "timestamp_bon" => $receipt->getTimestamp(),
+                    "bon_nr" => $receipt->getBonNr()
                 ], [
                     "user_id" => $userEmail->verified_user_id,
-                    "cashier_nr" => $parser->getCashierNr(),
-                    "cashregister_nr" => $parser->getCashregisterNr(),
-                    "paymentmethod" => $parser->getPaymentMethods()[0], //TODO: Support multiple payment methods
+                    "cashier_nr" => $receipt->getCashierNr(),
+                    "cashregister_nr" => $receipt->getCashregisterNr(),
+                    "paymentmethod" => $receipt->getPaymentMethods()[0], //TODO: Support multiple payment methods
                     "payed_cashless" => 0, //TODO
                     "payed_contactless" => 0, //TODO,
-                    "total" => $parser->getTotal(),
-                    "earned_payback_points" => $parser->getEarnedPaybackPoints(),
+                    "total" => $receipt->getTotal(),
+                    "earned_payback_points" => $receipt->getEarnedPaybackPoints(),
                     "receipt_pdf" => file_get_contents($filename)
                 ]);
 
-                $positions = $parser->getPositions();
+                $positions = $receipt->getPositions();
 
                 foreach ($positions as $position) {
                     $product = ReweProduct::firstOrCreate(["name" => $position["name"]]);
@@ -119,9 +122,12 @@ class REWE_ParseBon extends Command
 
                     TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
                 }
-            } catch (\Exception $e) {
+            } catch (ReceiptParseException $e) {
                 dump($e);
                 dump("Error while parsing eBon. Is the format compatible?");
+            } catch (\Exception $e) {
+                Log::error($e);
+                report($e);
             }
         }
 

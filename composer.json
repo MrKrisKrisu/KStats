@@ -13,6 +13,7 @@
     "laravel/socialite": "^4.3",
     "laravel/tinker": "^2.0",
     "laravel/ui": "^2.0",
+    "mrkriskrisu/rewe-ereceipt-parser": "^0.2.0",
     "socialiteproviders/spotify": "^3.1",
     "socialiteproviders/twitter": "^3.0",
     "spatie/pdf-to-text": "^1.3"
