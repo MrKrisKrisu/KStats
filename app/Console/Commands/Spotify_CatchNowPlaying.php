@@ -11,6 +11,7 @@ use App\SpotifyDevice;
 use App\SpotifyPlayActivity;
 use App\SpotifySession;
 use App\SpotifyTrack;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -50,11 +51,19 @@ class Spotify_CatchNowPlaying extends Command
      */
     public function handle()
     {
-        $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
+        $user_loggedIn = SocialLoginProfile::join('users', 'social_login_profiles.user_id', '=', 'users.id')
+            ->where('users.last_login', '>', Carbon::now()->addHours(-1))
+            ->select('social_login_profiles.*');
+        $user_listening = SocialLoginProfile::join('spotify_play_activities', 'social_login_profiles.user_id', '=', 'spotify_play_activities.user_id')
+            ->where('spotify_play_activities.created_at', '>', Carbon::now()->addHours(-1))
+            ->groupBy('social_login_profiles.user_id')
+            ->select('social_login_profiles.*');
+        $user_queue = SocialLoginProfile::whereNotNull('spotify_accessToken')
             ->where('spotify_lastRefreshed', '>', Carbon::parse('-1 hour'))
-            ->get();
+            ->orderBy('spotify_lastChecked', 'asc')
+            ->limit(20);
 
-        foreach ($slProfile as $profile) {
+        foreach ($user_listening->union($user_loggedIn)->union($user_queue)->get() as $profile) {
             try {
                 $user = $profile->user()->first();
                 Log::debug("[Spotify] [CatchNowPlaying] Checking User " . $user->id . ' / ' . $user->username);
@@ -172,6 +181,9 @@ class Spotify_CatchNowPlaying extends Command
                     $session->timestamp_end = Carbon::now();
                     $session->update();
                 }
+
+                $profile->spotify_lastChecked = Carbon::now();
+                $profile->update();
             } catch (SpotifyTokenExpiredException $e) {
                 dump("Access Token expired from User " . $profile->user()->first()->username);
             } catch (\Exception $e) {
