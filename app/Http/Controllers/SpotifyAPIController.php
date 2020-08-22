@@ -27,10 +27,9 @@ class SpotifyAPIController extends Controller
         if ($result->getStatusCode() == 401)
             throw new SpotifyTokenExpiredException();
 
-        if ($result->getStatusCode() == 204) {
-            Log::debug("User is not listening to something or is in private session.");
+        //User is not listening to something or is in private session.
+        if ($result->getStatusCode() == 204)
             return false;
-        }
 
         if ($result->getStatusCode() != 200) {
             Log::error("Error while trying to retrieve currently-playing from Spotify API. StatusCode: " . $result->getStatusCode());
