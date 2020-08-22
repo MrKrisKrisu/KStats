@@ -15,6 +15,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use REWEParser\Exception\ReceiptParseException;
 use REWEParser\Parser;
+use Spatie\PdfToText\Exceptions\PdfNotFound;
 
 class REWE_ParseBon extends Command
 {
@@ -87,8 +88,8 @@ class REWE_ParseBon extends Command
                     "cashier_nr" => $receipt->getCashierNr(),
                     "cashregister_nr" => $receipt->getCashregisterNr(),
                     "paymentmethod" => $receipt->getPaymentMethods()[0], //TODO: Support multiple payment methods
-                    "payed_cashless" => 0, //TODO
-                    "payed_contactless" => 0, //TODO,
+                    "payed_cashless" => $receipt->hasPayedCashless(),
+                    "payed_contactless" => $receipt->hasPayedContactless(),
                     "total" => $receipt->getTotal(),
                     "earned_payback_points" => $receipt->getEarnedPaybackPoints(),
                     "receipt_pdf" => file_get_contents($filename)
@@ -97,15 +98,15 @@ class REWE_ParseBon extends Command
                 $positions = $receipt->getPositions();
 
                 foreach ($positions as $position) {
-                    $product = ReweProduct::firstOrCreate(["name" => $position["name"]]);
+                    $product = ReweProduct::firstOrCreate(["name" => $position->getName()]);
 
                     ReweBonPosition::updateOrCreate([
                         "bon_id" => $bon->id,
                         "product_id" => $product->id
                     ], [
-                        "amount" => $position["amount"] ?? (!isset($position["weight"]) ? 1 : NULL),
-                        "weight" => $position["weight"] ?? NULL,
-                        "single_price" => $position["price_single"] ?? $position["price_total"]
+                        "amount" => $position->getAmount(),
+                        "weight" => $position->getWeight(),
+                        "single_price" => $position->getPriceSingle()
                     ]);
                 }
 
@@ -116,17 +117,16 @@ class REWE_ParseBon extends Command
                     $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
                     $message .= "============================ \r\n";
                     foreach ($positions as $position)
-                        $message .= (isset($position["weight"]) ? $position["weight"] . "kg" : $position["amount"] . "x") . " " . $position["name"] . " <i>" . $position['price_total'] . "€</i> \r\n";
+                        $message .= ($position->getWeight() !== NULL ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . $position->setPriceTotal() . "€</i> \r\n";
                     $message .= "============================ \r\n";
                     $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
 
                     TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
                 }
             } catch (ReceiptParseException $e) {
-                dump($e);
+                report($e);
                 dump("Error while parsing eBon. Is the format compatible?");
-            } catch (\Exception $e) {
-                Log::error($e);
+            } catch (PdfNotFound $e) {
                 report($e);
             }
         }
