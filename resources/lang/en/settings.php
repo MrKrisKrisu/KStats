@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'password' => [
+        'current_wrong' => 'The current password is not correct.',
+        'changed_successfully' => 'Your password was changes successfully.',
+        'change' => 'Change password',
+        'current' => 'Current password',
+        'new' => 'New password',
+        'new_repeat' => 'Repeat new password'
+    ],
     'settings' => 'Settings',
     'telegram' => [
         'connected' => 'Your Account is already connected to an Telegram chat.',
