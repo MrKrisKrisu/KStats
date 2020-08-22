@@ -57,20 +57,16 @@ class Spotify_CatchNowPlaying extends Command
         foreach ($slProfile as $profile) {
             try {
                 $user = $profile->user()->first();
-                Log::debug("[Spotify] [CatchNowPlaying] Checking User " . $user->id . ' / ' . $user->username);
                 dump("[Spotify] [CatchNowPlaying] Checking User " . $user->id . ' / ' . $user->username);
 
                 $nowPlaying = SpotifyAPIController::getNowPlaying($profile->spotify_accessToken);
 
-                if (!$nowPlaying) {
-                    Log::debug("[Spotify] [CatchNowPlaying] Skipping User " . $user->id . "...");
+                if (!$nowPlaying) //next user...
                     continue;
-                }
 
-                if (strpos($nowPlaying->item->uri, 'spotify:local:') !== false) {
-                    Log::debug('Local tracks are currently not supported.'); //TODO
+                if (strpos($nowPlaying->item->uri, 'spotify:local:') !== false) //TODO: Local tracks are currently not supported.
                     continue;
-                }
+
 
                 $timestamp_start = date('Y-m-d H:i:s', $nowPlaying->timestamp / 1000);
                 $track_id = $nowPlaying->item->id;
@@ -176,6 +172,7 @@ class Spotify_CatchNowPlaying extends Command
                 dump("Access Token expired from User " . $profile->user()->first()->username);
             } catch (\Exception $e) {
                 dump($e);
+                report($e);
             }
         }
 
