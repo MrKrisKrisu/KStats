@@ -4,7 +4,6 @@
 /storage/*.key
 /vendor
 /.idea
-/database/migrations/2020_12_31_235959_old_to_new.php
 .env
 .env.backup
 .phpunit.result.cache
@@ -12,7 +11,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-composer.lock
 /nbproject
 package-lock.json
 .editorconfig
+.DS_Store

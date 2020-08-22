@@ -11,9 +11,11 @@ use App\ReweProduct;
 use App\ReweShop;
 use App\User;
 use App\UserEmail;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Spatie\PdfToText\Pdf;
+use Illuminate\Support\Facades\Log;
+use REWEParser\Exception\ReceiptParseException;
+use REWEParser\Parser;
+use Spatie\PdfToText\Exceptions\PdfNotFound;
 
 class REWE_ParseBon extends Command
 {
@@ -57,73 +59,75 @@ class REWE_ParseBon extends Command
 
                 $filename = $bonAttachment->getFilename();
 
-                $parser = new ReweBonParser($filename);
+                $receipt = Parser::parseFromPDF($bonAttachment->getFilename(), env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
 
-                if ($parser->getBonNr() === NULL || $parser->getTimestamp() === NULL || $parser->getShopNr() === NULL) {
+                if ($receipt->getBonNr() === NULL || $receipt->getTimestamp() === NULL || $receipt->getShopNr() === NULL) {
                     dump("Error while parsing eBon. Some important data can't be retrieved.");
                     return;
                 }
 
-                $shop = $parser->getShop();
+                $shop = $receipt->getShop();
 
                 ReweShop::updateOrCreate(
                     [
-                        "id" => $parser->getShopNr()
+                        "id" => $receipt->getShopNr()
                     ],
                     [
-                        "name" => $shop['name'],
-                        "address" => $shop['address'],
-                        "zip" => $shop['zip'],
-                        "city" => $shop['city'],
+                        "name" => $shop->getName(),
+                        "address" => $shop->getAddress(),
+                        "zip" => $shop->getPostalCode(),
+                        "city" => $shop->getCity(),
                     ]
                 );
                 $bon = ReweBon::updateOrCreate([
-                    "shop_id" => $parser->getShopNr(),
-                    "timestamp_bon" => $parser->getTimestamp(),
-                    "bon_nr" => $parser->getBonNr()
+                    "shop_id" => $receipt->getShopNr(),
+                    "timestamp_bon" => $receipt->getTimestamp(),
+                    "bon_nr" => $receipt->getBonNr()
                 ], [
                     "user_id" => $userEmail->verified_user_id,
-                    "cashier_nr" => $parser->getCashierNr(),
-                    "cashregister_nr" => $parser->getCashregisterNr(),
-                    "paymentmethod" => $parser->getPaymentMethods()[0], //TODO: Support multiple payment methods
-                    "payed_cashless" => 0, //TODO
-                    "payed_contactless" => 0, //TODO,
-                    "total" => $parser->getTotal(),
-                    "earned_payback_points" => $parser->getEarnedPaybackPoints(),
+                    "cashier_nr" => $receipt->getCashierNr(),
+                    "cashregister_nr" => $receipt->getCashregisterNr(),
+                    "paymentmethod" => $receipt->getPaymentMethods()[0], //TODO: Support multiple payment methods
+                    "payed_cashless" => $receipt->hasPayedCashless(),
+                    "payed_contactless" => $receipt->hasPayedContactless(),
+                    "total" => $receipt->getTotal(),
+                    "earned_payback_points" => $receipt->getEarnedPaybackPoints(),
                     "receipt_pdf" => file_get_contents($filename)
                 ]);
 
-                $positions = $parser->getPositions();
+                $positions = $receipt->getPositions();
 
                 foreach ($positions as $position) {
-                    $product = ReweProduct::firstOrCreate(["name" => $position["name"]]);
+                    $product = ReweProduct::firstOrCreate(["name" => $position->getName()]);
 
                     ReweBonPosition::updateOrCreate([
                         "bon_id" => $bon->id,
                         "product_id" => $product->id
                     ], [
-                        "amount" => $position["amount"] ?? (!isset($position["weight"]) ? 1 : NULL),
-                        "weight" => $position["weight"] ?? NULL,
-                        "single_price" => $position["price_single"] ?? $position["price_total"]
+                        "amount" => $position->getAmount(),
+                        "weight" => $position->getWeight(),
+                        "single_price" => $position->getPriceSingle()
                     ]);
                 }
 
                 if ($bon->wasRecentlyCreated == 1 && $userEmail->verified_user_id != NULL) {
                     $message = "<b>Neuer REWE Einkauf registriert</b>\r\n";
-                    $message .= count($positions) . " Produkte für " . $bon->total . " €\r\n";
+                    $message .= count($positions) . " Produkte für " . number_format($bon->total, 2, ",", ".") . " €\r\n";
                     $message .= "Erhaltenes Cashback: " . $bon->cashback_rate . "% \r\n";
-                    $message .= "<i>" . $bon->timestamp_bon->isoFormat("DD.MM.YYYY HH:mm:ss") . "</i> \r\n";
+                    $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
                     $message .= "============================ \r\n";
                     foreach ($positions as $position)
-                        $message .= (isset($position["weight"]) ? $position["weight"] . "kg" : $position["amount"] . "x") . " " . $position["name"] . " <i>" . $position['price_total'] . "€</i> \r\n";
+                        $message .= ($position->getWeight() !== NULL ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . $position->getPriceTotal() . "€</i> \r\n";
                     $message .= "============================ \r\n";
                     $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
 
                     TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
                 }
-            } catch (\Exception $e) {
-                dump($e);
+            } catch (ReceiptParseException $e) {
+                report($e);
                 dump("Error while parsing eBon. Is the format compatible?");
+            } catch (PdfNotFound $e) {
+                report($e);
             }
         }
 

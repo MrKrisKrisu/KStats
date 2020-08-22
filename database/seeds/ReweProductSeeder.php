@@ -12,8 +12,6 @@ class ReweProductSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create('de_DE');
-
         foreach ($this->exampleProducts() as $product) {
             ReweProduct::create([
                 'name' => $product["name"],

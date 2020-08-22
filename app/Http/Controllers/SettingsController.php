@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Rules\MatchOldPassword;
+use App\Mail\IllnessDepartmentMessage;
+use App\Mail\MailVerificationMessage;
 use App\SocialLoginProfile;
 use App\User;
 use App\UserEmail;
@@ -11,6 +13,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SettingsController extends Controller
 {
@@ -32,6 +37,8 @@ class SettingsController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+
         $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
 
         $isConnectedToTwitter = $socialProfile->twitter_token != NULL;
@@ -51,11 +58,12 @@ class SettingsController extends Controller
             'isConnectedToSpotify' => $isConnectedToSpotify,
             'isConnectedToTelegram' => $isConnectedToTelegram,
             'telegramConnectCode' => $telegramConnectCode,
-            'emails' => $emails
+            'emails' => $emails,
+            'user' => $user
         ]);
     }
 
-    public function save(\Illuminate\Http\Request $request)
+    public function save(Request $request)
     {
         if (isset($request->action)) {
             switch ($request->action) {
@@ -63,30 +71,71 @@ class SettingsController extends Controller
                     $connectCode = rand(111111, 999999);
                     UserSettings::set(auth()->user()->id, 'telegram_connectCode', $connectCode);
                     return $this->index();
-
-
-                case 'addEMail':
-                    $email = UserEmail::where('email', $request->email)->first();
-                    if ($email != NULL) {
-                        dd("Dieser E-Mail Adresse ist bereits einem Accounts zugewiesen. Bitte wende sich an den Support.");
-                        //TODO: Schönere Meldung
-                    } else {
-                        $validated = $request->validate([
-                            'email' => ['required', 'email:rfc,dns,spoof']
-                        ]);
-
-                        UserEmail::create([
-                            'email' => $validated['email'],
-                            'unverified_user_id' => Auth::user()->id,
-                            'verification_key' => md5(rand(0, 99999) . time() . Auth::user()->id)
-                        ]);
-
-                        //TODO: Email Bestätigung senden
-
-                    }
-                    return $this->index();
             }
         }
+    }
+
+    public function addEmail(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => ['required', 'email:rfc,dns,spoof', 'unique:user_emails,email']
+        ]);
+
+        $userEmail = UserEmail::create([
+            'email' => $validated['email'],
+            'unverified_user_id' => Auth::user()->id,
+            'verification_key' => md5(rand(0, 99999) . time() . Auth::user()->id)
+        ]);
+
+        Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
+
+        $request->session()->flash('alert-success', "Die E-Mail Adresse wurde gespeichert. Du solltest gleich eine E-Mail mit einem Bestätigungslink erhalten.");
+
+        return back();
+    }
+
+    public function deleteEmail(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => ['required', 'exists:user_emails,id']
+        ]);
+
+        $userEmail = UserEmail::find($validated['id']);
+        if ($userEmail->verified_user_id != Auth::user()->id && $userEmail->unverified_user_id != Auth::user()->id) {
+            $request->session()->flash('alert-success', "Dazu besitzt du nicht die Berechtigung.");
+            return back();
+        }
+
+        $userEmail->delete();
+        $request->session()->flash('alert-success', "Die E-Mail Adresse wurde gelöscht.");
+
+        return back();
+    }
+
+    public function deleteTelegramConnection(Request $request)
+    {
+        $setting = User::find(Auth::user()->id)->settings->where('name', 'telegramID')->first();
+        if ($setting == NULL) {
+            $request->session()->flash('alert-danger', __('settings.telegram.not_connected'));
+            return back();
+        }
+        $setting->delete();
+        $request->session()->flash('alert-success', __('settings.telegram.connection_removed'));
+        return back();
+    }
+
+    public function setLanguage(Request $request)
+    {
+        $validated = $request->validate([
+            'locale' => ['required', Rule::in(['de', 'en'])]
+        ]);
+
+        $user = User::find(Auth::user()->id);
+        $user->locale = $validated['locale'];
+        $user->update();
+
+        $request->session()->flash('alert-success', __('settings.alert_set_language'));
+        return back();
     }
 
     public function changePassword(\Illuminate\Http\Request $request)

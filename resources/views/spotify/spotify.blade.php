@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-md-3">
                                 <span class="color-highlight" style="font-size: 50px;"
                                       id="lieblingsjahr">...</span><br>
                             <small><b>{{__('spotify.title.favourite_year')}}</b></small>
@@ -21,7 +21,7 @@
                                 });
                             </script>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                             <span class="color-highlight" style="font-size: 50px;"><span
                                         id="bpm">...</span><small>BPM</small></span>
                             <br/>
@@ -35,7 +35,7 @@
                                 });
                             </script>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                                 <span class="color-highlight" style="font-size: 50px;"
                                       id="track_count">...</span><br>
                             <small><b>{{__('spotify.title.count_tracks')}}</b></small>
@@ -48,7 +48,7 @@
                                 });
                             </script>
                         </div>
-                        <div class="col">
+                        <div class="col-md-3">
                             <span class="color-highlight" style="font-size: 50px;"><span
                                         id="avgPerSession">...</span><small>{{__('spotify.minutes.short')}}</small></span><br>
                             <small><b>{{__('spotify.title.avg_session_length')}}</b></small>

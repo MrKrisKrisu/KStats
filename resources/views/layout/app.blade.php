@@ -16,81 +16,85 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">{{__('KStats')}}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-
-            @guest
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav mr-right">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+        <div class="container">
+            <a class="navbar-brand" href="/">{{__('KStats')}}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                @guest
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">{{__('general.menu.home')}}</a>
                         </li>
-                    @endif
-                </ul>
-            @else
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Spotify
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('spotify') }}">Meine Statistik</a>
-                            <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">Meine TopTracks</a>
-                            <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">Verschollene Tracks</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rewe') }}">{{ __('REWE eBon Analyzer') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('twitter') }}">{{ __('Twitter') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('crowdsourcing_rewe') }}">{{ __('Crowdsourcing') }}</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav mr-right">
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->username }} <span class="caret"></span>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('settings') }}">{{ __('Settings') }}</a>
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                    </ul>
+                    <ul class="navbar-nav mr-right">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('auth.login') }}</a>
+                        </li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('auth.register') }}</a>
+                            </li>
+                        @endif
+                    </ul>
+                @else
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ route('home') }}">{{__('general.menu.dashboard')}}</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Spotify
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('spotify') }}">{{__('spotify.statistic')}}</a>
+                                <a class="dropdown-item"
+                                   href="{{ route('spotify.topTracks') }}">{{__('spotify.title.top_tracks')}}</a>
+                                <a class="dropdown-item"
+                                   href="{{ route('spotify.history') }}">{{__('spotify.title.history')}}</a>
+                                <a class="dropdown-item"
+                                   href="{{ route('spotify.lostTracks') }}">{{__('spotify.title.lost_tracks')}}</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('rewe') }}">{{ __('general.menu.receipts') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('twitter') }}">Twitter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ route('crowdsourcing_rewe') }}">{{ __('general.menu.crowdsourcing') }}</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mr-right">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->username }} <span class="caret"></span>
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"
+                                   href="{{ route('settings') }}">{{ __('settings.settings') }}</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('auth.logout') }}
+                                </a>
 
-
-                        </div>
-                    </li>
-
-
-                </ul>
-            @endguest
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                @endguest
+            </div>
         </div>
     </nav>
 </header>
@@ -113,6 +117,16 @@
                 </div>
             @endif
 
+            <div class="flash-message">
+                @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                    @if(Session::has('alert-' . $msg))
+                        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }}
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        </p>
+                    @endif
+                @endforeach
+            </div>
+
             @yield('content')
         </div>
 
@@ -124,12 +138,13 @@
             <p class="float-left">
                 <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=bug" target="ghub"
                    style="color: #E70000;">{{ __('general.report_bug') }}</a> |
-                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement" target="ghub">{{ __('general.suggestion') }}</a> |
+                <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement"
+                   target="ghub">{{ __('general.suggestion') }}</a> |
                 <a href="https://github.com/MrKrisKrisu/KStats/" target="ghub">{{ __('general.show_sourcecode') }}</a>
             </p>
             <p class="float-right">
-                <a href="/imprint/">{{ __('general.imprint') }}</a> |
-                <a href="/disclaimer/">{{ __('general.disclaimer') }}</a> |
+                <a href="/imprint/">{{ __('general.menu.imprint') }}</a> |
+                <a href="/disclaimer/">{{ __('general.menu.disclaimer') }}</a> |
                 <a href="#">{{ __('general.back_to_top') }}</a>
             </p>
         </div>

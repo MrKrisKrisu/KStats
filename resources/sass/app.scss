@@ -55,3 +55,9 @@
   background-color: $color_main;
   border-color: $color_main;
 }
+
+.text-danger,
+.text-warning,
+.text-success {
+  font-weight: bold;
+}

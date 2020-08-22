@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Abraham\TwitterOAuth\TwitterOAuth;
 use App\SocialLoginProfile;
 use App\TwitterProfile;
 use App\User;

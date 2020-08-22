@@ -25,9 +25,9 @@
 
                     <p>Status:
                         @if($isConnectedToTwitter)
-                            <span style="color: green; font-weight: bold;">Connected</span>
+                            <span class="text-success">Connected</span>
                         @else
-                            <span style="color: red; font-weight: bold;">Not Connected</span>
+                            <span class="text-danger">Not Connected</span>
                         @endif
 
                     </p>
@@ -45,31 +45,38 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Telegram Connect') }}</h5>
                     @if($isConnectedToTelegram)
-                        <p>Du bist bereits mit einem Telegram Chat verbunden. Selbstverständlich kannst du deinen
-                            Account aber mit einem neuen Chat verbinden.</p>
+                        <p>{{__('settings.telegram.connected')}}</p>
+
+                        <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
+                              class="float-right">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
+                        </form>
+
                     @else
-                        <p>Du bist aktuell mit <b>keinem</b> Telegram Chat verbunden.</p>
+                        <p>{{__('settings.telegram.not_connected')}}</p>
                     @endif
                     @if($telegramConnectCode != NULL && $telegramConnectCode->val != '')
 
                         <div style="text-align: center;">
-                            <p style="font-size: 20px;">Dein Telegram-ConnectCode lautet
+                            <p style="font-size: 20px;">{{__('settings.telegram.connect_code')}}:
                                 "<b>{{$telegramConnectCode->val}}</b>"
-                                <br/><small>Code gültig
-                                    bis {{$telegramConnectCode->updated_at->addHour()->isoFormat('Do MMMM YYYY, HH:mm')}}</small>
+                                <br/><small>{{__('settings.telegram.valid_until')}} {{$telegramConnectCode->updated_at->addHour()->isoFormat('Do MMMM YYYY, HH:mm')}}</small>
                             </p>
                         </div>
-                        <p>Um Telegram mit KStats nutzen zu können musst du den
-                            <a target="tg" href="https://t.me/kstat_bot">KStats Bot</a> starten und den Anweisungen
-                            folgen.
-                        </p>
-                        <small>Wenn du die Anweisungen nicht erhältst schicke dem Bot bitte "/start".</small>
+                        <p>{!! __('settings.telegram.description') !!}</p>
                     @endif
 
                     <form method="POST" action="{{ route('settings') }}">
                         @csrf
                         <input type="hidden" name="action" value="createTelegramToken"/>
-                        <button type="submit" class="btn btn-primary">Neuen Connect-Code generieren</button>
+                        <button type="submit" class="btn btn-primary">
+                            @if($isConnectedToTelegram)
+                                {{__('settings.connect')}}
+                            @else
+                                {{__('settings.connect_new')}}
+                            @endif
+                        </button>
                     </form>
                 </div>
             </div>
@@ -78,24 +85,43 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <!-- TODO: Nur sporadisch mal gebastelt -->
                     <h5 class="card-title">Zugeordnete E-Mail Adressen</h5>
-                    @if(empty($emails))
-                        <p><b>Es sind aktuell keine E-Mail Adressen hinterlegt.</b></p>
+                    @if(count($emails) == 0)
+                        <p class="text-danger">Es sind aktuell keine E-Mail Adressen hinterlegt.</p>
                     @else
                         <p>Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:</p>
-                        <ul>
+                        <table class="table">
+                            <tbody>
                             @foreach($emails as $email)
-                                <li>{{$email->email}} <small>@if($email->verified_user_id !== NULL) <span
-                                                style="color: green;">verifiziert</span> @else <span
-                                                style="color: #E70000;">unverifiziert</span> @endif</small></li>
+                                <tr>
+                                    <td>{{$email->email}}</td>
+                                    <td>
+                                        @if($email->verified_user_id !== NULL)
+                                            <span style="color: green;">verifiziert</span>
+                                        @else
+                                            <span style="color: #E70000;">unverifiziert</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{route('settings.delete.email')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$email->id}}"/>
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                        class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
                             @endforeach
-                        </ul>
+                            </tbody>
+                        </table>
                     @endif
-                    <form method="POST" action="/settings" class="form-inline">
+                    <hr/>
+                    <h6>E-Mail Adresse hinzufügen</h6>
+                    <form method="POST" action="{{route('settings.save.email')}}">
                         @csrf
-                        <input type="hidden" name="action" value="addEMail"/>
-                        <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
+                        </div>
                         <button type="submit" class="btn btn-primary">Speichern</button>
                     </form>
                     <hr/>
@@ -139,7 +165,24 @@
                                        name="new_confirm_password" autocomplete="current-password" required/>
                             </div>
                         </div>
+                        <button type="submit" class="btn btn-primary">{{__('general.save')}}</button>
+                    </form>
+                </div>
+            </div>
+                        
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{__('settings.set_language')}}</h5>
 
+                    <form method="POST" action="{{route('settings.set.lang')}}">
+                        @csrf
+                        <div class="form-group">
+                            <select name="locale" class="form-control" required>
+                                <option value="">{{__('settings.select')}}</option>
+                                <option value="de" @if($user->locale == 'de') selected @endif>{{__('settings.lang.de')}}</option>
+                                <option value="en" @if($user->locale == 'en') selected @endif>{{__('settings.lang.en')}}</option>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary">{{__('general.save')}}</button>
                     </form>
                 </div>
