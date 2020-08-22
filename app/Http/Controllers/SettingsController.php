@@ -10,9 +10,9 @@ use App\User;
 use App\UserEmail;
 use App\UserSettings;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
