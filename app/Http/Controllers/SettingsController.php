@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rules\MatchOldPassword;
 use App\Mail\IllnessDepartmentMessage;
 use App\Mail\MailVerificationMessage;
 use App\SocialLoginProfile;
@@ -10,6 +11,8 @@ use App\UserEmail;
 use App\UserSettings;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -135,4 +138,17 @@ class SettingsController extends Controller
         return back();
     }
 
+    public function changePassword(\Illuminate\Http\Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', new MatchOldPassword()],
+            'new_password' => ['required',],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+
+        User::find(auth()->user()->id)->update(['password' => Hash::make($validated['new_password'])]);
+
+        $request->session()->flash('alert-success', __('settings.password.changed_successfully'));
+        return back();
+    }
 }
