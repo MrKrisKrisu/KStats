@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('kstats:cleanup')
+            ->everySixHours();
+
         //Spotify
         $schedule->command('spotify:tokenRefresh')
             ->everyFifteenMinutes()
