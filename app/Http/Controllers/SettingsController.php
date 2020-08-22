@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SettingsController extends Controller
 {
@@ -33,6 +34,8 @@ class SettingsController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+
         $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
 
         $isConnectedToTwitter = $socialProfile->twitter_token != NULL;
@@ -52,7 +55,8 @@ class SettingsController extends Controller
             'isConnectedToSpotify' => $isConnectedToSpotify,
             'isConnectedToTelegram' => $isConnectedToTelegram,
             'telegramConnectCode' => $telegramConnectCode,
-            'emails' => $emails
+            'emails' => $emails,
+            'user' => $user
         ]);
     }
 
@@ -114,6 +118,20 @@ class SettingsController extends Controller
         }
         $setting->delete();
         $request->session()->flash('alert-success', __('settings.telegram.connection_removed'));
+        return back();
+    }
+
+    public function setLanguage(Request $request)
+    {
+        $validated = $request->validate([
+            'locale' => ['required', Rule::in(['de', 'en'])]
+        ]);
+
+        $user = User::find(Auth::user()->id);
+        $user->locale = $validated['locale'];
+        $user->update();
+
+        $request->session()->flash('alert-success', __('settings.alert_set_language'));
         return back();
     }
 

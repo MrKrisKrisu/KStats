@@ -1,16 +1,16 @@
 @extends('layout.app')
 
-@section('title')Not connected to Twitter @endsection
+@section('title'){{__('settings.connect')}} @endsection
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Connect your Twitter Account</h5>
-                    <p>You need to connect your Twitter Account to KStats to see statistics.</p>
+                    <h5 class="card-title">{{__('settings.connect')}}</h5>
+                    <p>{{__('settings.not_connected', ['service' => 'Twitter'])}}</p>
 
-                    <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-success">Connect to Twitter</a>
+                    <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-info">{{__('settings.connect')}}</a>
                 </div>
             </div>
         </div>

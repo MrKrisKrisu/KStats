@@ -5,41 +5,29 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="alert-message alert-message-default">
-                <h4>Funktion in Testphase</h4>
-                <p>Statistiken zu Twitter sind aktuell in der Planung bzw. Entwicklung. Aktuell siehst du an dieser
-                    Stelle nur deine aktuellen Follower und eine Liste von Profilen, welche dir entfolgt sind. Ideen?
-                    Trage gerne zu KStats auf <a href="https://github.com/MrKrisKrisu/KStats" target="ghub">GitHub</a>
-                    bei!</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Dein Profil</h5>
+                    <h5 class="card-title">{{__('twitter.your_profile')}}</h5>
                     <table class="table">
                         <tr>
-                            <td>Name</td>
+                            <td>{{__('twitter.displayname')}}</td>
                             <td>{{$twitter_profile->name}}</td>
                         </tr>
                         <tr>
-                            <td>@-Name</td>
+                            <td>{{__('twitter.username')}}</td>
                             <td>{{'@'.$twitter_profile->screen_name}}</td>
                         </tr>
                         <tr>
-                            <td>Follower</td>
+                            <td>{{__('twitter.follower')}}</td>
                             <td>{{$twitter_profile->followers_count}}</td>
                         </tr>
                         <tr>
-                            <td>Friends</td>
+                            <td>{{__('twitter.friends')}}</td>
                             <td>{{$twitter_profile->friends_count}}</td>
                         </tr>
                         <tr>
-                            <td>Anzahl Tweets</td>
+                            <td>{{__('twitter.tweets')}}</td>
                             <td>{{$twitter_profile->statuses_count}}</td>
                         </tr>
                     </table>
@@ -49,14 +37,14 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Unfollower</h5>
+                    <h5 class="card-title">{{__('twitter.unfollower')}}</h5>
 
                     @if(count($twitter_profile->unfollower)  > 0)
                         <table class="table" id="unfollowers">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Festgestellt</th>
+                                <th>{{__('twitter.username')}}</th>
+                                <th>{{__('twitter.unfollowing_time')}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -83,7 +71,7 @@
                             });
                         </script>
                     @else
-                        <p>Es wurden bisher keine Unfollower festgestellt.</p>
+                        <p>{{__('twitter.no_unfollower')}}</p>
                     @endif
                 </div>
             </div>
@@ -91,15 +79,15 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Deine Follower</h5>
+                    <h5 class="card-title">{{__('twitter.follower')}}</h5>
                     <table class="table table-striped table-hover" id="followers">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Follower</th>
-                            <th>Friends</th>
-                            <th>Tweets</th>
-                            <th>Accounterstellung</th>
+                            <th>{{__('twitter.username')}}</th>
+                            <th>{{__('twitter.follower')}}</th>
+                            <th>{{__('twitter.friends')}}</th>
+                            <th>{{__('twitter.tweets')}}</th>
+                            <th>{{__('twitter.created_at')}}</th>
                         </tr>
                         </thead>
                         <tbody>

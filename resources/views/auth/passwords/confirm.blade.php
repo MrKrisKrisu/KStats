@@ -5,15 +5,15 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ __('Confirm Password') }}</h5>
-                    {{ __('Please confirm your password before continuing.') }}
+                    <h5 class="card-title">{{ __('auth.pw_confirm') }}</h5>
+                    {{ __('auth.pw_confirm_pls') }}
 
                     <form method="POST" action="{{ route('password.confirm') }}">
                         @csrf
 
                         <div class="form-group row">
                             <label for="password"
-                                   class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('auth.password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password"
@@ -31,12 +31,12 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Confirm Password') }}
+                                    {{ __('auth.pw_confirm') }}
                                 </button>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                        {{ __('auth.pw_forget') }}
                                     </a>
                                 @endif
                             </div>

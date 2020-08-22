@@ -7,8 +7,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">No data, yet!</h5>
-                    <p>You have successfully connected your Spotify Account to KStats! But there are currently no statistics for your Spotify account. Start listening to music and wait some minutes!</p>
+                    <h5 class="card-title">{{__('general.error.no_data')}}</h5>
+                    <p>{{__('settings.connected', ['service' => 'Spotify'])}} {{__('spotify.play_music')}}</p>
                 </div>
             </div>
         </div>

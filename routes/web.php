@@ -30,6 +30,7 @@ Route::post('/settings/connections/telegram/delete', 'SettingsController@deleteT
     ->name('settings.connections.telegram.delete');
 Route::post('/settings/add_mail', 'SettingsController@addEmail')->name('settings.save.email');
 Route::post('/settings/delete_mail', 'SettingsController@deleteEmail')->name('settings.delete.email');
+Route::post('/settings/set_lang', 'SettingsController@setLanguage')->name('settings.set.lang');
 Route::get('/user/verify_mail/{user_id}/{verification_key}', 'UnauthorizedSettingsController@verifyMail')
     ->name('user.verify');
 
