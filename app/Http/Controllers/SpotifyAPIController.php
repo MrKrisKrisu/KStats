@@ -98,10 +98,10 @@ class SpotifyAPIController extends Controller
         return $data;
     }
 
-    public static function getAudioFeatures(array $ids)
+    public static function getAudioFeatures(string $implodedIDs)
     {
         $client = new Client();
-        $result = $client->get('https://api.spotify.com/v1/audio-features?ids=' . implode(',', $ids), [
+        $result = $client->get('https://api.spotify.com/v1/audio-features?ids=' . $implodedIDs, [
             'headers' => [
                 'Authorization' => 'Bearer ' . DB::table('social_login_profiles')->where('spotify_lastRefreshed', '>', DB::raw('NOW() - INTERVAL 50 MINUTE'))->first()->spotify_accessToken
             ]
