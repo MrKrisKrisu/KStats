@@ -64,7 +64,7 @@ class Spotify_TokenRefresh extends Command
                 $profile->save();
 
                 Log::info("[Spotify] [RefreshToken] Successfully refreshed AccessToken from User " . $user->id);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 dump($e->getMessage());
             }
         }
