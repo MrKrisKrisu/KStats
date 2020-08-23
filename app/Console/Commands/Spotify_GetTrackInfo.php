@@ -46,9 +46,9 @@ class Spotify_GetTrackInfo extends Command
             ->pluck('track_id')
             ->implode(',');
         try {
-            $af = SpotifyAPIController::getAudioFeatures($tracks);
+            $request = SpotifyAPIController::getAudioFeatures($tracks);
 
-            foreach ($af->audio_features as $trackInfo) {
+            foreach ($request->audio_features as $trackInfo) {
                 try {
                     SpotifyTrack::where('track_id', $trackInfo->id)->update(
                         [
