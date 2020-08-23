@@ -11,23 +11,23 @@
     },
     "devDependencies": {
         "axios": "^0.19",
-        "bootstrap": "^4.5.0",
+        "bootstrap": "^4.5.2",
         "cross-env": "^7.0",
         "jquery": "^3.5.1",
-        "laravel-mix": "^5.0.1",
-        "lodash": "^4.17.13",
+        "laravel-mix": "^5.0.5",
+        "lodash": "^4.17.20",
         "popper.js": "^1.16.1",
         "resolve-url-loader": "^2.3.1",
-        "sass": "^1.20.1",
+        "sass": "^1.26.10",
         "sass-loader": "^8.0.0",
-        "vue": "^2.5.17",
-        "vue-template-compiler": "^2.6.10"
+        "vue": "^2.6.12",
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.13.0",
+        "@fortawesome/fontawesome-free": "^5.14.0",
         "chart.js": "^2.9.3",
-        "datatables.net-bs4": "^1.10.20",
-        "datatables.net-responsive-bs4": "^2.2.3",
-        "moment": "^2.25.3"
+        "datatables.net-bs4": "^1.10.21",
+        "datatables.net-responsive-bs4": "^2.2.5",
+        "moment": "^2.27.0"
     }
 }
