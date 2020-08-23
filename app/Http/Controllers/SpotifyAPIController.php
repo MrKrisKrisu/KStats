@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\SpotifyAPIException;
 use App\Exceptions\SpotifyTokenExpiredException;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -98,6 +99,11 @@ class SpotifyAPIController extends Controller
         return $data;
     }
 
+    /**
+     * @param string $implodedIDs
+     * @return bool|mixed
+     * @throws SpotifyAPIException
+     */
     public static function getAudioFeatures(string $implodedIDs)
     {
         $client = new Client();
@@ -110,13 +116,13 @@ class SpotifyAPIController extends Controller
         if ($result->getStatusCode() != 200) {
             Log::error("Error while trying to retrieve audio-features from Spotify API. StatusCode: " . $result->getStatusCode());
             Log::error($result->getBody());
-            return false;
+            throw new SpotifyAPIException();
         }
 
         $data = json_decode($result->getBody()->getContents());
 
         if (isset($data->error))
-            return false;
+            throw new SpotifyAPIException();
 
         return $data;
     }
@@ -126,6 +132,7 @@ class SpotifyAPIController extends Controller
      * @param String $time_span short_term, medium_term or long_term
      * @return bool|mixed
      * @throws SpotifyTokenExpiredException
+     * @throws SpotifyAPIException
      */
     public static function getTopTracks(string $accessToken, string $time_span)
     {
@@ -142,13 +149,13 @@ class SpotifyAPIController extends Controller
         if ($result->getStatusCode() != 200) {
             Log::error("Error while trying to retrieve top-tracks from Spotify API. StatusCode: " . $result->getStatusCode());
             Log::error($result->getBody());
-            return false;
+            throw new SpotifyAPIException();
         }
 
         $data = json_decode($result->getBody()->getContents());
 
         if (isset($data->error))
-            return false;
+            throw new SpotifyAPIException();
 
         return $data;
     }
