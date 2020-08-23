@@ -1,6 +1,8 @@
 # KStats
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e2ba9f2772e24d8d9fae5f9e8955d70c)](https://app.codacy.com/manual/MrKrisKrisu/KStats?utm_source=github.com&utm_medium=referral&utm_content=MrKrisKrisu/KStats&utm_campaign=Badge_Grade_Dashboard) ![Laravel](https://github.com/MrKrisKrisu/KStats/workflows/Laravel/badge.svg)
 
+![Screenshot](screenshot.png)
+
 ## Features
 * Track your heared Songs from Spotify
   * See your Top tracks, artists
@@ -13,3 +15,19 @@
   * Get an prediction of what you could buy
   * See how many money you spent by categories
   * Currently only compatible with digital receipts from REWE (in Germany)
+  
+## Requirements
+
+- PHP >= 7.2
+- NodeJS / NPM
+- Composer
+
+## Installation and Contributing
+
+Nice, that you want to help! :) Feel free to make your magic und create a PullRequest. 
+To install KStats just follow these steps:
+
+1. Clone the repository
+2. Run ``npm install`` and ``npm run dev`` to parse CSS and JS
+3. Run ``composer install`` to install all dependencies
+4. Run ``php artisan serve`` to start built-in developement Webserver (or use your own)
