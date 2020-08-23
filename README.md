@@ -18,16 +18,16 @@
   
 ## Requirements
 
-  * PHP >= 7.2
-  * NodeJS / NPM
-  * Composer
+* PHP >= 7.2
+* NodeJS / NPM
+* Composer
 
 ## Installation and Contributing
 
 Nice, that you want to help! :) Feel free to make your magic und create a PullRequest. 
 To install KStats just follow these steps:
 
- 1. Clone the repository
- 2. Run ``npm install`` and ``npm run dev`` to parse CSS and JS
- 3. Run ``composer install`` to install all dependencies
- 4. Run ``php artisan serve`` to start built-in developement Webserver (or use your own)
+1. Clone the repository
+2. Run ``npm install`` and ``npm run dev`` to parse CSS and JS
+3. Run ``composer install`` to install all dependencies
+4. Run ``php artisan serve`` to start built-in developement Webserver (or use your own)
