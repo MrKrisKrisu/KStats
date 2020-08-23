@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\SpotifyAPIException;
 use App\Http\Controllers\SpotifyAPIController;
 use App\SpotifyTrack;
 use Illuminate\Console\Command;
@@ -39,34 +40,38 @@ class Spotify_GetTrackInfo extends Command
      */
     public function handle()
     {
-        $tracks = SpotifyTrack::orderBy('updated_at', 'asc')->limit(100)->get();
-        $ids = [];
-        foreach ($tracks as $track)
-            $ids[] = $track->track_id;
+        $tracks = SpotifyTrack::select('track_id')
+            ->orderBy('updated_at', 'asc')
+            ->limit(100)
+            ->pluck('track_id')
+            ->implode(',');
+        try {
+            $request = SpotifyAPIController::getAudioFeatures($tracks);
 
-        $af = SpotifyAPIController::getAudioFeatures($ids);
-
-        foreach ($af->audio_features as $trackInfo) {
-            SpotifyTrack::updateOrCreate(
-                [
-                    'track_id' => $trackInfo->id
-                ],
-                [
-                    'danceability' => $trackInfo->danceability,
-                    'energy' => $trackInfo->energy,
-                    'loudness' => $trackInfo->loudness,
-                    'speechiness' => $trackInfo->speechiness,
-                    'acousticness' => $trackInfo->acousticness,
-                    'instrumentalness' =>  $trackInfo->instrumentalness,
-                    'valence' =>  $trackInfo->valence,
-                    'duration_ms' =>  $trackInfo->duration_ms,
-                    'key' => $trackInfo->key,
-                    'mode' => $trackInfo->mode,
-                    'bpm' => $trackInfo->tempo
-                ]
-            );
+            foreach ($request->audio_features as $trackInfo) {
+                try {
+                    SpotifyTrack::where('track_id', $trackInfo->id)->update(
+                        [
+                            'danceability' => $trackInfo->danceability,
+                            'energy' => $trackInfo->energy,
+                            'loudness' => $trackInfo->loudness,
+                            'speechiness' => $trackInfo->speechiness,
+                            'acousticness' => $trackInfo->acousticness,
+                            'instrumentalness' => $trackInfo->instrumentalness,
+                            'valence' => $trackInfo->valence,
+                            'duration_ms' => $trackInfo->duration_ms,
+                            'key' => $trackInfo->key,
+                            'mode' => $trackInfo->mode,
+                            'bpm' => $trackInfo->tempo
+                        ]
+                    );
+                } catch (\Exception $e) {
+                    report($e);
+                }
+            }
+        } catch (SpotifyAPIException $e) {
+            report($e);
         }
-
         return 0;
     }
 }

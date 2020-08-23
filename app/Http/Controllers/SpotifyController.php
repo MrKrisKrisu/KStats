@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\SpotifyAPIException;
 use App\Exceptions\SpotifyTokenExpiredException;
 use App\SocialLoginProfile;
 use App\SpotifyArtist;
@@ -95,6 +96,9 @@ class SpotifyController extends Controller
             $top_tracks = SpotifyAPIController::getTopTracks($access_token, $term);
         } catch (SpotifyTokenExpiredException $e) {
             return view('spotify.notconnected');
+        } catch (SpotifyAPIException $e) {
+            report($e);
+            return view('spotify.nodata');
         }
 
         return view('spotify.top_tracks', [
