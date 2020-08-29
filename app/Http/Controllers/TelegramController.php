@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TelegramException;
 use App\User;
 use App\UserSettings;
 use Carbon\Carbon;
@@ -39,7 +40,7 @@ class TelegramController extends Controller
      * @param User $user
      * @param String $message
      * @return bool
-     * @throws \Exception
+     * @throws TelegramException
      */
     public static function sendMessage(User $user, string $message)
     {
@@ -55,7 +56,7 @@ class TelegramController extends Controller
      * @param int $telegramID
      * @param String $message
      * @return bool
-     * @throws \Exception
+     * @throws TelegramException
      */
     private static function sendMessageToChat(int $telegramID, string $message)
     {
@@ -75,18 +76,19 @@ class TelegramController extends Controller
         ]);
 
         if ($result->getStatusCode() != 200)
-            return false;
+            throw new TelegramException("StatusCode != 200: " . $result->getBody()->getContents());
 
         $data = json_decode($result->getBody()->getContents());
 
         if (isset($data->ok) && $data->ok)
             return true;
-        throw new \Exception("There was an error while sending message.");
+        throw new TelegramException("There was an error while sending message.");
     }
 
     /**
      * Handles incoming Telegram Webhook (ex. new messages)
      * Thrown by API Route
+     * @throws TelegramException
      */
     public static function handleWebhook()
     {

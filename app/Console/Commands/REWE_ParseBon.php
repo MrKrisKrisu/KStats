@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\TelegramException;
 use App\Http\Controllers\ReweBonParser;
 use App\Http\Controllers\ReweMailController;
 use App\Http\Controllers\TelegramController;
@@ -111,17 +112,22 @@ class REWE_ParseBon extends Command
                 }
 
                 if ($bon->wasRecentlyCreated == 1 && $userEmail->verified_user_id != NULL) {
-                    $message = "<b>Neuer REWE Einkauf registriert</b>\r\n";
-                    $message .= count($positions) . " Produkte für " . number_format($bon->total, 2, ",", ".") . " €\r\n";
-                    $message .= "Erhaltenes Cashback: " . $bon->cashback_rate . "% \r\n";
-                    $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
-                    $message .= "============================ \r\n";
-                    foreach ($positions as $position)
-                        $message .= ($position->getWeight() !== NULL ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . $position->getPriceTotal() . "€</i> \r\n";
-                    $message .= "============================ \r\n";
-                    $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
+                    try {
+                        $message = "<b>Neuer REWE Einkauf registriert</b>\r\n";
+                        $message .= count($positions) . " Produkte für " . number_format($bon->total, 2, ",", ".") . " €\r\n";
+                        $message .= "Erhaltenes Cashback: " . $bon->cashback_rate . "% \r\n";
+                        $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
+                        $message .= "============================ \r\n";
+                        foreach ($positions as $position)
+                            $message .= ($position->getWeight() !== NULL ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . $position->getPriceTotal() . "€</i> \r\n";
+                        $message .= "============================ \r\n";
+                        $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
 
-                    TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
+                        TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
+                    } catch (TelegramException $e) {
+                        report($e);
+                        dump("Error while sending Telegram message");
+                    }
                 }
             } catch (ReceiptParseException $e) {
                 report($e);
