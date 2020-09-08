@@ -310,11 +310,11 @@ class SpotifyController extends Controller
                 }
             }
         }
-        ksort($listening_days);
+        ksort($listeningDays);
 
         return view('spotify.track_details', [
             'track' => $track,
-            'listening_days' => $listening_days
+            'listening_days' => $listeningDays
         ]);
     }
 
