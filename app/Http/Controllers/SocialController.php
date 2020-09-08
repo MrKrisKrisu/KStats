@@ -21,10 +21,10 @@ class SocialController extends Controller
      */
     public function redirect($provider)
     {
-        $sl = Socialite::driver($provider);
+        $driver = Socialite::driver($provider);
         if ($provider == 'spotify')
-            $sl->scopes(['user-top-read', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'playlist-modify-private']);
-        return $sl->redirect();
+            $driver->scopes(['user-top-read', 'user-read-playback-state', 'user-read-currently-playing', 'user-modify-playback-state', 'playlist-modify-private']);
+        return $driver->redirect();
     }
 
     /**
