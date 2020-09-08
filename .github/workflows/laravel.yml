@@ -6,14 +6,15 @@ on:
   pull_request:
     branches: [ master ]
 
+
 jobs:
   laravel-tests:
 
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
-        php: [7.2, 7.3, 7.4, 8.0]
+        php: [7.3, 7.4, 8.0]
         dependency-version: [prefer-stable]
 
     steps:
