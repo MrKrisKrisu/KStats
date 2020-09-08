@@ -11,6 +11,11 @@ jobs:
 
     runs-on: ubuntu-latest
     
+    strategy:
+      matrix:
+        php: [7.2, 7.3, 7.4]
+        dependency-version: [prefer-stable]
+    
     steps:
     - uses: actions/checkout@v2
     - name: Copy .env
