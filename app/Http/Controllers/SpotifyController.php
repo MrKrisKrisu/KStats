@@ -286,27 +286,27 @@ class SpotifyController extends Controller
     public function trackDetails($trackId)
     {
         $track = SpotifyTrack::findOrFail($trackId);
-        $listening_days_query = SpotifyPlayActivity::where('user_id', Auth::user()->id)
+        $listeningDaysQuery = SpotifyPlayActivity::where('user_id', Auth::user()->id)
             ->where('track_id', $track->track_id)
             ->groupBy(DB::raw('DATE(created_at)'))
             ->select(DB::raw('DATE(created_at) AS date'), DB::raw('COUNT(*) AS minutes'))
             ->orderBy(DB::raw('DATE(created_at)'))
             ->get();
 
-        $listening_days = [];
-        foreach ($listening_days_query as $ld) {
-            $listening_days[$ld->date] = new \stdClass();
-            $listening_days[$ld->date]->date = $ld->date;
-            $listening_days[$ld->date]->minutes = $ld->minutes;
+        $listeningDays = [];
+        foreach ($listeningDaysQuery as $ld) {
+            $listeningDays[$ld->date] = new \stdClass();
+            $listeningDays[$ld->date]->date = $ld->date;
+            $listeningDays[$ld->date]->minutes = $ld->minutes;
         }
-        if (count($listening_days) > 0) {
-            $date = Carbon::parse(array_values($listening_days)[0]->date);
+        if (count($listeningDays) > 0) {
+            $date = Carbon::parse(array_values($listeningDays)[0]->date);
             while ($date->isPast()) {
                 $date = $date->addDays(1);
-                if (!isset($listening_days[$date->format('Y-m-d')])) {
-                    $listening_days[$date->format('Y-m-d')] = new \stdClass();
-                    $listening_days[$date->format('Y-m-d')]->date = $date->isoFormat('YYYY-MM-DD');
-                    $listening_days[$date->format('Y-m-d')]->minutes = 0;
+                if (!isset($listeningDays[$date->format('Y-m-d')])) {
+                    $listeningDays[$date->format('Y-m-d')] = new \stdClass();
+                    $listeningDays[$date->format('Y-m-d')]->date = $date->isoFormat('YYYY-MM-DD');
+                    $listeningDays[$date->format('Y-m-d')]->minutes = 0;
                 }
             }
         }
