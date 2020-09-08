@@ -27,7 +27,7 @@ jobs:
           coverage: none
 
       - name: Copy .env
-        run: copy .env.example .env
+        run: cp .env.example .env
 
       - name: Install Environment Dependencies
         run: sudo apt-get install poppler-utils
