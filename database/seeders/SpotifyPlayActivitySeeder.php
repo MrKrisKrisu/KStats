@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\SpotifyDevice;
 use App\SpotifyPlayActivity;
 use App\SpotifyTrack;

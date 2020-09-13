@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\SpotifyAlbum;
 use App\SpotifyTrack;
 use Faker\Factory;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\ReweShop;
 use Illuminate\Database\Seeder;
 

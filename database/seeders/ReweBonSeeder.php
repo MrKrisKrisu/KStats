@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\ReweBon;
 use App\ReweShop;
 use App\User;

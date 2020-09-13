@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\ReweProduct;
 use Illuminate\Database\Seeder;
 
