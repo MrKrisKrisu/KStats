@@ -8,6 +8,7 @@ use App\UserSettings;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Log;
 
 class TelegramController extends Controller
 {
@@ -97,6 +98,8 @@ class TelegramController extends Controller
         $content = file_get_contents("php://input");
         $update = json_decode($content, true);
 
+        Log::debug("Incoming Telegram message: " . print_r($update));
+        
         if (!isset($update['message']['chat']['id']))
             return;
 
