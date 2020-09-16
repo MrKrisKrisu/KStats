@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\ReweShop;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class ReweShopSeeder extends Seeder
@@ -14,7 +15,7 @@ class ReweShopSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create('de_DE');
+        $faker = Factory::create('de_DE');
 
         for ($i = 0; $i < rand(4, 10); $i++) {
             ReweShop::create([

@@ -6,6 +6,7 @@ use App\ReweBon;
 use App\ReweShop;
 use App\User;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class ReweBonSeeder extends Seeder
@@ -17,7 +18,7 @@ class ReweBonSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create('de_DE');
+        $faker = Factory::create('de_DE');
 
         foreach (User::all() as $user) {
             for ($i = 0; $i < rand(3, 20); $i++) {
