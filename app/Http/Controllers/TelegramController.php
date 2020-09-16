@@ -7,12 +7,14 @@ use App\User;
 use App\UserSettings;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class TelegramController extends Controller
 {
     /**
      * Required once to create the Webhook at Telegram API to handle Messages sent to the bot
      * @return boolean
+     * @throws GuzzleException
      */
     public static function setWebhook()
     {
@@ -131,6 +133,8 @@ class TelegramController extends Controller
             return;
 
         }
+
+        self::sendMessageToChat($chatID, "Der Befehl existiert nicht.");
     }
 
 }
