@@ -89,13 +89,13 @@ class SettingsController extends Controller
         try {
             Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
 
-            $request->session()->flash('alert-success', "Die E-Mail Adresse wurde gespeichert. Du solltest gleich eine E-Mail mit einem Bestätigungslink erhalten.");
+            $request->session()->flash('alert-success', __('settings.verify_mail.alert_save'));
 
             if (Mail::failures())
                 throw new \Exception("Failure on sending mail: " . json_encode(Mail::failures()));
         } catch (\Exception $e) {
             report($e);
-            $request->session()->flash('alert-danger', "Es ist ein Fehler beim Senden der Bestätigungsmail aufgetreten.");
+            $request->session()->flash('alert-danger', __('settings.verify_mail.alert_save_error'));
             $userEmail->delete();
         }
 

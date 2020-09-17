@@ -23,7 +23,9 @@ return [
         'confirmations' => 'Please confirm, that this is your E-Mail address and click on the following link:',
         'disclaimer' => 'If you\'ve not done this please dont click the link and send a message to the KStats support.',
         'link_invalid' => 'The verification link is not valid.',
-        'verified_successfully' => 'You\'ve successfully confirmed your E-Mail address.'
+        'verified_successfully' => 'You\'ve successfully confirmed your E-Mail address.',
+        'alert_save' => 'The address was saved successfully. Please check your inbox for the verification mail.',
+        'alert_save_error' => 'An error occurred while sending verification mail.'
     ],
     'connected' => 'Your Account is already connected to :service',
     'not_connected' => 'You need to connect to :service first to see stats.',
