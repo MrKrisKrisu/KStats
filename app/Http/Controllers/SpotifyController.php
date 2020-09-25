@@ -37,34 +37,47 @@ class SpotifyController extends Controller
      */
     public function index()
     {
-        $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
-        if ($socialProfile->spotify_accessToken == null)
+        if (!isset(auth()->user()->socialProfile->spotify_accessToken) || auth()->user()->socialProfile->spotify_accessToken == null)
             return view('spotify.notconnected');
 
-        $dataCount = User::find(auth()->user()->id)->spotifyActivity->count();
-        if ($dataCount == 0)
+        if (auth()->user()->spotifyActivity->count() == 0)
             return view('spotify.nodata');
 
-        $chartDataHearedByWeek = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+        $chartDataHearedByWeek = auth()->user()->spotifyActivity()
             ->select(DB::raw('YEAR(created_at) AS year'), DB::raw('WEEK(created_at) AS week'), DB::raw('COUNT(*) as minutes'))
             ->groupBy('year', 'week')
             ->orderBy('year', 'asc')
             ->orderBy('week', 'asc')
             ->get();
 
-        $chartDataHearedByWeekday = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+        $chartDataHearedByWeekday = auth()->user()->spotifyActivity()
             ->select(DB::raw('WEEKDAY(created_at) AS weekday'), DB::raw('COUNT(*) as minutes'))
             ->groupBy(DB::raw('weekday'))
             ->orderBy('weekday', 'asc')
             ->get();
 
-        $chartDataHearedByHour = SpotifyPlayActivity::where('user_id', auth()->user()->id)
+        $chartDataHearedByHour = auth()->user()->spotifyActivity()
             ->select(DB::raw('HOUR(created_at) AS hour'), DB::raw('COUNT(*) as minutes'))
             ->groupBy(DB::raw('hour'))
             ->orderBy('hour', 'asc')
             ->get();
 
+        $topTracks = auth()->user()->spotifyActivity()->with(['track', 'track.album', 'track.artists'])
+            ->groupBy('track_id')
+            ->select('track_id', DB::raw('COUNT(*) as minutes'))
+            ->orderBy('minutes', 'DESC')
+            ->paginate(3);
+
+        $topTracks30 = auth()->user()->spotifyActivity()->with(['track', 'track.album', 'track.artists'])
+            ->where('timestamp_start', '<', Carbon::parse('-30 days'))
+            ->groupBy('track_id')
+            ->select('track_id', DB::raw('COUNT(*) as minutes'))
+            ->orderBy('minutes', 'DESC')
+            ->paginate(3);
+
         return view('spotify.spotify', [
+            'topTracksTotal' => $topTracks,
+            'topTracks30' => $topTracks30,
             'chartData_hearedByWeek' => $chartDataHearedByWeek,
             'chartData_hearedByWeekday' => $chartDataHearedByWeekday,
             'chartData_hearedByHour' => $chartDataHearedByHour

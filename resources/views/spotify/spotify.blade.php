@@ -165,102 +165,18 @@
     <div class="row" style="margin-top: 10px;">
         <div class="col">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="topTracksTotal">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }} [{{ __('spotify.total') }}]</h5>
-                    <div id="top_tracks_total"></div>
-                    <script>
-                        $.ajax({
-                            url: '/api/spotify/user/top_tracks',
-                            success: function (data) {
-                                $.each(data, function (index, value) {
-                                    var component = '';
-
-                                    component += '<div class="row">';
-                                    component += '<div class="col-md-4">';
-                                    if (typeof value.track.album.imageUrl !== 'undefined' && value.track.album.imageUrl !== null) {
-                                        component += '<a href="/spotify/track/' + value.track.id + '">';
-                                        component += '<img src="' + value.track.album.imageUrl + '" class="spotify-cover"/>';
-                                        component += '</a>';
-                                    }
-                                    component += '</div>';
-                                    component += '<div class="col">';
-                                    component += '<a href="/spotify/track/' + value.track.id + '">';
-                                    component += '<b>' + value.track.name + '</b>';
-                                    component += '</a>';
-                                    component += '<br>';
-                                    if (typeof value.track.artists[0].name !== 'undefined' && value.track.artists[0].name !== null) {
-                                        component += '<small>von <i>' + value.track.artists[0].name + '</i></small>';
-                                        component += '<br/>';
-                                    }
-                                    component += '<small>' + value.minutes + ' Minuten gehört</small>';
-
-                                    if (typeof value.track.preview_url !== 'undefined' && value.track.preview_url !== null) {
-                                        component += '<audio controls="">';
-                                        component += '<source src="' + value.track.preview_url + '" type="audio/mpeg">';
-                                        component += 'Your browser does not support the audio element.';
-                                        component += '</audio>';
-                                    }
-                                    component += '</div>';
-                                    component += '</div>';
-                                    component += '<hr/>';
-
-                                    $("#top_tracks_total")
-                                        .append(component);
-                                });
-                            }
-                        });
-                    </script>
+                    @include('spotify.card_topTracks', ['topTracks' => $topTracksTotal, 'fragment' => 'topTracksTotal'])
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="topTracks30">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }}
                         [{{ __('spotify.last_days', ['days' => 30]) }}]</h5>
-                    <div id="top_tracks_30"></div>
-                    <script>
-                        $.ajax({
-                            url: '/api/spotify/user/top_tracks/{{\Carbon\Carbon::parse('-30 days')->toDateString()}}',
-                            success: function (data) {
-                                $.each(data, function (index, value) {
-                                    var component = '';
-
-                                    component += '<div class="row">';
-                                    component += '<div class="col-md-4">';
-                                    if (typeof value.track.album.imageUrl !== 'undefined' && value.track.album.imageUrl !== null) {
-                                        component += '<a href="/spotify/track/' + value.track.id + '">';
-                                        component += '<img src="' + value.track.album.imageUrl + '" class="spotify-cover"/>';
-                                        component += '</a>';
-                                    }
-                                    component += '</div>';
-                                    component += '<div class="col">';
-                                    component += '<a href="/spotify/track/' + value.track.id + '">';
-                                    component += '<b>' + value.track.name + '</b>';
-                                    component += '</a>';
-                                    component += '<br>';
-                                    if (typeof value.track.artists[0].name !== 'undefined' && value.track.artists[0].name !== null) {
-                                        component += '<small>von <i>' + value.track.artists[0].name + '</i></small>';
-                                        component += '<br/>';
-                                    }
-                                    component += '<small>' + value.minutes + ' Minuten gehört</small>';
-
-                                    if (typeof value.track.preview_url !== 'undefined' && value.track.preview_url !== null) {
-                                        component += '<audio controls="">';
-                                        component += '<source src="' + value.track.preview_url + '" type="audio/mpeg">';
-                                        component += 'Your browser does not support the audio element.';
-                                        component += '</audio>';
-                                    }
-                                    component += '</div>';
-                                    component += '</div>';
-                                    component += '<hr/>';
-
-                                    $("#top_tracks_30")
-                                        .append(component);
-                                });
-                            }
-                        });
-                    </script>
+                    @include('spotify.card_topTracks', ['topTracks' => $topTracks30, 'fragment' => 'topTracks30'])
                 </div>
             </div>
         </div>

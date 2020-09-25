@@ -21,8 +21,8 @@ class SpotifyPlayActivitySeeder extends Seeder
         $faker = Factory::create('de_DE');
 
         foreach (User::all() as $user) {
-            for ($i = 0; $i < rand(100, 2000); $i++) {
-                $time = $faker->dateTimeBetween('-2 months');
+            for ($i = 0; $i < rand(1000, 2000); $i++) {
+                $time = $faker->dateTimeBetween('-1 month');
                 SpotifyPlayActivity::create([
                     'user_id' => $user->id,
                     'timestamp_start' => $time,
