@@ -15,13 +15,23 @@ class CreateTwitterApiRequestsTable extends Migration
     {
         Schema::create('twitter_api_requests', function (Blueprint $table) {
             $table->id();
+
             $table->bigInteger('twitter_profile_id')
+                ->unsigned()
                 ->index()
-                ->references('id')->on('twitter_profiles')
                 ->comment('NULL=Application Token used')
                 ->nullable();
-            $table->string('endpoint');
+            $table->string('endpoint')
+                ->index();
+
             $table->timestamps();
+            $table->index('created_at');
+
+            $table->foreign('twitter_profile_id')
+                ->references('id')
+                ->on('twitter_profiles')
+                ->onDelete('cascade')
+                ->onUpdate('restrict');
         });
     }
 

@@ -14,9 +14,10 @@ class CreateUserSettingsTable extends Migration
     public function up()
     {
         Schema::create('user_settings', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')
-                ->references('id')->on('users')
+            $table->id();
+
+            $table->bigInteger('user_id')
+                ->unsigned()
                 ->index();
 
             $table->string('name');
@@ -25,6 +26,12 @@ class CreateUserSettingsTable extends Migration
             $table->timestamps();
 
             $table->unique(['user_id', 'name']);
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

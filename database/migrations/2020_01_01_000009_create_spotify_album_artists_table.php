@@ -14,12 +14,22 @@ class CreateSpotifyAlbumArtistsTable extends Migration
     public function up()
     {
         Schema::create('spotify_album_artists', function (Blueprint $table) {
-            $table->string('album_id')
-                ->references('album_id')->on('spotify_albums');
-            $table->string('artist_id')
-                ->references('artist_id')->on('spotify_artists');
+            $table->bigInteger('album_id')->unsigned();
+            $table->bigInteger('artist_id')->unsigned();
 
-            $table->unique(array('album_id', 'artist_id'));
+            $table->unique(['album_id', 'artist_id']);
+
+            $table->foreign('album_id')
+                ->references('id')
+                ->on('spotify_albums')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
+
+            $table->foreign('artist_id')
+                ->references('id')
+                ->on('spotify_artists')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
         });
     }
 

@@ -15,13 +15,29 @@ class CreateTwitterUnfollowersTable extends Migration
     {
         Schema::create('twitter_unfollowers', function (Blueprint $table) {
             $table->id();
+
             $table->bigInteger('account_id')
-                ->index()
-                ->references('id')->on('twitter_profiles');
+                ->unsigned()
+                ->index();
             $table->bigInteger('unfollower_id')
-                ->index()
-                ->references('id')->on('twitter_profiles');
+                ->nullable()
+                ->unsigned()
+                ->index();
+            $table->timestamp('unfollowed_at')->nullable();
+
             $table->timestamps();
+
+            $table->foreign('account_id')
+                ->references('id')
+                ->on('twitter_profiles')
+                ->onDelete('cascade')
+                ->onUpdate('restrict');
+
+            $table->foreign('unfollower_id')
+                ->references('id')
+                ->on('twitter_profiles')
+                ->onDelete('set null')
+                ->onUpdate('restrict');
         });
     }
 

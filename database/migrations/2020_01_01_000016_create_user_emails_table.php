@@ -14,22 +14,31 @@ class CreateUserEmailsTable extends Migration
     public function up()
     {
         Schema::create('user_emails', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
 
             $table->string('email')->unique();
-            $table->integer('verified_user_id')
-                ->references('id')->on('users')
+            $table->bigInteger('verified_user_id')
+                ->unsigned()
                 ->index()
                 ->nullable();
-
-
-            $table->integer('unverified_user_id')
-                ->references('id')->on('users')
+            $table->bigInteger('unverified_user_id')
+                ->unsigned()
                 ->index()
                 ->nullable();
             $table->string('verification_key')->nullable();
 
             $table->timestamps();
+
+            $table->foreign('verified_user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('unverified_user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

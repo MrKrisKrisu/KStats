@@ -14,20 +14,31 @@ class CreateReweBonPositionTable extends Migration
     public function up()
     {
         Schema::create('rewe_bon_positions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('bon_id')
-                ->references('id')->on('rewe_bons')
-                ->index();
+            $table->id('id');
 
-            $table->integer('product_id')
-                ->references('id')->on('rewe_products')
+            $table->bigInteger('bon_id')
+                ->unsigned()
                 ->index();
-
+            $table->bigInteger('product_id')
+                ->unsigned()
+                ->index();
             $table->integer('amount')->nullable();
             $table->float('weight', 8, 3)->nullable();
             $table->float('single_price', 8, 2);
 
             $table->timestamps();
+
+            $table->foreign('bon_id')
+                ->references('id')
+                ->on('rewe_bons')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('rewe_products')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
         });
     }
 

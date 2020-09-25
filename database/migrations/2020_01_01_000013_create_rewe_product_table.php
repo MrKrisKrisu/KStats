@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIndiziesToSocialLoginProfiles extends Migration
+class CreateReweProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class AddIndiziesToSocialLoginProfiles extends Migration
      */
     public function up()
     {
-        Schema::table('social_login_profiles', function (Blueprint $table) {
-            $table->index('spotify_lastRefreshed');
+        Schema::create('rewe_products', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('name')->unique();
+            $table->boolean('hide')->default('0');
+
+            $table->timestamps();
         });
     }
 
@@ -25,8 +30,6 @@ class AddIndiziesToSocialLoginProfiles extends Migration
      */
     public function down()
     {
-        Schema::table('social_login_profiles', function (Blueprint $table) {
-            $table->dropIndex('social_login_profiles_spotify_lastRefreshed_index');
-        });
+        Schema::dropIfExists('rewe_products');
     }
 }

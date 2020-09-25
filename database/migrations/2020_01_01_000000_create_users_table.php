@@ -15,12 +15,23 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('username')->unique();
-            $table->string('email')->unique()->nullable(); //nullable, because old users dont have an email address
-            $table->timestamp('email_verified_at')->nullable();
+            $table->id();
+
+            $table->string('username')
+                ->unique();
+            $table->string('email')
+                ->unique()
+                ->nullable(); //TODO: remove this und just use user_emails table
+            $table->timestamp('email_verified_at')
+                ->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->timestamp('last_login')
+                ->useCurrent();
+            $table->string('locale', 5)
+                ->nullable()
+                ->default(NULL);
+
             $table->timestamps();
         });
     }

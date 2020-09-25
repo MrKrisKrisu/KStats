@@ -14,14 +14,27 @@ class CreateSpotifySessionsTable extends Migration
     public function up()
     {
         Schema::create('spotify_sessions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')
-                ->references('id')->on('users')
+            $table->id();
+
+            $table->bigInteger('user_id')
+                ->unsigned()
                 ->index();
-            $table->timestamp('timestamp_start')->nullable();
-            $table->timestamp('timestamp_end')->nullable();
+            $table->timestamp('timestamp_start')
+                ->index()
+                ->nullable();
+            $table->timestamp('timestamp_end')
+                ->index()
+                ->nullable();
+
+            $table->timestamps();
 
             $table->unique(['user_id', 'timestamp_start']);
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

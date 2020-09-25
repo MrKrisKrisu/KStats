@@ -14,13 +14,21 @@ class CreateReweProductCategoriesTable extends Migration
     public function up()
     {
         Schema::create('rewe_product_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
+
             $table->string('name');
             $table->bigInteger('parent_id')
                 ->nullable()
-                ->references('id')->on('rewe_product_categories')
-                ->index();;
+                ->unsigned()
+                ->index();
+
             $table->timestamps();
+
+            $table->foreign('parent_id')
+                ->references('id')
+                ->on('rewe_product_categories')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
         });
     }
 

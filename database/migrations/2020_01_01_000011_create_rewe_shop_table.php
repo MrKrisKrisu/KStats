@@ -14,13 +14,15 @@ class CreateReweShopTable extends Migration
     public function up()
     {
         Schema::create('rewe_shops', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
+
             $table->string('name')->nullable();
             $table->string('address')->nullable();
             $table->string('zip', 5)->nullable();
             $table->string('city')->nullable();
             $table->string('phone')->nullable();
             $table->string('opening_hours')->nullable();
+
             $table->timestamps();
         });
     }

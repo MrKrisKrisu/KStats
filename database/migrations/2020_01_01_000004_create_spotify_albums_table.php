@@ -13,11 +13,13 @@ class CreateSpotifyAlbumsTable extends Migration {
      */
     public function up() {
         Schema::create('spotify_albums', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('album_id')->unique();
+            $table->id();
+
+            $table->string('album_id')->unique(); //TODO: Make this to primary key
             $table->string('name');
             $table->string('imageUrl')->nullable();
             $table->date('release_date')->nullable();
+
             $table->timestamps();
         });
     }

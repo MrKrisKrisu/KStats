@@ -15,15 +15,32 @@ class CreateTwitterFollowersTable extends Migration
     {
         Schema::create('twitter_followers', function (Blueprint $table) {
             $table->id();
+
             $table->bigInteger('follower_id')
+                ->unsigned()
                 ->comment('follows')
                 ->index()
-                ->references('twitter_id')->on('twitter_profiles');
+                ->nullable();
             $table->bigInteger('followed_id')
+                ->unsigned()
                 ->comment('is followed by')
                 ->index()
-                ->references('twitter_id')->on('twitter_profiles');
+                ->nullable();
+
             $table->timestamps();
+            $table->index('updated_at');
+
+            $table->foreign('follower_id')
+                ->references('id')
+                ->on('twitter_profiles')
+                ->onDelete('cascade')
+                ->onUpdate('restrict');
+
+            $table->foreign('followed_id')
+                ->references('id')
+                ->on('twitter_profiles')
+                ->onDelete('cascade')
+                ->onUpdate('restrict');
         });
     }
 

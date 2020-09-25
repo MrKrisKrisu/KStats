@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemoveSpotifyDeviceActivitiesTable extends Migration
+class CreateSpotifyArtistsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,14 @@ class RemoveSpotifyDeviceActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('spotify_device_activities');
+        Schema::create('spotify_artists', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('artist_id')->unique();
+            $table->string('name');
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,10 +30,6 @@ class RemoveSpotifyDeviceActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::create('spotify_device_activities', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('device_id');
-            $table->timestamps();
-        });
+        Schema::dropIfExists('spotify_artists');
     }
 }

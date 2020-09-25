@@ -14,18 +14,32 @@ class CreateReweCrowdsourcingVegetarianTable extends Migration
     public function up()
     {
         Schema::create('rewe_crowdsourcing_vegetarians', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('user_id')
-                ->references('id')->on('users')
+            $table->id();
+
+            $table->bigInteger('user_id')
+                ->unsigned()
                 ->index();
-            $table->integer('product_id')
-                ->references('id')->on('rewe_products')
+            $table->bigInteger('product_id')
+                ->unsigned()
                 ->index();
             $table->boolean('vegetarian')
                 ->nullable();
+
             $table->timestamps();
 
             $table->unique(['user_id', 'product_id']);
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('rewe_products')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
         });
     }
 
