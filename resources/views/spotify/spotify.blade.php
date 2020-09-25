@@ -163,7 +163,7 @@
     </div>
 
     <div class="row" style="margin-top: 10px;">
-        <div class="col">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-body" id="topTracksTotal">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }} [{{ __('spotify.total') }}]</h5>
@@ -171,7 +171,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-body" id="topTracks30">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }}
