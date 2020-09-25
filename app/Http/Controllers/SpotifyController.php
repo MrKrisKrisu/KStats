@@ -69,7 +69,7 @@ class SpotifyController extends Controller
             ->paginate(3);
 
         $topTracks30 = auth()->user()->spotifyActivity()->with(['track', 'track.album', 'track.artists'])
-            ->where('timestamp_start', '<', Carbon::parse('-30 days'))
+            ->where('timestamp_start', '>', Carbon::parse('-30 days'))
             ->groupBy('track_id')
             ->select('track_id', DB::raw('COUNT(*) as minutes'))
             ->orderBy('minutes', 'DESC')
