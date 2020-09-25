@@ -64,7 +64,7 @@ class Spotify_CatchNowPlaying extends Command
                 if (!$nowPlaying) //next user...
                     continue;
 
-                if (strpos($nowPlaying->item->uri, 'spotify:local:') !== false) //TODO: Local tracks are currently not supported.
+                if (isset($nowPlaying->item->uri) && strpos($nowPlaying->item->uri, 'spotify:local:') !== false) //TODO: Local tracks are currently not supported.
                     continue;
 
 
@@ -88,7 +88,7 @@ class Spotify_CatchNowPlaying extends Command
                     if ($device->is_active)
                         $activeDevice = $de;
                 }
-                
+
                 $album_release_date = $nowPlaying->item->album->release_date;
                 if ($nowPlaying->item->album->release_date_precision == 'month')
                     $album_release_date .= "-01";
