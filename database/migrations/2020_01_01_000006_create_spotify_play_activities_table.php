@@ -47,7 +47,7 @@ class CreateSpotifyPlayActivitiesTable extends Migration
             $table->foreign('device_id')
                 ->references('id')
                 ->on('spotify_devices')
-                ->onDelete('restrict')
+                ->onDelete('set null')
                 ->onUpdate('restrict');
         });
     }
