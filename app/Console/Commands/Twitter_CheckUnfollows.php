@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\TwitterApiController;
 use App\Http\Controllers\TwitterController;
 use App\SocialLoginProfile;
@@ -108,6 +109,8 @@ class Twitter_CheckUnfollows extends Command
                             'unfollower_id' => $relationship->follower->id,
                             'unfollowed_at' => $relationship->updated_at
                         ]);
+                        
+                        TelegramController::sendMessage($sl_profile->user, "<b>Neuer Twitter Unfollower</b>\r\n" . $relationship->follower->screen_name . ' ist dir etwa ' . $relationship->updated_at->diffForHumans() . ' entfolgt.');
                     } else {
                         dump("Is following");
                         $relationship->updated_at = Carbon::now();
