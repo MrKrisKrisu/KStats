@@ -199,14 +199,14 @@
                                 datasets: [{
                                     backgroundColor: ["#38a2a6"],
                                     data: [
-                                        @foreach($chartData_hearedByWeek as $weekData)
-                                        {{$weekData->minutes}},
+                                        @foreach($chartData_hearedByWeek as $week => $minutes)
+                                        {{$minutes}},
                                         @endforeach
                                     ]
                                 }],
                                 labels: [
-                                    @foreach($chartData_hearedByWeek as $weekData)
-                                        'KW {{$weekData->week}} / {{$weekData->year}}',
+                                    @foreach($chartData_hearedByWeek as $week => $minutes)
+                                        '{{$week}}',
                                     @endforeach
                                 ]
                             },
@@ -398,16 +398,17 @@
                             type: 'bar',
                             data: {
                                 labels: [
-                                    @foreach($chartData_hearedByWeekday as $weekData)
-                                        '{{\App\Http\Controllers\SpotifyController::getWeekdayName($weekData->weekday)}}',
+                                    @foreach($chartData_hearedByWeekday as $dayOfWeek => $minutes)
+                                        '{{\App\Http\Controllers\SpotifyController::getWeekdayName($dayOfWeek)}}',
                                     @endforeach
                                 ],
                                 datasets: [{
                                     label: '{{ __('spotify.minutes.heared') }}',
                                     backgroundColor: '#38a3a6',
                                     borderWidth: 1,
-                                    data: [@foreach($chartData_hearedByWeekday as $weekData)
-                                        {{$weekData->minutes}},
+                                    data: [
+                                        @foreach($chartData_hearedByWeekday as $dayOfWeek => $minutes)
+                                        {{$minutes}},
                                         @endforeach
                                     ]
                                 }]
@@ -448,8 +449,8 @@
                             type: 'bar',
                             data: {
                                 labels: [
-                                    @foreach($chartData_hearedByHour as $weekData)
-                                        '{{$weekData->hour}} {{ __('spotify.time_suffix') }}',
+                                    @foreach($chartData_hearedByHour as $hour => $minutes)
+                                        '{{$hour}} {{ __('spotify.time_suffix') }}',
                                     @endforeach
                                 ],
                                 datasets: [{
@@ -457,8 +458,8 @@
                                     backgroundColor: '#38a3a6',
                                     borderWidth: 1,
                                     data: [
-                                        @foreach($chartData_hearedByHour as $weekData)
-                                        {{$weekData->minutes}},
+                                        @foreach($chartData_hearedByHour as $hour => $minutes)
+                                        {{$minutes}},
                                         @endforeach
                                     ]
                                 }]
