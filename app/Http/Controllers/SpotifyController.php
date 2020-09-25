@@ -43,29 +43,24 @@ class SpotifyController extends Controller
         if (auth()->user()->spotifyActivity->count() == 0)
             return view('spotify.nodata');
 
-        $chartDataHearedByWeek = auth()->user()->spotifyActivity
-            ->groupBy(function ($item, $key) {
-                return $item['timestamp_start']->year . $item['timestamp_start']->weekOfYear;
-            })->map(function ($item, $key) {
-                return collect($item)->count();
-            })
-            ->sortKeys();
+        $chartDataHearedByWeek = auth()->user()->spotifyActivity()
+            ->select(DB::raw('YEAR(created_at) AS year'), DB::raw('WEEK(created_at) AS week'), DB::raw('COUNT(*) as minutes'))
+            ->groupBy('year', 'week')
+            ->orderBy('year', 'asc')
+            ->orderBy('week', 'asc')
+            ->get();
 
-        $chartDataHearedByWeekday = auth()->user()->spotifyActivity
-            ->groupBy(function ($item, $key) {
-                return $item['timestamp_start']->dayOfWeek;
-            })->map(function ($item, $key) {
-                return collect($item)->count();
-            })
-            ->sortKeys();
+        $chartDataHearedByWeekday = auth()->user()->spotifyActivity()
+            ->select(DB::raw('WEEKDAY(created_at) AS weekday'), DB::raw('COUNT(*) as minutes'))
+            ->groupBy(DB::raw('weekday'))
+            ->orderBy('weekday', 'asc')
+            ->get();
 
-        $chartDataHearedByHour = auth()->user()->spotifyActivity
-            ->groupBy(function ($item, $key) {
-                return $item['timestamp_start']->hour;
-            })->map(function ($item, $key) {
-                return collect($item)->count();
-            })
-            ->sortKeys();
+        $chartDataHearedByHour = auth()->user()->spotifyActivity()
+            ->select(DB::raw('HOUR(created_at) AS hour'), DB::raw('COUNT(*) as minutes'))
+            ->groupBy(DB::raw('hour'))
+            ->orderBy('hour', 'asc')
+            ->get();
 
         $topTracks = auth()->user()->spotifyActivity()->with(['track', 'track.album', 'track.artists'])
             ->groupBy('track_id')
