@@ -88,6 +88,23 @@ class Spotify_CatchNowPlaying extends Command
                     if ($device->is_active)
                         $activeDevice = $de;
                 }
+                
+                $album_release_date = $nowPlaying->item->album->release_date;
+                if ($nowPlaying->item->album->release_date_precision == 'month')
+                    $album_release_date .= "-01";
+                else if ($nowPlaying->item->album->release_date_precision == 'year')
+                    $album_release_date .= "-01-01";
+
+                $album = SpotifyAlbum::updateOrCreate(
+                    [
+                        'album_id' => $nowPlaying->item->album->id
+                    ],
+                    [
+                        'name' => $nowPlaying->item->album->name,
+                        'imageUrl' => $nowPlaying->item->album->images[0]->url,
+                        'release_date' => $album_release_date
+                    ]
+                );
 
                 $track = SpotifyTrack::updateOrCreate(
                     [
@@ -112,23 +129,6 @@ class Spotify_CatchNowPlaying extends Command
                     'context_uri' => $context_uri,
                     'device_id' => $activeDevice == NULL ? NULL : $activeDevice->id
                 ]);
-
-                $album_release_date = $nowPlaying->item->album->release_date;
-                if ($nowPlaying->item->album->release_date_precision == 'month')
-                    $album_release_date .= "-01";
-                else if ($nowPlaying->item->album->release_date_precision == 'year')
-                    $album_release_date .= "-01-01";
-
-                $album = SpotifyAlbum::updateOrCreate(
-                    [
-                        'album_id' => $nowPlaying->item->album->id
-                    ],
-                    [
-                        'name' => $nowPlaying->item->album->name,
-                        'imageUrl' => $nowPlaying->item->album->images[0]->url,
-                        'release_date' => $album_release_date
-                    ]
-                );
 
                 foreach ($nowPlaying->item->album->artists as $artist) {
                     $artist = SpotifyArtist::updateOrCreate(
