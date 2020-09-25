@@ -9,7 +9,8 @@
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col-md-3">
-                            <span class="color-highlight" style="font-size: 40px;">{{$bonCount}}</span><br>
+                            <span class="color-highlight"
+                                  style="font-size: 40px;">{{auth()->user()->reweReceipts->count()}}</span><br>
                             <small><b>Erfasste Einkäufe</b></small>
                         </div>
                         <div class="col-md-3">
@@ -17,13 +18,13 @@
                             <small><b>Meistgenutzte Zahlungsmethode</b></small>
                         </div>
                         <div class="col-md-3">
-                                <span class="color-highlight" style="font-size: 40px;">{{ number_format($avgPer, 2, ',', '.') }}<small>€</small><i
+                                <span class="color-highlight" style="font-size: 40px;">{{ number_format(auth()->user()->reweReceipts->avg('total'), 2, ',', '.') }}<small>€</small><i
                                             class="mdi mdi-trending-up"
                                             style="font-size: 25px; color: rgb(255, 99, 132)"></i></span><br>
                             <small><b>durchschn. pro Einkauf</b></small>
                         </div>
                         <div class="col-md-3">
-                            <span class="color-highlight" style="font-size: 40px;">{{ number_format($total, 2, ',', '.') }}<small>€</small></span><br>
+                            <span class="color-highlight" style="font-size: 40px;">{{ number_format(auth()->user()->reweReceipts->sum('total'), 2, ',', '.') }}<small>€</small></span><br>
                             <small><b>Insgesamt ausgegeben</b></small>
                         </div>
                     </div>
@@ -101,15 +102,15 @@
                                 datasets: [{
                                     backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
                                     data: [
-                                        @foreach($shops as $shop)
-                                            '{{$shop->cnt}}',
+                                        @foreach(auth()->user()->reweReceipts->groupBy('shop_id') as $shopId => $receipts)
+                                            '{{$receipts->count()}}',
                                         @endforeach
                                     ],
                                     label: 'Markt Nr.'
                                 }],
                                 labels: [
-                                    @foreach($shops as $shop)
-                                        '{{$shop->shop->name ?? "Markt " . $shop->shop->id}}',
+                                    @foreach(auth()->user()->reweReceipts->groupBy('shop_id') as $shopId => $receipts)
+                                        '{{$receipts->first()->shop->name ?? ""}} (#{{$receipts->first()->shop_id}})',
                                     @endforeach
                                 ]
                             },
@@ -267,7 +268,7 @@
                         </thead>
                         <tbody>
 
-                        @foreach($bonList as $bon)
+                        @foreach(auth()->user()->reweReceipts->sortByDesc('timestamp_bon') as $bon)
                             <tr>
                                 <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
                                 <td>
@@ -307,7 +308,7 @@
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        var chart_dayTime = document.getElementById('chart_dayTime').getContext('2d');
+                        let chart_dayTime = document.getElementById('chart_dayTime').getContext('2d');
                         window.chart_dayTime = new Chart(chart_dayTime, {
                             type: 'bar',
                             data: {
@@ -321,9 +322,15 @@
                                     backgroundColor: '#38a3a6',
                                     borderWidth: 1,
                                     data: [
-                                        @for($hour = 0; $hour < 24; $hour++)
-                                        {{$shoppingByHour[$hour]}},
-                                        @endfor
+                                        @foreach(auth()->user()->reweReceipts->groupBy(function ($item, $key) {
+            return $item['timestamp_bon']->hour;
+        })->union([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])->sortKeys() as $hourly)
+                                        @if($hourly instanceof \Illuminate\Database\Eloquent\Collection)
+                                        {{$hourly->count()}},
+                                        @else
+                                            0,
+                                        @endif
+                                        @endforeach
                                     ]
                                 }]
 

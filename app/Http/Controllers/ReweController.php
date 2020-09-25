@@ -27,13 +27,12 @@ class ReweController extends Controller
      */
     public function index()
     {
-        $bonCount = ReweBon::where('user_id', auth()->user()->id)->count();
-        $avgPer = ReweBon::where('user_id', auth()->user()->id)->select(DB::raw('AVG(total) as total'))->first()->total;
+        auth()->user()->load(['reweReceipts', 'reweReceipts.shop']);
+
         $mostUsedPaymentMethod = ReweBon::where('user_id', auth()->user()->id)->groupBy('paymentmethod')
             ->select('paymentmethod', DB::raw("COUNT(*) as cnt"))
             ->orderBy('cnt', 'DESC')->first();
         $mostUsedPaymentMethod = $mostUsedPaymentMethod == NULL ? '¯\_(ツ)_/¯' : $mostUsedPaymentMethod->paymentmethod;
-        $total = ReweBon::where('user_id', auth()->user()->id)->select(DB::raw('SUM(total) as total'))->first()->total;
 
         $favouriteProducts = DB::table('rewe_bons')
             ->join('rewe_bon_positions', 'rewe_bon_positions.bon_id', 'rewe_bons.id')
@@ -43,27 +42,6 @@ class ReweController extends Controller
             ->select('rewe_products.*', DB::raw('COUNT(*) as cnt'))
             ->orderByDesc('cnt')
             ->limit(5)
-            ->get();
-
-        $shoppingByHour_q = ReweBon::where('user_id', auth()->user()->id)
-            ->groupBy(DB::raw("HOUR(timestamp_bon)"))
-            ->select(DB::raw('HOUR(timestamp_bon) as hour'), DB::raw('COUNT(*) as cnt'))
-            ->get();
-
-        $shoppingByHour = [];
-        foreach ($shoppingByHour_q as $d)
-            $shoppingByHour[$d->hour] = $d->cnt;
-        for ($hour = 0; $hour < 24; $hour++)
-            if (!isset($shoppingByHour[$hour]))
-                $shoppingByHour[$hour] = 0;
-
-
-        $bonList = ReweBon::where('user_id', auth()->user()->id)->orderByDesc('timestamp_bon')->get();
-
-        $shops = ReweBon::with(['shop'])->where('user_id', auth()->user()->id)
-            ->groupBy('shop_id')
-            ->select('shop_id', DB::raw('COUNT(*) as cnt'))
-            ->orderBy(DB::raw('COUNT(*)'), 'desc')
             ->get();
 
         $payment_methods = ReweBon::where('user_id', auth()->user()->id)
@@ -117,15 +95,9 @@ class ReweController extends Controller
             ->get();
 
         return view('rewe_ebon.overview', [
-            'bonCount' => $bonCount,
-            'avgPer' => $avgPer,
             'mostUsedPaymentMethod' => $mostUsedPaymentMethod,
             'products_vegetarian' => $products_vegetarian,
-            'total' => $total,
             'favouriteProducts' => $favouriteProducts,
-            'bonList' => $bonList,
-            'shoppingByHour' => $shoppingByHour,
-            'shops' => $shops,
             'payment_methods' => $payment_methods,
             'forecast' => $forecast,
             'topByCategoryCount' => $topByCategoryCount,
