@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use App\Exceptions\RateLimitException;
+use App\Exceptions\TwitterException;
+use App\Exceptions\TwitterTokenInvalidException;
 use App\Http\Controllers\TwitterApiController;
 use App\Http\Controllers\TwitterController;
 use App\SocialLoginProfile;
@@ -56,8 +59,20 @@ class Twitter_CrawlFollowers extends Command
 
                 $profile = TwitterController::verifyProfile($sl_profile);
                 $this->crawlFollowers($connection, $profile, $sl_profile);
-            } catch (\Exception $e) {
+            } catch (RateLimitException $e) {
+                echo "Skipping Request due to rate limiting... \r\n";
+            } catch (TwitterException $e) {
+                echo "Twitter Exception \r\n";
                 report($e);
+            } catch (TwitterTokenInvalidException $e) {
+                echo "Twitter Token from User " . $sl_profile->user_id . " invalid or expired... \r\n";
+                $sl_profile->update([
+                    'twitter_id' => NULL,
+                    'twitter_token' => NULL,
+                    'twitter_tokenSecret' => NULL,
+                ]);
+                report($e);
+            } catch (\Exception $e) {
             }
         }
     }

@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class TwitterProfile extends Model
 {
-    protected $fillable = ['id', 'name', 'screen_name', 'location', 'description', 'url', 'protected',
-        'followers_count', 'friends_count', 'listed_count', 'statuses_count', 'account_creation'];
+    protected $fillable = [
+        'id', 'name', 'screen_name', 'location', 'description', 'url', 'protected',
+        'followers_count', 'friends_count', 'listed_count', 'statuses_count', 'account_creation'
+    ];
+    protected $dates = ['account_creation'];
 
     public function followers()
     {

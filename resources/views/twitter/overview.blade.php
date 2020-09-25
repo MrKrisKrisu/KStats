@@ -52,7 +52,7 @@
                                 @isset($unfollower->unfollower_profile)
                                     <tr>
                                         <td>{{$unfollower->unfollower_profile->screen_name ?? $unfollower->unfollower_profile->id}}</td>
-                                        <td data-order="{{$unfollower->created_at}}">{{$unfollower->created_at->diffForHumans()}}</td>
+                                        <td data-order="{{$unfollower->unfollowed_at}}">{{$unfollower->unfollowed_at->diffForHumans()}}</td>
                                     </tr>
                                 @endisset
                             @endforeach
@@ -100,7 +100,7 @@
                                 <td>{{$follower->followers_count}}</td>
                                 <td>{{$follower->friends_count}}</td>
                                 <td>{{$follower->statuses_count}}</td>
-                                <td>{{$follower->account_creation}}</td>
+                                <td>{{$follower->account_creation->format('d.m.Y H:i')}}</td>
                             </tr>
                         @endforeach
                         </tbody>

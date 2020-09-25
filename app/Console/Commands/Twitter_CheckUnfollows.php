@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\TwitterApiController;
+use App\Http\Controllers\TwitterController;
 use App\SocialLoginProfile;
 use App\TwitterFollower;
 use App\TwitterUnfollower;
@@ -51,9 +52,9 @@ class Twitter_CheckUnfollows extends Command
         $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit(50)->get();
         foreach ($toCheck as $relationship) {
             try {
-                $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->first();
+                $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', NULL)->first();
                 if ($sl_profile == NULL) {
-                    dump("No SL Profile " . $relationship->followed_id);
+                    dump("No SL Profile " . $relationship->followed->screen_name);
                     continue;
                 }
 
@@ -104,7 +105,8 @@ class Twitter_CheckUnfollows extends Command
 
                         TwitterUnfollower::create([
                             'account_id' => $relationship->followed->id,
-                            'unfollower_id' => $relationship->follower->id
+                            'unfollower_id' => $relationship->follower->id,
+                            'unfollowed_at' => $relationship->updated_at
                         ]);
                     } else {
                         dump("Is following");

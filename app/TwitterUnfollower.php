@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TwitterUnfollower extends Model
 {
-    protected $fillable = ['unfollower_id', 'account_id'];
+    protected $fillable = ['unfollower_id', 'account_id', 'unfollowed_at'];
+    protected $dates = ['unfollowed_at'];
 
     public function twitter_profile()
     {

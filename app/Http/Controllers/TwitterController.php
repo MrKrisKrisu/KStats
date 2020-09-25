@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Abraham\TwitterOAuth\TwitterOAuthException;
+use App\Exceptions\RateLimitException;
+use App\Exceptions\TwitterException;
+use App\Exceptions\TwitterTokenInvalidException;
 use App\SocialLoginProfile;
 use App\TwitterProfile;
 use App\User;
@@ -31,41 +35,46 @@ class TwitterController extends Controller
     /**
      * @param SocialLoginProfile $slp
      * @return mixed
-     * @throws \Exception
+     * @throws RateLimitException
+     * @throws TwitterException
+     * @throws TwitterTokenInvalidException
      */
-    public static function verifyProfile(SocialLoginProfile $slp)
+    public static function verifyProfile(SocialLoginProfile $slp): TwitterProfile
     {
         if (!TwitterApiController::canRequest($slp, 'account/verify_credentials', 75))
-            return false;
-        try {
-            $connection = TwitterApiController::getNewConnection($slp);
-            $profile_data = $connection->get("account/verify_credentials");
-            TwitterApiController::saveRequest($slp, 'account/verify_credentials');
+            throw new RateLimitException();
 
-            $twp = TwitterProfile::updateOrCreate([
-                'id' => $profile_data->id
-            ], [
-                'name' => $profile_data->name,
-                'screen_name' => $profile_data->screen_name,
-                'location' => $profile_data->location,
-                'description' => $profile_data->description,
-                'url' => $profile_data->url,
-                'protected' => $profile_data->protected,
-                'followers_count' => $profile_data->followers_count,
-                'friends_count' => $profile_data->friends_count,
-                'listed_count' => $profile_data->listed_count,
-                'statuses_count' => $profile_data->statuses_count,
-                'account_creation' => Carbon::parse($profile_data->created_at)
-            ]);
+        $connection = TwitterApiController::getNewConnection($slp);
+        $profile_data = $connection->get("account/verify_credentials");
 
-
-            $slp->twitter_id = $profile_data->id;
-            $slp->update();
-
-            return $twp;
-        } catch (\Exception $e) {
-            report($e);
-            return false;
+        if (isset($profile_data->errors)) {
+            foreach ($profile_data->errors as $error)
+                if ($error->code == 89)
+                    throw new TwitterTokenInvalidException();
+            throw new TwitterException(print_r($profile_data->errors, true));
         }
+
+        TwitterApiController::saveRequest($slp, 'account/verify_credentials');
+
+        $twp = TwitterProfile::updateOrCreate([
+            'id' => $profile_data->id
+        ], [
+            'name' => $profile_data->name,
+            'screen_name' => $profile_data->screen_name,
+            'location' => $profile_data->location,
+            'description' => $profile_data->description,
+            'url' => $profile_data->url,
+            'protected' => $profile_data->protected,
+            'followers_count' => $profile_data->followers_count,
+            'friends_count' => $profile_data->friends_count,
+            'listed_count' => $profile_data->listed_count,
+            'statuses_count' => $profile_data->statuses_count,
+            'account_creation' => Carbon::parse($profile_data->created_at)
+        ]);
+
+        $slp->twitter_id = $profile_data->id;
+        $slp->update();
+
+        return $twp;
     }
 }
