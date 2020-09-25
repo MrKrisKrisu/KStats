@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,7 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UserSeeder::class);
+        User::factory()->create(['username' => 'john.doe']);
+
         $this->call(SocialLoginProfileSeeder::class);
 
         //REWE eBon Analyzer Tables
