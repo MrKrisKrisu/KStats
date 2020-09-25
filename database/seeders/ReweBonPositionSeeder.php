@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\ReweBon;
 use App\ReweBonPosition;
 use App\ReweProduct;

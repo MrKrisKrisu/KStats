@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\SpotifyArtist;
 use App\SpotifyTrack;
 use Illuminate\Database\Seeder;

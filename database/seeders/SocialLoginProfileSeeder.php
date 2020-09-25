@@ -1,8 +1,11 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\SocialLoginProfile;
 use App\User;
 use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class SocialLoginProfileSeeder extends Seeder
@@ -14,7 +17,7 @@ class SocialLoginProfileSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create('de_DE');
+        $faker = Factory::create('de_DE');
 
         foreach (User::all() as $user) {
             SocialLoginProfile::create([

@@ -1,12 +1,13 @@
 <?php
 
-use App\ReweCrowdsourcingCategory;
+namespace Database\Seeders;
+
+use App\ReweCrowdsourcingVegetarian;
 use App\ReweProduct;
-use App\ReweProductCategory;
 use App\User;
 use Illuminate\Database\Seeder;
 
-class ReweCrowdsourcingCategorySeeder extends Seeder
+class ReweCrowdsourcingVegetariansSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,11 +17,11 @@ class ReweCrowdsourcingCategorySeeder extends Seeder
     public function run()
     {
         for ($i = 3; $i < 20; $i++) {
-            ReweCrowdsourcingCategory::updateOrCreate([
+            ReweCrowdsourcingVegetarian::updateOrCreate([
                 'user_id' => User::all()->random()->id,
                 'product_id' => ReweProduct::all()->random()->id
             ], [
-                'category_id' => ReweProductCategory::all()->random()->id
+                'vegetarian' => rand(-1, 1)
             ]);
         }
     }
