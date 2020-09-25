@@ -74,8 +74,11 @@ class Twitter_CheckUnfollows extends Command
 
                             TwitterUnfollower::create([
                                 'account_id' => $relationship->followed->id,
-                                'unfollower_id' => $relationship->follower->id
+                                'unfollower_id' => $relationship->follower->id,
+                                'unfollowed_at' => $relationship->updated_at
                             ]);
+                            TelegramController::sendMessage($sl_profile->user, "<b>Neuer Twitter Unfollower</b>\r\n" . "Das Twitter Profil @" . $relationship->follower->screen_name . ' ist nicht mehr aufrufbar und folgt dir daher nicht mehr.');
+
                             continue;
                         }
                     }
@@ -101,7 +104,6 @@ class Twitter_CheckUnfollows extends Command
 
                     if (!$followed_by) {
                         dump("User " . $relationship->follower->screen_name . ' hat ' . $relationship->followed->screen_name . ' entfolgt.');
-
                         $relationship->delete();
 
                         TwitterUnfollower::create([
@@ -109,7 +111,7 @@ class Twitter_CheckUnfollows extends Command
                             'unfollower_id' => $relationship->follower->id,
                             'unfollowed_at' => $relationship->updated_at
                         ]);
-                        
+
                         TelegramController::sendMessage($sl_profile->user, "<b>Neuer Twitter Unfollower</b>\r\n" . $relationship->follower->screen_name . ' ist dir etwa ' . $relationship->updated_at->diffForHumans() . ' entfolgt.');
                     } else {
                         dump("Is following");
