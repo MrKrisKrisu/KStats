@@ -86,9 +86,18 @@ class SettingsController extends Controller
             'verification_key' => md5(rand(0, 99999) . time() . Auth::user()->id)
         ]);
 
-        Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
+        try {
+            Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
 
-        $request->session()->flash('alert-success', "Die E-Mail Adresse wurde gespeichert. Du solltest gleich eine E-Mail mit einem Bestätigungslink erhalten.");
+            $request->session()->flash('alert-success', __('settings.verify_mail.alert_save'));
+
+            if (Mail::failures())
+                throw new \Exception("Failure on sending mail: " . json_encode(Mail::failures()));
+        } catch (\Exception $e) {
+            report($e);
+            $request->session()->flash('alert-danger', __('settings.verify_mail.alert_save_error'));
+            $userEmail->delete();
+        }
 
         return back();
     }

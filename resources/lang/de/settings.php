@@ -23,7 +23,9 @@ return [
         'confirmations' => 'Bitte bestätige, dass diese Adresse zu dir gehört, indem du auf folgenden Link klickst:',
         'disclaimer' => 'Solltest du das nicht gewesen sein, klicke bitte nicht auf den Link und wende dich an den KStats Support.',
         'link_invalid' => 'Der Verifizierungslink ist nicht gültig.',
-        'verified_successfully' => 'Die E-Mail Adresse wurde erfolgreich bestätigt.'
+        'verified_successfully' => 'Die E-Mail Adresse wurde erfolgreich bestätigt.',
+        'alert_save' => 'Die E-Mail Adresse wurde gespeichert. Du solltest gleich eine E-Mail mit einem Bestätigungslink erhalten.',
+        'alert_save_error' => 'Es ist ein Fehler beim Senden der Bestätigungsmail aufgetreten.'
     ],
     'connected' => 'Der Account ist mit einem :service Konto verbunden.',
     'not_connected' => 'Um Statistiken zu erhalten musst du deinen Account zuerst mit :service verbinden.',
