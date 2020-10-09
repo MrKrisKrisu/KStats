@@ -48,12 +48,12 @@ class ConnectCommand extends Command
             return;
         }
 
-        $us = UserSettings::where('name', 'telegram_connectCode')
+        $userSetting = UserSettings::where('name', 'telegram_connectCode')
                           ->where('val', $this->getArguments()['code'])
                           ->where('updated_at', '>', Carbon::now()->addHours('-1'))
                           ->first();
 
-        if ($us == null) {
+        if ($userSetting == null) {
             $this->replyWithMessage([
                                         'text' => 'Fehler: Der Code ist nicht korrekt..'
                                     ]);
@@ -62,11 +62,11 @@ class ConnectCommand extends Command
 
 
         $this->replyWithMessage([
-                                    'text' => "Hallo " . $us->user->username . '! Dein Account ist jetzt erfolgreich verknüpft.'
+                                    'text' => "Hallo " . $userSetting->user->username . '! Dein Account ist jetzt erfolgreich verknüpft.'
                                 ]);
 
-        UserSettings::set($us->user->id, 'telegramID', $this->getUpdate()->getChat()->get('id'));
-        UserSettings::set($us->user->id, 'telegram_connectCode', '');
+        UserSettings::set($userSetting->user->id, 'telegramID', $this->getUpdate()->getChat()->get('id'));
+        UserSettings::set($userSetting->user->id, 'telegram_connectCode', '');
 
     }
 }
