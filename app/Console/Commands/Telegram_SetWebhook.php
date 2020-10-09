@@ -39,8 +39,12 @@ class Telegram_SetWebhook extends Command
      */
     public function handle()
     {
+        $url = env('APP_URL') . '/' . env('TELEGRAM_BOT_TOKEN') . '/webhook';
+
+        echo "Set weebhook to $url. \r\n";
+
         $res = Telegram::setWebhook([
-                                        'url' => env('APP_URL') . '/' . env('TELEGRAM_TOKEN') . '/webhook'
+                                        'url' => $url
                                     ]);
 
         dump($res);
