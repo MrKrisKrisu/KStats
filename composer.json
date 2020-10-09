@@ -9,6 +9,7 @@
     "doctrine/dbal": "^2.10",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^7.0.1",
+    "irazasyed/telegram-bot-sdk": "^3.3",
     "laravel/framework": "^8.0",
     "laravel/socialite": "^5.0",
     "laravel/tinker": "^2.0",
