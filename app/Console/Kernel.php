@@ -27,38 +27,40 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('kstats:cleanup')
-            ->everySixHours();
+                 ->everySixHours();
 
         //Spotify
         $schedule->command('spotify:tokenRefresh')
-            ->everyFifteenMinutes()
-            ->evenInMaintenanceMode();
+                 ->everyFifteenMinutes()
+                 ->evenInMaintenanceMode();
 
         $schedule->command('spotify:catchNowPlaying')
-            ->everyMinute()
-            ->evenInMaintenanceMode()
-            ->runInBackground();
+                 ->everyMinute()
+                 ->evenInMaintenanceMode()
+                 ->runInBackground();
 
         $schedule->command('spotify:getTrackInfo')
-            ->everyFifteenMinutes();
+                 ->everyFifteenMinutes();
 
         $schedule->command('spotify:playlistRefresh')
-            ->daily();
+                 ->daily();
 
         //REWE eBon Analyzer
         $schedule->command('rewe:parse')
-            ->everyFiveMinutes()
-            ->runInBackground();
+                 ->everyFiveMinutes()
+                 ->runInBackground();
 
         //Twitter
         $schedule->command('twitter:crawl_followers')
-            ->everyMinute()
-            ->runInBackground()
-            ->withoutOverlapping();
+                 ->everyMinute()
+                 ->runInBackground()
+                 ->withoutOverlapping();
         $schedule->command('twitter:check_unfollows')
-            ->everyMinute()
-            ->runInBackground()
-            ->withoutOverlapping();
+                 ->everyMinute()
+                 ->runInBackground()
+                 ->withoutOverlapping();
+
+        $schedule->command('telegram:set_webhook')->daily();
     }
 
     /**

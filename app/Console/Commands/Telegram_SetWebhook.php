@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\TelegramController;
 use Illuminate\Console\Command;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class Telegram_SetWebhook extends Command
 {
@@ -38,8 +39,11 @@ class Telegram_SetWebhook extends Command
      */
     public function handle()
     {
-        $res = TelegramController::setWebhook();
-        echo $res ? 'Webhook set successfully.' : 'Error while create Webhook.';
+        $res = Telegram::setWebhook([
+                                        'url' => env('APP_URL') . '/' . env('TELEGRAM_TOKEN') . '/webhook'
+                                    ]);
+
+        dump($res);
 
         return 0;
     }
