@@ -39,7 +39,10 @@ class Telegram_SetWebhook extends Command
      */
     public function handle()
     {
-        $url = env('APP_URL') . '/' . env('TELEGRAM_BOT_TOKEN') . '/webhook';
+        $url = strtr(':url/:token/webhook', [
+            ':url'   => config('app.url'),
+            ':token' => config('telegram.bots.mybot.token')
+        ]);
 
         echo "Set weebhook to $url. \r\n";
 
