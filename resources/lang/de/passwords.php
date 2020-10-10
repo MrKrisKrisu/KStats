@@ -13,10 +13,10 @@ return [
     |
     */
 
-    'reset' => 'Dein Passwort wurde zurückgesetzt.',
-    'sent' => 'Wir haben dir einen Link zum Passwort zurücksetzen per E-Mail zugeschickt.',
+    'reset'     => 'Dein Passwort wurde zurückgesetzt.',
+    'sent'      => 'Wir haben dir einen Link zum Passwort zurücksetzen per E-Mail zugeschickt.',
     'throttled' => 'Warte bitte, bevor du es erneut versuchst.',
-    'token' => 'Der Token ist nicht gültig.',
-    'user' => "Wir konnten keinen Benutzer finden.",
+    'token'     => 'Der Token ist nicht gültig.',
+    'user'      => "Wir konnten keinen Benutzer finden.",
 
 ];
