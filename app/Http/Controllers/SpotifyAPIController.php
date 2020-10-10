@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\SpotifyAPIException;
 use App\Exceptions\SpotifyTokenExpiredException;
+use App\SocialLoginProfile;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -80,10 +83,10 @@ class SpotifyAPIController extends Controller
         $client = new Client(['http_errors' => false]);
         $result = $client->post('https://accounts.spotify.com/api/token', [
             'form_params' => [
-                'grant_type' => 'refresh_token',
+                'grant_type'    => 'refresh_token',
                 'refresh_token' => $refreshToken
             ],
-            'headers' => [
+            'headers'     => [
                 'authorization' => 'Basic ' . base64_encode(env('SPOTIFY_CLIENT_ID') . ':' . env('SPOTIFY_CLIENT_SECRET'))
             ]
         ]);
@@ -102,14 +105,22 @@ class SpotifyAPIController extends Controller
     /**
      * @param string $implodedIDs
      * @return bool|mixed
-     * @throws SpotifyAPIException
+     * @throws SpotifyAPIException|GuzzleException
      */
     public static function getAudioFeatures(string $implodedIDs)
     {
+        $rdmSocialProfile = SocialLoginProfile::where('spotify_lastRefreshed', '>', Carbon::now()->subMinutes(50)->toDateString())
+                                              ->where('spotify_accessToken', '<>', null)
+                                              ->first();
+
+        if ($rdmSocialProfile === null) {
+            throw new SpotifyAPIException('Cannot find any (random) Spotify Key to make this request.');
+        }
+
         $client = new Client();
         $result = $client->get('https://api.spotify.com/v1/audio-features?ids=' . $implodedIDs, [
             'headers' => [
-                'Authorization' => 'Bearer ' . DB::table('social_login_profiles')->where('spotify_lastRefreshed', '>', DB::raw('NOW() - INTERVAL 50 MINUTE'))->first()->spotify_accessToken
+                'Authorization' => 'Bearer ' . $rdmSocialProfile->spotify_accessToken
             ]
         ]);
 
