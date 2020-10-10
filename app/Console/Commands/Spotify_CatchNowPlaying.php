@@ -51,8 +51,8 @@ class Spotify_CatchNowPlaying extends Command
     public function handle()
     {
         $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
-            ->where('spotify_lastRefreshed', '>', Carbon::parse('-1 hour'))
-            ->get();
+                                       ->where('spotify_lastRefreshed', '>', Carbon::parse('-1 hour'))
+                                       ->get();
 
         foreach ($slProfile as $profile) {
             try {
@@ -71,20 +71,20 @@ class Spotify_CatchNowPlaying extends Command
                 $timestamp_start = date('Y-m-d H:i:s', $nowPlaying->timestamp / 1000);
                 $track_id = $nowPlaying->item->id;
                 $progress_ms = (int)$nowPlaying->progress_ms;
-                $context = isset($nowPlaying->context->type) ? $nowPlaying->context->type : NULL;
-                $context_uri = isset($nowPlaying->context->uri) ? $nowPlaying->context->uri : NULL;
+                $context = isset($nowPlaying->context->type) ? $nowPlaying->context->type : null;
+                $context_uri = isset($nowPlaying->context->uri) ? $nowPlaying->context->uri : null;
 
                 $devices = SpotifyAPIController::getDevices($profile->spotify_accessToken);
-                $activeDevice = NULL;
+                $activeDevice = null;
 
                 foreach ($devices->devices as $device) {
                     $de = SpotifyDevice::updateOrCreate([
-                        'device_id' => $device->id
-                    ], [
-                        'user_id' => $user->id,
-                        'name' => $device->name,
-                        'type' => $device->type
-                    ]);
+                                                            'device_id' => $device->id
+                                                        ], [
+                                                            'user_id' => $user->id,
+                                                            'name'    => $device->name,
+                                                            'type'    => $device->type
+                                                        ]);
                     if ($device->is_active)
                         $activeDevice = $de;
                 }
@@ -92,7 +92,7 @@ class Spotify_CatchNowPlaying extends Command
                 $album_release_date = $nowPlaying->item->album->release_date;
                 if ($nowPlaying->item->album->release_date_precision == 'month')
                     $album_release_date .= "-01";
-                else if ($nowPlaying->item->album->release_date_precision == 'year')
+                elseif ($nowPlaying->item->album->release_date_precision == 'year')
                     $album_release_date .= "-01-01";
 
                 $album = SpotifyAlbum::updateOrCreate(
@@ -100,8 +100,8 @@ class Spotify_CatchNowPlaying extends Command
                         'album_id' => $nowPlaying->item->album->id
                     ],
                     [
-                        'name' => $nowPlaying->item->album->name,
-                        'imageUrl' => $nowPlaying->item->album->images[0]->url,
+                        'name'         => $nowPlaying->item->album->name,
+                        'imageUrl'     => $nowPlaying->item->album->images[0]->url,
                         'release_date' => $album_release_date
                     ]
                 );
@@ -111,24 +111,24 @@ class Spotify_CatchNowPlaying extends Command
                         'track_id' => $nowPlaying->item->id
                     ],
                     [
-                        'name' => $nowPlaying->item->name,
-                        'album_id' => $nowPlaying->item->album->id,
+                        'name'        => $nowPlaying->item->name,
+                        'album_id'    => $nowPlaying->item->album->id,
                         'preview_url' => $nowPlaying->item->preview_url,
-                        'popularity' => $nowPlaying->item->popularity,
-                        'explicit' => $nowPlaying->item->explicit,
+                        'popularity'  => $nowPlaying->item->popularity,
+                        'explicit'    => $nowPlaying->item->explicit,
                         'duration_ms' => $nowPlaying->item->duration_ms
                     ]
                 );
 
                 SpotifyPlayActivity::create([
-                    'user_id' => $user->id,
-                    'timestamp_start' => $timestamp_start,
-                    'track_id' => $track_id,
-                    'progress_ms' => $progress_ms,
-                    'context' => $context,
-                    'context_uri' => $context_uri,
-                    'device_id' => $activeDevice == NULL ? NULL : $activeDevice->id
-                ]);
+                                                'user_id'         => $user->id,
+                                                'timestamp_start' => $timestamp_start,
+                                                'track_id'        => $track_id,
+                                                'progress_ms'     => $progress_ms,
+                                                'context'         => $context,
+                                                'context_uri'     => $context_uri,
+                                                'device_id'       => $activeDevice == null ? null : $activeDevice->id
+                                            ]);
 
                 foreach ($nowPlaying->item->album->artists as $artist) {
                     $artist = SpotifyArtist::updateOrCreate(
@@ -155,15 +155,15 @@ class Spotify_CatchNowPlaying extends Command
                 }
 
                 $session = SpotifySession::where('user_id', $user->id)
-                    ->where('timestamp_end', '>', DB::raw('(NOW() - INTERVAL 5 MINUTE)'))
-                    ->first();
+                                         ->where('timestamp_end', '>', DB::raw('(NOW() - INTERVAL 5 MINUTE)'))
+                                         ->first();
 
                 if ($session == null) {
                     SpotifySession::create([
-                        'user_id' => $user->id,
-                        'timestamp_start' => $timestamp_start,
-                        'timestamp_end' => Carbon::now()
-                    ]);
+                                               'user_id'         => $user->id,
+                                               'timestamp_start' => $timestamp_start,
+                                               'timestamp_end'   => Carbon::now()
+                                           ]);
                 } else {
                     $session->timestamp_end = Carbon::now();
                     $session->update();
