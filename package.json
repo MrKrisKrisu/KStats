@@ -28,6 +28,8 @@
         "chart.js": "^2.9.3",
         "datatables.net-bs4": "^1.10.22",
         "datatables.net-responsive-bs4": "^2.2.6",
-        "moment": "^2.29.0"
+        "moment": "^2.29.0",
+        "select2": "^4.0.13",
+        "select2-bootstrap4-theme": "^1.0.0"
     }
 }

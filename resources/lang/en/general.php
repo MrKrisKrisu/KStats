@@ -46,5 +46,8 @@ return [
         'imprint' => 'Imprint',
         'disclaimer' => 'Disclaimer',
         'stats' => 'Statistics',
+    ],
+    'form' => [
+        'choose' => "Please choose"
     ]
 ];

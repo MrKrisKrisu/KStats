@@ -19,6 +19,9 @@
 
 @import "bootstrap_improvements.scss";
 
+@import '~select2';
+@import '~select2-bootstrap4-theme';
+
 #dashboard h1,
 #dashboard h2,
 #dashboard h3,
@@ -60,4 +63,8 @@
 .text-warning,
 .text-success {
   font-weight: bold;
+}
+
+.select2-container {
+  width: 100% !important;
 }
