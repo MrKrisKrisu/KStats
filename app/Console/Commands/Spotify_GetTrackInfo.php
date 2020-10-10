@@ -41,10 +41,10 @@ class Spotify_GetTrackInfo extends Command
     public function handle()
     {
         $tracks = SpotifyTrack::select('track_id')
-            ->orderBy('updated_at', 'asc')
-            ->limit(100)
-            ->pluck('track_id')
-            ->implode(',');
+                              ->orderBy('updated_at', 'asc')
+                              ->limit(100)
+                              ->pluck('track_id')
+                              ->implode(',');
         try {
             $request = SpotifyAPIController::getAudioFeatures($tracks);
 
@@ -52,17 +52,17 @@ class Spotify_GetTrackInfo extends Command
                 try {
                     SpotifyTrack::where('track_id', $trackInfo->id)->update(
                         [
-                            'danceability' => $trackInfo->danceability,
-                            'energy' => $trackInfo->energy,
-                            'loudness' => $trackInfo->loudness,
-                            'speechiness' => $trackInfo->speechiness,
-                            'acousticness' => $trackInfo->acousticness,
+                            'danceability'     => $trackInfo->danceability,
+                            'energy'           => $trackInfo->energy,
+                            'loudness'         => $trackInfo->loudness,
+                            'speechiness'      => $trackInfo->speechiness,
+                            'acousticness'     => $trackInfo->acousticness,
                             'instrumentalness' => $trackInfo->instrumentalness,
-                            'valence' => $trackInfo->valence,
-                            'duration_ms' => $trackInfo->duration_ms,
-                            'key' => $trackInfo->key,
-                            'mode' => $trackInfo->mode,
-                            'bpm' => $trackInfo->tempo
+                            'valence'          => $trackInfo->valence,
+                            'duration_ms'      => $trackInfo->duration_ms,
+                            'key'              => $trackInfo->key,
+                            'mode'             => $trackInfo->mode,
+                            'bpm'              => $trackInfo->tempo
                         ]
                     );
                 } catch (\Exception $e) {
