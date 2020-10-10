@@ -40,7 +40,7 @@
         html,
         body {
             height: 100%;
-            background: url("{{env('APP_URL')}}/img/bg_cover.png") no-repeat center center fixed;
+            background: url("{{url('/img/bg_cover.png')}}") no-repeat center center fixed;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
