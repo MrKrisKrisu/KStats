@@ -18,7 +18,7 @@ class ReweMailController extends Controller
     public static function fetchMailAttachments(int $days)
     {
         $mailmanager = new self;
-        $mailmanager->connect(env('REWE_MAILER_SERVER'), env('REWE_MAILER_USERNAME'), env('REWE_MAILER_PASSWORD'), env('REWE_MAILER_IMAP_PORT'), env('REWE_MAILER_INBOX'));
+        $mailmanager->connect(config('app.rewe.mailer.host'), config('app.rewe.mailer.username'), config('app.rewe.mailer.password'), config('app.rewe.mailer.port'), config('app.rewe.mailer.inbox'));
         $mails = $mailmanager->getMails(strtotime("-" . $days . " days"));
 
         if (!$mails || is_null($mails) || count($mails) == 0) {
@@ -36,9 +36,9 @@ class ReweMailController extends Controller
                 for ($i = 0; $i < count($mail->getStructure()->parts); $i++) {
                     $attachments[$i] = array(
                         'is_attachment' => false,
-                        'filename' => '',
-                        'name' => '',
-                        'attachment' => '');
+                        'filename'      => '',
+                        'name'          => '',
+                        'attachment'    => '');
 
                     if ($mail->getStructure()->parts[$i]->ifdparameters) {
                         foreach ($mail->getStructure()->parts[$i]->dparameters as $object) {
@@ -78,7 +78,7 @@ class ReweMailController extends Controller
                         $userEmail = '';
                         if (strpos($mail->getOverview()->from, 'ebon@mailing.rewe.de') !== false)
                             $userEmail = $mail->getOverview()->to;
-                        else if (strpos($mail->getOverview()->from, '<')) {
+                        elseif (strpos($mail->getOverview()->from, '<')) {
                             if (preg_match('/<(.*)>/', $mail->getOverview()->from, $match))
                                 $userEmail = $match[1];
                         } else
@@ -95,20 +95,21 @@ class ReweMailController extends Controller
 
     public function isConnected()
     {
-        return $this->mailconnection !== NULL;
+        return $this->mailconnection !== null;
     }
 
     /**
      * Get ids from requested mails in inbox
+     *
      * @param long $since - timestamp since
      * @return array
      */
-    public function getMails($since = NULL)
+    public function getMails($since = null)
     {
         if (!$this->isConnected())
             return false;
 
-        $emailIDs = imap_search($this->mailconnection, 'ALL' . ($since == NULL ? '' : ' SINCE ' . date('Y-m-d', $since)));
+        $emailIDs = imap_search($this->mailconnection, 'ALL' . ($since == null ? '' : ' SINCE ' . date('Y-m-d', $since)));
 
         if (!$emailIDs)
             return array();
@@ -125,10 +126,10 @@ class ReweMailController extends Controller
 
     public function closeConnection()
     {
-        if ($this->mailconnection === NULL)
+        if ($this->mailconnection === null)
             return;
         imap_close($this->mailconnection);
-        $this->mailconnection = NULL;
+        $this->mailconnection = null;
     }
 
 }
@@ -151,21 +152,21 @@ class Mail
 
     public function getStructure()
     {
-        if ($this->structure === NULL)
+        if ($this->structure === null)
             $this->structure = imap_fetchstructure($this->mailconnection, $this->email_number);
         return $this->structure;
     }
 
     public function getOverview()
     {
-        if ($this->overview === NULL)
+        if ($this->overview === null)
             $this->overview = imap_fetch_overview($this->mailconnection, $this->email_number, 0)[0];
         return $this->overview;
     }
 
     public function getBody(int $option = 2)
     {
-        if (!isset($this->body[$option]) || $this->body[$option] === NULL)
+        if (!isset($this->body[$option]) || $this->body[$option] === null)
             $this->body[$option] = imap_fetchbody($this->mailconnection, $this->email_number, $option);
         return $this->body[$option];
     }
