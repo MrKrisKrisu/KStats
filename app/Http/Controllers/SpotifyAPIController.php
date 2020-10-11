@@ -96,8 +96,10 @@ class SpotifyAPIController extends Controller
 
         $data = json_decode($result->getBody()->getContents());
 
-        if (isset($data->error))
+        if (isset($data->error)) {
+            Log::debug($data);
             return false;
+        }
 
         return $data;
     }
