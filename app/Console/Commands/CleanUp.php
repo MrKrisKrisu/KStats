@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\SocialLoginProfile;
 use App\TwitterApiRequest;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -41,6 +42,11 @@ class CleanUp extends Command
     public function handle()
     {
         TwitterApiRequest::where('created_at', '<', Carbon::now()->addMinutes(-30))->delete();
+        SocialLoginProfile::where('spotify_lastRefreshed', '<', Carbon::now()->subHours(6)->toDateTimeString())
+                          ->update([
+                                       'spotify_accessToken'  => null,
+                                       'spotify_refreshToken' => null
+                                   ]);
     }
 
 }
