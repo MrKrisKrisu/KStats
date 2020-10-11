@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Spotify Connect') }}</h5>
-                    @if($isConnectedToSpotify)
+                    @if(auth()->user()->socialProfile->isConnectedSpotify)
                         {{ _('You are already connected to Spotify.') }}
                         {{ _('Click the button to reconnect.') }}
                     @else
@@ -24,7 +24,7 @@
                     <h5 class="card-title">{{ _('Twitter Connect') }}</h5>
 
                     <p>Status:
-                        @if($isConnectedToTwitter)
+                        @if(auth()->user()->socialProfile->isConnectedTwitter)
                             <span class="text-success">Connected</span>
                         @else
                             <span class="text-danger">Not Connected</span>
@@ -33,7 +33,7 @@
                     </p>
                     <hr/>
                     <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-success">
-                        @if($isConnectedToTwitter)
+                        @if(auth()->user()->socialProfile->isConnectedTwitter)
                             Reconnect to Twitter
                         @else
                             Connect to Twitter
@@ -44,7 +44,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ _('Telegram Connect') }}</h5>
-                    @if($isConnectedToTelegram)
+                    @if(auth()->user()->socialProfile->isConnectedTelegram)
                         <p>{{__('settings.telegram.connected')}}</p>
 
                         <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
@@ -71,7 +71,7 @@
                         @csrf
                         <input type="hidden" name="action" value="createTelegramToken"/>
                         <button type="submit" class="btn btn-primary">
-                            @if($isConnectedToTelegram)
+                            @if(auth()->user()->socialProfile->isConnectedTelegram)
                                 {{__('settings.connect')}}
                             @else
                                 {{__('settings.connect_new')}}
