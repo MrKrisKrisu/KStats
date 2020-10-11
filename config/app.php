@@ -210,5 +210,14 @@ return [
             'password' => env('REWE_MAILER_PASSWORD'),
             'inbox'    => env('REWE_MAILER_INBOX'),
         ]
+    ],
+
+    'imprint' => [
+        'name'    => env('IMPRINT_NAME'),
+        'address' => env('IMPRINT_ADDRESS'),
+        'city'    => env('IMPRINT_CITY'),
+        'phone'   => env('IMPRINT_PHONE'),
+        'fax'     => env('IMPRINT_FAX'),
+        'email'   => env('IMPRINT_EMAIL'),
     ]
 ];

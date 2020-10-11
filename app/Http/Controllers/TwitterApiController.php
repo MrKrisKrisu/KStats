@@ -12,29 +12,29 @@ class TwitterApiController extends Controller
 {
     /**
      * @param SocialLoginProfile $slp
-     * @param string $endpoint
-     * @param int $maxRequestsPer15Minutes
+     * @param string             $endpoint
+     * @param int                $maxRequestsPer15Minutes
      * @return bool
      */
     public static function canRequest(SocialLoginProfile $slp, string $endpoint, $maxRequestsPer15Minutes = 15)
     {
         $cnt = TwitterApiRequest::where('twitter_profile_id', $slp->twitter_id)
-            ->where('endpoint', $endpoint)
-            ->where('created_at', '>', Carbon::now()->addMinutes(-15))
-            ->count();
+                                ->where('endpoint', $endpoint)
+                                ->where('created_at', '>', Carbon::now()->addMinutes(-15))
+                                ->count();
         return $cnt < $maxRequestsPer15Minutes;
     }
 
     /**
      * @param SocialLoginProfile $slp
-     * @param string $endpoint
+     * @param string             $endpoint
      */
     public static function saveRequest(SocialLoginProfile $slp, string $endpoint)
     {
         TwitterApiRequest::create([
-            'twitter_profile_id' => $slp->twitter_id,
-            'endpoint' => $endpoint
-        ]);
+                                      'twitter_profile_id' => $slp->twitter_id,
+                                      'endpoint'           => $endpoint
+                                  ]);
     }
 
     /**
@@ -44,8 +44,8 @@ class TwitterApiController extends Controller
     public static function getNewConnection(SocialLoginProfile $sl_profile)
     {
         return new TwitterOAuth(
-            env('TWITTER_CLIENT_ID'),
-            env('TWITTER_CLIENT_SECRET'),
+            config('services.twitter.client_id'),
+            config('services.twitter.client_secret'),
             $sl_profile->twitter_token,
             $sl_profile->twitter_tokenSecret
         );

@@ -4,14 +4,14 @@
     <main role="main" class="inner cover">
         <h1>Impressum</h1>
         <p>Angaben gemäß § 5 TMG</p>
-        <p>{{ env('IMPRINT_NAME') }} <br>
-            {{ env('IMPRINT_ADDRESS') }}<br>
-            {{ env('IMPRINT_CITY') }} <br>
+        <p>{{ config('app.imprint.name') }} <br>
+            {{ config('app.imprint.address') }}<br>
+            {{ config('app.imprint.city') }} <br>
         </p>
         <p><strong>Kontakt:</strong> <br>
-            Telefon: {{ env('IMPRINT_PHONE') }}<br>
-            Fax: {{ env('IMPRINT_FAX') }}<br>
-            E-Mail: {{ env('IMPRINT_EMAIL') }}<br/></p>
+            Telefon: {{ config('app.imprint.phone') }}<br>
+            Fax: {{ config('app.imprint.fax') }}<br>
+            E-Mail: {{ config('app.imprint.email') }}<br/></p>
         <br>
         <p>
 

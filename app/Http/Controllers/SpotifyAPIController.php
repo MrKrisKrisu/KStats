@@ -87,7 +87,7 @@ class SpotifyAPIController extends Controller
                 'refresh_token' => $refreshToken
             ],
             'headers'     => [
-                'authorization' => 'Basic ' . base64_encode(env('SPOTIFY_CLIENT_ID') . ':' . env('SPOTIFY_CLIENT_SECRET'))
+                'authorization' => 'Basic ' . base64_encode(config('services.spotify.client_id') . ':' . config('app.spotify.client.secret'))
             ]
         ]);
 

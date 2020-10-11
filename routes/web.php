@@ -69,7 +69,7 @@ Route::get('/twitter', 'TwitterController@index')
 Route::view('/imprint/', 'imprint');
 Route::view('/disclaimer/', 'disclaimer');
 
-Route::post('/' . env('TELEGRAM_BOT_TOKEN') . '/webhook', function () {
+Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', function () {
     $updates = Telegram::commandsHandler(true);
     Log::debug($updates);
     return 'ok';
