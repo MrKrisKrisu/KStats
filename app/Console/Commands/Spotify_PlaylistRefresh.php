@@ -33,7 +33,10 @@ class Spotify_PlaylistRefresh extends Command
     {
         parent::__construct();
     }
-
+    
+    /**	
+     * Execute the console command	
+     */
     public function handle()
     {
         $users = UserSettings::where('name', 'spotify_createOldPlaylist')->where('val', '1')->select('user_id')->get();
