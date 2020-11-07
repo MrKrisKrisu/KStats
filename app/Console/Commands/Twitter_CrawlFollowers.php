@@ -47,7 +47,7 @@ class Twitter_CrawlFollowers extends Command
      */
     public function handle()
     {
-        if (!env('TWITTER_CRAWL')) {
+        if (!config('app.twitter.crawling')) {
             dump("Twitter crawling currently deactivated.");
             return;
         }

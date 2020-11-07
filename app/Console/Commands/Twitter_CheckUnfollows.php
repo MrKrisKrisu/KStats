@@ -45,7 +45,7 @@ class Twitter_CheckUnfollows extends Command
     public function handle()
     {
 
-        if (!env('TWITTER_CRAWL')) {
+        if (!config('app.twitter.crawling')) {
             dump("Twitter crawling currently deactivated.");
             return;
         }
