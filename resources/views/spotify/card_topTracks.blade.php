@@ -34,4 +34,4 @@
     <hr/>
 @endforeach
 
-{{$topTracksTotal->fragment($fragment)->links()}}
+{{$topTracksTotal->fragment($fragment)->onEachSide(1)->links()}}
