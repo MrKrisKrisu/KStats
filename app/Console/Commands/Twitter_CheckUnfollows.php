@@ -18,7 +18,7 @@ class Twitter_CheckUnfollows extends Command
      *
      * @var string
      */
-    protected $signature = 'twitter:check_unfollows';
+    protected $signature = 'twitter:check_unfollows {limit=50}';
 
     /**
      * The console command description.
@@ -50,7 +50,7 @@ class Twitter_CheckUnfollows extends Command
             return;
         }
 
-        $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit(50)->get();
+        $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit($this->argument('limit'))->get();
         foreach ($toCheck as $relationship) {
             try {
                 $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', NULL)->first();
