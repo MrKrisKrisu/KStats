@@ -39,13 +39,13 @@ return [
         'goodbye' => 'Viele Grüße!'
     ],
     'menu'            => [
-        'home'          => 'Startseite',
-        'dashboard'     => 'Dashboard',
-        'receipts'      => 'Einkäufe',
-        'crowdsourcing' => 'Crowdsourcing',
-        'imprint'       => 'Impressum',
-        'disclaimer'    => 'Disclaimer',
-        'stats'         => 'Statistiken',
+        'home'           => 'Startseite',
+        'dashboard'      => 'Dashboard',
+        'receipts'       => 'Einkäufe',
+        'crowdsourcing'  => 'Crowdsourcing',
+        'imprint'        => 'Impressum',
+        'stats'          => 'Statistiken',
+        'privacy_policy' => 'Datenschutz',
     ],
     'form'            => [
         'choose' => "Bitte wählen"

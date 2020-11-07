@@ -66,8 +66,8 @@ Route::post('/crowdsourcing/rewe/', 'CrowdsourceController@handleSubmit');
 Route::get('/twitter', 'TwitterController@index')
      ->name('twitter');
 
-Route::view('/imprint/', 'imprint');
-Route::view('/disclaimer/', 'disclaimer');
+Route::view('/imprint', 'legal.imprint');
+Route::view('/privacy', 'legal.privacy_policy');
 
 Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', function () {
     $updates = Telegram::commandsHandler(true);

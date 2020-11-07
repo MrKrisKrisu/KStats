@@ -39,13 +39,13 @@ return [
         'goodbye' => 'Greetings!'
     ],
     'menu'            => [
-        'home'          => 'Home',
-        'dashboard'     => 'Dashboard',
-        'receipts'      => 'Receipts',
-        'crowdsourcing' => 'Crowdsourcing',
-        'imprint'       => 'Imprint',
-        'disclaimer'    => 'Disclaimer',
-        'stats'         => 'Statistics',
+        'home'           => 'Home',
+        'dashboard'      => 'Dashboard',
+        'receipts'       => 'Receipts',
+        'crowdsourcing'  => 'Crowdsourcing',
+        'imprint'        => 'Imprint',
+        'stats'          => 'Statistics',
+        'privacy_policy' => 'Privacy Policy',
     ],
     'form'            => [
         'choose' => "Please choose"

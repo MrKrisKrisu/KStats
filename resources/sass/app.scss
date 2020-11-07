@@ -50,10 +50,6 @@
   color: #fff;
 }
 
-#dashboard #container_main {
-  margin-top: 1em;
-}
-
 #dashboard .btn.btn-primary {
   background-color: $color_main;
   border-color: $color_main;
@@ -67,4 +63,29 @@
 
 .select2-container {
   width: 100% !important;
+}
+
+#mainTitle, h1 {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 17px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+.text-danger {
+  font-weight: bold;
+}
+
+.card + .card {
+  margin-top: 15px;
 }
