@@ -62,6 +62,14 @@
                            target="ghub">{{ __('general.suggestion') }}</a> |
                         <a href="https://github.com/MrKrisKrisu/KStats/"
                            target="ghub">{{ __('general.show_sourcecode') }}</a>
+                        <br/>
+                        <small>
+                            Version:
+                            <a href="https://github.com/MrKrisKrisu/KStats/commit/{{\App\Http\Controllers\HomeController::getCurrentGitHash()}}"
+                               style="color: #6c757d;">
+                                {{\App\Http\Controllers\HomeController::getCurrentGitHash()}}
+                            </a>
+                        </small>
                     </p>
                     <p class="float-right">
                         <a href="/imprint">{{ __('general.menu.imprint') }}</a> |
