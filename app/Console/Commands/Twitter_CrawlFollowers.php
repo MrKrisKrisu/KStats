@@ -67,10 +67,10 @@ class Twitter_CrawlFollowers extends Command
             } catch (TwitterTokenInvalidException $e) {
                 echo "Twitter Token from User " . $sl_profile->user_id . " invalid or expired... \r\n";
                 $sl_profile->update([
-                    'twitter_id' => NULL,
-                    'twitter_token' => NULL,
-                    'twitter_tokenSecret' => NULL,
-                ]);
+                                        'twitter_id'          => null,
+                                        'twitter_token'       => null,
+                                        'twitter_tokenSecret' => null,
+                                    ]);
                 report($e);
             } catch (\Exception $e) {
             }
@@ -78,17 +78,17 @@ class Twitter_CrawlFollowers extends Command
     }
 
     /**
-     * @param TwitterOAuth $connection
-     * @param TwitterProfile $twp
+     * @param TwitterOAuth       $connection
+     * @param TwitterProfile     $twp
      * @param SocialLoginProfile $sl_profile
-     * @param array $parameters
+     * @param array              $parameters
      * @return bool
      * @throws \Exception
      */
     private function crawlFollowers(TwitterOAuth $connection, TwitterProfile $twp, SocialLoginProfile $sl_profile, array $parameters = [])
     {
-        $parameters['count'] = 200; //max amount
-        $parameters['skip_status'] = 1; //we don't need the tweets
+        $parameters['count']       = 200; //max amount
+        $parameters['skip_status'] = 1;   //we don't need the tweets
 
         if (!TwitterApiController::canRequest($sl_profile, 'followers/list', 15)) {
             //TODO: Queue instead of exit...
@@ -106,28 +106,28 @@ class Twitter_CrawlFollowers extends Command
 
         foreach ($follower_list->users as $follower) {
             $follower = TwitterProfile::updateOrCreate([
-                'id' => $follower->id
-            ], [
-                'name' => $follower->name,
-                'screen_name' => $follower->screen_name,
-                'location' => $follower->location,
-                'description' => $follower->description,
-                'url' => $follower->url,
-                'protected' => $follower->protected,
-                'followers_count' => $follower->followers_count,
-                'friends_count' => $follower->friends_count,
-                'listed_count' => $follower->listed_count,
-                'statuses_count' => $follower->statuses_count,
-                'account_creation' => Carbon::parse($follower->created_at),
-                'updated_at' => Carbon::now()
-            ]);
+                                                           'id' => $follower->id
+                                                       ], [
+                                                           'name'             => $follower->name,
+                                                           'screen_name'      => $follower->screen_name,
+                                                           'location'         => $follower->location,
+                                                           'description'      => $follower->description,
+                                                           'url'              => $follower->url,
+                                                           'protected'        => $follower->protected,
+                                                           'followers_count'  => $follower->followers_count,
+                                                           'friends_count'    => $follower->friends_count,
+                                                           'listed_count'     => $follower->listed_count,
+                                                           'statuses_count'   => $follower->statuses_count,
+                                                           'account_creation' => Carbon::parse($follower->created_at),
+                                                           'updated_at'       => Carbon::now()
+                                                       ]);
 
             TwitterFollower::updateOrCreate([
-                'follower_id' => $follower->id,
-                'followed_id' => $twp->id
-            ], [
-                'updated_at' => Carbon::now()
-            ]);
+                                                'follower_id' => $follower->id,
+                                                'followed_id' => $twp->id
+                                            ], [
+                                                'updated_at' => Carbon::now()
+                                            ]);
 
             dump($follower->screen_name);
 

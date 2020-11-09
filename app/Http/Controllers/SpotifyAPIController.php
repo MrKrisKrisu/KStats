@@ -8,7 +8,6 @@ use App\SocialLoginProfile;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SpotifyAPIController extends Controller

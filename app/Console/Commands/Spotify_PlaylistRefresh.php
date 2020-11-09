@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\SpotifyController;
+use App\User;
 use App\UserSettings;
 use Illuminate\Console\Command;
-use App\User;
 
 class Spotify_PlaylistRefresh extends Command
 {
@@ -33,9 +33,9 @@ class Spotify_PlaylistRefresh extends Command
     {
         parent::__construct();
     }
-    
-    /**	
-     * Execute the console command	
+
+    /**
+     * Execute the console command
      */
     public function handle()
     {

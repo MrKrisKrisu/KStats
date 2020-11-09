@@ -13,7 +13,6 @@ use App\ReweShop;
 use App\User;
 use App\UserEmail;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use REWEParser\Exception\ReceiptParseException;
 use REWEParser\Parser;
 use Spatie\PdfToText\Exceptions\PdfNotFound;
@@ -62,7 +61,7 @@ class REWE_ParseBon extends Command
 
                 $receipt = Parser::parseFromPDF($bonAttachment->getFilename(), env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
 
-                if ($receipt->getBonNr() === NULL || $receipt->getTimestamp() === NULL || $receipt->getShopNr() === NULL) {
+                if ($receipt->getBonNr() === null || $receipt->getTimestamp() === null || $receipt->getShopNr() === null) {
                     dump("Error while parsing eBon. Some important data can't be retrieved.");
                     return;
                 }
@@ -74,27 +73,27 @@ class REWE_ParseBon extends Command
                         "id" => $receipt->getShopNr()
                     ],
                     [
-                        "name" => $shop->getName(),
+                        "name"    => $shop->getName(),
                         "address" => $shop->getAddress(),
-                        "zip" => $shop->getPostalCode(),
-                        "city" => $shop->getCity(),
+                        "zip"     => $shop->getPostalCode(),
+                        "city"    => $shop->getCity(),
                     ]
                 );
                 $bon = ReweBon::updateOrCreate([
-                    "shop_id" => $receipt->getShopNr(),
-                    "timestamp_bon" => $receipt->getTimestamp(),
-                    "bon_nr" => $receipt->getBonNr()
-                ], [
-                    "user_id" => $userEmail->verified_user_id,
-                    "cashier_nr" => $receipt->getCashierNr(),
-                    "cashregister_nr" => $receipt->getCashregisterNr(),
-                    "paymentmethod" => $receipt->getPaymentMethods()[0], //TODO: Support multiple payment methods
-                    "payed_cashless" => $receipt->hasPayedCashless(),
-                    "payed_contactless" => $receipt->hasPayedContactless(),
-                    "total" => $receipt->getTotal(),
-                    "earned_payback_points" => $receipt->getEarnedPaybackPoints(),
-                    "receipt_pdf" => file_get_contents($filename)
-                ]);
+                                                   "shop_id"       => $receipt->getShopNr(),
+                                                   "timestamp_bon" => $receipt->getTimestamp(),
+                                                   "bon_nr"        => $receipt->getBonNr()
+                                               ], [
+                                                   "user_id"               => $userEmail->verified_user_id,
+                                                   "cashier_nr"            => $receipt->getCashierNr(),
+                                                   "cashregister_nr"       => $receipt->getCashregisterNr(),
+                                                   "paymentmethod"         => $receipt->getPaymentMethods()[0], //TODO: Support multiple payment methods
+                                                   "payed_cashless"        => $receipt->hasPayedCashless(),
+                                                   "payed_contactless"     => $receipt->hasPayedContactless(),
+                                                   "total"                 => $receipt->getTotal(),
+                                                   "earned_payback_points" => $receipt->getEarnedPaybackPoints(),
+                                                   "receipt_pdf"           => file_get_contents($filename)
+                                               ]);
 
                 $positions = $receipt->getPositions();
 
@@ -102,16 +101,16 @@ class REWE_ParseBon extends Command
                     $product = ReweProduct::firstOrCreate(["name" => $position->getName()]);
 
                     ReweBonPosition::updateOrCreate([
-                        "bon_id" => $bon->id,
-                        "product_id" => $product->id
-                    ], [
-                        "amount" => $position->getAmount(),
-                        "weight" => $position->getWeight(),
-                        "single_price" => $position->getPriceSingle()
-                    ]);
+                                                        "bon_id"     => $bon->id,
+                                                        "product_id" => $product->id
+                                                    ], [
+                                                        "amount"       => $position->getAmount(),
+                                                        "weight"       => $position->getWeight(),
+                                                        "single_price" => $position->getPriceSingle()
+                                                    ]);
                 }
 
-                if ($bon->wasRecentlyCreated == 1 && $userEmail->verified_user_id != NULL) {
+                if ($bon->wasRecentlyCreated == 1 && $userEmail->verified_user_id != null) {
                     try {
                         $message = "<b>Neuer REWE Einkauf registriert</b>\r\n";
                         $message .= count($positions) . " Produkte für " . number_format($bon->total, 2, ",", ".") . " €\r\n";
@@ -119,7 +118,7 @@ class REWE_ParseBon extends Command
                         $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
                         $message .= "============================ \r\n";
                         foreach ($positions as $position)
-                            $message .= ($position->getWeight() !== NULL ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . $position->getPriceTotal() . "€</i> \r\n";
+                            $message .= ($position->getWeight() !== null ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . $position->getPriceTotal() . "€</i> \r\n";
                         $message .= "============================ \r\n";
                         $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
 

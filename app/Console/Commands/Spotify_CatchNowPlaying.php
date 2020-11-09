@@ -14,7 +14,6 @@ use App\SpotifyTrack;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class Spotify_CatchNowPlaying extends Command
 {
@@ -69,12 +68,12 @@ class Spotify_CatchNowPlaying extends Command
 
 
                 $timestamp_start = date('Y-m-d H:i:s', $nowPlaying->timestamp / 1000);
-                $track_id = $nowPlaying->item->id;
-                $progress_ms = (int)$nowPlaying->progress_ms;
-                $context = isset($nowPlaying->context->type) ? $nowPlaying->context->type : null;
-                $context_uri = isset($nowPlaying->context->uri) ? $nowPlaying->context->uri : null;
+                $track_id        = $nowPlaying->item->id;
+                $progress_ms     = (int)$nowPlaying->progress_ms;
+                $context         = isset($nowPlaying->context->type) ? $nowPlaying->context->type : null;
+                $context_uri     = isset($nowPlaying->context->uri) ? $nowPlaying->context->uri : null;
 
-                $devices = SpotifyAPIController::getDevices($profile->spotify_accessToken);
+                $devices      = SpotifyAPIController::getDevices($profile->spotify_accessToken);
                 $activeDevice = null;
 
                 foreach ($devices->devices as $device) {

@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\TelegramException;
 use App\User;
 use App\UserSettings;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
 

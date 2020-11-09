@@ -13,14 +13,14 @@ class Localization
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param \Closure                 $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && auth()->user()->locale !== NULL) {
+        if (Auth::check() && auth()->user()->locale !== null) {
             App::setLocale(auth()->user()->locale);
-        } else if (Session::has('locale')) {
+        } elseif (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
         }
 

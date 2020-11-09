@@ -28,12 +28,12 @@ class User extends Authenticatable
 
     public function spotifyActivity()
     {
-        return $this->hasMany(SpotifyPlayActivity::class);
+        return $this->hasMany(SpotifyPlayActivity::class, 'user_id', 'id');
     }
 
     public function spotifySessions()
     {
-        return $this->hasMany(SpotifySession::class);
+        return $this->hasMany(SpotifySession::class, 'user_id', 'id');
     }
 
     public function reweReceipts()

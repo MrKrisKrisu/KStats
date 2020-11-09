@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\TwitterApiController;
-use App\Http\Controllers\TwitterController;
 use App\SocialLoginProfile;
 use App\TwitterFollower;
 use App\TwitterUnfollower;
@@ -53,8 +52,8 @@ class Twitter_CheckUnfollows extends Command
         $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit($this->argument('limit'))->get();
         foreach ($toCheck as $relationship) {
             try {
-                $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', NULL)->first();
-                if ($sl_profile == NULL) {
+                $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', null)->first();
+                if ($sl_profile == null) {
                     dump("No SL Profile " . $relationship->followed->screen_name);
                     continue;
                 }
@@ -73,10 +72,10 @@ class Twitter_CheckUnfollows extends Command
                             $relationship->delete();
 
                             TwitterUnfollower::create([
-                                'account_id' => $relationship->followed->id,
-                                'unfollower_id' => $relationship->follower->id,
-                                'unfollowed_at' => $relationship->updated_at
-                            ]);
+                                                          'account_id'    => $relationship->followed->id,
+                                                          'unfollower_id' => $relationship->follower->id,
+                                                          'unfollowed_at' => $relationship->updated_at
+                                                      ]);
                             TelegramController::sendMessage($sl_profile->user, "<b>Neuer Twitter Unfollower</b>\r\n" . "Das Twitter Profil @" . $relationship->follower->screen_name . ' ist nicht mehr aufrufbar und folgt dir daher nicht mehr.');
 
                             continue;
@@ -107,10 +106,10 @@ class Twitter_CheckUnfollows extends Command
                         $relationship->delete();
 
                         TwitterUnfollower::create([
-                            'account_id' => $relationship->followed->id,
-                            'unfollower_id' => $relationship->follower->id,
-                            'unfollowed_at' => $relationship->updated_at
-                        ]);
+                                                      'account_id'    => $relationship->followed->id,
+                                                      'unfollower_id' => $relationship->follower->id,
+                                                      'unfollowed_at' => $relationship->updated_at
+                                                  ]);
 
                         TelegramController::sendMessage($sl_profile->user, "<b>Neuer Twitter Unfollower</b>\r\n" . $relationship->follower->screen_name . ' ist dir etwa ' . $relationship->updated_at->diffForHumans() . ' entfolgt.');
                     } else {

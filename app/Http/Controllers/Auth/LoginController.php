@@ -7,8 +7,6 @@ use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -49,8 +47,9 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
-        $user->last_login = Carbon::now();
-        $user->update();
+        $user->update([
+                          'last_login' => Carbon::now()
+                      ]);
     }
 
 }

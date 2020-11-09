@@ -6,7 +6,6 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use App\SocialLoginProfile;
 use App\TwitterApiRequest;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class TwitterApiController extends Controller
 {

@@ -40,12 +40,12 @@ class Spotify_TokenRefresh extends Command
     public function handle()
     {
         $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
-            ->where(function ($query) {
-                $query->where('spotify_lastRefreshed', '<', \Carbon\Carbon::now()->subMinutes(30));
-                $query->where('spotify_lastRefreshed', '>', \Carbon\Carbon::now()->subDays(1));
-            })
-            ->orWhere('spotify_lastRefreshed', null)
-            ->get();
+                                       ->where(function ($query) {
+                                           $query->where('spotify_lastRefreshed', '<', \Carbon\Carbon::now()->subMinutes(30));
+                                           $query->where('spotify_lastRefreshed', '>', \Carbon\Carbon::now()->subDays(1));
+                                       })
+                                       ->orWhere('spotify_lastRefreshed', null)
+                                       ->get();
 
         foreach ($slProfile as $profile) {
             try {
@@ -59,7 +59,7 @@ class Spotify_TokenRefresh extends Command
                     continue;
                 }
 
-                $profile->spotify_accessToken = $refreshedToken->access_token;
+                $profile->spotify_accessToken   = $refreshedToken->access_token;
                 $profile->spotify_lastRefreshed = \Carbon\Carbon::now();
                 $profile->save();
 

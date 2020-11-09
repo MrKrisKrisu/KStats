@@ -1,23 +1,12 @@
 <?php
 
-/*
-  |--------------------------------------------------------------------------
-  | Web Routes
-  |--------------------------------------------------------------------------
-  |
-  | Here is where you can register web routes for your application. These
-  | routes are loaded by the RouteServiceProvider within a group which
-  | contains the "web" middleware group. Now create something great!
-  |
- */
-
 use App\Http\Controllers\SettingsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::view('/', 'welcome')->name('welcome');
-Route::view('/opensource/', 'opensource');
 
 Route::get('/auth/redirect/{provider}', 'SocialController@redirect')
      ->name('redirectProvider');
@@ -35,9 +24,12 @@ Route::middleware(['privacy_confirmation'])->group(function () {
     Route::post('/settings/user/password/change', 'SettingsController@changePassword')->name('settings.user.password.change');
     Route::post('/settings/connections/telegram/delete', 'SettingsController@deleteTelegramConnection')
          ->name('settings.connections.telegram.delete');
-    Route::post('/settings/add_mail', 'SettingsController@addEmail')->name('settings.save.email');
-    Route::post('/settings/delete_mail', 'SettingsController@deleteEmail')->name('settings.delete.email');
-    Route::post('/settings/set_lang', 'SettingsController@setLanguage')->name('settings.set.lang');
+    Route::post('/settings/add_mail', 'SettingsController@addEmail')
+         ->name('settings.save.email');
+    Route::post('/settings/delete_mail', 'SettingsController@deleteEmail')
+         ->name('settings.delete.email');
+    Route::post('/settings/set_lang', 'SettingsController@setLanguage')
+         ->name('settings.set.lang');
     Route::get('/user/verify_mail/{user_id}/{verification_key}', 'UnauthorizedSettingsController@verifyMail')
          ->name('user.verify');
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\MatchOldPassword;
 use App\Mail\IllnessDepartmentMessage;
 use App\Mail\MailVerificationMessage;
+use App\Rules\MatchOldPassword;
 use App\SocialLoginProfile;
 use App\User;
 use App\UserEmail;

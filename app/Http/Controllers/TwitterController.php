@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Abraham\TwitterOAuth\TwitterOAuthException;
 use App\Exceptions\RateLimitException;
 use App\Exceptions\TwitterException;
 use App\Exceptions\TwitterTokenInvalidException;
@@ -10,7 +9,6 @@ use App\SocialLoginProfile;
 use App\TwitterProfile;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TwitterController extends Controller
@@ -24,7 +22,7 @@ class TwitterController extends Controller
     {
         $user = User::find(Auth::user()->id);
 
-        if ($user->socialProfile->twitterUser == NULL)
+        if ($user->socialProfile->twitterUser == null)
             return view('twitter.notconnected');
 
         return view('twitter.overview', [
@@ -44,7 +42,7 @@ class TwitterController extends Controller
         if (!TwitterApiController::canRequest($slp, 'account/verify_credentials', 75))
             throw new RateLimitException();
 
-        $connection = TwitterApiController::getNewConnection($slp);
+        $connection   = TwitterApiController::getNewConnection($slp);
         $profile_data = $connection->get("account/verify_credentials");
 
         if (isset($profile_data->errors)) {
@@ -57,20 +55,20 @@ class TwitterController extends Controller
         TwitterApiController::saveRequest($slp, 'account/verify_credentials');
 
         $twp = TwitterProfile::updateOrCreate([
-            'id' => $profile_data->id
-        ], [
-            'name' => $profile_data->name,
-            'screen_name' => $profile_data->screen_name,
-            'location' => $profile_data->location,
-            'description' => $profile_data->description,
-            'url' => $profile_data->url,
-            'protected' => $profile_data->protected,
-            'followers_count' => $profile_data->followers_count,
-            'friends_count' => $profile_data->friends_count,
-            'listed_count' => $profile_data->listed_count,
-            'statuses_count' => $profile_data->statuses_count,
-            'account_creation' => Carbon::parse($profile_data->created_at)
-        ]);
+                                                  'id' => $profile_data->id
+                                              ], [
+                                                  'name'             => $profile_data->name,
+                                                  'screen_name'      => $profile_data->screen_name,
+                                                  'location'         => $profile_data->location,
+                                                  'description'      => $profile_data->description,
+                                                  'url'              => $profile_data->url,
+                                                  'protected'        => $profile_data->protected,
+                                                  'followers_count'  => $profile_data->followers_count,
+                                                  'friends_count'    => $profile_data->friends_count,
+                                                  'listed_count'     => $profile_data->listed_count,
+                                                  'statuses_count'   => $profile_data->statuses_count,
+                                                  'account_creation' => Carbon::parse($profile_data->created_at)
+                                              ]);
 
         $slp->twitter_id = $profile_data->id;
         $slp->update();
