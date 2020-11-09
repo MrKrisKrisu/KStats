@@ -153,9 +153,11 @@
 
     <footer class="mastfoot mt-auto">
         <div class="inner">
-            <p><a href="https://github.com/MrKrisKrisu/KStats" target="github">{{ __('general.show_sourcecode') }}</a> -
+            <p>
+                <a href="https://github.com/MrKrisKrisu/KStats" target="github">{{ __('general.show_sourcecode') }}</a> -
                 <a href="/imprint/">{{__('general.menu.imprint')}}</a> -
-                <a href="/disclaimer/">{{__('general.menu.disclaimer')}}</a></p>
+                <a href="/privacy">{{ __('general.menu.privacy_policy') }}</a>
+            </p>
         </div>
     </footer>
 </div>
