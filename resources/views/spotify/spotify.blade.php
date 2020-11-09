@@ -9,9 +9,8 @@
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col-md-3">
-                                <span class="color-highlight" style="font-size: 50px;"
-                                      id="lieblingsjahr">...</span><br>
-                            <small><b>{{__('spotify.title.favourite_year')}}</b></small>
+                            <span class="color-primary" style="font-size: 50px;" id="lieblingsjahr">...</span><br/>
+                            <small class="text-muted font-weight-bold">{{__('spotify.title.favourite_year')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -24,10 +23,11 @@
                             </script>
                         </div>
                         <div class="col-md-3">
-                            <span class="color-highlight" style="font-size: 50px;"><span
-                                        id="bpm">...</span><small>BPM</small></span>
+                            <span class="color-primary" style="font-size: 50px;">
+                                <span id="bpm">...</span><small>BPM</small>
+                            </span>
                             <br/>
-                            <small><b>{{__('spotify.title.favourite_bpm')}}</b></small>
+                            <small class="text-muted font-weight-bold">{{__('spotify.title.favourite_bpm')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -40,9 +40,9 @@
                             </script>
                         </div>
                         <div class="col-md-3">
-                                <span class="color-highlight" style="font-size: 50px;"
+                                <span class="color-primary" style="font-size: 50px;"
                                       id="track_count">...</span><br>
-                            <small><b>{{__('spotify.title.count_tracks')}}</b></small>
+                            <small class="text-muted font-weight-bold">{{__('spotify.title.count_tracks')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -55,9 +55,10 @@
                             </script>
                         </div>
                         <div class="col-md-3">
-                            <span class="color-highlight" style="font-size: 50px;"><span
-                                        id="avgPerSession">...</span><small>{{__('spotify.minutes.short')}}</small></span><br>
-                            <small><b>{{__('spotify.title.avg_session_length')}}</b></small>
+                            <span class="color-primary" style="font-size: 50px;">
+                                <span id="avgPerSession">...</span><small>{{__('spotify.minutes.short')}}</small>
+                            </span><br>
+                            <small class="text-muted font-weight-bold">{{__('spotify.title.avg_session_length')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({

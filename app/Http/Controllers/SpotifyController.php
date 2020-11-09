@@ -445,22 +445,33 @@ class SpotifyController extends Controller
         else $date = Carbon::parse($date);
 
         if ($date->isAfter(Carbon::now())) {
-            $request->session()->flash('alert-danger', __('general.error.future_not_possible'));
-            return redirect()->route('spotify.history');
+            return redirect()->route('spotify.history')
+                             ->with('alert-danger', __('general.error.future_not_possible'));
         }
 
-        $history = SpotifyPlayActivity::with(['track', 'device'])
-                                      ->where('user_id', Auth::user()->id)
-                                      ->where('created_at', '>=', $date->toDateString() . ' 00:00:00')
-                                      ->where('created_at', '<=', $date->toDateString() . ' 23:59:59')
-                                      ->orderBy('timestamp_start')
-                                      ->select(['timestamp_start', 'track_id', 'device_id', DB::raw('MAX(created_at) AS played_until')])
-                                      ->groupBy(['timestamp_start', 'track_id', 'device_id'])
-                                      ->paginate(10);
+        $dayQuery = SpotifyPlayActivity::where('user_id', Auth::user()->id)
+                                       ->where('timestamp_start', '>=', $date->toDateString() . ' 00:00:00')
+                                       ->where('timestamp_start', '<=', $date->toDateString() . ' 23:59:59');
+
+        $history = (clone $dayQuery)->with(['track', 'device'])
+                            ->select(['timestamp_start', 'track_id', 'device_id', DB::raw('MAX(created_at) AS played_until')])
+                            ->groupBy(['timestamp_start', 'track_id', 'device_id'])
+                            ->orderBy('timestamp_start')
+                            ->paginate(10);
+
+        $tracksDistinct = (clone $dayQuery)->select('track_id')->groupBy('track_id')->get()->count();
+
+        $sessions = SpotifySession::where('user_id', Auth::user()->id)
+                                  ->where('timestamp_start', '>=', $date->toDateString() . ' 00:00:00')
+                                  ->where('timestamp_start', '<=', $date->toDateString() . ' 23:59:59')
+                                  ->count();
 
         return view('spotify.daily_history', [
-            'date'    => $date,
-            'history' => $history
+            'date'           => $date,
+            'history'        => $history,
+            'minTotal'       => (clone $dayQuery)->count(),
+            'tracksDistinct' => $tracksDistinct,
+            'sessions'       => $sessions
         ]);
     }
 

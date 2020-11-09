@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title'){{__('spotify.title.heared_tracks', ['date' => $date->format('d.m.Y')])}} @endsection
+@section('title') Tagesstatistik vom {{$date->format('d.m.Y')}} @endsection
 
 @section('content')
     <div class="row">
@@ -20,6 +20,36 @@
                 </div>
             </div>
         </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="color-primary" style="font-size: 30px;">
+                        <span>{{$minTotal}}</span><small>min</small>
+                    </span><br/>
+                    <span class="text-muted">hast du heute insgesamt gehört</span>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="color-primary" style="font-size: 30px;">
+                        <span>{{$tracksDistinct}}</span><small>x</small>
+                    </span><br/>
+                    <span class="text-muted">verschiedene Tracks</span>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="color-primary" style="font-size: 30px;">
+                        <span>{{$sessions}}</span><small>x</small>
+                    </span><br/>
+                    <span class="text-muted">Musik-Sessions</span>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -28,22 +58,23 @@
                     @else
                         <table class="table">
                             <thead>
-                            <tr>
-                                <th>{{__('spotify.time_period')}}</th>
-                                <th>{{__('spotify.track')}}</th>
-                                <th>{{__('spotify.device')}}</th>
-                            </tr>
+                                <tr>
+                                    <th>{{__('spotify.time_period')}}</th>
+                                    <th>{{__('spotify.track')}}</th>
+                                    <th>{{__('spotify.device')}}</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($history as $playActivity)
-                                <tr>
-                                    <td>{{$playActivity->timestamp_start->format('H:i')}} - {{\Carbon\Carbon::parse($playActivity->played_until)->format('H:i')}}</td>
-                                    <td>
-                                        <a href="{{route('spotify.track' ,['id' => $playActivity->track->id])}}">{{$playActivity->track->name}}</a>
-                                    </td>
-                                    <td>{{$playActivity->device->name}}</td>
-                                </tr>
-                            @endforeach
+                                @foreach($history as $playActivity)
+                                    <tr>
+                                        <td>{{$playActivity->timestamp_start->format('H:i')}}
+                                            - {{\Carbon\Carbon::parse($playActivity->played_until)->format('H:i')}}</td>
+                                        <td>
+                                            <a href="{{route('spotify.track' ,['id' => $playActivity->track->id])}}">{{$playActivity->track->name}}</a>
+                                        </td>
+                                        <td>{{$playActivity->device->name}}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         {{$history->onEachSide(1)->links()}}
