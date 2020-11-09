@@ -38,7 +38,7 @@ class User extends Authenticatable
 
     public function reweReceipts()
     {
-        return $this->hasMany(ReweBon::class, 'user_id', 'id');
+        return $this->hasMany(ReweBon::class, 'user_id', 'id')->orderBy('timestamp_bon');
     }
 
 }
