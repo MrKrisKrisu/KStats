@@ -12,9 +12,9 @@ class User extends Authenticatable
 
     use Notifiable, HasFactory;
 
-    protected $fillable = ['username', 'email', 'password', 'last_login'];
-    protected $hidden = ['password', 'remember_token'];
-    protected $casts = ['email_verified_at' => 'datetime'];
+    protected $fillable = ['username', 'email', 'password', 'last_login', 'privacy_confirmed_at'];
+    protected $hidden   = ['password', 'remember_token'];
+    protected $dates    = ['privacy_confirmed_at', 'last_login', 'email_verified_at'];
 
     public function socialProfile()
     {
