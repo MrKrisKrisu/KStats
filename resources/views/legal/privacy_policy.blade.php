@@ -12,6 +12,7 @@
 
 @section('content')
     <main role="main" class="inner cover">
+        @include('legal.privacy_policy_confirmation')
         <h2>Einleitung</h2>
         <p>Mit der folgenden Datenschutzerklärung möchten wir Sie darüber aufklären, welche Arten Ihrer
             personenbezogenen Daten (nachfolgend auch kurz als "Daten“ bezeichnet) wir zu welchen Zwecken und in welchem
@@ -459,6 +460,7 @@
                 DSGVO verstößt.
             </li>
         </ul>
+        @include('legal.privacy_policy_confirmation')
         <p class="seal"><a href="https://datenschutz-generator.de/?l=de"
                            target="_blank" rel="noopener noreferrer nofollow">Textquellen:
                 Datenschutz-Generator.de</a></p>

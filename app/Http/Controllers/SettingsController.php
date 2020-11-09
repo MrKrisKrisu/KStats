@@ -40,25 +40,25 @@ class SettingsController extends Controller
 
         $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
 
-        $isConnectedToTwitter = $socialProfile->twitter_token != NULL;
-        $isConnectedToSpotify = $socialProfile->spotify_accessToken != NULL;
+        $isConnectedToTwitter  = $socialProfile->twitter_token != null;
+        $isConnectedToSpotify  = $socialProfile->spotify_accessToken != null;
         $isConnectedToTelegram = UserSettings::get(auth()->user()->id, 'telegramID', '') != '';
 
         $telegramConnectCode = UserSettings::where('name', 'telegram_connectCode')
-            ->where('user_id', auth()->user()->id)
-            ->where('updated_at', '>', Carbon::now()->addHours('-1'))
-            ->first();
+                                           ->where('user_id', auth()->user()->id)
+                                           ->where('updated_at', '>', Carbon::now()->addHours('-1'))
+                                           ->first();
 
         $emails = UserEmail::where('verified_user_id', auth()->user()->id)->orWhere('unverified_user_id', auth()->user()->id)->get();
 
 
         return view('settings', [
-            'isConnectedToTwitter' => $isConnectedToTwitter,
-            'isConnectedToSpotify' => $isConnectedToSpotify,
+            'isConnectedToTwitter'  => $isConnectedToTwitter,
+            'isConnectedToSpotify'  => $isConnectedToSpotify,
             'isConnectedToTelegram' => $isConnectedToTelegram,
-            'telegramConnectCode' => $telegramConnectCode,
-            'emails' => $emails,
-            'user' => $user
+            'telegramConnectCode'   => $telegramConnectCode,
+            'emails'                => $emails,
+            'user'                  => $user
         ]);
     }
 
@@ -77,14 +77,14 @@ class SettingsController extends Controller
     public function addEmail(Request $request)
     {
         $validated = $request->validate([
-            'email' => ['required', 'email:rfc,dns,spoof', 'unique:user_emails,email']
-        ]);
+                                            'email' => ['required', 'email:rfc,dns,spoof', 'unique:user_emails,email']
+                                        ]);
 
         $userEmail = UserEmail::create([
-            'email' => $validated['email'],
-            'unverified_user_id' => Auth::user()->id,
-            'verification_key' => md5(rand(0, 99999) . time() . Auth::user()->id)
-        ]);
+                                           'email'              => $validated['email'],
+                                           'unverified_user_id' => Auth::user()->id,
+                                           'verification_key'   => md5(rand(0, 99999) . time() . Auth::user()->id)
+                                       ]);
 
         try {
             Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
@@ -105,8 +105,8 @@ class SettingsController extends Controller
     public function deleteEmail(Request $request)
     {
         $validated = $request->validate([
-            'id' => ['required', 'exists:user_emails,id']
-        ]);
+                                            'id' => ['required', 'exists:user_emails,id']
+                                        ]);
 
         $userEmail = UserEmail::find($validated['id']);
         if ($userEmail->verified_user_id != Auth::user()->id && $userEmail->unverified_user_id != Auth::user()->id) {
@@ -123,7 +123,7 @@ class SettingsController extends Controller
     public function deleteTelegramConnection(Request $request)
     {
         $setting = User::find(Auth::user()->id)->settings->where('name', 'telegramID')->first();
-        if ($setting == NULL) {
+        if ($setting == null) {
             $request->session()->flash('alert-danger', __('settings.telegram.not_connected'));
             return back();
         }
@@ -135,10 +135,10 @@ class SettingsController extends Controller
     public function setLanguage(Request $request)
     {
         $validated = $request->validate([
-            'locale' => ['required', Rule::in(['de', 'en'])]
-        ]);
+                                            'locale' => ['required', Rule::in(['de', 'en'])]
+                                        ]);
 
-        $user = User::find(Auth::user()->id);
+        $user         = User::find(Auth::user()->id);
         $user->locale = $validated['locale'];
         $user->update();
 
@@ -149,14 +149,25 @@ class SettingsController extends Controller
     public function changePassword(\Illuminate\Http\Request $request)
     {
         $validated = $request->validate([
-            'current_password' => ['required', new MatchOldPassword()],
-            'new_password' => ['required',],
-            'new_confirm_password' => ['same:new_password'],
-        ]);
+                                            'current_password'     => ['required', new MatchOldPassword()],
+                                            'new_password'         => ['required',],
+                                            'new_confirm_password' => ['same:new_password'],
+                                        ]);
 
         User::find(auth()->user()->id)->update(['password' => Hash::make($validated['new_password'])]);
 
         $request->session()->flash('alert-success', __('settings.password.changed_successfully'));
         return back();
+    }
+
+    public function confirmPrivacyPolicy()
+    {
+        $user = Auth::user();
+        $user->update([
+                          'privacy_confirmed_at' => Carbon::now()
+                      ]);
+
+        return redirect()->route('home')
+                         ->with('alert-success', 'Du hast der Datenschutzerkärung erfolgreich zugestimmt. Viel Spaß bei KStats!');
     }
 }
