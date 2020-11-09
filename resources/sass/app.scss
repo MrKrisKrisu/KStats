@@ -14,6 +14,7 @@
 @import '~chart.js/dist/Chart.css';
 
 @import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 
@@ -88,4 +89,8 @@ h4 {
 
 .card + .card {
   margin-top: 15px;
+}
+
+a + .emoticons {
+  margin-top: 10px;
 }

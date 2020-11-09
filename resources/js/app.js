@@ -37,3 +37,7 @@ require("select2");
     el: '#app',
 });
 */
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
