@@ -40,7 +40,7 @@ class SpotifyController extends Controller
         if (!isset(auth()->user()->socialProfile->spotify_accessToken) || auth()->user()->socialProfile->spotify_accessToken == null)
             return view('spotify.notconnected');
 
-        if (auth()->user()->spotifyActivity->count() == 0)
+        if (auth()->user()->spotifyActivity()->count() == 0)
             return view('spotify.nodata');
 
         $chartDataHearedByWeek = auth()->user()->spotifyActivity()
