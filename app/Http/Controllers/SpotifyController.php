@@ -451,7 +451,8 @@ class SpotifyController extends Controller
 
         $history = SpotifyPlayActivity::with(['track', 'device'])
                                       ->where('user_id', Auth::user()->id)
-                                      ->whereDate('created_at', $date->toDateString())
+                                      ->where('created_at', '>=', $date->toDateString() . ' 00:00:00')
+                                      ->where('created_at', '<=', $date->toDateString() . ' 23:59:59')
                                       ->orderBy('timestamp_start')
                                       ->paginate(10);
 
