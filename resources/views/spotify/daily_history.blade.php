@@ -23,7 +23,8 @@
         <div class="col">
             <div class="card">
                 <div class="card-body text-center">
-                    <span class="color-primary" style="font-size: 30px;">
+                    <span class="color-primary" style="font-size: 30px;" data-toggle="tooltip" data-placement="top"
+                          title="Das sind etwa {{round($minTotal / 1440 * 100)}}% des ganzen Tages!">
                         <span>{{$minTotal}}</span><small>min</small>
                     </span><br/>
                     <span class="text-muted">hast du insgesamt gehört</span>
