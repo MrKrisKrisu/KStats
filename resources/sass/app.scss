@@ -31,7 +31,8 @@
 #dashboard h6,
 #dashboard a:not(.btn),
 #dashboard .color-highlight,
-#dashboard .pagination .page-item:not(.active) .page-link {
+#dashboard .pagination .page-item:not(.active) .page-link,
+.color-primary {
   color: $color_main;
 }
 

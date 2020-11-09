@@ -464,4 +464,16 @@ class SpotifyController extends Controller
         ]);
     }
 
+    /**
+     * @param int $id
+     * @return Renderable
+     */
+    public function renderArtist(int $id): Renderable
+    {
+        $artist = SpotifyArtist::findOrFail($id);
+        return view('spotify.artist', [
+            'artist' => $artist
+        ]);
+    }
+
 }

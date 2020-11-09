@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SpotifyController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::middleware(['privacy_confirmation'])->group(function () {
          ->name('spotify');
     Route::get('/spotify/track/{id}', 'SpotifyController@trackDetails')
          ->name('spotify.track');
+    Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])
+         ->name('spotify.artist');
     Route::get('/spotify/history/{date?}', 'SpotifyController@renderDailyHistory')
          ->name('spotify.history');
     Route::get('/spotify/top-tracks/{term?}', 'SpotifyController@topTracks')
