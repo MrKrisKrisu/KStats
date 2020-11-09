@@ -164,8 +164,9 @@ class Spotify_CatchNowPlaying extends Command
                                                'timestamp_end'   => Carbon::now()
                                            ]);
                 } else {
-                    $session->timestamp_end = Carbon::now();
-                    $session->update();
+                    $session->update([
+                                         'timestamp_end' => Carbon::now()
+                                     ]);
                 }
             } catch (SpotifyTokenExpiredException $e) {
                 dump("Access Token expired from User " . $profile->user()->first()->username);
