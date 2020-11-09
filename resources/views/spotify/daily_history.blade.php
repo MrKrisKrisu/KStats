@@ -29,7 +29,7 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>{{__('spotify.time')}}</th>
+                                <th>{{__('spotify.time_period')}}</th>
                                 <th>{{__('spotify.track')}}</th>
                                 <th>{{__('spotify.device')}}</th>
                             </tr>
@@ -37,7 +37,7 @@
                             <tbody>
                             @foreach($history as $playActivity)
                                 <tr>
-                                    <td>{{$playActivity->timestamp_start->format('H:i')}}</td>
+                                    <td>{{$playActivity->timestamp_start->format('H:i')}} - {{\Carbon\Carbon::parse($playActivity->played_until)->format('H:i')}}</td>
                                     <td>
                                         <a href="{{route('spotify.track' ,['id' => $playActivity->track->id])}}">{{$playActivity->track->name}}</a>
                                     </td>

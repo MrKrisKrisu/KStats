@@ -53,7 +53,6 @@ return [
     'play_music'        => 'Spiele ein wenig Musik ab und schaue in ein paar Minuten erneut vorbei.',
     'last_years'        => 'Die letzten Jahre',
     'last_months'       => 'letzte 6 Monate',
-    'last_weeks'        => 'letzten 4 Wochen'
-
-
+    'last_weeks'        => 'letzten 4 Wochen',
+    'time_period'       => 'Zeitraum'
 ];

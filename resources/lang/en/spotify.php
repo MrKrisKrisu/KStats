@@ -52,7 +52,6 @@ return [
     'play_music'        => 'Play some music and come back then!',
     'last_years'        => 'Last years',
     'last_months'       => 'last 6 months',
-    'last_weeks'        => 'last 4 weeks'
-
-
+    'last_weeks'        => 'last 4 weeks',
+    'time_period'       => 'Time Period'
 ];

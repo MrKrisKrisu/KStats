@@ -454,6 +454,8 @@ class SpotifyController extends Controller
                                       ->where('created_at', '>=', $date->toDateString() . ' 00:00:00')
                                       ->where('created_at', '<=', $date->toDateString() . ' 23:59:59')
                                       ->orderBy('timestamp_start')
+                                      ->select(['timestamp_start', 'track_id', 'device_id', DB::raw('MAX(created_at) AS played_until')])
+                                      ->groupBy(['timestamp_start', 'track_id', 'device_id'])
                                       ->paginate(10);
 
         return view('spotify.daily_history', [
