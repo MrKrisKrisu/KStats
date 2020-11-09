@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ReweBon;
 use App\UserSettings;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -22,9 +23,9 @@ class ReweController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return Renderable
      */
-    public function index()
+    public function index(): Renderable
     {
         auth()->user()->load(['reweReceipts', 'reweReceipts.shop']);
 
@@ -74,8 +75,8 @@ class ReweController extends Controller
                                              DB::raw('rewe_product_categories.name AS category_name'),
                                              DB::raw('COUNT(*) AS cnt')
                                          ])
-                                ->orderByDesc(DB::raw('COUNT(*)'))
-                                ->get();
+                                ->orderByDesc(DB::raw('COUNT(*)'))//->get()
+        ;
 
 
         $topByCategoryPrice = DB::table('rewe_products')
@@ -90,8 +91,14 @@ class ReweController extends Controller
                                              DB::raw('rewe_product_categories.name AS category_name'),
                                              DB::raw('SUM(rewe_bon_positions.single_price) AS price')
                                          ])
-                                ->orderByDesc(DB::raw('SUM(rewe_bon_positions.single_price)'))
-                                ->get();
+                                ->orderByDesc(DB::raw('SUM(rewe_bon_positions.single_price)'))//->get()
+        ;
+
+        $monthlySpend = auth()->user()->reweReceipts->groupBy(function ($receipt) {
+            return $receipt->timestamp_bon->format('m.Y');
+        })->map(function ($receipts) {
+            return $receipts->sum('total');
+        });
 
         return view('rewe_ebon.overview', [
             'mostUsedPaymentMethod' => $mostUsedPaymentMethod,
@@ -99,9 +106,10 @@ class ReweController extends Controller
             'favouriteProducts'     => $favouriteProducts,
             'payment_methods'       => $payment_methods,
             'forecast'              => $forecast,
-            'topByCategoryCount'    => $topByCategoryCount,
-            'topByCategoryPrice'    => $topByCategoryPrice,
-            'ebonKey'               => UserSettings::get(auth()->user()->id, 'eBonKey', md5(rand(0, 99) . time()))
+            'topByCategoryCount'    => [],
+            'topByCategoryPrice'    => [],
+            'ebonKey'               => UserSettings::get(auth()->user()->id, 'eBonKey', md5(rand(0, 99) . time())),
+            'monthlySpend'          => $monthlySpend
         ]);
     }
 
