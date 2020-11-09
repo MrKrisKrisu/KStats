@@ -26,7 +26,7 @@
                     <span class="color-primary" style="font-size: 30px;">
                         <span>{{$minTotal}}</span><small>min</small>
                     </span><br/>
-                    <span class="text-muted">hast du heute insgesamt gehört</span>
+                    <span class="text-muted">hast du insgesamt gehört</span>
                 </div>
             </div>
         </div>
