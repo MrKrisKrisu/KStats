@@ -360,8 +360,7 @@
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        let chart_dayTime = document.getElementById('chart_monthlySpend').getContext('2d');
-                        window.chart_dayTime = new Chart(chart_dayTime, {
+                        window.chart_dayTime = new Chart(document.getElementById('chart_monthlySpend').getContext('2d'), {
                             type: 'bar',
                             data: {
                                 labels: [
@@ -370,7 +369,7 @@
                                     @endforeach
                                 ],
                                 datasets: [{
-                                    label: 'Anzahl Einkäufe',
+                                    label: 'Ausgaben in Euro',
                                     backgroundColor: '#38a3a6',
                                     borderWidth: 1,
                                     data: [
