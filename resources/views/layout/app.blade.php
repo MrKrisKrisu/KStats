@@ -23,6 +23,8 @@
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 id="mainTitle">@yield('title')</h1>
                         </div>
+                    @else
+                        <div style="margin-top: 25px;"></div>
                     @endif
 
                     @if ($errors->any())
