@@ -17,9 +17,9 @@ class SocialController extends Controller
      *
      * @param $provider
      *
-     * @return redirect
+     * @return RedirectResponse
      */
-    public function redirect($provider)
+    public function redirect($provider): RedirectResponse
     {
         $driver = Socialite::driver($provider);
         if ($provider == 'spotify')
@@ -32,7 +32,7 @@ class SocialController extends Controller
      *
      * @return RedirectResponse
      */
-    public function callback($provider)
+    public function callback($provider): RedirectResponse
     {
         $getInfo = Socialite::driver($provider)->user();
 
@@ -41,33 +41,38 @@ class SocialController extends Controller
             if ($provider !== "spotify")
                 return redirect('login')->with('status', $provider . ' is not supported');
 
-            $slp = SocialLoginProfile::where('spotify_user_id', $getInfo->id)->first();
-            if ($slp == null)
+            $socialProfile = SocialLoginProfile::where('spotify_user_id', $getInfo->id)->first();
+            if ($socialProfile == null)
                 return redirect('login')->with('status', 'You are not connected to an KStats Account. Please register first and connect your Spotify Account.');
 
-            $slp->spotify_accessToken  = $getInfo->token;
-            $slp->spotify_refreshToken = $getInfo->refreshToken;
-            $slp->update();
+            $socialProfile->update([
+                                       'spotify_accessToken'  => $getInfo->token,
+                                       'spotify_refreshToken' => $getInfo->refreshToken
+                                   ]);
 
-            Auth::login($slp->user);
+            $socialProfile->user->update([
+                                             'last_login' => Carbon::now()
+                                         ]);
+
+            Auth::login($socialProfile->user);
         }
 
-        $user                   = User::find(Auth::user()->id);
-        $socialProfile          = $user->socialProfile ?: new SocialLoginProfile;
-        $socialProfile->user_id = auth()->user()->id;
+        $socialProfile = SocialLoginProfile::firstOrCreate(['user_id' => auth()->user()->id]);
 
         if ($provider == "twitter") {
-            $socialProfile->twitter_token       = $getInfo->token;
-            $socialProfile->twitter_tokenSecret = $getInfo->tokenSecret;
-            $socialProfile->save();
+            $socialProfile->update([
+                                       'twitter_token'       => $getInfo->token,
+                                       'twitter_tokenSecret' => $getInfo->tokenSecret
+                                   ]);
 
             TwitterController::verifyProfile($socialProfile);
         } elseif ($provider == "spotify") {
-            $socialProfile->spotify_user_id       = $getInfo->id;
-            $socialProfile->spotify_accessToken   = $getInfo->token;
-            $socialProfile->spotify_refreshToken  = $getInfo->refreshToken;
-            $socialProfile->spotify_lastRefreshed = Carbon::now();
-            $socialProfile->save();
+            $socialProfile->update([
+                                       'spotify_user_id'       => $getInfo->id,
+                                       'spotify_accessToken'   => $getInfo->token,
+                                       'spotify_refreshToken'  => $getInfo->refreshToken,
+                                       'spotify_lastRefreshed' => Carbon::now()
+                                   ]);
             return redirect()->to('/spotify');
         }
 
