@@ -23,7 +23,8 @@ return [
         'heared_minutes_by_daytime' => 'Gehörte Minuten je Tageszeit',
         'lost_tracks'               => 'Verschollene Tracks',
         'history'                   => 'Musikverlauf',
-        'heared_tracks'             => 'Gehörte Lieder am :date'
+        'heared_tracks'             => 'Gehörte Lieder am :date',
+        'mood_o_meter'              => 'Mood-O-Meter'
     ],
     'total'             => 'gesamt',
     'last_days'         => 'letzte :days Tage',

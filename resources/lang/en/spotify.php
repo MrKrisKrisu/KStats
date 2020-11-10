@@ -22,7 +22,8 @@ return [
         'heared_minutes_by_daytime' => 'Listened by daytime',
         'lost_tracks'               => 'Lost tracks',
         'history'                   => 'History',
-        'heared_tracks'             => 'Listened Tracks on :date'
+        'heared_tracks'             => 'Listened Tracks on :date',
+        'mood_o_meter'              => 'Mood-O-Meter'
     ],
     'total'             => 'total',
     'last_days'         => 'last :days days',

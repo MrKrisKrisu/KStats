@@ -36,6 +36,8 @@ Route::middleware(['privacy_confirmation'])->group(function () {
 
     Route::get('/spotify/', 'SpotifyController@index')
          ->name('spotify');
+    Route::get('/spotify/mood-o-meter', [SpotifyController::class, 'renderMoodMeter'])
+         ->name('spotify.mood-o-meter');
     Route::get('/spotify/track/{id}', 'SpotifyController@trackDetails')
          ->name('spotify.track');
     Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])

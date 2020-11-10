@@ -454,10 +454,10 @@ class SpotifyController extends Controller
                                        ->where('timestamp_start', '<=', $date->toDateString() . ' 23:59:59');
 
         $history = (clone $dayQuery)->with(['track', 'device'])
-                            ->select(['timestamp_start', 'track_id', 'device_id', DB::raw('MAX(created_at) AS played_until')])
-                            ->groupBy(['timestamp_start', 'track_id', 'device_id'])
-                            ->orderBy('timestamp_start')
-                            ->paginate(10);
+                                    ->select(['timestamp_start', 'track_id', 'device_id', DB::raw('MAX(created_at) AS played_until')])
+                                    ->groupBy(['timestamp_start', 'track_id', 'device_id'])
+                                    ->orderBy('timestamp_start')
+                                    ->paginate(10);
 
         $tracksDistinct = (clone $dayQuery)->select('track_id')->groupBy('track_id')->get()->count();
 
@@ -484,6 +484,26 @@ class SpotifyController extends Controller
         $artist = SpotifyArtist::findOrFail($id);
         return view('spotify.artist', [
             'artist' => $artist
+        ]);
+    }
+
+    public function renderMoodMeter(): Renderable
+    {
+        $daily = auth()->user()
+                       ->spotifyActivity()
+                       ->with(['track'])
+                       ->where('timestamp_start', '>=', Carbon::parse('-1 month')->startOfDay())
+                       ->orderBy('timestamp_start', 'DESC')
+                       ->get()
+                       ->groupBy(function ($playActivity) {
+                           return $playActivity->timestamp_start->toDateString();
+                       })
+                       ->map(function ($playActivities) {
+                           return round($playActivities->avg('track.valence') * 100);
+                       });
+
+        return view('spotify.mood-o-meter.main', [
+            'daily' => $daily
         ]);
     }
 
