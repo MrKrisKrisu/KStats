@@ -105,17 +105,19 @@ class SpotifyController extends Controller
 
         $topTracks = auth()->user()->spotifyActivity();
         if (isset($validated['from'])) {
-            $topTracks->where('timestamp_start', '>=', $validated['from']);
+            $topTracks->where('created_at', '>=', $validated['from']);
         }
         if (isset($validated['to'])) {
-            $topTracks->where('timestamp_start', '<=', $validated['to']);
+            $topTracks->where('created_at', '<=', $validated['to']);
         }
         $topTracks->groupBy('track_id')
                   ->select(['track_id', DB::raw('COUNT(track_id) as minutes')])
                   ->orderByDesc('minutes');
 
         return view('spotify.top_tracks', [
-            'top_tracks' => $topTracks->paginate(16)
+            'top_tracks' => $topTracks->paginate(16),
+            'from'       => isset($validated['from']) ? Carbon::parse($validated['from']) : auth()->user()->spotifyActivity()->orderBy('created_at')->limit(1)->select('created_at')->first()->created_at,
+            'to'         => isset($validated['to']) ? Carbon::parse($validated['to']) : auth()->user()->spotifyActivity()->orderBy('created_at', 'DESC')->limit(1)->select('created_at')->first()->created_at
         ]);
     }
 
