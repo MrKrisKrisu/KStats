@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\ReweBon;
+use App\User;
 use App\UserSettings;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -27,12 +29,7 @@ class ReweController extends Controller
      */
     public function index(): Renderable
     {
-        auth()->user()->load(['reweReceipts', 'reweReceipts.shop']);
-
-        $mostUsedPaymentMethod = ReweBon::where('user_id', auth()->user()->id)->groupBy('paymentmethod')
-                                        ->select('paymentmethod', DB::raw("COUNT(*) as cnt"))
-                                        ->orderBy('cnt', 'DESC')->first();
-        $mostUsedPaymentMethod = $mostUsedPaymentMethod == null ? '¯\_(ツ)_/¯' : $mostUsedPaymentMethod->paymentmethod;
+        auth()->user()->loadMissing(['reweReceipts', 'reweReceipts.shop']);
 
         $favouriteProducts = DB::table('rewe_bons')
                                ->join('rewe_bon_positions', 'rewe_bon_positions.bon_id', 'rewe_bons.id')
@@ -44,12 +41,6 @@ class ReweController extends Controller
                                ->limit(5)
                                ->get();
 
-        $payment_methods = ReweBon::where('user_id', auth()->user()->id)
-                                  ->groupBy('paymentmethod')
-                                  ->select('paymentmethod', DB::raw('COUNT(*) as cnt'))
-                                  ->orderBy(DB::raw('COUNT(*)'), 'desc')
-                                  ->get();
-
         $products_vegetarian = DB::table('rewe_products')
                                  ->join('rewe_bon_positions', 'rewe_bon_positions.product_id', '=', 'rewe_products.id')
                                  ->join('rewe_bons', 'rewe_bon_positions.bon_id', '=', 'rewe_bons.id')
@@ -60,8 +51,6 @@ class ReweController extends Controller
                                  ->select(['rewe_crowdsourcing_vegetarian_view.vegetarian', DB::raw('COUNT(*) AS cnt')])
                                  ->orderBy(DB::raw('COUNT(*)'), 'desc')
                                  ->get();
-
-        $forecast = self::getForecast();
 
         $topByCategoryCount = DB::table('rewe_products')
                                 ->where('rewe_bons.user_id', auth()->user()->id)
@@ -101,15 +90,16 @@ class ReweController extends Controller
         });
 
         return view('rewe_ebon.overview', [
-            'mostUsedPaymentMethod' => $mostUsedPaymentMethod,
+            'mostUsedPaymentMethod' => $this->getUsersMostUsedPaymentMethod(auth()->user()) ?? '¯\_(ツ)_/¯',
             'products_vegetarian'   => $products_vegetarian,
             'favouriteProducts'     => $favouriteProducts,
-            'payment_methods'       => $payment_methods,
-            'forecast'              => $forecast,
+            'payment_methods'       => $this->getPaymentMethods(auth()->user()),
+            'forecast'              => self::getForecast(),
             'topByCategoryCount'    => $topByCategoryCount,
             'topByCategoryPrice'    => $topByCategoryPrice,
             'ebonKey'               => UserSettings::get(auth()->user()->id, 'eBonKey', md5(rand(0, 99) . time())),
-            'monthlySpend'          => $monthlySpend
+            'monthlySpend'          => $monthlySpend,
+            'topMarkets'            => $this->getTopMarkets(auth()->user())
         ]);
     }
 
@@ -174,6 +164,49 @@ class ReweController extends Controller
                           ])
                  ->orderBy('nextTS')
                  ->get();
+    }
+
+    /**
+     * @param User $user
+     * @return ?string
+     */
+    public function getUsersMostUsedPaymentMethod(User $user): ?string
+    {
+        return $user->reweReceipts
+            ->groupBy('paymentmethod')
+            ->map(function ($methods) {
+                return $methods->count();
+            })
+            ->sortByDesc(function ($count) {
+                return $count;
+            })
+            ->keys()
+            ->first();
+    }
+
+    public function getPaymentMethods(User $user): Collection
+    {
+        return $user->reweReceipts
+            ->groupBy('paymentmethod')
+            ->map(function ($methods) {
+                return $methods->count();
+            })
+            ->sortByDesc(function ($count) {
+                return $count;
+            });
+    }
+
+    public function getTopMarkets(User $user): Collection
+    {
+        return $user->reweReceipts
+            ->groupBy('shop_id')
+            ->map(function ($receipts, $shopId) {
+                return collect([
+                                   'shop'  => $receipts->first()->shop,
+                                   'spent' => $receipts->sum('total')
+                               ]);
+            })
+            ->sortByDesc('spent');
     }
 
 }

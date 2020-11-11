@@ -59,15 +59,15 @@
                                 datasets: [{
                                     backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
                                     data: [
-                                        @foreach($payment_methods as $pm)
-                                            '{{$pm->cnt}}',
+                                        @foreach($payment_methods as $paymentMethod => $count)
+                                            '{{$count}}',
                                         @endforeach
                                     ],
                                     label: 'Zahlungsart'
                                 }],
                                 labels: [
-                                    @foreach($payment_methods as $pm)
-                                        '{{$pm->paymentmethod}}',
+                                    @foreach($payment_methods as $paymentMethod => $count)
+                                        '{{$paymentMethod}}',
                                     @endforeach
                                 ]
                             },
@@ -102,15 +102,15 @@
                                 datasets: [{
                                     backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
                                     data: [
-                                        @foreach(auth()->user()->reweReceipts->groupBy('shop_id') as $shopId => $receipts)
-                                            '{{$receipts->count()}}',
+                                        @foreach($topMarkets as $row)
+                                            {{$row['spent']}},
                                         @endforeach
                                     ],
                                     label: 'Markt Nr.'
                                 }],
                                 labels: [
-                                    @foreach(auth()->user()->reweReceipts->groupBy('shop_id') as $shopId => $receipts)
-                                        '{{$receipts->first()->shop->name ?? ""}} (#{{$receipts->first()->shop_id}})',
+                                    @foreach($topMarkets as $row)
+                                        '{{$row['shop']->name ?? ""}} {{$row['shop']->city ?? ""}} (Markt {{$row['shop']->id}})',
                                     @endforeach
                                 ]
                             },
@@ -127,7 +127,7 @@
                         });
                     });
                 </script>
-                <div class="card-footer"><small>Anzahl an Einkäufen im Markt</small></div>
+                <div class="card-footer"><small>Ausgaben pro Markt</small></div>
             </div>
         </div>
         <div class="col-md-4">
