@@ -89,35 +89,33 @@ class SpotifyController extends Controller
     /**
      * Show the users top tracks
      *
-     * @param String $term expect 'long_term', 'medium_term' or 'short_term'
+     * @param Request $request
      * @return Renderable
      */
-    public function topTracks(string $term = 'long_term'): Renderable
+    public function topTracks(Request $request): Renderable
     {
         $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
         if ($socialProfile->spotify_accessToken == null)
             return view('spotify.notconnected');
 
-        $dataCount = User::find(auth()->user()->id)->spotifyActivity->count();
-        if ($dataCount == 0)
-            return view('spotify.nodata');
+        $validated = $request->validate([
+                                            'from' => ['nullable', 'date'],
+                                            'to'   => ['nullable', 'date'],
+                                        ]);
 
-        if (!in_array($term, ['long_term', 'short_term', 'medium_term']))
-            $term = 'short_term';
-
-        $access_token = auth()->user()->socialProfile->spotify_accessToken;
-
-        try {
-            $top_tracks = SpotifyAPIController::getTopTracks($access_token, $term);
-        } catch (SpotifyTokenExpiredException $e) {
-            return view('spotify.notconnected');
-        } catch (SpotifyAPIException $e) {
-            report($e);
-            return view('spotify.nodata');
+        $topTracks = auth()->user()->spotifyActivity();
+        if (isset($validated['from'])) {
+            $topTracks->where('timestamp_start', '>=', $validated['from']);
         }
+        if (isset($validated['to'])) {
+            $topTracks->where('timestamp_start', '<=', $validated['to']);
+        }
+        $topTracks->groupBy('track_id')
+                  ->select(['track_id', DB::raw('COUNT(track_id) as minutes')])
+                  ->orderByDesc('minutes');
 
         return view('spotify.top_tracks', [
-            'top_tracks' => $top_tracks
+            'top_tracks' => $topTracks->paginate(16)
         ]);
     }
 
