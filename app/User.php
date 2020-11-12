@@ -18,6 +18,8 @@ class User extends Authenticatable
 
     public function socialProfile()
     {
+        if ($this->hasOne(SocialLoginProfile::class)->count() == 0)
+            SocialLoginProfile::create(['user_id' => $this->id]);
         return $this->hasOne(SocialLoginProfile::class);
     }
 
