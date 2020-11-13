@@ -41,10 +41,18 @@ class Spotify_GetTrackInfo extends Command
      */
     public function handle()
     {
-        $tracks = SpotifyTrack::select('track_id')
-                              ->orderBy('updated_at', 'asc')
-                              ->limit(100)
-                              ->pluck('track_id');
+        $tracksWithMissingData = SpotifyTrack::where('bpm', null)
+                                             ->select('track_id')
+                                             ->orderBy('updated_at', 'asc')
+                                             ->limit(90)
+                                             ->pluck('track_id');
+
+        $oldTracksToRefresh = SpotifyTrack::select('track_id')
+                                          ->orderBy('updated_at', 'asc')
+                                          ->limit(100 - $tracksWithMissingData->count())
+                                          ->pluck('track_id');
+
+        $tracks = $tracksWithMissingData->merge($oldTracksToRefresh);
 
         SpotifyTrack::whereIn('track_id', $tracks)->update([
                                                                'updated_at' => Carbon::now()
