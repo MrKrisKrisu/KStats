@@ -14,6 +14,7 @@ use App\SpotifyTrack;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Spotify_CatchNowPlaying extends Command
 {
@@ -66,6 +67,11 @@ class Spotify_CatchNowPlaying extends Command
                 if (isset($nowPlaying->item->uri) && strpos($nowPlaying->item->uri, 'spotify:local:') !== false) //TODO: Local tracks are currently not supported.
                     continue;
 
+                if (!isset($nowPlaying->item->id)) {
+                    Log::debug('Error: nowPlaying->item->id not found.');
+                    Log::debug($nowPlaying);
+                    continue;
+                }
 
                 $timestamp_start = date('Y-m-d H:i:s', $nowPlaying->timestamp / 1000);
                 $track_id        = $nowPlaying->item->id;
