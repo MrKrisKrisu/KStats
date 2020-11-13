@@ -24,7 +24,8 @@ return [
         'lost_tracks'               => 'Verschollene Tracks',
         'history'                   => 'Musikverlauf',
         'heared_tracks'             => 'Gehörte Lieder am :date',
-        'mood_o_meter'              => 'Mood-O-Meter'
+        'mood_o_meter'              => 'Mood-O-Meter',
+        'explore'                   => 'Entdecken'
     ],
     'total'             => 'gesamt',
     'last_days'         => 'letzte :days Tage',

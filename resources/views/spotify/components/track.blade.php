@@ -32,5 +32,7 @@
         @endif
     </div>
 </div>
-@include('spotify.track-attributes', ['track' => $track])
+@if(!isset($showAttributes) || $showAttributes)
+    @include('spotify.track-attributes', ['track' => $track])
+@endif
 <hr/>

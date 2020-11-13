@@ -23,7 +23,8 @@ return [
         'lost_tracks'               => 'Lost tracks',
         'history'                   => 'History',
         'heared_tracks'             => 'Listened Tracks on :date',
-        'mood_o_meter'              => 'Mood-O-Meter'
+        'mood_o_meter'              => 'Mood-O-Meter',
+        'explore'                   => 'Explore'
     ],
     'total'             => 'total',
     'last_days'         => 'last :days days',

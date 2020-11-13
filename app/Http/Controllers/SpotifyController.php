@@ -9,10 +9,12 @@ use App\SpotifyArtist;
 use App\SpotifyPlayActivity;
 use App\SpotifySession;
 use App\SpotifyTrack;
+use App\SpotifyTrackRating;
 use App\User;
 use App\UserSettings;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -505,6 +507,62 @@ class SpotifyController extends Controller
         return view('spotify.mood-o-meter.main', [
             'daily' => $daily
         ]);
+    }
+
+    public function renderExplore(): Renderable
+    {
+        $tracks         = auth()->user()->spotifyActivity()->select(['track_id'])->groupBy('track_id');
+        $alreadyRated   = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
+        $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
+                                      ->whereNotIn('track_id', $alreadyRated)
+                                      ->orderByDesc('popularity')
+                                      ->first();
+
+        return view('spotify.explore.index', [
+            'track' => $trackToExplore
+        ]);
+    }
+
+    public function saveExploration(Request $request)
+    {
+        $validated = $request->validate([
+                                            'track_id'      => ['required', 'exists:spotify_tracks,id'],
+                                            'rating'        => ['required', 'gte:-1', 'lte:1'],
+                                            'addToPlaylist' => ['required_if:rating,1', 'gte:0', 'lte:1']
+                                        ]);
+
+        SpotifyTrackRating::updateOrCreate([
+                                               'user_id'  => auth()->user()->id,
+                                               'track_id' => $validated['track_id'],
+                                               'rating'   => $validated['rating']
+                                           ]);
+
+        if (isset($validated['addToPlaylist']) && $validated['addToPlaylist'] == '1') {
+            try {
+                $track = SpotifyTrack::find($validated['track_id']);
+
+                $client = new Client();
+                $result = $client->put('https://api.spotify.com/v1/me/tracks', [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . auth()->user()->socialProfile->spotify_accessToken,
+                        'Content-Type'  => 'application/json'
+                    ],
+                    'body'    => json_encode([
+                                                 'ids' => [$track->track_id]
+                                             ])
+                ]);
+
+                if ($result->getStatusCode() == 200) {
+                    return back()->with('alert-success', 'Der Track wurde in deiner Bibliothek gespeichert! :)');
+                }
+            } catch (GuzzleException $exception) {
+                report($exception);
+                return back()->with('alert-danger', 'Es ist ein Fehler aufgetreten: Wir haben keine Berechtigung, diesen Track in deine Bibliothek hinzuzufügen. ' .
+                                                  'Bitte klicke <a href="/auth/redirect/spotify">hier</a> und erteile die Berechtigung.');
+            }
+        }
+
+        return back();
     }
 
 }

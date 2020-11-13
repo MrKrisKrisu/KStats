@@ -49,6 +49,9 @@
                                 <a class="dropdown-item" href="{{ route('spotify.mood-o-meter') }}">
                                     {{__('spotify.title.mood_o_meter')}}
                                 </a>
+                                <a class="dropdown-item" href="{{ route('spotify.explore') }}">
+                                    {{__('spotify.title.explore')}}
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item">
