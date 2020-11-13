@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\SpotifyAPIController;
 use App\SocialLoginProfile;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -41,8 +42,8 @@ class Spotify_TokenRefresh extends Command
     {
         $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
                                        ->where(function ($query) {
-                                           $query->where('spotify_lastRefreshed', '<', \Carbon\Carbon::now()->subMinutes(30));
-                                           $query->where('spotify_lastRefreshed', '>', \Carbon\Carbon::now()->subDays(1));
+                                           $query->where('spotify_lastRefreshed', '<', Carbon::now()->subMinutes(30));
+                                           $query->where('spotify_lastRefreshed', '>', Carbon::now()->subDays(1));
                                        })
                                        ->orWhere('spotify_lastRefreshed', null)
                                        ->get();
@@ -50,21 +51,23 @@ class Spotify_TokenRefresh extends Command
         foreach ($slProfile as $profile) {
             try {
                 $user = $profile->user()->first();
-                Log::info("[Spotify] [RefreshToken] Checking User " . $user->id);
+                Log::debug("[Spotify] [RefreshToken] Checking User " . $user->id);
 
                 $refreshedToken = SpotifyAPIController::getNewAccessToken($profile->spotify_refreshToken);
 
                 if (!$refreshedToken) {
-                    Log::info("[Spotify] [RefreshToken] Error while refreshing Token from User User " . $user->id . ". No Token is returned.");
+                    Log::error("[Spotify] [RefreshToken] Error while refreshing Token from User User " . $user->id . ". No Token is returned.");
                     continue;
                 }
 
-                $profile->spotify_accessToken   = $refreshedToken->access_token;
-                $profile->spotify_lastRefreshed = \Carbon\Carbon::now();
-                $profile->save();
+                $profile->update([
+                                     'spotify_accessToken'   => $refreshedToken->access_token,
+                                     'spotify_lastRefreshed' => Carbon::now()
+                                 ]);
 
-                Log::info("[Spotify] [RefreshToken] Successfully refreshed AccessToken from User " . $user->id);
+                Log::debug("[Spotify] [RefreshToken] Successfully refreshed AccessToken from User " . $user->id);
             } catch (\Exception $e) {
+                report($e);
                 dump($e->getMessage());
             }
         }
