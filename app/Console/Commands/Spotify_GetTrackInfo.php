@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Exceptions\SpotifyAPIException;
 use App\Http\Controllers\SpotifyAPIController;
 use App\SpotifyTrack;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class Spotify_GetTrackInfo extends Command
@@ -43,12 +44,16 @@ class Spotify_GetTrackInfo extends Command
         $tracks = SpotifyTrack::select('track_id')
                               ->orderBy('updated_at', 'asc')
                               ->limit(100)
-                              ->pluck('track_id')
-                              ->implode(',');
+                              ->pluck('track_id');
+
+        SpotifyTrack::whereIn('track_id', $tracks)->update([
+                                                               'updated_at' => Carbon::now()
+                                                           ]);
         try {
-            $request = SpotifyAPIController::getAudioFeatures($tracks);
+            $request = SpotifyAPIController::getAudioFeatures($tracks->implode(','));
 
             foreach ($request->audio_features as $trackInfo) {
+                if ($trackInfo == null) continue;
                 try {
                     SpotifyTrack::where('track_id', $trackInfo->id)->update(
                         [
