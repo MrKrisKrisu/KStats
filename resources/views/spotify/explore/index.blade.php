@@ -32,7 +32,7 @@
                             @endisset
 
                             @isset($track->preview_url)
-                                <audio controls="">
+                                <audio controls="" @if(Session::has('autoplay')) autoplay @endif>
                                     <source src="{{$track->preview_url}}" type="audio/mpeg">
                                     Your browser does not support the audio element.';
                                 </audio>

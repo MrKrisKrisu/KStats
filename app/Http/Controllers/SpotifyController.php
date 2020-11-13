@@ -553,7 +553,8 @@ class SpotifyController extends Controller
                 ]);
 
                 if ($result->getStatusCode() == 200) {
-                    return back()->with('alert-success', 'Der Track wurde in deiner Bibliothek gespeichert! :)');
+                    return back()->with('alert-success', 'Der Track wurde in deiner Bibliothek gespeichert! :)')
+                                 ->with('autoplay', '1');
                 }
             } catch (GuzzleException $exception) {
                 report($exception);
@@ -562,7 +563,7 @@ class SpotifyController extends Controller
             }
         }
 
-        return back();
+        return back()->with('autoplay', '1');
     }
 
 }
