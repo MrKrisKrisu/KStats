@@ -515,6 +515,7 @@ class SpotifyController extends Controller
         $alreadyRated   = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
         $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
                                       ->whereNotIn('track_id', $alreadyRated)
+                                      ->where('preview_url', '<>', null)
                                       ->orderByDesc('popularity')
                                       ->first();
 
