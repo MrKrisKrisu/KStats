@@ -45,19 +45,30 @@
                                     <input type="hidden" name="track_id" value="{{$track->id}}"/>
 
                                     <button type="button" class="btn btn-success" data-toggle="tooltip"
-                                            data-placement="top" title="Gefällt mir"
-                                            onclick="$('#likedModal').modal('show')">
+                                            data-placement="top" title="Gefällt mir" id="btnLike"
+                                            onclick="$('#likedModal').modal('show'); $('#btnPlaylist').focus();">
                                         <i class="fas fa-thumbs-up"></i>
                                     </button>
-                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip"
+                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip" id="btnDislike"
                                             data-placement="top" title="Gefällt mir nicht" name="rating" value="0">
                                         <i class="fas fa-thumbs-down"></i>
                                     </button>
-                                    <button type="submit" class="btn btn-secondary" data-toggle="tooltip"
+                                    <button type="submit" class="btn btn-secondary" data-toggle="tooltip" id="btnSkip"
                                             data-placement="top" title="Überspringen" name="rating" value="-1">
                                         <i class="fas fa-forward"></i>
                                     </button>
                                 </form>
+                                <script>
+                                    document.onkeyup = function (e) {
+                                        if (e.which == 187) {
+                                            $('#btnLike').click();
+                                        } else if (e.which == 189) {
+                                            $('#btnDislike').click();
+                                        } else if (e.which == 9) {
+                                            $('#btnSkip').click();
+                                        }
+                                    };
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -93,7 +104,7 @@
                         <p>Möchtest du diesen Track in deine Spotify Bibliothek hinzufügen?</p>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" name="addToPlaylist" value="1">Ja, hinzufügen</button>
+                        <button class="btn btn-primary" name="addToPlaylist" value="1" id="btnPlaylist">Ja, hinzufügen</button>
                         <button class="btn btn-secondary" name="addToPlaylist" value="0">Nein</button>
                     </div>
                 </div>
