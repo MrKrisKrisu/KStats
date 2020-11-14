@@ -64,7 +64,7 @@
                                             $('#btnLike').click();
                                         } else if (e.which == 189 || e.which == 109) {
                                             $('#btnDislike').click();
-                                        } else if (e.which == 9) {
+                                        } else if (e.which == 78) {
                                             $('#btnSkip').click();
                                         }
                                     };
