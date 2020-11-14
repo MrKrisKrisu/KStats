@@ -69,7 +69,7 @@ class Spotify_CatchNowPlaying extends Command
 
                 if (!isset($nowPlaying->item->id)) {
                     Log::debug('Error: nowPlaying->item->id not found.');
-                    Log::debug($nowPlaying);
+                    Log::debug(print_r($nowPlaying, true));
                     continue;
                 }
 

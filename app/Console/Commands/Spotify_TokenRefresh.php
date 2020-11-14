@@ -51,7 +51,6 @@ class Spotify_TokenRefresh extends Command
         foreach ($slProfile as $profile) {
             try {
                 $user = $profile->user()->first();
-                Log::debug("[Spotify] [RefreshToken] Checking User " . $user->id);
 
                 $refreshedToken = SpotifyAPIController::getNewAccessToken($profile->spotify_refreshToken);
 
@@ -65,7 +64,6 @@ class Spotify_TokenRefresh extends Command
                                      'spotify_lastRefreshed' => Carbon::now()
                                  ]);
 
-                Log::debug("[Spotify] [RefreshToken] Successfully refreshed AccessToken from User " . $user->id);
             } catch (\Exception $e) {
                 report($e);
                 dump($e->getMessage());
