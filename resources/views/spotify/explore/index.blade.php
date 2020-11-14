@@ -60,9 +60,9 @@
                                 </form>
                                 <script>
                                     document.onkeyup = function (e) {
-                                        if (e.which == 187) {
+                                        if (e.which == 187 || e.which == 107) {
                                             $('#btnLike').click();
-                                        } else if (e.which == 189) {
+                                        } else if (e.which == 189 || e.which == 109) {
                                             $('#btnDislike').click();
                                         } else if (e.which == 9) {
                                             $('#btnSkip').click();
@@ -104,7 +104,8 @@
                         <p>Möchtest du diesen Track in deine Spotify Bibliothek hinzufügen?</p>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" name="addToPlaylist" value="1" id="btnPlaylist">Ja, hinzufügen</button>
+                        <button class="btn btn-primary" name="addToPlaylist" value="1" id="btnPlaylist">Ja, hinzufügen
+                        </button>
                         <button class="btn btn-secondary" name="addToPlaylist" value="0">Nein</button>
                     </div>
                 </div>
