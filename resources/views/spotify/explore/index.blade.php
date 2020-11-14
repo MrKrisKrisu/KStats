@@ -55,7 +55,7 @@
                                     </button>
                                     <button type="submit" class="btn btn-secondary" data-toggle="tooltip"
                                             data-placement="top" title="Überspringen" name="rating" value="-1">
-                                        <i class="fas fa-question"></i>
+                                        <i class="fas fa-forward"></i>
                                     </button>
                                 </form>
                             </div>
@@ -71,7 +71,7 @@
                     <h2>Wie funktioniert das?</h2>
                     <p class="text-muted">Auf der <b>Entdecken</b> Seite werden dir Tracks gezeigt, welche du bisher
                         noch nicht gehört hast, welche aber beliebt sind. Wenn er dir gefällt kannst du ihn hier direkt
-                        in eine Playlist hinzufügen!</p>
+                        in deine Spotify Bibliothek hinzufügen!</p>
                 </div>
             </div>
         </div>
