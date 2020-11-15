@@ -520,7 +520,10 @@ class SpotifyController extends Controller
                                       ->first();
 
         return view('spotify.explore.index', [
-            'track' => $trackToExplore
+            'track'         => $trackToExplore,
+            'exploredToday' => auth()->user()->spotifyLikedTracks()->whereDate('created_at', Carbon::today()->toDateString())->count(),
+            'exploredTotal' => auth()->user()->spotifyLikedTracks()->count(),
+            'ratedTotal'    => auth()->user()->spotifyRatedTracks()->count()
         ]);
     }
 

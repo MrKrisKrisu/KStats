@@ -85,6 +85,24 @@
                         in deine Spotify Bibliothek hinzufügen!</p>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col">
+                            <span class="color-primary" style="font-size: 30px;">{{$exploredToday}}</span><br />
+                            <span>entdeckte Tracks heute</span>
+                        </div>
+                        <div class="col">
+                            <span class="color-primary" style="font-size: 30px;">{{$exploredTotal}}</span><br />
+                            <span>entdeckte Tracks gesamt</span>
+                        </div>
+                        <div class="col">
+                            <span class="color-primary" style="font-size: 30px;">{{$ratedTotal}}</span><br />
+                            <span>bewertete Tracks gesamt</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

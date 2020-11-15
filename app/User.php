@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->hasMany(SpotifyTrackRating::class, 'user_id', 'id');
     }
 
+    public function spotifyLikedTracks()
+    {
+        return $this->hasMany(SpotifyTrackRating::class, 'user_id', 'id')->where('rating', '1');
+    }
+
     public function spotifySessions()
     {
         return $this->hasMany(SpotifySession::class, 'user_id', 'id');
