@@ -1,11 +1,12 @@
 {
   "name": "mrkriskrisu/kstats",
+  "description": "Statistics for your shopping behaviour at REWE, Some Spotify Charts and more.",
   "type": "project",
   "require": {
     "php": "^7.3 || ^8.0",
     "ext-imap": "*",
     "ext-json": "*",
-    "abraham/twitteroauth": "^1.1",
+    "abraham/twitteroauth": "^2.0",
     "doctrine/dbal": "^3.0",
     "fideloper/proxy": "^4.0",
     "guzzlehttp/guzzle": "^7.0.1",
