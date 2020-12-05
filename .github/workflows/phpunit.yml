@@ -1,4 +1,4 @@
-name: Laravel
+name: PHPUnit
 
 on:
   push:
@@ -13,8 +13,8 @@ jobs:
 
     strategy:
       matrix:
-        php: [7.3, 7.4]
-        dependency-version: [prefer-stable]
+        php: [ 7.3, 7.4, 8.0 ]
+        dependency-version: [ prefer-stable ]
 
     steps:
       - name: Checkout code
