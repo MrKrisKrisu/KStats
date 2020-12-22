@@ -3,21 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SpotifyPlayActivity extends Model
-{
+class SpotifyPlayActivity extends Model {
 
-    protected $fillable = ['user_id', 'track_id', 'timestamp_start', 'progress_ms', 'context', 'context_uri', 'device_id'];
-    protected $dates = ['timestamp_start'];
+    protected $fillable = ['user_id', 'track_id', 'timestamp_start', 'progress_ms', 'context_uri', 'device_id'];
+    protected $dates    = ['timestamp_start'];
 
-    public function track()
-    {
-        return $this->belongsTo('App\SpotifyTrack', 'track_id', 'track_id');
+    public function track(): BelongsTo {
+        return $this->belongsTo(SpotifyTrack::class, 'track_id', 'track_id');
     }
 
-    public function device()
-    {
-        return $this->belongsTo('App\SpotifyDevice', 'device_id', 'id');
+    public function device(): BelongsTo {
+        return $this->belongsTo(SpotifyDevice::class, 'device_id', 'id');
     }
-
 }

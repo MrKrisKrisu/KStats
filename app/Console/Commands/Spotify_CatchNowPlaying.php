@@ -7,17 +7,18 @@ use App\Http\Controllers\SpotifyAPIController;
 use App\SocialLoginProfile;
 use App\SpotifyAlbum;
 use App\SpotifyArtist;
+use App\SpotifyContext;
 use App\SpotifyDevice;
 use App\SpotifyPlayActivity;
 use App\SpotifySession;
 use App\SpotifyTrack;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class Spotify_CatchNowPlaying extends Command
-{
+class Spotify_CatchNowPlaying extends Command {
 
     /**
      * The name and signature of the console command.
@@ -38,8 +39,7 @@ class Spotify_CatchNowPlaying extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -48,41 +48,39 @@ class Spotify_CatchNowPlaying extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
                                        ->where('spotify_lastRefreshed', '>', Carbon::parse('-1 hour'))
                                        ->get();
 
-        foreach ($slProfile as $profile) {
+        foreach($slProfile as $profile) {
             try {
                 $user = $profile->user()->first();
                 dump("[Spotify] [CatchNowPlaying] Checking User " . $user->id . ' / ' . $user->username);
 
                 $nowPlaying = SpotifyAPIController::getNowPlaying($profile->spotify_accessToken);
 
-                if (!$nowPlaying) //next user...
+                if(!$nowPlaying) //next user...
                     continue;
 
-                if (isset($nowPlaying->item->uri) && strpos($nowPlaying->item->uri, 'spotify:local:') !== false) //TODO: Local tracks are currently not supported.
+                if(isset($nowPlaying->item->uri) && str_contains($nowPlaying->item->uri, 'spotify:local:')) //TODO: Local tracks are currently not supported.
                     continue;
 
-                if (!isset($nowPlaying->item->id)) {
+                if(!isset($nowPlaying->item->id)) {
                     Log::debug('Error: nowPlaying->item->id not found.');
                     Log::debug(print_r($nowPlaying, true));
                     continue;
                 }
 
                 $timestamp_start = date('Y-m-d H:i:s', $nowPlaying->timestamp / 1000);
-                $track_id        = $nowPlaying->item->id;
-                $progress_ms     = (int)$nowPlaying->progress_ms;
-                $context         = isset($nowPlaying->context->type) ? $nowPlaying->context->type : null;
-                $context_uri     = isset($nowPlaying->context->uri) ? $nowPlaying->context->uri : null;
+                $track_id = $nowPlaying->item->id;
+                $progress_ms = (int)$nowPlaying->progress_ms;
+                $context = isset($nowPlaying->context->uri) ? SpotifyContext::firstOrCreate(['uri' => $nowPlaying->context->uri]) : null;
 
-                $devices      = SpotifyAPIController::getDevices($profile->spotify_accessToken);
+                $devices = SpotifyAPIController::getDevices($profile->spotify_accessToken);
                 $activeDevice = null;
 
-                foreach ($devices->devices as $device) {
+                foreach($devices->devices as $device) {
                     $de = SpotifyDevice::updateOrCreate([
                                                             'device_id' => $device->id
                                                         ], [
@@ -90,21 +88,20 @@ class Spotify_CatchNowPlaying extends Command
                                                             'name'    => $device->name,
                                                             'type'    => $device->type
                                                         ]);
-                    if ($device->is_active)
+                    if($device->is_active)
                         $activeDevice = $de;
                 }
 
                 $album_release_date = $nowPlaying->item->album->release_date;
-                if ($nowPlaying->item->album->release_date_precision == 'month')
+                if($nowPlaying->item->album->release_date_precision == 'month')
                     $album_release_date .= "-01";
-                elseif ($nowPlaying->item->album->release_date_precision == 'year')
+                elseif($nowPlaying->item->album->release_date_precision == 'year')
                     $album_release_date .= "-01-01";
 
                 $album = SpotifyAlbum::updateOrCreate(
                     [
                         'album_id' => $nowPlaying->item->album->id
-                    ],
-                    [
+                    ], [
                         'name'         => $nowPlaying->item->album->name,
                         'imageUrl'     => $nowPlaying->item->album->images[0]->url,
                         'release_date' => $album_release_date
@@ -114,8 +111,7 @@ class Spotify_CatchNowPlaying extends Command
                 $track = SpotifyTrack::updateOrCreate(
                     [
                         'track_id' => $nowPlaying->item->id
-                    ],
-                    [
+                    ], [
                         'name'        => $nowPlaying->item->name,
                         'album_id'    => $nowPlaying->item->album->id,
                         'preview_url' => $nowPlaying->item->preview_url,
@@ -130,28 +126,25 @@ class Spotify_CatchNowPlaying extends Command
                                                 'timestamp_start' => $timestamp_start,
                                                 'track_id'        => $track_id,
                                                 'progress_ms'     => $progress_ms,
-                                                'context'         => $context,
-                                                'context_uri'     => $context_uri,
-                                                'device_id'       => $activeDevice == null ? null : $activeDevice->id
+                                                'context_id'      => $context?->id,
+                                                'device_id'       => $activeDevice?->id
                                             ]);
 
-                foreach ($nowPlaying->item->album->artists as $artist) {
+                foreach($nowPlaying->item->album->artists as $artist) {
                     $artist = SpotifyArtist::updateOrCreate(
                         [
                             'artist_id' => $artist->id
-                        ],
-                        [
+                        ], [
                             'name' => $artist->name
                         ]
                     );
                     $album->artists()->syncWithoutDetaching($artist);
                 }
-                foreach ($nowPlaying->item->artists as $artist) {
+                foreach($nowPlaying->item->artists as $artist) {
                     $artist = SpotifyArtist::updateOrCreate(
                         [
                             'artist_id' => $artist->id
-                        ],
-                        [
+                        ], [
                             'name' => $artist->name
                         ]
                     );
@@ -163,7 +156,7 @@ class Spotify_CatchNowPlaying extends Command
                                          ->where('timestamp_end', '>', DB::raw('(NOW() - INTERVAL 5 MINUTE)'))
                                          ->first();
 
-                if ($session == null) {
+                if($session == null) {
                     SpotifySession::create([
                                                'user_id'         => $user->id,
                                                'timestamp_start' => $timestamp_start,
@@ -174,11 +167,11 @@ class Spotify_CatchNowPlaying extends Command
                                          'timestamp_end' => Carbon::now()
                                      ]);
                 }
-            } catch (SpotifyTokenExpiredException $e) {
+            } catch(SpotifyTokenExpiredException $exception) {
                 dump("Access Token expired from User " . $profile->user()->first()->username);
-            } catch (\Exception $e) {
-                dump($e);
-                report($e);
+            } catch(Exception $exception) {
+                dump($exception);
+                report($exception);
             }
         }
 
