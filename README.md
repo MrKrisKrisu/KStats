@@ -18,7 +18,7 @@
   
 ## Requirements
 
-* PHP >= 7.2
+* PHP >= 8.0
 * NodeJS / NPM
 * Composer
 
