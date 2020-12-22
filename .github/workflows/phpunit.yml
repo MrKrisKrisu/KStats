@@ -34,10 +34,18 @@ jobs:
         run: sudo apt-get install poppler-utils
 
       - name: Validate composer.json and composer.lock
-        run: composer validate
+        uses: php-actions/composer@v4
+        with:
+          php_version: ${{ matrix.php }}
+          composer_version: 2
+          command: validate
 
       - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --prefer-dist
+        uses: php-actions/composer@v4
+        with:
+          php_version: ${{ matrix.php }}
+          composer_version: 2
+          command: install -q --no-ansi --no-interaction --no-scripts --no-suggest --prefer-dist
 
       - name: Generate key
         run: php artisan key:generate
