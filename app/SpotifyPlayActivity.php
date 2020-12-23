@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SpotifyPlayActivity extends Model {
 
-    protected $fillable = ['user_id', 'track_id', 'timestamp_start', 'progress_ms', 'context_uri', 'device_id'];
+    protected $fillable = ['user_id', 'track_id', 'timestamp_start', 'progress_ms', 'context_id', 'device_id'];
     protected $dates    = ['timestamp_start'];
 
     public function track(): BelongsTo {
