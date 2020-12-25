@@ -12,7 +12,7 @@ class AddSpotifyIndexToSocialLoginProfiles extends Migration {
      */
     public function up() {
         Schema::table('social_login_profiles', function(Blueprint $table) {
-            $table->index(['spotify_accessToken', 'spotify_lastRefreshed']);
+            $table->index(['spotify_accessToken', 'spotify_lastRefreshed'], 'spotify_req');
             $table->index(['twitter_token']);
         });
     }
@@ -24,7 +24,7 @@ class AddSpotifyIndexToSocialLoginProfiles extends Migration {
      */
     public function down() {
         Schema::table('social_login_profiles', function(Blueprint $table) {
-            $table->dropIndex(['spotify_accessToken', 'spotify_lastRefreshed']);
+            $table->dropIndex('spotify_req');
             $table->dropIndex(['twitter_token']);
         });
     }
