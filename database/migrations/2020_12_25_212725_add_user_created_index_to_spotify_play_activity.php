@@ -11,7 +11,7 @@ class AddUserCreatedIndexToSpotifyPlayActivity extends Migration {
      * @return void
      */
     public function up() {
-        Schema::table('spotify_play_activity', function(Blueprint $table) {
+        Schema::table('spotify_play_activities', function(Blueprint $table) {
             $table->index(['user_id', 'created_at']);
         });
     }
@@ -22,7 +22,7 @@ class AddUserCreatedIndexToSpotifyPlayActivity extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('spotify_play_activity', function(Blueprint $table) {
+        Schema::table('spotify_play_activities', function(Blueprint $table) {
             $table->dropIndex(['user_id', 'created_at']);
         });
     }
