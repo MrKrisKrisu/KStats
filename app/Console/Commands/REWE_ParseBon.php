@@ -118,7 +118,7 @@ class REWE_ParseBon extends Command
                         $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
                         $message .= "============================ \r\n";
                         foreach ($positions as $position)
-                            $message .= ($position->getWeight() !== null ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . $position->getPriceTotal() . "€</i> \r\n";
+                            $message .= ($position->getWeight() !== null ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . number_format($position->getPriceTotal(), 2, ',', '.') . "€</i> \r\n";
                         $message .= "============================ \r\n";
                         $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
 
