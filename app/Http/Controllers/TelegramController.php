@@ -18,7 +18,7 @@ class TelegramController extends Controller
      */
     public static function sendMessage(User $user, string $message)
     {
-        $telegramID = UserSettings::get($user->id, 'telegram_id');
+        $telegramID = $user->socialProfile->telegram_id;
 
         if ($telegramID == null)
             return false;
