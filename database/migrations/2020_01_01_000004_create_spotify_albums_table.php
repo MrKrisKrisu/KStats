@@ -12,7 +12,7 @@ class CreateSpotifyAlbumsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('spotify_albums', function (Blueprint $table) {
+        Schema::create('spotify_albums', function(Blueprint $table) {
             $table->id();
 
             $table->string('album_id')->unique(); //TODO: Make this to primary key

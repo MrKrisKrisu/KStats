@@ -4,16 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPrivacyInterceptToUsers extends Migration
-{
+class AddPrivacyInterceptToUsers extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::table('users', function (Blueprint $table) {
+    public function up() {
+        Schema::table('users', function(Blueprint $table) {
             $table->timestamp('privacy_confirmed_at')
                   ->nullable()
                   ->default(null)
@@ -26,9 +24,8 @@ class AddPrivacyInterceptToUsers extends Migration
      *
      * @return void
      */
-    public function down()
-    {
-        Schema::table('users', function (Blueprint $table) {
+    public function down() {
+        Schema::table('users', function(Blueprint $table) {
             $table->dropColumn('privacy_confirmed_at');
         });
     }

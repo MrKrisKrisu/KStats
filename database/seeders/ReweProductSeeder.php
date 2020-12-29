@@ -5,25 +5,22 @@ namespace Database\Seeders;
 use App\ReweProduct;
 use Illuminate\Database\Seeder;
 
-class ReweProductSeeder extends Seeder
-{
+class ReweProductSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
-        foreach ($this->exampleProducts() as $product) {
+    public function run() {
+        foreach($this->exampleProducts() as $product) {
             ReweProduct::create([
-                'name' => $product["name"],
-                'hide' => $product["hide"]
-            ]);
+                                    'name' => $product["name"],
+                                    'hide' => $product["hide"]
+                                ]);
         }
     }
 
-    private function exampleProducts()
-    {
+    private function exampleProducts() {
         return [
             ['name' => 'PFAND', 'hide' => 1],
             ['name' => 'LEERG. MW V. ST', 'hide' => 1],

@@ -7,8 +7,7 @@ use App\SpotifyTrackRating;
 use App\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SpotifyTrackRatingFactory extends Factory
-{
+class SpotifyTrackRatingFactory extends Factory {
     /**
      * The name of the factory's corresponding model.
      *
@@ -21,8 +20,7 @@ class SpotifyTrackRatingFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
+    public function definition() {
         return [
             'user_id'  => User::factory(),
             'track_id' => SpotifyTrack::factory(),

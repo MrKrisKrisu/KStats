@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 .editorconfig
 .DS_Store
+public/css/cover.css
+public/mix-manifest.json

@@ -1,5 +1,8 @@
 <?php
 
+use App\Telegram\Commands\ConnectCommand;
+use App\Telegram\Commands\StartCommand;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -117,8 +120,8 @@ return [
     */
     'commands'                     => [
         Telegram\Bot\Commands\HelpCommand::class,
-        \App\Telegram\Commands\StartCommand::class,
-        \App\Telegram\Commands\ConnectCommand::class,
+        StartCommand::class,
+        ConnectCommand::class,
     ],
 
     /*

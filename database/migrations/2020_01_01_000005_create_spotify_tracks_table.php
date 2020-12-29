@@ -4,25 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpotifyTracksTable extends Migration
-{
+class CreateSpotifyTracksTable extends Migration {
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('spotify_tracks', function (Blueprint $table) {
+    public function up() {
+        Schema::create('spotify_tracks', function(Blueprint $table) {
             $table->id();
 
             $table->string('track_id')
-                ->unique();
+                  ->unique();
             $table->string('name');
             $table->string('album_id')
-                ->nullable()
-                ->index();
+                  ->nullable()
+                  ->index();
             $table->boolean('explicit')->nullable();
             $table->tinyInteger('popularity')->unsigned()->nullable();
             $table->tinyInteger('bpm')->unsigned()->nullable();
@@ -41,10 +39,10 @@ class CreateSpotifyTracksTable extends Migration
             $table->timestamps();
 
             $table->foreign('album_id')
-                ->references('album_id')
-                ->on('spotify_albums')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
+                  ->references('album_id')
+                  ->on('spotify_albums')
+                  ->onDelete('restrict')
+                  ->onUpdate('restrict');
         });
     }
 
@@ -53,8 +51,7 @@ class CreateSpotifyTracksTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('spotify_tracks');
     }
 

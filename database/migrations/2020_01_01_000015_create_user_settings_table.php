@@ -4,21 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserSettingsTable extends Migration
-{
+class CreateUserSettingsTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('user_settings', function (Blueprint $table) {
+    public function up() {
+        Schema::create('user_settings', function(Blueprint $table) {
             $table->id();
 
             $table->bigInteger('user_id')
-                ->unsigned()
-                ->index();
+                  ->unsigned()
+                  ->index();
 
             $table->string('name');
             $table->string('val');
@@ -28,10 +26,10 @@ class CreateUserSettingsTable extends Migration
             $table->unique(['user_id', 'name']);
 
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 
@@ -40,8 +38,7 @@ class CreateUserSettingsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('user_settings');
     }
 }

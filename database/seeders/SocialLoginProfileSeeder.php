@@ -8,25 +8,23 @@ use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 
-class SocialLoginProfileSeeder extends Seeder
-{
+class SocialLoginProfileSeeder extends Seeder {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         $faker = Factory::create('de_DE');
 
-        foreach (User::all() as $user) {
+        foreach(User::all() as $user) {
             SocialLoginProfile::create([
-                'user_id' => $user->id,
-                'spotify_user_id' => $faker->userName,
-                'spotify_accessToken' => 'example for testing',
-                'spotify_refreshToken' => 'example for testing',
-                'spotify_lastRefreshed' => Carbon::now()->addMinutes(rand(-30, 0))
-            ]);
+                                           'user_id'               => $user->id,
+                                           'spotify_user_id'       => $faker->userName,
+                                           'spotify_accessToken'   => 'example for testing',
+                                           'spotify_refreshToken'  => 'example for testing',
+                                           'spotify_lastRefreshed' => Carbon::now()->addMinutes(rand(-30, 0))
+                                       ]);
         }
     }
 }

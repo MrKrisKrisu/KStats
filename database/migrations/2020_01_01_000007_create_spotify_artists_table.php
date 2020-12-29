@@ -4,16 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpotifyArtistsTable extends Migration
-{
+class CreateSpotifyArtistsTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('spotify_artists', function (Blueprint $table) {
+    public function up() {
+        Schema::create('spotify_artists', function(Blueprint $table) {
             $table->id();
 
             $table->string('artist_id')->unique();
@@ -28,8 +26,7 @@ class CreateSpotifyArtistsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('spotify_artists');
     }
 }

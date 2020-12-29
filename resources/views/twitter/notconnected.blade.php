@@ -10,7 +10,8 @@
                     <h5 class="card-title">{{__('settings.connect')}}</h5>
                     <p>{{__('settings.not_connected', ['service' => 'Twitter'])}}</p>
 
-                    <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-info">{{__('settings.connect')}}</a>
+                    <a href="{{route('redirectProvider', 'twitter')}}"
+                       class="btn btn-info">{{__('settings.connect')}}</a>
                 </div>
             </div>
         </div>

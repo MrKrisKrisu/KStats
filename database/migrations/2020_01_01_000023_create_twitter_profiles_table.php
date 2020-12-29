@@ -4,16 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTwitterProfilesTable extends Migration
-{
+class CreateTwitterProfilesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('twitter_profiles', function (Blueprint $table) {
+    public function up() {
+        Schema::create('twitter_profiles', function(Blueprint $table) {
             $table->id();
 
             $table->string('name')->nullable();
@@ -37,8 +35,7 @@ class CreateTwitterProfilesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('twitter_profiles');
     }
 }

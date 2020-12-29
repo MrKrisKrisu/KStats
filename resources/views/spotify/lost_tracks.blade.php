@@ -52,35 +52,35 @@
                     @else
                         <table class="ui table unstackable">
                             <tbody>
-                            @foreach($lostTracks as $track)
-                                <tr>
-                                    <td>
-                                        @isset($track->album->imageUrl)
-                                            <a href="{{route('spotify.track', $track->id)}}">
-                                                <img src="{{$track->album->imageUrl}}" class="spotify-cover"
-                                                     style="max-width: 110px;"/>
-                                            </a>
-                                        @endisset
-                                    </td>
-                                    <td>
-                                        <a href="{{route('spotify.track', $track->id)}}">{{$track->name}}</a><br/>
-                                        <small>
-                                            @foreach($track->artists as $artist)
-                                                @if($loop->first){{__('general.from')}} @endif
-                                                {{$artist->name}}
-                                                @if(!$loop->last) {{__('general.and')}} @endif
-                                            @endforeach
-                                        </small>
-                                        @isset($track->preview_url)
-                                            <hr/>
-                                            <audio controls>
-                                                <source src="{{$track->preview_url}}" type="audio/mpeg">
-                                                Your browser does not support the audio element.
-                                            </audio>
-                                        @endisset
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach($lostTracks as $track)
+                                    <tr>
+                                        <td>
+                                            @isset($track->album->imageUrl)
+                                                <a href="{{route('spotify.track', $track->id)}}">
+                                                    <img src="{{$track->album->imageUrl}}" class="spotify-cover"
+                                                         style="max-width: 110px;"/>
+                                                </a>
+                                            @endisset
+                                        </td>
+                                        <td>
+                                            <a href="{{route('spotify.track', $track->id)}}">{{$track->name}}</a><br/>
+                                            <small>
+                                                @foreach($track->artists as $artist)
+                                                    @if($loop->first){{__('general.from')}} @endif
+                                                    {{$artist->name}}
+                                                    @if(!$loop->last) {{__('general.and')}} @endif
+                                                @endforeach
+                                            </small>
+                                            @isset($track->preview_url)
+                                                <hr/>
+                                                <audio controls>
+                                                    <source src="{{$track->preview_url}}" type="audio/mpeg">
+                                                    Your browser does not support the audio element.
+                                                </audio>
+                                            @endisset
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     @endif

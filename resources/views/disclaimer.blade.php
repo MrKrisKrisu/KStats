@@ -10,7 +10,8 @@
             Kommerziell. Hier gibt es auch keine Werbung.</p>
         <p>Wenn du den Dienst nicht mehr nutzen möchtest, kannst du alle deine Daten löschen lassen.
             Schreibe dazu einfach eine Mail.</p>
-        <hr /><h2>Die Standardklauseln...</h2>
+        <hr/>
+        <h2>Die Standardklauseln...</h2>
         <p>Die Betreiber dieser Seiten nehmen
             den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten
             vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser
@@ -24,7 +25,8 @@
             (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser
             Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.</p>
 
-        <hr /><h2>Cookies</h2>
+        <hr/>
+        <h2>Cookies</h2>
         <p>Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf
             Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser
             Angebot
@@ -43,7 +45,8 @@
             Cookies beim Schließen des Browser aktivieren. Bei der Deaktivierung von Cookies kann die
 
             Funktionalität dieser Website eingeschränkt sein.</p>
-        <hr /><h2>Server-Log-Files</h2>
+        <hr/>
+        <h2>Server-Log-Files</h2>
         <p>Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten
 
             Server-Log Files, die Ihr Browser automatisch an uns übermittelt. Dies sind:</p>
@@ -59,7 +62,8 @@
             Datenquellen wird nicht vorgenommen. Wir behalten uns vor, diese Daten nachträglich zu
             prüfen, wenn uns konkrete Anhaltspunkte für eine rechtswidrige Nutzung bekannt
             werden.</p>
-        <hr /><h2>Twitter</h2>
+        <hr/>
+        <h2>Twitter</h2>
         <p>Auf unseren Seiten sind Funktionen des Dienstes Twitter eingebunden. Diese
             Funktionen werden angeboten durch die Twitter Inc., 1355 Market Street, Suite 900, San
             Francisco, CA
@@ -76,7 +80,8 @@
                     href="https://twitter.com/account/settings" target="_blank">https://twitter.com/account/settings</a>
 
             ändern.</p>
-        <hr /><h2>Spotify</h2>
+        <hr/>
+        <h2>Spotify</h2>
         <p>Auf unseren Seiten sind Funktionen des Musik-
             Dienstes Spotify eingebunden. Anbieter ist die Spotify AB, Birger Jarlsgatan 61, 113 56
             Stockholm in
@@ -102,7 +107,8 @@
             wünschen, dass Spotify den Besuch unserer Seiten Ihrem Spotify-Nutzerkonto zuordnen kann,
 
             loggen Sie sich bitte aus Ihrem Spotify-Benutzerkonto aus.</p>
-        <hr /><h2>SSL-Verschlüsselung</h2>
+        <hr/>
+        <h2>SSL-Verschlüsselung</h2>
         <p>Diese Seite nutzt aus Gründen der Sicherheit und zum Schutz der
 
             Übertragung vertraulicher Inhalte, wie zum Beispiel der Anfragen, die Sie an uns als
@@ -113,7 +119,8 @@
         <p>Wenn die SSL Verschlüsselung aktiviert ist,
             können die Daten, die Sie an uns übermitteln, nicht von Dritten mitgelesen
             werden.</p>
-        <hr /><h2>Recht auf Auskunft, Löschung, Sperrung</h2>
+        <hr/>
+        <h2>Recht auf Auskunft, Löschung, Sperrung</h2>
         <p>Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten,
             deren Herkunft und Empfänger und den Zweck der Datenverarbeitung sowie ein Recht auf
             Berichtigung, Sperrung oder Löschung dieser Daten. Hierzu sowie zu weiteren Fragen zum Thema

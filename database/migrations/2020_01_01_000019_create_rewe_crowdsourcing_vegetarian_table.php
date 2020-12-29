@@ -4,42 +4,40 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReweCrowdsourcingVegetarianTable extends Migration
-{
+class CreateReweCrowdsourcingVegetarianTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('rewe_crowdsourcing_vegetarians', function (Blueprint $table) {
+    public function up() {
+        Schema::create('rewe_crowdsourcing_vegetarians', function(Blueprint $table) {
             $table->id();
 
             $table->bigInteger('user_id')
-                ->unsigned()
-                ->index();
+                  ->unsigned()
+                  ->index();
             $table->bigInteger('product_id')
-                ->unsigned()
-                ->index();
+                  ->unsigned()
+                  ->index();
             $table->boolean('vegetarian')
-                ->nullable();
+                  ->nullable();
 
             $table->timestamps();
 
             $table->unique(['user_id', 'product_id']);
 
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
 
             $table->foreign('product_id')
-                ->references('id')
-                ->on('rewe_products')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+                  ->references('id')
+                  ->on('rewe_products')
+                  ->onDelete('restrict')
+                  ->onUpdate('cascade');
         });
     }
 
@@ -48,8 +46,7 @@ class CreateReweCrowdsourcingVegetarianTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('rewe_crowdsourcing_vegetarians');
     }
 }

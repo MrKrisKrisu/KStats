@@ -4,32 +4,30 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSpotifyDevicesTable extends Migration
-{
+class CreateSpotifyDevicesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('spotify_devices', function (Blueprint $table) {
+    public function up() {
+        Schema::create('spotify_devices', function(Blueprint $table) {
             $table->id();
 
             $table->string('device_id')->unique();
             $table->bigInteger('user_id')
-                ->unsigned()
-                ->index();
+                  ->unsigned()
+                  ->index();
             $table->string('name');
             $table->string('type');
 
             $table->timestamps();
 
             $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 
@@ -38,8 +36,7 @@ class CreateSpotifyDevicesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('spotify_devices');
     }
 }

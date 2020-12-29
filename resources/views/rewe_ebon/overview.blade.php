@@ -103,7 +103,7 @@
                                     backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
                                     data: [
                                         @foreach($topMarkets as $row)
-                                            {{$row['spent']}},
+                                        {{$row['spent']}},
                                         @endforeach
                                     ],
                                     label: 'Markt Nr.'

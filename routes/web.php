@@ -15,7 +15,7 @@ Route::get('/auth/callback/{provider}', 'SocialController@callback');
 
 Auth::routes();
 
-Route::middleware(['privacy_confirmation'])->group(function () {
+Route::middleware(['privacy_confirmation'])->group(function() {
 
     Route::get('/home/', 'HomeController@index')->name('home');
 
@@ -76,7 +76,7 @@ Route::view('/privacy', 'legal.privacy_policy')
 Route::post('/privacy/confirm', [SettingsController::class, 'confirmPrivacyPolicy'])
      ->name('legal.privacy_policy.confirm');
 
-Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', function () {
+Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', function() {
     $updates = Telegram::commandsHandler(true);
     Log::debug($updates);
     return 'ok';
