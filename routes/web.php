@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\CrowdsourceController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReweController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SocialController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\TwitterController;
+use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -9,32 +15,33 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::view('/', 'welcome')->name('welcome');
 
-Route::get('/auth/redirect/{provider}', 'SocialController@redirect')
+Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])
      ->name('redirectProvider');
-Route::get('/auth/callback/{provider}', 'SocialController@callback');
+Route::get('/auth/callback/{provider}', [SocialController::class, 'callback']);
 
 Auth::routes();
 
-Route::middleware(['privacy_confirmation'])->group(function() {
+Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
 
-    Route::get('/home/', 'HomeController@index')->name('home');
+    Route::get('/home/', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/settings/', 'SettingsController@index')
+    Route::get('/settings/', [SettingsController::class, 'index'])
          ->name('settings');
-    Route::post('/settings/', 'SettingsController@save');
-    Route::post('/settings/user/password/change', 'SettingsController@changePassword')->name('settings.user.password.change');
-    Route::post('/settings/connections/telegram/delete', 'SettingsController@deleteTelegramConnection')
+    Route::post('/settings/', [SettingsController::class, 'save']);
+    Route::post('/settings/user/password/change', [SettingsController::class, 'changePassword'])
+         ->name('settings.user.password.change');
+    Route::post('/settings/connections/telegram/delete', [SettingsController::class, 'deleteTelegramConnection'])
          ->name('settings.connections.telegram.delete');
-    Route::post('/settings/add_mail', 'SettingsController@addEmail')
+    Route::post('/settings/add_mail', [SettingsController::class, 'addEmail'])
          ->name('settings.save.email');
-    Route::post('/settings/delete_mail', 'SettingsController@deleteEmail')
+    Route::post('/settings/delete_mail', [SettingsController::class, 'deleteEmail'])
          ->name('settings.delete.email');
-    Route::post('/settings/set_lang', 'SettingsController@setLanguage')
+    Route::post('/settings/set_lang', [SettingsController::class, 'setLanguage'])
          ->name('settings.set.lang');
-    Route::get('/user/verify_mail/{user_id}/{verification_key}', 'UnauthorizedSettingsController@verifyMail')
+    Route::get('/user/verify_mail/{user_id}/{verification_key}', [UnauthorizedSettingsController::class, 'verifyMail'])
          ->name('user.verify');
 
-    Route::get('/spotify/', 'SpotifyController@index')
+    Route::get('/spotify/', [SpotifyController::class, 'index'])
          ->name('spotify');
     Route::get('/spotify/mood-o-meter', [SpotifyController::class, 'renderMoodMeter'])
          ->name('spotify.mood-o-meter');
@@ -46,27 +53,27 @@ Route::middleware(['privacy_confirmation'])->group(function() {
          ->name('spotify.track');
     Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])
          ->name('spotify.artist');
-    Route::get('/spotify/history/{date?}', 'SpotifyController@renderDailyHistory')
+    Route::get('/spotify/history/{date?}', [SpotifyController::class, 'renderDailyHistory'])
          ->name('spotify.history');
-    Route::get('/spotify/top-tracks/{term?}', 'SpotifyController@topTracks')
+    Route::get('/spotify/top-tracks/{term?}', [SpotifyController::class, 'topTracks'])
          ->name('spotify.topTracks');
-    Route::get('/spotify/lost-tracks/', 'SpotifyController@lostTracks')
+    Route::get('/spotify/lost-tracks/', [SpotifyController::class, 'lostTracks'])
          ->name('spotify.lostTracks');
-    Route::post('/spotify/lost-tracks/', 'SpotifyController@saveLostTracks')
+    Route::post('/spotify/lost-tracks/', [SpotifyController::class, 'saveLostTracks'])
          ->name('spotify.saveLostTracks');
 
-    Route::get('/rewe/', 'ReweController@index')
+    Route::get('/rewe/', [ReweController::class, 'index'])
          ->name('rewe');
-    Route::get('/rewe/receipt/{id}', 'ReweController@renderBonDetails')
+    Route::get('/rewe/receipt/{id}', [ReweController::class, 'renderBonDetails'])
          ->name('rewe_receipt');
-    Route::get('/rewe/receipt/download/{id}', 'ReweController@downloadRawReceipt')
+    Route::get('/rewe/receipt/download/{id}', [ReweController::class, 'downloadRawReceipt'])
          ->name('download_raw_rewe_receipt');
 
-    Route::get('/crowdsourcing/rewe/', 'CrowdsourceController@renderRewe')
+    Route::get('/crowdsourcing/rewe/', [CrowdsourceController::class, 'renderRewe'])
          ->name('crowdsourcing_rewe');
-    Route::post('/crowdsourcing/rewe/', 'CrowdsourceController@handleSubmit');
+    Route::post('/crowdsourcing/rewe/', [CrowdsourceController::class, 'handleSubmit']);
 
-    Route::get('/twitter', 'TwitterController@index')
+    Route::get('/twitter', [TwitterController::class, 'index'])
          ->name('twitter');
 });
 
