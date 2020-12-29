@@ -49,7 +49,7 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('spotify.explore');
     Route::post('/spotify/explore/submit', [SpotifyController::class, 'saveExploration'])
          ->name('spotify.explore.submit');
-    Route::get('/spotify/track/{id}', 'SpotifyController@trackDetails')
+    Route::get('/spotify/track/{id}', [SpotifyController::class, 'trackDetails'])
          ->name('spotify.track');
     Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])
          ->name('spotify.artist');
