@@ -1,6 +1,6 @@
 # KStats
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e2ba9f2772e24d8d9fae5f9e8955d70c)](https://app.codacy.com/manual/MrKrisKrisu/KStats?utm_source=github.com&utm_medium=referral&utm_content=MrKrisKrisu/KStats&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4dfdd959ca7f4b07b7b6fd57f1f92c91)](https://www.codacy.com/gh/MrKrisKrisu/KStats/dashboard)
 ![PHPUnit](https://github.com/MrKrisKrisu/KStats/workflows/PHPUnit/badge.svg)
 
 ![Screenshot](screenshot.png)
