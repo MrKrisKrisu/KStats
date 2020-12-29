@@ -7,13 +7,13 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ _('Spotify Connect') }}</h5>
+                    <h5 class="card-title">{{ __('Spotify Connect') }}</h5>
                     @if(auth()->user()->socialProfile->isConnectedSpotify)
-                        {{ _('You are already connected to Spotify.') }}
-                        {{ _('Click the button to reconnect.') }}
+                        {{ __('You are already connected to Spotify.') }}
+                        {{ __('Click the button to reconnect.') }}
                     @else
-                        {{ _('You are not connected to Spotify.') }}
-                        {{ _('Click the button to connect.') }}
+                        {{ __('You are not connected to Spotify.') }}
+                        {{ __('Click the button to connect.') }}
                     @endif
                     <hr/>
                     <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-success">Spotify Connect</a>
@@ -21,7 +21,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ _('Twitter Connect') }}</h5>
+                    <h5 class="card-title">{{ __('Twitter Connect') }}</h5>
 
                     <p>Status:
                         @if(auth()->user()->socialProfile->isConnectedTwitter)
@@ -43,7 +43,7 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ _('Telegram Connect') }}</h5>
+                    <h5 class="card-title">{{ __('Telegram Connect') }}</h5>
                     @if(auth()->user()->socialProfile->isConnectedTelegram)
                         <p>{{__('settings.telegram.connected')}}</p>
 
