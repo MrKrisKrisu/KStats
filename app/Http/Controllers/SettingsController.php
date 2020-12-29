@@ -10,6 +10,7 @@ use App\User;
 use App\UserEmail;
 use App\UserSettings;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -120,16 +121,16 @@ class SettingsController extends Controller
         return back();
     }
 
-    public function deleteTelegramConnection(Request $request)
-    {
-        $setting = User::find(Auth::user()->id)->settings->where('name', 'telegramID')->first();
-        if ($setting == null) {
-            $request->session()->flash('alert-danger', __('settings.telegram.not_connected'));
-            return back();
+    public function deleteTelegramConnection(Request $request): RedirectResponse {
+        if(!Auth::user()->socialProfile->isConnectedTelegram) {
+            return back()->with('alert-danger', __('settings.telegram.not_connected'));
         }
-        $setting->delete();
-        $request->session()->flash('alert-success', __('settings.telegram.connection_removed'));
-        return back();
+
+        Auth::user()->socialProfile->update([
+                                                'telegram_id' => null
+                                            ]);
+
+        return back()->with('alert-success', __('settings.telegram.connection_removed'));
     }
 
     public function setLanguage(Request $request)
