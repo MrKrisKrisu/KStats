@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\SpotifyAlbum;
+use App\SpotifyTrack;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -27,9 +29,9 @@ class DatabaseSeeder extends Seeder {
 
         //Spotify Tables
         $this->call(SpotifyArtistSeeder::class);
-        $this->call(SpotifyAlbumSeeder::class);
+        SpotifyAlbum::factory(rand(5, 100))->create();
         $this->call(SpotifyAlbumArtistSeeder::class);
-        $this->call(SpotifyTrackSeeder::class);
+        SpotifyTrack::factory(rand(100, 1000))->create();
         $this->call(SpotifyTrackArtistSeeder::class);
         $this->call(SpotifyDeviceSeeder::class);
         $this->call(SpotifyPlayActivitySeeder::class);

@@ -13,7 +13,7 @@ class SpotifyContextFactory extends Factory {
     #[ArrayShape(['uri' => "string"])]
     public function definition(): array {
         return [
-            'uri' => 'spotify:' . $this->faker->randomElement(['playlist', 'album']) . ':' . $this->faker->randomAscii
+            'uri' => 'spotify:' . $this->faker->randomElement(['playlist', 'album']) . ':' . $this->faker->slug
         ];
     }
 }
