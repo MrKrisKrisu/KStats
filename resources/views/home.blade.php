@@ -27,15 +27,9 @@
                 <div class="card-body">
                     <h2>Verbundene Dienste</h2>
                     <table class="table">
-                        <thead>
-                            <tr>
-                                <td>Service</td>
-                                <td>Status</td>
-                            </tr>
-                        </thead>
                         <tbody>
                             <tr>
-                                <td>Spotify</td>
+                                <td><i class="fab fa-spotify"></i> Spotify</td>
                                 <td>
                                     @if(auth()->user()->socialProfile->isConnectedSpotify)
                                         <p>
@@ -66,7 +60,7 @@
                             </tr>
 
                             <tr>
-                                <td>Twitter</td>
+                                <td><i class="fab fa-twitter"></i> Twitter</td>
                                 <td>
                                     @if(auth()->user()->socialProfile->isConnectedTwitter)
                                         <p>

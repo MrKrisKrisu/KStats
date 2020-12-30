@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">{{__('KStats')}}</a>
+            <a class="navbar-brand" href="/"><i class="far fa-chart-bar"></i> KStats</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -26,12 +26,14 @@
                 @else
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('home') }}">{{__('general.menu.dashboard')}}</a>
+                            <a class="nav-link" href="{{ route('home') }}">
+                                <i class="fas fa-home"></i> {{__('general.menu.dashboard')}}
+                            </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Spotify
+                                <i class="fab fa-spotify"></i> Spotify
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('spotify') }}">
@@ -55,21 +57,27 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('rewe') }}">{{ __('general.menu.receipts') }}</a>
+                            <a class="nav-link" href="{{ route('rewe') }}">
+                                <i class="fas fa-shopping-cart"></i> {{ __('general.menu.receipts') }}
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('twitter') }}">Twitter</a>
+                            <a class="nav-link" href="{{ route('twitter') }}">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{{ route('crowdsourcing_rewe') }}">{{ __('general.menu.crowdsourcing') }}</a>
+                               href="{{ route('crowdsourcing_rewe') }}">
+                                <i class="fas fa-magic"></i> {{ __('general.menu.crowdsourcing') }}
+                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav mr-right">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->username }} <span class="caret"></span>
+                                <i class="fas fa-user"></i> {{ Auth::user()->username }} <span class="caret"></span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
