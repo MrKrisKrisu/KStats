@@ -26,7 +26,7 @@ class SpotifyPlayActivityFactory extends Factory {
         'updated_at'      => "\DateTime"
     ])]
     public function definition(): array {
-        $time = $this->faker->unique()->dateTime();
+        $time = $this->faker->unique()->dateTimeBetween('-2 months');
         return [
             'user_id'         => User::factory(),
             'timestamp_start' => $time,
