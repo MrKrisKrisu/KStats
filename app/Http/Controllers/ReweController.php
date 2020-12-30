@@ -227,12 +227,17 @@ class ReweController extends Controller {
                           ->select(['id', 'cashregister_nr', 'paymentmethod', 'user_id', 'shop_id', 'timestamp_bon', 'total'])
                           ->paginate(7);
 
-        $countOther = ReweBon::where('shop_id', $shop->id)->select(['user_id'])->groupBy(['user_id'])->count();
+        $countOther = ReweBon::where('shop_id', $shop->id)
+                             ->where('user_id', '<>', Auth::user()->id)
+                             ->select(['user_id'])
+                             ->groupBy(['user_id'])
+                             ->get()
+                             ->count();
 
         return view('rewe_ebon.shop', [
             'shop'       => $shop,
             'history'    => $history,
-            'countOther' => $countOther - 1
+            'countOther' => $countOther
         ]);
     }
 
