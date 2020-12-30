@@ -22,6 +22,7 @@ class ReweController extends Controller {
                                ->join('rewe_bon_positions', 'rewe_bon_positions.bon_id', 'rewe_bons.id')
                                ->join('rewe_products', 'rewe_products.id', 'rewe_bon_positions.product_id')
                                ->where('rewe_bons.user_id', auth()->user()->id)
+                               ->where('rewe_products.hide', 0)
                                ->groupBy('rewe_products.id')
                                ->select('rewe_products.*', DB::raw('COUNT(*) as cnt'))
                                ->orderByDesc('cnt')
