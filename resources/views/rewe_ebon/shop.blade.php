@@ -40,7 +40,7 @@
                     @if($countOther == 0)
                         <p>Du bist bisher <b>der einzige KStats-Nutzer</b>, welcher in diesem REWE-Markt einkaufen war!
                         </p>
-                    @elseif($countOther > 1)
+                    @elseif($countOther == 1)
                         <p>Du hast <b>einen</b> Einkaufsfreund, denn neben dir hat <b>ein weiterer KStats-Nutzer</b> in
                             diesem
                             REWE-Markt eingekauft.</p>
