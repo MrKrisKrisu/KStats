@@ -3,32 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\ReweBon;
+use App\ReweBonPosition;
+use App\ReweProduct;
 use App\User;
 use App\UserSettings;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-class ReweController extends Controller
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+class ReweController extends Controller {
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return Renderable
-     */
-    public function index(): Renderable
-    {
+    public function index(): Renderable {
         auth()->user()->loadMissing(['reweReceipts', 'reweReceipts.shop']);
 
         $favouriteProducts = DB::table('rewe_bons')
@@ -83,9 +70,9 @@ class ReweController extends Controller
                                 ->orderByDesc(DB::raw('SUM(rewe_bon_positions.single_price)'))
                                 ->get();
 
-        $monthlySpend = auth()->user()->reweReceipts->groupBy(function ($receipt) {
+        $monthlySpend = auth()->user()->reweReceipts->groupBy(function($receipt) {
             return $receipt->timestamp_bon->format('m.Y');
-        })->map(function ($receipts) {
+        })->map(function($receipts) {
             return $receipts->sum('total');
         });
 
@@ -103,22 +90,20 @@ class ReweController extends Controller
         ]);
     }
 
-    public function downloadRawReceipt(int $receipt_id)
-    {
+    public function downloadRawReceipt(int $receipt_id) {
         $receipt = ReweBon::find($receipt_id);
 
-        if ($receipt == null || $receipt->user_id != auth()->user()->id)
+        if($receipt == null || $receipt->user_id != auth()->user()->id)
             return response("No permission", 401);
 
         return response($receipt->receipt_pdf, 200)
             ->header('Content-Type', 'application/pdf');
     }
 
-    public function renderBonDetails(int $receipt_id)
-    {
+    public function renderBonDetails(int $receipt_id) {
         $bon = ReweBon::find($receipt_id);
 
-        if ($bon->user->id != auth()->user()->id)
+        if($bon->user->id != auth()->user()->id)
             return Redirect::route('rewe')->withErrors(['msg', 'No Permissions to access this bon.']);
 
         return view('rewe_ebon.receipt_details', [
@@ -126,10 +111,9 @@ class ReweController extends Controller
         ]);
     }
 
-    public static function getMailKey()
-    {
+    public static function getMailKey() {
         $key = UserSettings::where('user_id', auth()->user()->id)->where('name', 'rewe_ebon_key')->first();
-        if ($key !== null)
+        if($key !== null)
             return $key->val;
 
         $key = md5(auth()->user()->id . time() . rand(1, 99));
@@ -146,8 +130,7 @@ class ReweController extends Controller
     /**
      * @return \Illuminate\Support\Collection
      */
-    public static function getForecast()
-    {
+    public static function getForecast() {
         return DB::table('rewe_bons')
                  ->join('rewe_bon_positions', 'rewe_bons.id', '=', 'rewe_bon_positions.bon_id')
                  ->join('rewe_products', 'rewe_bon_positions.product_id', '=', 'rewe_products.id')
@@ -170,43 +153,67 @@ class ReweController extends Controller
      * @param User $user
      * @return ?string
      */
-    public function getUsersMostUsedPaymentMethod(User $user): ?string
-    {
+    public function getUsersMostUsedPaymentMethod(User $user): ?string {
         return $user->reweReceipts
             ->groupBy('paymentmethod')
-            ->map(function ($methods) {
+            ->map(function($methods) {
                 return $methods->count();
             })
-            ->sortByDesc(function ($count) {
+            ->sortByDesc(function($count) {
                 return $count;
             })
             ->keys()
             ->first();
     }
 
-    public function getPaymentMethods(User $user): Collection
-    {
+    public function getPaymentMethods(User $user): Collection {
         return $user->reweReceipts
             ->groupBy('paymentmethod')
-            ->map(function ($methods) {
+            ->map(function($methods) {
                 return $methods->count();
             })
-            ->sortByDesc(function ($count) {
+            ->sortByDesc(function($count) {
                 return $count;
             });
     }
 
-    public function getTopMarkets(User $user): Collection
-    {
+    public function getTopMarkets(User $user): Collection {
         return $user->reweReceipts
             ->groupBy('shop_id')
-            ->map(function ($receipts, $shopId) {
+            ->map(function($receipts, $shopId) {
                 return collect([
                                    'shop'  => $receipts->first()->shop,
                                    'spent' => $receipts->sum('total')
                                ]);
             })
             ->sortByDesc('spent');
+    }
+
+    public function showProduct(int $id): Renderable {
+        $product = ReweProduct::findOrFail($id);
+
+        $mainStats = ReweBonPosition::whereIn('bon_id', Auth::user()->reweReceipts()->select(['id']))
+                                    ->where('product_id', $product->id)
+                                    ->select([
+                                                 DB::raw("SUM(amount) AS amount"),
+                                                 DB::raw("SUM(weight) AS weight"),
+                                                 DB::raw("AVG(single_price) AS single_price")
+                                             ])
+                                    ->first();
+
+        $history = ReweBonPosition::join('rewe_bons', 'rewe_bons.id', '=', 'rewe_bon_positions.bon_id')
+                                  ->where('rewe_bons.user_id', Auth::user()->id)
+                                  ->where('rewe_bon_positions.product_id', $product->id)
+                                  ->with(['receipt'])
+                                  ->orderBy('rewe_bons.timestamp_bon', 'DESC')
+                                  ->select(['rewe_bon_positions.*'])
+                                  ->paginate(7);
+
+        return view('rewe_ebon.product', [
+            'product'   => $product,
+            'mainStats' => $mainStats,
+            'history'   => $history
+        ]);
     }
 
 }

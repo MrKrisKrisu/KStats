@@ -189,7 +189,9 @@
                         <tbody>
                             @foreach($favouriteProducts as $product)
                                 <tr>
-                                    <td>{{$product->name}}</td>
+                                    <td>
+                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
+                                    </td>
                                     <td data-order="{{$product->cnt}}">{{$product->cnt}}x</td>
                                 </tr>
                             @endforeach
@@ -223,7 +225,9 @@
                         <tbody>
                             @foreach($forecast as $product)
                                 <tr>
-                                    <td>{{$product->name}}</td>
+                                    <td>
+                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
+                                    </td>
                                     <td>{{Carbon\Carbon::parse($product->lastTS)->diffForHumans()}}</td>
                                     <td>{{Carbon\Carbon::parse($product->nextTS)->diffForHumans()}}</td>
                                 </tr>
@@ -243,8 +247,6 @@
                     <small>Wenn du längere Zeit dieses Tool nutzt, wird dir hier eine
                         Kaufvorhersage angezeigt. Basierend auf deinen zuletzt
                         gekauften Produkten und dem Intervall dieser Käufe.</small>
-                    <!--<a target="_blank"
-                       href="https://k118.de/rewe/forecastICS/?key=">ICS DEV</a>-->
                 </div>
             </div>
         </div>

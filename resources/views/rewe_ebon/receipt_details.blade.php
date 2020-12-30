@@ -60,7 +60,7 @@
                             @foreach($bon->positions as $position)
                                 <tr>
                                     <td>
-                                        <!--<a href="{ {route('rewe_product', [$position->product->id])}}">-->{{$position->product->name}}<!--</a>-->
+                                        <a href="{{route('rewe.product', ['id' => $position->product->id])}}">{{$position->product->name}}</a>
                                     </td>
                                     <td>
                                         @if($position->amount)

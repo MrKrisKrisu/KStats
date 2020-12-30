@@ -68,6 +68,8 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('rewe_receipt');
     Route::get('/rewe/receipt/download/{id}', [ReweController::class, 'downloadRawReceipt'])
          ->name('download_raw_rewe_receipt');
+    Route::get('/rewe/product/{id}', [ReweController::class, 'showProduct'])
+         ->name('rewe.product');
 
     Route::get('/crowdsourcing/rewe/', [CrowdsourceController::class, 'renderRewe'])
          ->name('crowdsourcing_rewe');
