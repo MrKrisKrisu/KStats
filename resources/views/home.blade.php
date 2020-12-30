@@ -7,22 +7,25 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Willkommen im neuen KStats</h5>
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <p>Optisch kaum anders, aber im inner'n hat sich viel getan. Dies ist aktuell erst eine
-                        "Vorab-Version", einige Features und Statistiken, die du vielleicht kennst sind aktuell noch
-                        nicht Verfügbar, kommen aber bald zurück!</p>
+                    @isset($lastSpotifyTrack)
+                        <small class="text-muted float-right">abgespielt {{$lastSpotifyTrack->timestamp_start->diffForHumans()}}</small>
+                    @endisset
+                    <h5 class="card-title">Dein zuletzt gehörter Track</h5>
+                    @isset($lastSpotifyTrack)
+                        @include('spotify.components.track', ['track' => $lastSpotifyTrack->track])
+                    @else
+                        <p class="text-danger">
+                            Du hast bisher noch kein Lied auf Spotify gehört oder nutzt die KStats
+                            Statistik nicht! :c
+                        </p>
+                    @endisset
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
+                    <h2>Verbundene Dienste</h2>
                     <table class="table">
                         <thead>
                             <tr>
