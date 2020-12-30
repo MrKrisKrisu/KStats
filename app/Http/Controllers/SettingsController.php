@@ -8,6 +8,7 @@ use App\Rules\MatchOldPassword;
 use App\UserEmail;
 use App\UserSettings;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -62,17 +63,28 @@ class SettingsController extends Controller {
                                        ]);
 
         try {
-            Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
-
-            if(Mail::failures())
-                throw new \Exception("Failure on sending mail: " . json_encode(Mail::failures()));
+            self::sendEmailVerification($userEmail);
 
             return back()->with('alert-success', __('settings.verify_mail.alert_save'));
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             report($e);
             $userEmail->delete();
             return back()->with('alert-danger', __('settings.verify_mail.alert_save_error'));
         }
+    }
+
+    /**
+     * @param UserEmail $userEmail
+     * @return bool
+     * @throws Exception
+     */
+    public static function sendEmailVerification(UserEmail $userEmail): bool {
+        Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
+
+        if(Mail::failures())
+            throw new Exception("Failure on sending mail: " . json_encode(Mail::failures()));
+
+        return true;
     }
 
     public function deleteEmail(Request $request): RedirectResponse {

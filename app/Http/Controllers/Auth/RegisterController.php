@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SettingsController;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\UserEmail;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class RegisterController extends Controller
-{
+class RegisterController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -30,15 +32,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest');
     }
 
@@ -48,8 +49,7 @@ class RegisterController extends Controller
      * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
+    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator {
         return Validator::make($data, [
             'username' => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -61,15 +61,28 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return \App\User
+     * @return User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-                                'username'   => $data['username'],
-                                'email'      => $data['email'],
-                                'password'   => Hash::make($data['password']),
-                                'last_login' => Carbon::now()
-                            ]);
+    protected function create(array $data): User {
+        $user = User::create([
+                                 'username'   => $data['username'],
+                                 'email'      => $data['email'],
+                                 'password'   => Hash::make($data['password']),
+                                 'last_login' => Carbon::now()
+                             ]);
+
+
+        $userEmail = UserEmail::create([
+                                           'email'              => $user->email,
+                                           'unverified_user_id' => $user->id,
+                                           'verification_key'   => md5(rand(0, 99999) . time() . $user->id)
+                                       ]);
+
+        try {
+            SettingsController::sendEmailVerification($userEmail);
+        } catch(Exception $e) {
+            report($e);
+        }
+        return $user;
     }
 }
