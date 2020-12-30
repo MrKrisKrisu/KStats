@@ -12,8 +12,10 @@
                             <tr>
                                 <td>{{__('receipts.market')}}</td>
                                 <td>
-                                    {{$bon->shop->name}}<br/>
-                                    {{$bon->shop->zip}} {{$bon->shop->city}}
+                                    <a href="{{route('rewe.shop', ['id' => $bon->shop->id])}}">
+                                        Markt {{$bon->shop->id}}<br/>
+                                        <small>in {{$bon->shop->zip}} {{$bon->shop->city}}</small>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>

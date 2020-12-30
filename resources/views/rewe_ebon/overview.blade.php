@@ -274,8 +274,10 @@
                                 <tr>
                                     <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
                                     <td>
-                                        {{$bon->shop->name}}<br/>
-                                        {{$bon->shop->zip}} {{$bon->shop->city}}
+                                        <a href="{{route('rewe.shop', ['id' => $bon->shop->id])}}">
+                                            Markt {{$bon->shop->id}}<br/>
+                                            <small>in {{$bon->shop->zip}} {{$bon->shop->city}}</small>
+                                        </a>
                                     </td>
                                     <td>{{$bon->cashregister_nr}}</td>
                                     <td>{{$bon->paymentmethod}}</td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ReweBon;
 use App\ReweBonPosition;
 use App\ReweProduct;
+use App\ReweShop;
 use App\User;
 use App\UserSettings;
 use Illuminate\Contracts\Support\Renderable;
@@ -214,6 +215,24 @@ class ReweController extends Controller {
             'product'   => $product,
             'mainStats' => $mainStats,
             'history'   => $history
+        ]);
+    }
+
+    public function showShop(int $id): Renderable {
+        $shop = ReweShop::findOrFail($id);
+
+        $history = ReweBon::where('user_id', Auth::user()->id)
+                          ->where('shop_id', $shop->id)
+                          ->orderBy('timestamp_bon', 'DESC')
+                          ->select(['id', 'cashregister_nr', 'paymentmethod', 'user_id', 'shop_id', 'timestamp_bon', 'total'])
+                          ->paginate(7);
+
+        $countOther = ReweBon::where('shop_id', $shop->id)->select(['user_id'])->groupBy(['user_id'])->count();
+
+        return view('rewe_ebon.shop', [
+            'shop'       => $shop,
+            'history'    => $history,
+            'countOther' => $countOther - 1
         ]);
     }
 
