@@ -83,4 +83,23 @@
         </div>
     </body>
     @yield('javascript')
+    @if(auth()->check() && auth()->user()->privacy_confirmed_at != null)
+        <script type="text/javascript">
+            var _paq = window._paq = window._paq || [];
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function () {
+                var u = "//{{config('app.matomo.url')}}/";
+                _paq.push(['setTrackerUrl', u + 'matomo.php']);
+                _paq.push(['setSiteId', '{{config('app.matomo.id')}}']);
+                var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                g.type = 'text/javascript';
+                g.async = true;
+                g.src = u + 'matomo.js';
+                s.parentNode.insertBefore(g, s);
+            })();
+        </script>
+        <noscript><p><img src="//{{config('app.matomo.url')}}/matomo.php?idsite={{config('app.matomo.id')}}&amp;rec=1"
+                          style="border:0;" alt=""/></p></noscript>
+    @endif
 </html>

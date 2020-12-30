@@ -225,5 +225,10 @@ return [
         'phone'   => env('IMPRINT_PHONE'),
         'fax'     => env('IMPRINT_FAX'),
         'email'   => env('IMPRINT_EMAIL'),
+    ],
+
+    'matomo' => [
+        'url' => env('MATOMO_URL'),
+        'id'  => env('MATOMO_ID')
     ]
 ];
