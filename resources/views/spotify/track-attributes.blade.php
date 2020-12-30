@@ -37,11 +37,11 @@
 @if($track->speechiness > 0.6)
     <label class="badge badge-sm badge-primary" data-toggle="tooltip" data-placement="top"
            title="In diesem Track wird sehr viel gesprochen.">
-        <i class="far fa-comments fa-2x"></i>
+        <i class="far fa-comments"></i>
     </label>
 @elseif($track->speechiness > 0.4)
     <label class="badge badge-sm badge-primary" data-toggle="tooltip" data-placement="top"
            title="In diesem Track wird viel gesprochen.">
-        <i class="far fa-comment fa-2x"></i>
+        <i class="far fa-comment"></i>
     </label>
 @endif
