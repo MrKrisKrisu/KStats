@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>{{__('KStats')}}</title>
+        <title>@hasSection('title')@yield('title') - @endif{{__('KStats')}}</title>
 
         <link rel="stylesheet" href="/css/app.css"/>
 
