@@ -8,6 +8,8 @@
 
         <link href="/css/app.css" rel="stylesheet">
         <link href="/css/cover.css" rel="stylesheet">
+
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.svg">
     </head>
 
     <body class="text-center">
