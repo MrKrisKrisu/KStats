@@ -15,6 +15,7 @@
     "laravel/socialite": "^5.0",
     "laravel/tinker": "^2.0",
     "laravel/ui": "^3.0",
+    "mews/captcha": "^3.2",
     "mrkriskrisu/rewe-ereceipt-parser": "^0.3.2",
     "socialiteproviders/spotify": "^4.0",
     "socialiteproviders/twitter": "^4.0",
