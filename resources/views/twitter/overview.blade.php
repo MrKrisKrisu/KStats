@@ -124,7 +124,60 @@
                         });
                     </script>
                 </div>
+            </div>
 
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="chart_followers"></canvas>
+                    <script>
+                        window.onload = function () {
+                            window.myLine = new Chart(document.getElementById('chart_followers').getContext('2d'), {
+                                type: 'line',
+                                data: {
+                                    datasets: [{
+                                        label: 'Follower',
+                                        data: [
+                                                @foreach($twitter_profile->dailies as $daily)
+                                            {
+                                                x: new Date({{$daily->date->year}}, {{$daily->date->month - 1}}, {{$daily->date->day}}),
+                                                y: {{$daily->follower_count}}
+                                            }
+                                            @if(!$loop->last) , @endif
+                                            @endforeach
+                                        ],
+                                        backgroundColor : '#38a3a6',
+                                        borderColor : '#38a3a6',
+                                        fill: false
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    hover: {
+                                        mode: 'nearest',
+                                        intersect: true
+                                    },
+                                    scales: {
+                                        xAxes: [{
+                                            display: true,
+                                            type: 'time',
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: 'Month'
+                                            }
+                                        }],
+                                        yAxes: [{
+                                            display: true,
+                                            scaleLabel: {
+                                                display: true,
+                                                labelString: 'Value'
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                        };
+                    </script>
+                </div>
             </div>
         </div>
     </div>
