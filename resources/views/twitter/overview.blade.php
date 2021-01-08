@@ -20,15 +20,15 @@
                         </tr>
                         <tr>
                             <td>{{__('twitter.follower')}}</td>
-                            <td>{{number_format($twitter_profile->followers_count, 0, ',', '.')}}</td>
+                            <td>{{$twitter_profile->followers_count}}</td>
                         </tr>
                         <tr>
                             <td>{{__('twitter.friends')}}</td>
-                            <td>{{number_format($twitter_profile->friends_count, 0, ',', '.')}}</td>
+                            <td>{{$twitter_profile->friends_count}}</td>
                         </tr>
                         <tr>
                             <td>{{__('twitter.tweets')}}</td>
-                            <td>{{number_format($twitter_profile->statuses_count, 0, ',', '.')}}</td>
+                            <td>{{$twitter_profile->statuses_count}}</td>
                         </tr>
                     </table>
                 </div>
