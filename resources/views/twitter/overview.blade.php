@@ -134,21 +134,37 @@
                             window.myLine = new Chart(document.getElementById('chart_followers').getContext('2d'), {
                                 type: 'line',
                                 data: {
-                                    datasets: [{
-                                        label: 'Follower',
-                                        data: [
-                                                @foreach($twitter_profile->dailies as $daily)
-                                            {
-                                                x: new Date({{$daily->date->year}}, {{$daily->date->month - 1}}, {{$daily->date->day}}),
-                                                y: {{$daily->follower_count}}
-                                            }
-                                            @if(!$loop->last) , @endif
-                                            @endforeach
-                                        ],
-                                        backgroundColor : '#38a3a6',
-                                        borderColor : '#38a3a6',
-                                        fill: false
-                                    }]
+                                    datasets: [
+                                        {
+                                            label: 'Follower',
+                                            data: [
+                                                    @foreach($twitter_profile->dailies as $daily)
+                                                {
+                                                    x: new Date({{$daily->date->year}}, {{$daily->date->month - 1}}, {{$daily->date->day}}),
+                                                    y: {{$daily->follower_count}}
+                                                }
+                                                @if(!$loop->last) , @endif
+                                                @endforeach
+                                            ],
+                                            backgroundColor: '#38a3a6',
+                                            borderColor: '#38a3a6',
+                                            fill: false
+                                        },{
+                                            label: 'Folge ich',
+                                            data: [
+                                                    @foreach($twitter_profile->dailies as $daily)
+                                                {
+                                                    x: new Date({{$daily->date->year}}, {{$daily->date->month - 1}}, {{$daily->date->day}}),
+                                                    y: {{$daily->friends_count}}
+                                                }
+                                                @if(!$loop->last) , @endif
+                                                @endforeach
+                                            ],
+                                            backgroundColor: '#592A0C',
+                                            borderColor: '#592A0C',
+                                            fill: false
+                                        }
+                                    ]
                                 },
                                 options: {
                                     responsive: true,
