@@ -52,7 +52,7 @@
                                     @isset($unfollower->unfollower_profile)
                                         <tr>
                                             <td>{{$unfollower->unfollower_profile->screen_name ?? $unfollower->unfollower_profile->id}}</td>
-                                            <td data-order="{{$unfollower->unfollowed_at}}">{{$unfollower->unfollowed_at->diffForHumans()}}</td>
+                                            <td data-order="{{$unfollower->unfollowed_at}}">{{$unfollower->unfollowed_at?->diffForHumans()}}</td>
                                         </tr>
                                     @endisset
                                 @endforeach
@@ -128,7 +128,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <canvas id="chart_followers"></canvas>
+                        <canvas id="chart_followers"></canvas>
                     <script>
                         window.onload = function () {
                             window.myLine = new Chart(document.getElementById('chart_followers').getContext('2d'), {
