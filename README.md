@@ -23,7 +23,7 @@
 
 * PHP >= 8.0
 * NodeJS / NPM
-* Composer
+* Composer (and the requirements mentioned in the composer.json)
 
 ## Installation and Contributing
 
@@ -33,4 +33,5 @@ these steps:
 1. Clone the repository
 2. Run ``npm install`` and ``npm run dev`` to parse CSS and JS
 3. Run ``composer install`` to install all dependencies
-4. Run ``php artisan serve`` to start built-in developement Webserver (or use your own)
+4. Copy ``.env.example`` to ``.env`` and adapt the values
+5. Run ``php artisan serve`` to start built-in developement Webserver (or use your own)
