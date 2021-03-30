@@ -130,7 +130,7 @@ class ReweController extends Controller {
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public static function getForecast() {
         return DB::table('rewe_bons')
@@ -153,6 +153,7 @@ class ReweController extends Controller {
 
     /**
      * @param User $user
+     *
      * @return ?string
      */
     public function getUsersMostUsedPaymentMethod(User $user): ?string {

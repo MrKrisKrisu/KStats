@@ -7,6 +7,7 @@ use App\Http\Controllers\SpotifyAPIController;
 use App\SpotifyTrack;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Exception;
 
 class Spotify_GetTrackInfo extends Command {
     /**
@@ -76,7 +77,7 @@ class Spotify_GetTrackInfo extends Command {
                             'bpm'              => $trackInfo->tempo
                         ]
                     );
-                } catch(\Exception $e) {
+                } catch(Exception $e) {
                     report($e);
                 }
             }

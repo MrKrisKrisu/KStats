@@ -98,6 +98,7 @@ class ReweMailController extends Controller {
      * Get ids from requested mails in inbox
      *
      * @param long $since - timestamp since
+     *
      * @return array
      */
     public function getMails($since = null) {

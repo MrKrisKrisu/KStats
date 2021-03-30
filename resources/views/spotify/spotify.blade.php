@@ -132,18 +132,18 @@
                     <h5 class="card-title">{{ __('spotify.heared_minutes') }}</h5>
                     <table class="ui table">
                         <tbody>
-                            <tr>
-                                <td><b>{{ __('spotify.total') }}</b></td>
-                                <td><span id="playtime_total">...</span>min</td>
-                            </tr>
-                            <tr>
-                                <td><b>{{ __('spotify.last_days', ['days' => 30]) }}</b></td>
-                                <td><span id="playtime_30">...</span>min</td>
-                            </tr>
-                            <tr>
-                                <td><b>{{ __('spotify.last_days', ['days' => 7]) }}</b></td>
-                                <td><span id="playtime_7">...</span>min</td>
-                            </tr>
+                        <tr>
+                            <td><b>{{ __('spotify.total') }}</b></td>
+                            <td><span id="playtime_total">...</span>min</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{ __('spotify.last_days', ['days' => 30]) }}</b></td>
+                            <td><span id="playtime_30">...</span>min</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{ __('spotify.last_days', ['days' => 7]) }}</b></td>
+                            <td><span id="playtime_7">...</span>min</td>
+                        </tr>
                         </tbody>
                     </table>
                     <script>
@@ -264,11 +264,11 @@
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }} [{{ __('spotify.total') }}]</h5>
                     <table class="ui table unstackable" id="top_artists_total">
                         <thead>
-                            <tr>
-                                <th>{{ __('spotify.rank') }}</th>
-                                <th>{{ __('spotify.artist') }}</th>
-                                <th>{{ __('spotify.heared_minutes') }}</th>
-                            </tr>
+                        <tr>
+                            <th>{{ __('spotify.rank') }}</th>
+                            <th>{{ __('spotify.artist') }}</th>
+                            <th>{{ __('spotify.heared_minutes') }}</th>
+                        </tr>
                         </thead>
                         <tbody>
                         </tbody>
@@ -313,11 +313,11 @@
 
                     <table class="ui table unstackable" id="top_artists_30days">
                         <thead>
-                            <tr>
-                                <th>{{ __('spotify.rank') }}</th>
-                                <th>{{ __('spotify.artist') }}</th>
-                                <th>{{ __('spotify.heared_minutes') }}</th>
-                            </tr>
+                        <tr>
+                            <th>{{ __('spotify.rank') }}</th>
+                            <th>{{ __('spotify.artist') }}</th>
+                            <th>{{ __('spotify.heared_minutes') }}</th>
+                        </tr>
                         </thead>
                         <tbody>
                         </tbody>
@@ -362,11 +362,11 @@
 
                     <table class="ui table unstackable" id="top_artists_7days">
                         <thead>
-                            <tr>
-                                <th>{{ __('spotify.rank') }}</th>
-                                <th>{{ __('spotify.artist') }}</th>
-                                <th>{{ __('spotify.heared_minutes') }}</th>
-                            </tr>
+                        <tr>
+                            <th>{{ __('spotify.rank') }}</th>
+                            <th>{{ __('spotify.artist') }}</th>
+                            <th>{{ __('spotify.heared_minutes') }}</th>
+                        </tr>
                         </thead>
                         <tbody>
                         </tbody>

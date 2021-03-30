@@ -42,20 +42,20 @@
                     @if(count($twitter_profile->unfollower)  > 0)
                         <table class="table" id="unfollowers">
                             <thead>
-                                <tr>
-                                    <th>{{__('twitter.username')}}</th>
-                                    <th>{{__('twitter.unfollowing_time')}}</th>
-                                </tr>
+                            <tr>
+                                <th>{{__('twitter.username')}}</th>
+                                <th>{{__('twitter.unfollowing_time')}}</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                @foreach($twitter_profile->unfollower as $unfollower)
-                                    @isset($unfollower->unfollower_profile)
-                                        <tr>
-                                            <td>{{$unfollower->unfollower_profile->screen_name ?? $unfollower->unfollower_profile->id}}</td>
-                                            <td data-order="{{$unfollower->unfollowed_at}}">{{$unfollower->unfollowed_at?->diffForHumans()}}</td>
-                                        </tr>
-                                    @endisset
-                                @endforeach
+                            @foreach($twitter_profile->unfollower as $unfollower)
+                                @isset($unfollower->unfollower_profile)
+                                    <tr>
+                                        <td>{{$unfollower->unfollower_profile->screen_name ?? $unfollower->unfollower_profile->id}}</td>
+                                        <td data-order="{{$unfollower->unfollowed_at}}">{{$unfollower->unfollowed_at?->diffForHumans()}}</td>
+                                    </tr>
+                                @endisset
+                            @endforeach
 
                             </tbody>
                         </table>
@@ -82,35 +82,35 @@
                     <h5 class="card-title">{{__('twitter.follower')}}</h5>
                     <table class="table table-striped table-hover" id="followers">
                         <thead>
-                            <tr>
-                                <th>{{__('twitter.username')}}</th>
-                                <th>{{__('twitter.follower')}}</th>
-                                <th>{{__('twitter.friends')}}</th>
-                                <th>{{__('twitter.tweets')}}</th>
-                                <th>{{__('twitter.created_at')}}</th>
-                            </tr>
+                        <tr>
+                            <th>{{__('twitter.username')}}</th>
+                            <th>{{__('twitter.follower')}}</th>
+                            <th>{{__('twitter.friends')}}</th>
+                            <th>{{__('twitter.tweets')}}</th>
+                            <th>{{__('twitter.created_at')}}</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach($twitter_profile->followers as $follower)
-                                <tr>
-                                    <td>
-                                        <a href="https://twitter.com/{{$follower->screen_name}}"
-                                           target="twitter">{{'@'.$follower->screen_name}}</a>
-                                    </td>
-                                    <td data-order="{{$follower->followers_count}}">
-                                        {{number_format($follower->followers_count, 0, ',','.')}}
-                                    </td>
-                                    <td data-order="{{$follower->friends_count}}">
-                                        {{number_format($follower->friends_count, 0, ',','.')}}
-                                    </td>
-                                    <td data-order="{{$follower->statuses_count}}">
-                                        {{number_format($follower->statuses_count, 0, ',','.')}}
-                                    </td>
-                                    <td data-order="{{$follower->account_creation}}">
-                                        {{$follower->account_creation->format('d.m.Y H:i')}}
-                                    </td>
-                                </tr>
-                            @endforeach
+                        @foreach($twitter_profile->followers as $follower)
+                            <tr>
+                                <td>
+                                    <a href="https://twitter.com/{{$follower->screen_name}}"
+                                       target="twitter">{{'@'.$follower->screen_name}}</a>
+                                </td>
+                                <td data-order="{{$follower->followers_count}}">
+                                    {{number_format($follower->followers_count, 0, ',','.')}}
+                                </td>
+                                <td data-order="{{$follower->friends_count}}">
+                                    {{number_format($follower->friends_count, 0, ',','.')}}
+                                </td>
+                                <td data-order="{{$follower->statuses_count}}">
+                                    {{number_format($follower->statuses_count, 0, ',','.')}}
+                                </td>
+                                <td data-order="{{$follower->account_creation}}">
+                                    {{$follower->account_creation->format('d.m.Y H:i')}}
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                     <script>
@@ -128,7 +128,7 @@
 
             <div class="card">
                 <div class="card-body">
-                        <canvas id="chart_followers"></canvas>
+                    <canvas id="chart_followers"></canvas>
                     <script>
                         window.onload = function () {
                             window.myLine = new Chart(document.getElementById('chart_followers').getContext('2d'), {
@@ -149,7 +149,7 @@
                                             backgroundColor: '#38a3a6',
                                             borderColor: '#38a3a6',
                                             fill: false
-                                        },{
+                                        }, {
                                             label: 'Folge ich',
                                             data: [
                                                     @foreach($twitter_profile->dailies as $daily)

@@ -92,26 +92,26 @@
                         <p>Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:</p>
                         <table class="table">
                             <tbody>
-                                @foreach($emails as $email)
-                                    <tr>
-                                        <td>{{$email->email}}</td>
-                                        <td>
-                                            @if($email->verified_user_id !== NULL)
-                                                <span style="color: green;">verifiziert</span>
-                                            @else
-                                                <span style="color: #E70000;">unverifiziert</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <form method="POST" action="{{route('settings.delete.email')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$email->id}}"/>
-                                                <button type="submit" class="btn btn-sm btn-danger"><i
-                                                            class="fas fa-trash"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            @foreach($emails as $email)
+                                <tr>
+                                    <td>{{$email->email}}</td>
+                                    <td>
+                                        @if($email->verified_user_id !== NULL)
+                                            <span style="color: green;">verifiziert</span>
+                                        @else
+                                            <span style="color: #E70000;">unverifiziert</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{{route('settings.delete.email')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$email->id}}"/>
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                        class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     @endif

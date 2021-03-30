@@ -75,6 +75,7 @@ class SettingsController extends Controller {
 
     /**
      * @param UserEmail $userEmail
+     *
      * @return bool
      * @throws Exception
      */

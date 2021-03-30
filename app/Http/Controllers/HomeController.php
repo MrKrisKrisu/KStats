@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\SpotifyPlayActivity;
 use Illuminate\Contracts\Support\Renderable;
+use Exception;
 
 class HomeController extends Controller {
 
@@ -25,7 +26,7 @@ class HomeController extends Controller {
 
             $gitStr = file_get_contents($gitBasePath . '/HEAD');
             return rtrim(preg_replace("/(.*?\/){2}/", '', $gitStr));
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             report($e);
             return 'unknown';
         }

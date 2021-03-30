@@ -75,10 +75,11 @@ class Twitter_CrawlFollowers extends Command {
     }
 
     /**
-     * @param TwitterOAuth $connection
-     * @param TwitterProfile $twp
+     * @param TwitterOAuth       $connection
+     * @param TwitterProfile     $twp
      * @param SocialLoginProfile $sl_profile
-     * @param array $parameters
+     * @param array              $parameters
+     *
      * @return bool
      * @throws \Exception
      */

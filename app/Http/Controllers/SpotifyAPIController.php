@@ -14,6 +14,7 @@ class SpotifyAPIController extends Controller {
 
     /**
      * @param $accessToken
+     *
      * @return bool|mixed
      * @throws SpotifyTokenExpiredException
      */
@@ -50,6 +51,7 @@ class SpotifyAPIController extends Controller {
 
     /**
      * @param $accessToken
+     *
      * @return bool|mixed
      */
     public static function getDevices($accessToken) {
@@ -101,6 +103,7 @@ class SpotifyAPIController extends Controller {
 
     /**
      * @param string $implodedIDs
+     *
      * @return bool|mixed
      * @throws SpotifyAPIException|GuzzleException
      */
@@ -137,6 +140,7 @@ class SpotifyAPIController extends Controller {
     /**
      * @param String $accessToken
      * @param String $time_span short_term, medium_term or long_term
+     *
      * @return bool|mixed
      * @throws SpotifyTokenExpiredException
      * @throws SpotifyAPIException

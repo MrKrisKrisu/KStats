@@ -30,6 +30,7 @@ class TwitterController extends Controller {
 
     /**
      * @param SocialLoginProfile $slp
+     *
      * @return mixed
      * @throws RateLimitException
      * @throws TwitterException

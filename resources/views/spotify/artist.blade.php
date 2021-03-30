@@ -38,15 +38,15 @@
                     <h2>Tracks</h2>
                     <table class="table">
                         <tbody>
-                            @foreach($artist->tracks->sortByDesc('popularity') as $track)
-                                <tr>
-                                    <td>
-                                        <a href="{{route('spotify.track', ['id' => $track->id])}}">{{$track->name}}</a>
-                                        <br/>
-                                        @include('spotify.track-attributes')
-                                    </td>
-                                </tr>
-                            @endforeach
+                        @foreach($artist->tracks->sortByDesc('popularity') as $track)
+                            <tr>
+                                <td>
+                                    <a href="{{route('spotify.track', ['id' => $track->id])}}">{{$track->name}}</a>
+                                    <br/>
+                                    @include('spotify.track-attributes')
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

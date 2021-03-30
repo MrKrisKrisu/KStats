@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 class SpotifyController extends Controller {
 
@@ -88,6 +89,7 @@ class SpotifyController extends Controller {
      * Show the users top tracks
      *
      * @param Request $request
+     *
      * @return Renderable
      */
     public function topTracks(Request $request): Renderable {
@@ -150,6 +152,7 @@ class SpotifyController extends Controller {
 
     /**
      * @param Request $request
+     *
      * @return Renderable
      */
     public function saveLostTracks(Request $request): Renderable {
@@ -206,6 +209,7 @@ class SpotifyController extends Controller {
 
     /**
      * @param User $user
+     *
      * @return bool
      * @throws SpotifyTokenExpiredException
      * TODO: Exceptions handlen
@@ -302,7 +306,7 @@ class SpotifyController extends Controller {
 
         $listeningDays = [];
         foreach($listeningDaysQuery as $ld) {
-            $listeningDays[$ld->date] = new \stdClass();
+            $listeningDays[$ld->date] = new stdClass();
             $listeningDays[$ld->date]->date = $ld->date;
             $listeningDays[$ld->date]->minutes = $ld->minutes;
         }
@@ -311,7 +315,7 @@ class SpotifyController extends Controller {
             while($date->isPast()) {
                 $date = $date->addDays(1);
                 if(!isset($listeningDays[$date->format('Y-m-d')])) {
-                    $listeningDays[$date->format('Y-m-d')] = new \stdClass();
+                    $listeningDays[$date->format('Y-m-d')] = new stdClass();
                     $listeningDays[$date->format('Y-m-d')]->date = $date->isoFormat('YYYY-MM-DD');
                     $listeningDays[$date->format('Y-m-d')]->minutes = 0;
                 }
@@ -460,6 +464,7 @@ class SpotifyController extends Controller {
 
     /**
      * @param int $id
+     *
      * @return Renderable
      */
     public function renderArtist(int $id): Renderable {

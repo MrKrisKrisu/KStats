@@ -10,8 +10,9 @@ use Carbon\Carbon;
 class TwitterApiController extends Controller {
     /**
      * @param SocialLoginProfile $slp
-     * @param string $endpoint
-     * @param int $maxRequestsPer15Minutes
+     * @param string             $endpoint
+     * @param int                $maxRequestsPer15Minutes
+     *
      * @return bool
      */
     public static function canRequest(SocialLoginProfile $slp, string $endpoint, $maxRequestsPer15Minutes = 15) {
@@ -24,7 +25,7 @@ class TwitterApiController extends Controller {
 
     /**
      * @param SocialLoginProfile $slp
-     * @param string $endpoint
+     * @param string             $endpoint
      */
     public static function saveRequest(SocialLoginProfile $slp, string $endpoint) {
         TwitterApiRequest::create([
@@ -35,6 +36,7 @@ class TwitterApiController extends Controller {
 
     /**
      * @param SocialLoginProfile $sl_profile
+     *
      * @return TwitterOAuth
      */
     public static function getNewConnection(SocialLoginProfile $sl_profile) {

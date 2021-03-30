@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Exception;
 
 class TelegramController extends Controller {
 
     /**
-     * @param User $user
+     * @param User   $user
      * @param String $message
+     *
      * @return bool
      * @deprecated Will be removed later
      */
@@ -28,7 +30,7 @@ class TelegramController extends Controller {
                                                       ]);
             Log::debug($telegramResponse);
             return true;
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             return false;
         }
     }

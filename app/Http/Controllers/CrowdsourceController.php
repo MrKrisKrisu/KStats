@@ -73,6 +73,7 @@ class CrowdsourceController extends Controller {
 
     /**
      * @param Request $request
+     *
      * @return Renderable
      */
     public function handleSubmit(Request $request): Renderable {
