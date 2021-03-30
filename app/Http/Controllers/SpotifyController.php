@@ -499,7 +499,7 @@ class SpotifyController extends Controller {
 
         $trackToExplore = null;
 
-        if($friends->count() > 0 && rand(1, 100) > 0) {
+        if($friends->count() > 0 && rand(1, 100) > 40) {
             //Use a popular song from a friend
             $friend          = $friends->random(1)->first();
             $friendTopTracks = $friend->spotifyActivity()
