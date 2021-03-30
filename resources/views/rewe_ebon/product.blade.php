@@ -37,31 +37,31 @@
                 <div class="card-body">
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>Markt</th>
-                            <th>Zeitpunkt</th>
-                            <th>Anzahl / Gewicht</th>
-                            <th>Einzelpreis</th>
-                        </tr>
+                            <tr>
+                                <th>Markt</th>
+                                <th>Zeitpunkt</th>
+                                <th>Anzahl / Gewicht</th>
+                                <th>Einzelpreis</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($history as $position)
-                            <tr>
-                                <td>
-                                    Markt {{$position->bon->shop->id}}<br/>
-                                    <small>{{$position->bon->shop->zip}} {{$position->bon->shop->city}}</small>
-                                </td>
-                                <td>{{$position->receipt->timestamp_bon->format('d.m.Y H:i')}}</td>
-                                <td>
-                                    @isset($position->weight)
-                                        {{$position->weight}} kg
-                                    @else
-                                        {{$position->amount}}x
-                                    @endisset
-                                </td>
-                                <td>{{number_format($position->single_price, 2, ',', '.')}} €</td>
-                            </tr>
-                        @endforeach
+                            @foreach($history as $position)
+                                <tr>
+                                    <td>
+                                        Markt {{$position->bon->shop->id}}<br/>
+                                        <small>{{$position->bon->shop->zip}} {{$position->bon->shop->city}}</small>
+                                    </td>
+                                    <td>{{$position->receipt->timestamp_bon->format('d.m.Y H:i')}}</td>
+                                    <td>
+                                        @isset($position->weight)
+                                            {{$position->weight}} kg
+                                        @else
+                                            {{$position->amount}}x
+                                        @endisset
+                                    </td>
+                                    <td>{{number_format($position->single_price, 2, ',', '.')}} €</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     {{$history->links()}}

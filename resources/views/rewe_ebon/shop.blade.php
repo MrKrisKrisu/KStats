@@ -9,24 +9,24 @@
                 <div class="card-body">
                     <table class="table">
                         <thead>
-                        <tr>
-                            <th>Zeitpunkt</th>
-                            <th>Kasse</th>
-                            <th>Zahlungsmethode</th>
-                            <th>Betrag</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>Zeitpunkt</th>
+                                <th>Kasse</th>
+                                <th>Zahlungsmethode</th>
+                                <th>Betrag</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($history as $receipt)
-                            <tr>
-                                <td>{{$receipt->timestamp_bon->format('d.m.Y H:i')}}</td>
-                                <td>{{$receipt->cashregister_nr}}</td>
-                                <td>{{$receipt->paymentmethod}}</td>
-                                <td>{{number_format($receipt->total, 2, ",", ".")}} €</td>
-                                <td><a href="{{ route('rewe_receipt', [$receipt->id]) }}">Details</a></td>
-                            </tr>
-                        @endforeach
+                            @foreach($history as $receipt)
+                                <tr>
+                                    <td>{{$receipt->timestamp_bon->format('d.m.Y H:i')}}</td>
+                                    <td>{{$receipt->cashregister_nr}}</td>
+                                    <td>{{$receipt->paymentmethod}}</td>
+                                    <td>{{number_format($receipt->total, 2, ",", ".")}} €</td>
+                                    <td><a href="{{ route('rewe_receipt', [$receipt->id]) }}">Details</a></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     {{$history->links()}}

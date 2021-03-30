@@ -48,27 +48,27 @@
                     <div class="card-body">
                         <table class="table table-striped table-hover">
                             <thead>
-                            <tr>
-                                <th>{{__('receipts.product')}}</th>
-                                <th>{{__('receipts.product_category')}}</th>
-                                <th></th>
-                            </tr>
+                                <tr>
+                                    <th>{{__('receipts.product')}}</th>
+                                    <th>{{__('receipts.product_category')}}</th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($lastCategories as $c)
-                                <tr>
-                                    <td>{{$c->product->name ?? '?'}}</td>
-                                    <td>{{$c->category->name ?? '?'}}</td>
-                                    <td>
-                                        <form method="POST">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
-                                            <button type="submit" class="btn btn-sm btn-danger" name="action"
-                                                    value="deleteCategory"><i class="fas fa-trash"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach($lastCategories as $c)
+                                    <tr>
+                                        <td>{{$c->product->name ?? '?'}}</td>
+                                        <td>{{$c->category->name ?? '?'}}</td>
+                                        <td>
+                                            <form method="POST">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
+                                                <button type="submit" class="btn btn-sm btn-danger" name="action"
+                                                        value="deleteCategory"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -113,27 +113,27 @@
                     <div class="card-body">
                         <table class="table table-striped table-hover">
                             <thead>
-                            <tr>
-                                <th>{{__('receipts.product')}}</th>
-                                <th>{{__('receipts.vegetarian')}}</th>
-                                <th></th>
-                            </tr>
+                                <tr>
+                                    <th>{{__('receipts.product')}}</th>
+                                    <th>{{__('receipts.vegetarian')}}</th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($lastVegetarians as $c)
-                                <tr>
-                                    <td>{{$c->product->name}}</td>
-                                    <td>{{$c->vegetarian === null ? '?' : str_replace(array('-1', '0', '1'), array('Kein Lebensmittel', 'Nein', 'Ja'), $c->vegetarian)}}</td>
-                                    <td>
-                                        <form method="POST">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
-                                            <button type="submit" class="btn btn-sm btn-danger" name="action"
-                                                    value="deleteVegetarian"><i class="fas fa-trash"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach($lastVegetarians as $c)
+                                    <tr>
+                                        <td>{{$c->product->name}}</td>
+                                        <td>{{$c->vegetarian === null ? '?' : str_replace(array('-1', '0', '1'), array('Kein Lebensmittel', 'Nein', 'Ja'), $c->vegetarian)}}</td>
+                                        <td>
+                                            <form method="POST">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
+                                                <button type="submit" class="btn btn-sm btn-danger" name="action"
+                                                        value="deleteVegetarian"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

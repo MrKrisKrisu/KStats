@@ -28,59 +28,59 @@
                     <h2>Verbundene Dienste</h2>
                     <table class="table">
                         <tbody>
-                        <tr>
-                            <td><i class="fab fa-spotify"></i> Spotify</td>
-                            <td>
-                                @if(auth()->user()->socialProfile->isConnectedSpotify)
-                                    <p>
+                            <tr>
+                                <td><i class="fab fa-spotify"></i> Spotify</td>
+                                <td>
+                                    @if(auth()->user()->socialProfile->isConnectedSpotify)
+                                        <p>
                                                 <span class="font-weight-bold text-success">
                                                     <i class="fas fa-check"></i>
                                                     Statistiken werden gesammelt.
                                                 </span><br/>
-                                        <span class="text-secondary">
+                                            <span class="text-secondary">
                                                     Spotify UserID: {{auth()->user()->socialProfile->spotify_user_id}}
                                                 </span>
-                                    </p>
-                                @else
-                                    @isset(auth()->user()->socialProfile->spotify_lastRefreshed)
-                                        <p class="font-weight-bold text-danger">
-                                            <i class="fas fa-times"></i>
-                                            Verbindung verloren
-                                            {{auth()->user()->socialProfile->spotify_lastRefreshed->diffForHumans()}}
+                                        </p>
+                                    @else
+                                        @isset(auth()->user()->socialProfile->spotify_lastRefreshed)
+                                            <p class="font-weight-bold text-danger">
+                                                <i class="fas fa-times"></i>
+                                                Verbindung verloren
+                                                {{auth()->user()->socialProfile->spotify_lastRefreshed->diffForHumans()}}
+                                            </p>
+                                        @else
+                                            <p class="font-weight-bold text-secondary">
+                                                ¯\_(ツ)_/¯ Nicht verbunden
+                                            </p>
+                                        @endisset
+                                        <a href="{{route('redirectProvider', 'spotify')}}"
+                                           class="btn btn-sm btn-success">Mit Spotify verbinden</a>
+                                    @endif
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><i class="fab fa-twitter"></i> Twitter</td>
+                                <td>
+                                    @if(auth()->user()->socialProfile->isConnectedTwitter)
+                                        <p>
+                                                <span class="font-weight-bold text-success">
+                                                    <i class="fas fa-check"></i>
+                                                    Statistiken werden gesammelt.
+                                                </span><br/>
+                                            <span class="text-secondary">
+                                                    Twitter UserID: {{auth()->user()->socialProfile->twitter_id}}
+                                                </span>
                                         </p>
                                     @else
                                         <p class="font-weight-bold text-secondary">
                                             ¯\_(ツ)_/¯ Nicht verbunden
                                         </p>
-                                    @endisset
-                                    <a href="{{route('redirectProvider', 'spotify')}}"
-                                       class="btn btn-sm btn-success">Mit Spotify verbinden</a>
-                                @endif
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td><i class="fab fa-twitter"></i> Twitter</td>
-                            <td>
-                                @if(auth()->user()->socialProfile->isConnectedTwitter)
-                                    <p>
-                                                <span class="font-weight-bold text-success">
-                                                    <i class="fas fa-check"></i>
-                                                    Statistiken werden gesammelt.
-                                                </span><br/>
-                                        <span class="text-secondary">
-                                                    Twitter UserID: {{auth()->user()->socialProfile->twitter_id}}
-                                                </span>
-                                    </p>
-                                @else
-                                    <p class="font-weight-bold text-secondary">
-                                        ¯\_(ツ)_/¯ Nicht verbunden
-                                    </p>
-                                    <a href="{{route('redirectProvider', 'twitter')}}"
-                                       class="btn btn-sm btn-primary">Mit Twitter verbinden</a>
-                                @endif
-                            </td>
-                        </tr>
+                                        <a href="{{route('redirectProvider', 'twitter')}}"
+                                           class="btn btn-sm btn-primary">Mit Twitter verbinden</a>
+                                    @endif
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

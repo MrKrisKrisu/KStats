@@ -181,20 +181,20 @@
                     <h5 class="card-title">Lieblingsprodukte</h5>
                     <table class="table" id="lieblingsprodukte">
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Anzahl</th>
-                        </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Anzahl</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($favouriteProducts as $product)
-                            <tr>
-                                <td>
-                                    <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
-                                </td>
-                                <td data-order="{{$product->cnt}}">{{$product->cnt}}x</td>
-                            </tr>
-                        @endforeach
+                            @foreach($favouriteProducts as $product)
+                                <tr>
+                                    <td>
+                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
+                                    </td>
+                                    <td data-order="{{$product->cnt}}">{{$product->cnt}}x</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     <script>
@@ -216,22 +216,22 @@
                     <h5 class="card-title">Kaufvorhersage</h5>
                     <table class="table" id="kaufvorhersage">
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Zuletzt gekauft</th>
-                            <th>Nächster Kauf vrsl.</th>
-                        </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Zuletzt gekauft</th>
+                                <th>Nächster Kauf vrsl.</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach($forecast as $product)
-                            <tr>
-                                <td>
-                                    <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
-                                </td>
-                                <td>{{Carbon\Carbon::parse($product->lastTS)->diffForHumans()}}</td>
-                                <td>{{Carbon\Carbon::parse($product->nextTS)->diffForHumans()}}</td>
-                            </tr>
-                        @endforeach
+                            @foreach($forecast as $product)
+                                <tr>
+                                    <td>
+                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
+                                    </td>
+                                    <td>{{Carbon\Carbon::parse($product->lastTS)->diffForHumans()}}</td>
+                                    <td>{{Carbon\Carbon::parse($product->nextTS)->diffForHumans()}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     <script>
@@ -259,32 +259,32 @@
                     <h5 class="card-title">Kassenzettel</h5>
                     <table class="table" id="kassenzettel">
                         <thead>
-                        <tr>
-                            <th>Zeitpunkt</th>
-                            <th>Markt</th>
-                            <th>Kasse</th>
-                            <th>Zahlungsart</th>
-                            <th>Gesamtbetrag</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>Zeitpunkt</th>
+                                <th>Markt</th>
+                                <th>Kasse</th>
+                                <th>Zahlungsart</th>
+                                <th>Gesamtbetrag</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
 
-                        @foreach(auth()->user()->reweReceipts->sortByDesc('timestamp_bon') as $bon)
-                            <tr>
-                                <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
-                                <td>
-                                    <a href="{{route('rewe.shop', ['id' => $bon->shop->id])}}">
-                                        Markt {{$bon->shop->id}}<br/>
-                                        <small>in {{$bon->shop->zip}} {{$bon->shop->city}}</small>
-                                    </a>
-                                </td>
-                                <td>{{$bon->cashregister_nr}}</td>
-                                <td>{{$bon->paymentmethod}}</td>
-                                <td>{{number_format($bon->total, 2, ",", ".")}} €</td>
-                                <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">Details</a></td>
-                            </tr>
-                        @endforeach
+                            @foreach(auth()->user()->reweReceipts->sortByDesc('timestamp_bon') as $bon)
+                                <tr>
+                                    <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
+                                    <td>
+                                        <a href="{{route('rewe.shop', ['id' => $bon->shop->id])}}">
+                                            Markt {{$bon->shop->id}}<br/>
+                                            <small>in {{$bon->shop->zip}} {{$bon->shop->city}}</small>
+                                        </a>
+                                    </td>
+                                    <td>{{$bon->cashregister_nr}}</td>
+                                    <td>{{$bon->paymentmethod}}</td>
+                                    <td>{{number_format($bon->total, 2, ",", ".")}} €</td>
+                                    <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">Details</a></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     <script>
