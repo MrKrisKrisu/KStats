@@ -427,9 +427,7 @@ class SpotifyController extends Controller {
     }
 
     public function renderDailyHistory(Request $request, $date = null) {
-        if($date == null)
-            $date = Carbon::today();
-        else $date = Carbon::parse($date);
+        $date = $date == null ? Carbon::today() : Carbon::parse($date);
 
         if($date->isAfter(Carbon::now())) {
             return redirect()->route('spotify.history')
