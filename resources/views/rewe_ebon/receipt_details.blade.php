@@ -33,13 +33,13 @@
                         </tbody>
                     </table>
 
-                    @if($bon->receipt_pdf !== NULL)
+                    @if($bon->receipt_pdf !== null)
                         <a class="btn btn-primary" href="{{ route('download_raw_rewe_receipt', ['id' => $bon->id]) }}">
                             {{__('receipts.dl_receipt')}}
                         </a>
                     @endif
 
-                    @if($bon->raw_bon !== NULL)
+                    @if($bon->raw_bon !== null)
                         <hr/>
                         <pre>{{$bon->raw_bon}}</pre>
                     @endif

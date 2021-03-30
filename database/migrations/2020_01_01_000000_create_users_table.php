@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration {
                   ->useCurrent();
             $table->string('locale', 5)
                   ->nullable()
-                  ->default(NULL);
+                  ->default(null);
 
             $table->timestamps();
         });

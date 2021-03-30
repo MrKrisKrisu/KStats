@@ -11,31 +11,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class CrowdsourceController extends Controller
-{
+class CrowdsourceController extends Controller {
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
     /**
      * @return Renderable
      */
-    public function renderRewe(): Renderable
-    {
+    public function renderRewe(): Renderable {
         $categories = ReweProductCategory::with(['parent'])->where('parent_id', '<>', null)->get();
 
         $nextProductAtCategory = ReweProduct::join('rewe_bon_positions', 'rewe_bon_positions.product_id', '=', 'rewe_products.id')
                                             ->join('rewe_bons', 'rewe_bon_positions.bon_id', '=', 'rewe_bons.id')
                                             ->where('rewe_bons.user_id', auth()->user()->id)
                                             ->where('rewe_products.hide', 0)
-                                            ->whereNotIn('rewe_products.id', function ($query) {
+                                            ->whereNotIn('rewe_products.id', function($query) {
                                                 $query->select('product_id')
                                                       ->from('rewe_crowdsourcing_categories')
                                                       ->where('user_id', auth()->user()->id);
@@ -52,7 +49,7 @@ class CrowdsourceController extends Controller
                                               ->join('rewe_bons', 'rewe_bon_positions.bon_id', '=', 'rewe_bons.id')
                                               ->where('rewe_bons.user_id', auth()->user()->id)
                                               ->where('rewe_products.hide', 0)
-                                              ->whereNotIn('rewe_products.id', function ($query) {
+                                              ->whereNotIn('rewe_products.id', function($query) {
                                                   $query->select('product_id')
                                                         ->from('rewe_crowdsourcing_vegetarians')
                                                         ->where('user_id', auth()->user()->id);
@@ -76,12 +73,12 @@ class CrowdsourceController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return Renderable
      */
-    public function handleSubmit(Request $request): Renderable
-    {
+    public function handleSubmit(Request $request): Renderable {
 
-        switch ($request->action) {
+        switch($request->action) {
             case 'deleteCategory':
                 $validated = $request->validate([
                                                     'product_id' => ['required', 'integer', 'exists:rewe_products,id']

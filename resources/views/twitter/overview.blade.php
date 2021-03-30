@@ -128,7 +128,7 @@
 
             <div class="card">
                 <div class="card-body">
-                        <canvas id="chart_followers"></canvas>
+                    <canvas id="chart_followers"></canvas>
                     <script>
                         window.onload = function () {
                             window.myLine = new Chart(document.getElementById('chart_followers').getContext('2d'), {
@@ -149,7 +149,7 @@
                                             backgroundColor: '#38a3a6',
                                             borderColor: '#38a3a6',
                                             fill: false
-                                        },{
+                                        }, {
                                             label: 'Folge ich',
                                             data: [
                                                     @foreach($twitter_profile->dailies as $daily)

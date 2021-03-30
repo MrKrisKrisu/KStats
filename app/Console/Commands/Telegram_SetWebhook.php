@@ -5,8 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
-class Telegram_SetWebhook extends Command
-{
+class Telegram_SetWebhook extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -26,8 +25,7 @@ class Telegram_SetWebhook extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -36,8 +34,7 @@ class Telegram_SetWebhook extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         $url = strtr(':url/:token/webhook', [
             ':url'   => config('app.url'),
             ':token' => config('telegram.bots.mybot.token')

@@ -33,7 +33,7 @@ class ReweBonSeeder extends Seeder {
                                     'total'                 => rand(1, 10000) / 100,
                                     'earned_payback_points' => rand(0, 100),
                                     'raw_bon'               => 'This is an example document.',
-                                    'receipt_pdf'           => NULL
+                                    'receipt_pdf'           => null
                                 ]);
             }
         }

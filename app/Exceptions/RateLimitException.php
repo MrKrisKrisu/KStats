@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 
-class RateLimitException extends Exception
-{
+class RateLimitException extends Exception {
     //
 }

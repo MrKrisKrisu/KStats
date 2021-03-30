@@ -15,7 +15,7 @@ class ReweProductCategorySeeder extends Seeder {
         foreach($this->parents() as $category) {
             ReweProductCategory::create([
                                             'name'      => $category,
-                                            'parent_id' => NULL
+                                            'parent_id' => null
                                         ]);
         }
 

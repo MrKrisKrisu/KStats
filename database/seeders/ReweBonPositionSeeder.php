@@ -20,8 +20,8 @@ class ReweBonPositionSeeder extends Seeder {
                 ReweBonPosition::create([
                                             'bon_id'       => $bon->id,
                                             'product_id'   => ReweProduct::all()->random()->id,
-                                            'amount'       => $amount ? rand(1, 10) : NULL,
-                                            'weight'       => $amount ? NULL : rand(1, 1000) / 100,
+                                            'amount'       => $amount ? rand(1, 10) : null,
+                                            'weight'       => $amount ? null : rand(1, 1000) / 100,
                                             'single_price' => rand(1, 1000) / 100
                                         ]);
             }

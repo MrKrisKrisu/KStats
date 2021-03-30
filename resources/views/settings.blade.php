@@ -56,7 +56,7 @@
                     @else
                         <p>{{__('settings.telegram.not_connected')}}</p>
                     @endif
-                    @if($telegramConnectCode != NULL && $telegramConnectCode->val != '')
+                    @if($telegramConnectCode != null && $telegramConnectCode->val != '')
 
                         <div style="text-align: center;">
                             <p style="font-size: 20px;">{{__('settings.telegram.connect_code')}}:
@@ -96,7 +96,7 @@
                                     <tr>
                                         <td>{{$email->email}}</td>
                                         <td>
-                                            @if($email->verified_user_id !== NULL)
+                                            @if($email->verified_user_id !== null)
                                                 <span style="color: green;">verifiziert</span>
                                             @else
                                                 <span style="color: #E70000;">unverifiziert</span>

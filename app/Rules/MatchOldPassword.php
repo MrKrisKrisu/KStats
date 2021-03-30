@@ -5,18 +5,17 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
-class MatchOldPassword implements Rule
-{
+class MatchOldPassword implements Rule {
 
     /**
      * Determine if the validation rule passes.
      *
      * @param string $attribute
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return bool
      */
-    public function passes($attribute, $value)
-    {
+    public function passes($attribute, $value) {
         return Hash::check($value, auth()->user()->password);
     }
 
@@ -25,8 +24,7 @@ class MatchOldPassword implements Rule
      *
      * @return string
      */
-    public function message()
-    {
+    public function message() {
         return __('settings.password.current_wrong');
     }
 }

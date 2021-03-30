@@ -17,7 +17,6 @@ class ReweBon extends Model {
     protected $dates   = ['timestamp_bon'];
     protected $appends = ['cashback_rate'];
 
-
     public function positions(): HasMany {
         return $this->hasMany(ReweBonPosition::class, 'id', 'bon_id');
     }
