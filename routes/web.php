@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Http\Controllers\FriendshipController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -24,6 +25,11 @@ Auth::routes();
 Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
 
     Route::get('/home/', [HomeController::class, 'index'])->name('home');
+
+    Route::get('/friends', [FriendshipController::class, 'renderFriendshipPage'])->name('friendships');
+    Route::post('/friends/module/activate', [FriendshipController::class, 'activateModule'])->name('friendships.module.activate');
+    Route::post('/friends/action/cancel', [FriendshipController::class, 'cancelFriendship'])->name('friendships.action.cancel');
+    Route::post('/friends/action/request', [FriendshipController::class, 'requestFriendship'])->name('friendships.action.request');
 
     Route::get('/settings/', [SettingsController::class, 'index'])
          ->name('settings');
