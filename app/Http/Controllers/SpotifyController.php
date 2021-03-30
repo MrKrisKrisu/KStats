@@ -492,16 +492,51 @@ class SpotifyController extends Controller {
     }
 
     public function renderExplore(): Renderable {
-        $tracks         = auth()->user()->spotifyActivity()->select(['track_id'])->groupBy('track_id');
-        $alreadyRated   = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
-        $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
-                                      ->whereNotIn('track_id', $alreadyRated)
-                                      ->where('preview_url', '<>', null)
-                                      ->orderByDesc('popularity')
-                                      ->first();
+        $tracks       = auth()->user()->spotifyActivity()->select(['track_id'])->groupBy('track_id');
+        $alreadyRated = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
+
+        $friends = auth()->user()->friends;
+
+        $trackToExplore = null;
+
+        if($friends->count() > 0 && rand(1, 100) > 0) {
+            //Use a popular song from a friend
+            $friend          = $friends->random(1)->first();
+            $friendTopTracks = $friend->spotifyActivity()
+                                      ->groupBy('track_id')
+                                      ->select([
+                                                   'track_id',
+                                                   DB::raw('COUNT(*) as minutes')
+                                               ]);
+
+            $trackToExplore = SpotifyTrack::joinSub($friendTopTracks, 'friends_top_tracks', function($join) {
+                $join->on('spotify_tracks.track_id', '=', 'friends_top_tracks.track_id');
+            })
+                                          ->whereIn('spotify_tracks.track_id', $friendTopTracks->select('track_id'))
+                                          ->whereNotIn('spotify_tracks.track_id', $tracks)
+                                          ->whereNotIn('spotify_tracks.track_id', $alreadyRated)
+                                          ->where('preview_url', '<>', null)
+                                          ->orderByDesc('friends_top_tracks.minutes')
+                                          ->select(['spotify_tracks.*', 'friends_top_tracks.minutes'])
+                                          ->first();
+
+        }
+        if($trackToExplore !== null) {
+            $trackReason = 'Dein Freund "' . $friend->username . '" hat diesen Track schon mehr als ' . round(ceil($trackToExplore->minutes / 60)) . ' Stunden gehört.';
+        } else {
+            //Use a popular song from trends
+            $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
+                                          ->whereNotIn('track_id', $alreadyRated)
+                                          ->where('preview_url', '<>', null)
+                                          ->orderByDesc('popularity')
+                                          ->first();
+            $trackReason    = 'Dieser Track ist in den Trends weit oben.';
+        }
+
 
         return view('spotify.explore.index', [
             'track'         => $trackToExplore,
+            'trackReason'   => $trackReason,
             'exploredToday' => auth()->user()->spotifyLikedTracks()->whereDate('created_at', Carbon::today()->toDateString())->count(),
             'exploredTotal' => auth()->user()->spotifyLikedTracks()->count(),
             'ratedTotal'    => auth()->user()->spotifyRatedTracks()->count()
