@@ -71,6 +71,14 @@
                                 </script>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <hr/>
+                            <small>
+                                <b>Warum wird mir dieser Track angezeigt?</b><br/>
+                                {{$trackReason}}
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
