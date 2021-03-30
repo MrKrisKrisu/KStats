@@ -8,8 +8,7 @@ use App\SpotifyTrack;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class Spotify_GetTrackInfo extends Command
-{
+class Spotify_GetTrackInfo extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -29,8 +28,7 @@ class Spotify_GetTrackInfo extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -39,8 +37,7 @@ class Spotify_GetTrackInfo extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         $tracksWithMissingData = SpotifyTrack::where('bpm', null)
                                              ->select('track_id')
                                              ->orderBy('updated_at', 'asc')
@@ -60,8 +57,9 @@ class Spotify_GetTrackInfo extends Command
         try {
             $request = SpotifyAPIController::getAudioFeatures($tracks->implode(','));
 
-            foreach ($request->audio_features as $trackInfo) {
-                if ($trackInfo == null) continue;
+            foreach($request->audio_features as $trackInfo) {
+                if($trackInfo == null)
+                    continue;
                 try {
                     SpotifyTrack::where('track_id', $trackInfo->id)->update(
                         [
@@ -78,11 +76,11 @@ class Spotify_GetTrackInfo extends Command
                             'bpm'              => $trackInfo->tempo
                         ]
                     );
-                } catch (\Exception $e) {
+                } catch(\Exception $e) {
                     report($e);
                 }
             }
-        } catch (SpotifyAPIException $e) {
+        } catch(SpotifyAPIException $e) {
             report($e);
         }
         return 0;

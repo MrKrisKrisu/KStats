@@ -7,8 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MailVerificationMessage extends Mailable
-{
+class MailVerificationMessage extends Mailable {
     use Queueable, SerializesModels;
 
     /**
@@ -16,8 +15,7 @@ class MailVerificationMessage extends Mailable
      *
      * @param UserEmail $userEmail
      */
-    public function __construct(UserEmail $userEmail)
-    {
+    public function __construct(UserEmail $userEmail) {
         $this->userEmail = $userEmail;
     }
 
@@ -26,10 +24,9 @@ class MailVerificationMessage extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         return $this->view('mail.verify_email')->with([
-            'userEmail' => $this->userEmail
-        ])->subject("E-Mail verifizieren");
+                                                          'userEmail' => $this->userEmail
+                                                      ])->subject("E-Mail verifizieren");
     }
 }

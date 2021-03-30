@@ -10,8 +10,7 @@ use App\TwitterUnfollower;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class Twitter_CheckUnfollows extends Command
-{
+class Twitter_CheckUnfollows extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -31,8 +30,7 @@ class Twitter_CheckUnfollows extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -41,33 +39,32 @@ class Twitter_CheckUnfollows extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
 
-        if (!config('app.twitter.crawling')) {
+        if(!config('app.twitter.crawling')) {
             dump("Twitter crawling currently deactivated.");
             return;
         }
 
         $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit($this->argument('limit'))->get();
-        foreach ($toCheck as $relationship) {
+        foreach($toCheck as $relationship) {
             try {
                 $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', null)->first();
-                if ($sl_profile == null) {
+                if($sl_profile == null) {
                     dump("No SL Profile " . $relationship->followed->screen_name);
                     continue;
                 }
 
                 $connection = TwitterApiController::getNewConnection($sl_profile);
-                if (!TwitterApiController::canRequest($sl_profile, 'users/show', 900)) {
+                if(!TwitterApiController::canRequest($sl_profile, 'users/show', 900)) {
                     dump("No Requests " . $sl_profile->twitter_id);
                     continue;
                 }
 
                 $follower = $connection->get('users/show', ['user_id' => $relationship->follower_id]);
-                if (isset($follower->errors)) {
-                    foreach ($follower->errors as $error) {
-                        if ($error->code == 50 || $error->code == 63) { //not found, suspendet
+                if(isset($follower->errors)) {
+                    foreach($follower->errors as $error) {
+                        if($error->code == 50 || $error->code == 63) { //not found, suspendet
                             dump("User not found -> handle Unfollow");
                             $relationship->delete();
 
@@ -83,7 +80,7 @@ class Twitter_CheckUnfollows extends Command
                     }
                 }
 
-                if (!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15)) {
+                if(!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15)) {
                     dump("No Requests " . $sl_profile->twitter_id);
                     continue;
                 }
@@ -91,8 +88,8 @@ class Twitter_CheckUnfollows extends Command
                 $result = $connection->get("friendships/lookup", ['user_id' => $relationship->follower_id]); //TODO: multiple requests
                 TwitterApiController::saveRequest($sl_profile, 'friendships/lookup');
 
-                foreach ($result as $real_relationship) {
-                    if (!isset($real_relationship->connections)) {
+                foreach($result as $real_relationship) {
+                    if(!isset($real_relationship->connections)) {
                         dump($real_relationship);
                         dump("No Connection array?");
                         continue;
@@ -101,7 +98,7 @@ class Twitter_CheckUnfollows extends Command
                     //$following = in_array('following', $real_relationship->connections);
                     $followed_by = in_array('followed_by', $real_relationship->connections);
 
-                    if (!$followed_by) {
+                    if(!$followed_by) {
                         dump("User " . $relationship->follower->screen_name . ' hat ' . $relationship->followed->screen_name . ' entfolgt.');
                         $relationship->delete();
 
@@ -118,7 +115,7 @@ class Twitter_CheckUnfollows extends Command
                         $relationship->update();
                     }
                 }
-            } catch (\Exception $e) {
+            } catch(\Exception $e) {
                 dump($e);
                 report($e);
             }

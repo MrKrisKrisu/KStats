@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 
-class TwitterTokenInvalidException extends Exception
-{
+class TwitterTokenInvalidException extends Exception {
     //
 }

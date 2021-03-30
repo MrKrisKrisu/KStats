@@ -17,8 +17,7 @@ use REWEParser\Exception\ReceiptParseException;
 use REWEParser\Parser;
 use Spatie\PdfToText\Exceptions\PdfNotFound;
 
-class REWE_ParseBon extends Command
-{
+class REWE_ParseBon extends Command {
 
     /**
      * The name and signature of the console command.
@@ -39,8 +38,7 @@ class REWE_ParseBon extends Command
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -49,11 +47,10 @@ class REWE_ParseBon extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
+    public function handle() {
         $files = ReweMailController::fetchMailAttachments($this->argument("days"));
 
-        foreach ($files as $bonAttachment) {
+        foreach($files as $bonAttachment) {
             try {
                 $userEmail = UserEmail::firstOrCreate(["email" => $bonAttachment->getEMail()]);
 
@@ -61,7 +58,7 @@ class REWE_ParseBon extends Command
 
                 $receipt = Parser::parseFromPDF($bonAttachment->getFilename(), env('PDFTOTEXT_PATH', '/usr/bin/pdftotext'));
 
-                if ($receipt->getBonNr() === null || $receipt->getTimestamp() === null || $receipt->getShopNr() === null) {
+                if($receipt->getBonNr() === null || $receipt->getTimestamp() === null || $receipt->getShopNr() === null) {
                     dump("Error while parsing eBon. Some important data can't be retrieved.");
                     return;
                 }
@@ -97,7 +94,7 @@ class REWE_ParseBon extends Command
 
                 $positions = $receipt->getPositions();
 
-                foreach ($positions as $position) {
+                foreach($positions as $position) {
                     $product = ReweProduct::firstOrCreate(["name" => $position->getName()]);
 
                     ReweBonPosition::updateOrCreate([
@@ -110,28 +107,28 @@ class REWE_ParseBon extends Command
                                                     ]);
                 }
 
-                if ($bon->wasRecentlyCreated == 1 && $userEmail->verified_user_id != null) {
+                if($bon->wasRecentlyCreated == 1 && $userEmail->verified_user_id != null) {
                     try {
                         $message = "<b>Neuer REWE Einkauf registriert</b>\r\n";
                         $message .= count($positions) . " Produkte für " . number_format($bon->total, 2, ",", ".") . " €\r\n";
                         $message .= "Erhaltenes Cashback: " . $bon->cashback_rate . "% \r\n";
                         $message .= "<i>" . $bon->timestamp_bon->format("d.m.Y H:i") . "</i> \r\n";
                         $message .= "============================ \r\n";
-                        foreach ($positions as $position)
+                        foreach($positions as $position)
                             $message .= ($position->getWeight() !== null ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . number_format($position->getPriceTotal(), 2, ',', '.') . "€</i> \r\n";
                         $message .= "============================ \r\n";
                         $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
 
                         TelegramController::sendMessage(User::find($userEmail->verified_user_id), $message);
-                    } catch (TelegramException $e) {
+                    } catch(TelegramException $e) {
                         report($e);
                         dump("Error while sending Telegram message");
                     }
                 }
-            } catch (ReceiptParseException $e) {
+            } catch(ReceiptParseException $e) {
                 report($e);
                 dump("Error while parsing eBon. Is the format compatible?");
-            } catch (PdfNotFound $e) {
+            } catch(PdfNotFound $e) {
                 report($e);
             }
         }

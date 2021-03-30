@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckPrivacyConfirmation
-{
+class CheckPrivacyConfirmation {
     /**
      * Handle an incoming request.
      *
@@ -15,9 +14,8 @@ class CheckPrivacyConfirmation
      * @param Closure $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
-    {
-        if (Auth::check() && Auth::user()->privacy_confirmed_at === null) {
+    public function handle(Request $request, Closure $next) {
+        if(Auth::check() && Auth::user()->privacy_confirmed_at === null) {
             return redirect()->route('legal.privacy_policy');
         }
 

@@ -8,8 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     /*
       |--------------------------------------------------------------------------
       | Login Controller
@@ -35,18 +34,15 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
     }
 
-    public function username()
-    {
+    public function username() {
         return 'username';
     }
 
-    public function authenticated(Request $request, $user)
-    {
+    public function authenticated(Request $request, $user) {
         $user->update([
                           'last_login' => Carbon::now()
                       ]);

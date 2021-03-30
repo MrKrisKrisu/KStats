@@ -10,16 +10,14 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
-class SpotifyAPIController extends Controller
-{
+class SpotifyAPIController extends Controller {
 
     /**
      * @param $accessToken
      * @return bool|mixed
      * @throws SpotifyTokenExpiredException
      */
-    public static function getNowPlaying($accessToken)
-    {
+    public static function getNowPlaying($accessToken) {
         $client = new Client(['http_errors' => false]);
         $result = $client->get('https://api.spotify.com/v1/me/player/currently-playing', [
             'headers' => [
@@ -27,14 +25,14 @@ class SpotifyAPIController extends Controller
             ]
         ]);
 
-        if ($result->getStatusCode() == 401)
+        if($result->getStatusCode() == 401)
             throw new SpotifyTokenExpiredException();
 
         //User is not listening to something or is in private session.
-        if ($result->getStatusCode() == 204)
+        if($result->getStatusCode() == 204)
             return false;
 
-        if ($result->getStatusCode() != 200) {
+        if($result->getStatusCode() != 200) {
             Log::error("Error while trying to retrieve currently-playing from Spotify API. StatusCode: " . $result->getStatusCode());
             Log::error($result->getBody());
             return false;
@@ -42,9 +40,9 @@ class SpotifyAPIController extends Controller
 
         $data = json_decode($result->getBody()->getContents());
 
-        if (isset($data->error))
+        if(isset($data->error))
             return false;
-        if (!$data->is_playing)
+        if(!$data->is_playing)
             return false;
 
         return $data;
@@ -54,8 +52,7 @@ class SpotifyAPIController extends Controller
      * @param $accessToken
      * @return bool|mixed
      */
-    public static function getDevices($accessToken)
-    {
+    public static function getDevices($accessToken) {
         $client = new Client(['http_errors' => false]);
         $result = $client->get('https://api.spotify.com/v1/me/player/devices', [
             'headers' => [
@@ -63,7 +60,7 @@ class SpotifyAPIController extends Controller
             ]
         ]);
 
-        if ($result->getStatusCode() != 200) {
+        if($result->getStatusCode() != 200) {
             Log::error("Error while trying to retrieve device from Spotify API. StatusCode: " . $result->getStatusCode());
             Log::error($result->getBody());
             return false;
@@ -71,14 +68,13 @@ class SpotifyAPIController extends Controller
 
         $data = json_decode($result->getBody()->getContents());
 
-        if (isset($data->error))
+        if(isset($data->error))
             return false;
 
         return $data;
     }
 
-    public static function getNewAccessToken($refreshToken)
-    {
+    public static function getNewAccessToken($refreshToken) {
         $client = new Client(['http_errors' => false]);
         $result = $client->post('https://accounts.spotify.com/api/token', [
             'form_params' => [
@@ -90,12 +86,12 @@ class SpotifyAPIController extends Controller
             ]
         ]);
 
-        if ($result->getStatusCode() != 200)
+        if($result->getStatusCode() != 200)
             return false;
 
         $data = json_decode($result->getBody()->getContents());
 
-        if (isset($data->error)) {
+        if(isset($data->error)) {
             Log::debug($data);
             return false;
         }
@@ -108,13 +104,12 @@ class SpotifyAPIController extends Controller
      * @return bool|mixed
      * @throws SpotifyAPIException|GuzzleException
      */
-    public static function getAudioFeatures(string $implodedIDs)
-    {
+    public static function getAudioFeatures(string $implodedIDs) {
         $rdmSocialProfile = SocialLoginProfile::where('spotify_lastRefreshed', '>', Carbon::now()->subMinutes(50)->toDateString())
                                               ->where('spotify_accessToken', '<>', null)
                                               ->first();
 
-        if ($rdmSocialProfile === null) {
+        if($rdmSocialProfile === null) {
             throw new SpotifyAPIException('Cannot find any (random) Spotify Key to make this request.');
         }
 
@@ -125,7 +120,7 @@ class SpotifyAPIController extends Controller
             ]
         ]);
 
-        if ($result->getStatusCode() != 200) {
+        if($result->getStatusCode() != 200) {
             Log::error("Error while trying to retrieve audio-features from Spotify API. StatusCode: " . $result->getStatusCode());
             Log::error($result->getBody());
             throw new SpotifyAPIException();
@@ -133,7 +128,7 @@ class SpotifyAPIController extends Controller
 
         $data = json_decode($result->getBody()->getContents());
 
-        if (isset($data->error))
+        if(isset($data->error))
             throw new SpotifyAPIException();
 
         return $data;
@@ -146,8 +141,7 @@ class SpotifyAPIController extends Controller
      * @throws SpotifyTokenExpiredException
      * @throws SpotifyAPIException
      */
-    public static function getTopTracks(string $accessToken, string $time_span)
-    {
+    public static function getTopTracks(string $accessToken, string $time_span) {
         $client = new Client(['http_errors' => false]);
         $result = $client->get('https://api.spotify.com/v1/me/top/tracks/?limit=50&time_range=' . $time_span, [
             'headers' => [
@@ -155,10 +149,10 @@ class SpotifyAPIController extends Controller
             ]
         ]);
 
-        if ($result->getStatusCode() == 401)
+        if($result->getStatusCode() == 401)
             throw new SpotifyTokenExpiredException();
 
-        if ($result->getStatusCode() != 200) {
+        if($result->getStatusCode() != 200) {
             Log::error("Error while trying to retrieve top-tracks from Spotify API. StatusCode: " . $result->getStatusCode());
             Log::error($result->getBody());
             throw new SpotifyAPIException();
@@ -166,7 +160,7 @@ class SpotifyAPIController extends Controller
 
         $data = json_decode($result->getBody()->getContents());
 
-        if (isset($data->error))
+        if(isset($data->error))
             throw new SpotifyAPIException();
 
         return $data;

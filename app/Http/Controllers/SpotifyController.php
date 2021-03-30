@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\SpotifyAPIException;
 use App\Exceptions\SpotifyTokenExpiredException;
 use App\SocialLoginProfile;
 use App\SpotifyArtist;
@@ -21,16 +20,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class SpotifyController extends Controller
-{
+class SpotifyController extends Controller {
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -39,12 +36,11 @@ class SpotifyController extends Controller
      *
      * @return Renderable
      */
-    public function index(): Renderable
-    {
-        if (!isset(auth()->user()->socialProfile->spotify_accessToken) || auth()->user()->socialProfile->spotify_accessToken == null)
+    public function index(): Renderable {
+        if(!isset(auth()->user()->socialProfile->spotify_accessToken) || auth()->user()->socialProfile->spotify_accessToken == null)
             return view('spotify.notconnected');
 
-        if (auth()->user()->spotifyActivity()->count() == 0)
+        if(auth()->user()->spotifyActivity()->count() == 0)
             return view('spotify.nodata');
 
         $chartDataHearedByWeek = auth()->user()->spotifyActivity()
@@ -94,10 +90,9 @@ class SpotifyController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function topTracks(Request $request): Renderable
-    {
+    public function topTracks(Request $request): Renderable {
         $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
-        if ($socialProfile->spotify_accessToken == null)
+        if($socialProfile->spotify_accessToken == null)
             return view('spotify.notconnected');
 
         $validated = $request->validate([
@@ -106,10 +101,10 @@ class SpotifyController extends Controller
                                         ]);
 
         $topTracks = auth()->user()->spotifyActivity();
-        if (isset($validated['from'])) {
+        if(isset($validated['from'])) {
             $topTracks->where('created_at', '>=', $validated['from']);
         }
-        if (isset($validated['to'])) {
+        if(isset($validated['to'])) {
             $topTracks->where('created_at', '<=', $validated['to']);
         }
         $topTracks->groupBy('track_id')
@@ -128,19 +123,18 @@ class SpotifyController extends Controller
      *
      * @return Renderable
      */
-    public function lostTracks(): Renderable
-    {
+    public function lostTracks(): Renderable {
         $socialProfile = auth()->user()->socialProfile()->first() ?: new SocialLoginProfile;
-        if ($socialProfile->spotify_accessToken == null)
+        if($socialProfile->spotify_accessToken == null)
             return view('spotify.notconnected');
 
         $dataCount = User::find(auth()->user()->id)->spotifyActivity->count();
-        if ($dataCount == 0)
+        if($dataCount == 0)
             return view('spotify.nodata');
 
         $settings_minutes = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_minutesTop', '120');
-        $settings_days    = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_days', '30');
-        $settings_limit   = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_songlimit', '30');
+        $settings_days = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_days', '30');
+        $settings_limit = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_songlimit', '30');
 
         $lostTracks = self::getLikedAndNotHearedTracks(Auth::user()->id, $settings_limit, $settings_days, $settings_minutes);
 
@@ -158,8 +152,7 @@ class SpotifyController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function saveLostTracks(Request $request): Renderable
-    {
+    public function saveLostTracks(Request $request): Renderable {
         $validated = $request->validate([
                                             'spotify_createOldPlaylist'      => [],
                                             'spotify_oldPlaylist_minutesTop' => ['required', 'integer', 'min:1'],
@@ -175,8 +168,7 @@ class SpotifyController extends Controller
         return $this->lostTracks();
     }
 
-    public static function getLikedAndNotHearedTracks(int $userId, int $limit = 30, int $days = 90, int $minHearedMinutes = 30): Collection
-    {
+    public static function getLikedAndNotHearedTracks(int $userId, int $limit = 30, int $days = 90, int $minHearedMinutes = 30): Collection {
 
         $tracksByMinutes = SpotifyPlayActivity::where('user_id', $userId)
                                               ->groupBy('track_id')
@@ -191,17 +183,17 @@ class SpotifyController extends Controller
                                            ->get();
 
         $tracksMin = [];
-        foreach ($tracksByMinutes as $t)
+        foreach($tracksByMinutes as $t)
             $tracksMin[] = $t->track_id;
 
         $tracksTime = [];
-        foreach ($tracksByTime as $t)
+        foreach($tracksByTime as $t)
             $tracksTime[] = $t->track_id;
 
         $trackList = [];
-        foreach ($tracksMin as $t1)
-            foreach ($tracksTime as $t2)
-                if ($t1 == $t2 && !in_array($t1, $trackList) && count($trackList) < $limit)
+        foreach($tracksMin as $t1)
+            foreach($tracksTime as $t2)
+                if($t1 == $t2 && !in_array($t1, $trackList) && count($trackList) < $limit)
                     $trackList[] = $t1;
 
         return SpotifyTrack::with(['artists', 'album'])
@@ -218,11 +210,10 @@ class SpotifyController extends Controller
      * @throws SpotifyTokenExpiredException
      * TODO: Exceptions handlen
      */
-    public static function generateLostPlaylist(User $user)
-    {
+    public static function generateLostPlaylist(User $user) {
         $settingsMinutes = UserSettings::get($user->id, 'spotify_oldPlaylist_minutesTop', '120');
-        $settingsDays    = UserSettings::get($user->id, 'spotify_oldPlaylist_days', '30');
-        $settingsLimit   = UserSettings::get($user->id, 'spotify_oldPlaylist_songlimit', '30');
+        $settingsDays = UserSettings::get($user->id, 'spotify_oldPlaylist_days', '30');
+        $settingsLimit = UserSettings::get($user->id, 'spotify_oldPlaylist_songlimit', '30');
 
         $lostTracks = SpotifyController::getLikedAndNotHearedTracks($user->id, $settingsLimit, $settingsDays, $settingsMinutes);
 
@@ -234,17 +225,17 @@ class SpotifyController extends Controller
             ]
         ]);
 
-        if ($result->getStatusCode() == 401)
+        if($result->getStatusCode() == 401)
             throw new SpotifyTokenExpiredException();
 
-        if ($result->getStatusCode() != 200)
+        if($result->getStatusCode() != 200)
             return false;
 
-        $data            = json_decode($result->getBody()->getContents());
+        $data = json_decode($result->getBody()->getContents());
         $spotify_user_id = $data->id;
 
         $playlistID = UserSettings::get($user->id, 'spotify_oldPlaylist_id');
-        if ($playlistID == null) {
+        if($playlistID == null) {
             //Playlist erstellen
             $client = new Client();
             $result = $client->post('https://api.spotify.com/v1/users/' . $spotify_user_id . '/playlists', [
@@ -266,7 +257,7 @@ class SpotifyController extends Controller
         }
 
         $tracks = [];
-        foreach ($lostTracks as $t)
+        foreach($lostTracks as $t)
             $tracks[] = 'spotify:track:' . $t->track_id;
 
 
@@ -287,8 +278,7 @@ class SpotifyController extends Controller
         dump($data);
     }
 
-    public static function getWeekdayName(int $weekday)
-    {
+    public static function getWeekdayName(int $weekday) {
         $list = [
             0 => __('general.weekday.mon'),
             1 => __('general.weekday.tue'),
@@ -301,9 +291,8 @@ class SpotifyController extends Controller
         return $list[$weekday] ?? $weekday;
     }
 
-    public function trackDetails($trackId)
-    {
-        $track              = SpotifyTrack::findOrFail($trackId);
+    public function trackDetails($trackId) {
+        $track = SpotifyTrack::findOrFail($trackId);
         $listeningDaysQuery = SpotifyPlayActivity::where('user_id', Auth::user()->id)
                                                  ->where('track_id', $track->track_id)
                                                  ->groupBy(DB::raw('DATE(created_at)'))
@@ -312,18 +301,18 @@ class SpotifyController extends Controller
                                                  ->get();
 
         $listeningDays = [];
-        foreach ($listeningDaysQuery as $ld) {
-            $listeningDays[$ld->date]          = new \stdClass();
-            $listeningDays[$ld->date]->date    = $ld->date;
+        foreach($listeningDaysQuery as $ld) {
+            $listeningDays[$ld->date] = new \stdClass();
+            $listeningDays[$ld->date]->date = $ld->date;
             $listeningDays[$ld->date]->minutes = $ld->minutes;
         }
-        if (count($listeningDays) > 0) {
+        if(count($listeningDays) > 0) {
             $date = Carbon::parse(array_values($listeningDays)[0]->date);
-            while ($date->isPast()) {
+            while($date->isPast()) {
                 $date = $date->addDays(1);
-                if (!isset($listeningDays[$date->format('Y-m-d')])) {
-                    $listeningDays[$date->format('Y-m-d')]          = new \stdClass();
-                    $listeningDays[$date->format('Y-m-d')]->date    = $date->isoFormat('YYYY-MM-DD');
+                if(!isset($listeningDays[$date->format('Y-m-d')])) {
+                    $listeningDays[$date->format('Y-m-d')] = new \stdClass();
+                    $listeningDays[$date->format('Y-m-d')]->date = $date->isoFormat('YYYY-MM-DD');
                     $listeningDays[$date->format('Y-m-d')]->minutes = 0;
                 }
             }
@@ -336,8 +325,7 @@ class SpotifyController extends Controller
         ]);
     }
 
-    public function getFavouriteYear()
-    {
+    public function getFavouriteYear() {
         $favouriteYearQ = SpotifyPlayActivity::where('user_id', auth()->user()->id)
                                              ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
                                              ->join('spotify_albums', 'spotify_tracks.album_id', '=', 'spotify_albums.album_id')
@@ -350,8 +338,7 @@ class SpotifyController extends Controller
         return $favouriteYearQ == null ? '?' : $favouriteYearQ->release_year;
     }
 
-    public function getAverageBPM()
-    {
+    public function getAverageBPM() {
         $bpm = SpotifyPlayActivity::where('user_id', auth()->user()->id)
                                   ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
                                   ->select(DB::raw('AVG(bpm) as bpm'))
@@ -359,21 +346,18 @@ class SpotifyController extends Controller
         return round($bpm);
     }
 
-    public function getAverageSessionLength()
-    {
+    public function getAverageSessionLength() {
         $avgSession = SpotifySession::where('user_id', auth()->user()->id)
                                     ->select(DB::raw('AVG(TIMESTAMPDIFF(MINUTE, timestamp_start, timestamp_end)) as sessionTime'))
                                     ->first()->sessionTime;
         return round($avgSession);
     }
 
-    public function getTrackCount()
-    {
+    public function getTrackCount() {
         return SpotifyPlayActivity::where('user_id', auth()->user()->id)->groupBy('track_id')->select('track_id')->get()->count();
     }
 
-    public function getTopArtists($timeFrom = null, $timeTo = null, int $limit = 5)
-    {
+    public function getTopArtists($timeFrom = null, $timeTo = null, int $limit = 5) {
         $query = SpotifyArtist::join('spotify_track_artists', 'spotify_track_artists.artist_id', '=', 'spotify_artists.id')
                               ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_track_artists.track_id')
                               ->join('spotify_play_activities', 'spotify_play_activities.track_id', '=', 'spotify_tracks.track_id')
@@ -383,11 +367,11 @@ class SpotifyController extends Controller
                               ->orderBy('minutes', 'desc')
                               ->limit($limit);
 
-        if ($timeTo != null) {
+        if($timeTo != null) {
             $timeTo = Carbon::parse($timeTo);
             $query->where('spotify_play_activities.created_at', '<=', $timeTo);
         }
-        if ($timeFrom != null) {
+        if($timeFrom != null) {
             $timeFrom = Carbon::parse($timeFrom);
             $query->where('spotify_play_activities.created_at', '>=', $timeFrom);
         }
@@ -395,15 +379,14 @@ class SpotifyController extends Controller
         return $query->get();
     }
 
-    public function getPlaytime($timeFrom = null, $timeTo = null)
-    {
+    public function getPlaytime($timeFrom = null, $timeTo = null) {
         $query = SpotifyPlayActivity::where('user_id', auth()->user()->id);
 
-        if ($timeFrom != null) {
+        if($timeFrom != null) {
             $timeFrom = Carbon::parse($timeFrom);
             $query->where('created_at', '>=', $timeFrom);
         }
-        if ($timeTo != null) {
+        if($timeTo != null) {
             $timeTo = Carbon::parse($timeTo);
             $query->where('created_at', '<=', $timeTo);
         }
@@ -411,8 +394,7 @@ class SpotifyController extends Controller
         return $query->count();
     }
 
-    public function getTopTracks($timeFrom = null, $timeTo = null, int $limit = 3)
-    {
+    public function getTopTracks($timeFrom = null, $timeTo = null, int $limit = 3) {
         $query = SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
                                     ->where('user_id', auth()->user()->id)
                                     ->groupBy('track_id')
@@ -420,11 +402,11 @@ class SpotifyController extends Controller
                                     ->orderBy('minutes', 'DESC')
                                     ->limit($limit);
 
-        if ($timeTo != null) {
+        if($timeTo != null) {
             $timeTo = Carbon::parse($timeTo);
             $query->where('created_at', '<=', $timeTo);
         }
-        if ($timeFrom != null) {
+        if($timeFrom != null) {
             $timeFrom = Carbon::parse($timeFrom);
             $query->where('created_at', '>=', $timeFrom);
         }
@@ -432,8 +414,7 @@ class SpotifyController extends Controller
         return $query->get();
     }
 
-    public function getLastPlayed()
-    {
+    public function getLastPlayed() {
         return SpotifyPlayActivity::with(['track', 'track.album', 'track.artists'])
                                   ->where('user_id', auth()->user()->id)
                                   ->orderBy('created_at', 'desc')
@@ -441,12 +422,12 @@ class SpotifyController extends Controller
                                   ->first();
     }
 
-    public function renderDailyHistory(Request $request, $date = null)
-    {
-        if ($date == null) $date = Carbon::today();
+    public function renderDailyHistory(Request $request, $date = null) {
+        if($date == null)
+            $date = Carbon::today();
         else $date = Carbon::parse($date);
 
-        if ($date->isAfter(Carbon::now())) {
+        if($date->isAfter(Carbon::now())) {
             return redirect()->route('spotify.history')
                              ->with('alert-danger', __('general.error.future_not_possible'));
         }
@@ -481,26 +462,24 @@ class SpotifyController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function renderArtist(int $id): Renderable
-    {
+    public function renderArtist(int $id): Renderable {
         $artist = SpotifyArtist::findOrFail($id);
         return view('spotify.artist', [
             'artist' => $artist
         ]);
     }
 
-    public function renderMoodMeter(): Renderable
-    {
+    public function renderMoodMeter(): Renderable {
         $daily = auth()->user()
                        ->spotifyActivity()
                        ->with(['track'])
                        ->where('timestamp_start', '>=', Carbon::parse('-1 month')->startOfDay())
                        ->orderBy('timestamp_start', 'DESC')
                        ->get()
-                       ->groupBy(function ($playActivity) {
+                       ->groupBy(function($playActivity) {
                            return $playActivity->timestamp_start->toDateString();
                        })
-                       ->map(function ($playActivities) {
+                       ->map(function($playActivities) {
                            return round($playActivities->avg('track.valence') * 100);
                        });
 
@@ -509,10 +488,9 @@ class SpotifyController extends Controller
         ]);
     }
 
-    public function renderExplore(): Renderable
-    {
-        $tracks         = auth()->user()->spotifyActivity()->select(['track_id'])->groupBy('track_id');
-        $alreadyRated   = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
+    public function renderExplore(): Renderable {
+        $tracks = auth()->user()->spotifyActivity()->select(['track_id'])->groupBy('track_id');
+        $alreadyRated = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
         $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
                                       ->whereNotIn('track_id', $alreadyRated)
                                       ->where('preview_url', '<>', null)
@@ -527,8 +505,7 @@ class SpotifyController extends Controller
         ]);
     }
 
-    public function saveExploration(Request $request)
-    {
+    public function saveExploration(Request $request) {
         $validated = $request->validate([
                                             'track_id'      => ['required', 'exists:spotify_tracks,id'],
                                             'rating'        => ['required', 'gte:-1', 'lte:1'],
@@ -541,7 +518,7 @@ class SpotifyController extends Controller
                                                'rating'   => $validated['rating']
                                            ]);
 
-        if (isset($validated['addToPlaylist']) && $validated['addToPlaylist'] == '1') {
+        if(isset($validated['addToPlaylist']) && $validated['addToPlaylist'] == '1') {
             try {
                 $track = SpotifyTrack::find($validated['track_id']);
 
@@ -556,14 +533,14 @@ class SpotifyController extends Controller
                                              ])
                 ]);
 
-                if ($result->getStatusCode() == 200) {
+                if($result->getStatusCode() == 200) {
                     return back()->with('alert-success', 'Der Track wurde in deiner Bibliothek gespeichert! :)')
                                  ->with('autoplay', '1');
                 }
-            } catch (GuzzleException $exception) {
+            } catch(GuzzleException $exception) {
                 report($exception);
                 return back()->with('alert-danger', 'Es ist ein Fehler aufgetreten: Wir haben keine Berechtigung, diesen Track in deine Bibliothek hinzuzufügen. ' .
-                                                  'Bitte klicke <a href="/auth/redirect/spotify">hier</a> und erteile die Berechtigung.');
+                                                    'Bitte klicke <a href="/auth/redirect/spotify">hier</a> und erteile die Berechtigung.');
             }
         }
 

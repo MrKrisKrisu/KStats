@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Telegram\Bot\Laravel\Facades\Telegram;
 
 class SocialLoginProfile extends Model {
 
