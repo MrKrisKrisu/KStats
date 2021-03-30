@@ -7,6 +7,7 @@ use App\SocialLoginProfile;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class Spotify_TokenRefresh extends Command {
 
@@ -41,7 +42,7 @@ class Spotify_TokenRefresh extends Command {
                                      'spotify_lastRefreshed' => Carbon::now()
                                  ]);
 
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
                 report($e);
                 dump($e->getMessage());
             }

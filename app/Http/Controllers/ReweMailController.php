@@ -41,7 +41,7 @@ class ReweMailController extends Controller {
                         foreach($mail->getStructure()->parts[$i]->dparameters as $object) {
                             if(strtolower($object->attribute) == 'filename') {
                                 $attachments[$i]['is_attachment'] = true;
-                                $attachments[$i]['filename'] = $object->value;
+                                $attachments[$i]['filename']      = $object->value;
                             }
                         }
                     }
@@ -50,7 +50,7 @@ class ReweMailController extends Controller {
                         foreach($mail->getStructure()->parts[$i]->parameters as $object) {
                             if(strtolower($object->attribute) == 'name') {
                                 $attachments[$i]['is_attachment'] = true;
-                                $attachments[$i]['name'] = $object->value;
+                                $attachments[$i]['name']          = $object->value;
                             }
                         }
                     }
@@ -140,7 +140,7 @@ class Mail {
 
     public function __construct($mailconnection, int $email_number) {
         $this->mailconnection = $mailconnection;
-        $this->email_number = $email_number;
+        $this->email_number   = $email_number;
     }
 
     public function getStructure() {
@@ -169,7 +169,7 @@ class REWE_UserAttachment {
     private $filename;
 
     public function __construct(string $email, string $filename) {
-        $this->email = $email;
+        $this->email    = $email;
         $this->filename = $filename;
     }
 

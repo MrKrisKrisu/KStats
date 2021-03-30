@@ -13,6 +13,7 @@ use App\TwitterFollower;
 use App\TwitterProfile;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Exception;
 
 class Twitter_CrawlFollowers extends Command {
     /**
@@ -69,7 +70,7 @@ class Twitter_CrawlFollowers extends Command {
                                         'twitter_tokenSecret' => null,
                                     ]);
                 report($e);
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
             }
         }
     }
@@ -81,11 +82,11 @@ class Twitter_CrawlFollowers extends Command {
      * @param array              $parameters
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     private function crawlFollowers(TwitterOAuth $connection, TwitterProfile $twp, SocialLoginProfile $sl_profile, array $parameters = []) {
-        $parameters['count'] = 200;       //max amount
-        $parameters['skip_status'] = 1;   //we don't need the tweets
+        $parameters['count']       = 200;       //max amount
+        $parameters['skip_status'] = 1;         //we don't need the tweets
 
         if(!TwitterApiController::canRequest($sl_profile, 'followers/list', 15)) {
             //TODO: Queue instead of exit...

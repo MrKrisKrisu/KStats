@@ -9,6 +9,7 @@ use App\TwitterFollower;
 use App\TwitterUnfollower;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Exception;
 
 class Twitter_CheckUnfollows extends Command {
     /**
@@ -115,7 +116,7 @@ class Twitter_CheckUnfollows extends Command {
                         $relationship->update();
                     }
                 }
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
                 dump($e);
                 report($e);
             }

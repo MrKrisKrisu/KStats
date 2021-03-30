@@ -135,8 +135,8 @@ class SpotifyController extends Controller {
             return view('spotify.nodata');
 
         $settings_minutes = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_minutesTop', '120');
-        $settings_days = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_days', '30');
-        $settings_limit = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_songlimit', '30');
+        $settings_days    = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_days', '30');
+        $settings_limit   = UserSettings::get(auth()->user()->id, 'spotify_oldPlaylist_songlimit', '30');
 
         $lostTracks = self::getLikedAndNotHearedTracks(Auth::user()->id, $settings_limit, $settings_days, $settings_minutes);
 
@@ -216,8 +216,8 @@ class SpotifyController extends Controller {
      */
     public static function generateLostPlaylist(User $user) {
         $settingsMinutes = UserSettings::get($user->id, 'spotify_oldPlaylist_minutesTop', '120');
-        $settingsDays = UserSettings::get($user->id, 'spotify_oldPlaylist_days', '30');
-        $settingsLimit = UserSettings::get($user->id, 'spotify_oldPlaylist_songlimit', '30');
+        $settingsDays    = UserSettings::get($user->id, 'spotify_oldPlaylist_days', '30');
+        $settingsLimit   = UserSettings::get($user->id, 'spotify_oldPlaylist_songlimit', '30');
 
         $lostTracks = SpotifyController::getLikedAndNotHearedTracks($user->id, $settingsLimit, $settingsDays, $settingsMinutes);
 
@@ -235,7 +235,7 @@ class SpotifyController extends Controller {
         if($result->getStatusCode() != 200)
             return false;
 
-        $data = json_decode($result->getBody()->getContents());
+        $data            = json_decode($result->getBody()->getContents());
         $spotify_user_id = $data->id;
 
         $playlistID = UserSettings::get($user->id, 'spotify_oldPlaylist_id');
@@ -296,7 +296,7 @@ class SpotifyController extends Controller {
     }
 
     public function trackDetails($trackId) {
-        $track = SpotifyTrack::findOrFail($trackId);
+        $track              = SpotifyTrack::findOrFail($trackId);
         $listeningDaysQuery = SpotifyPlayActivity::where('user_id', Auth::user()->id)
                                                  ->where('track_id', $track->track_id)
                                                  ->groupBy(DB::raw('DATE(created_at)'))
@@ -306,8 +306,8 @@ class SpotifyController extends Controller {
 
         $listeningDays = [];
         foreach($listeningDaysQuery as $ld) {
-            $listeningDays[$ld->date] = new stdClass();
-            $listeningDays[$ld->date]->date = $ld->date;
+            $listeningDays[$ld->date]          = new stdClass();
+            $listeningDays[$ld->date]->date    = $ld->date;
             $listeningDays[$ld->date]->minutes = $ld->minutes;
         }
         if(count($listeningDays) > 0) {
@@ -315,8 +315,8 @@ class SpotifyController extends Controller {
             while($date->isPast()) {
                 $date = $date->addDays(1);
                 if(!isset($listeningDays[$date->format('Y-m-d')])) {
-                    $listeningDays[$date->format('Y-m-d')] = new stdClass();
-                    $listeningDays[$date->format('Y-m-d')]->date = $date->isoFormat('YYYY-MM-DD');
+                    $listeningDays[$date->format('Y-m-d')]          = new stdClass();
+                    $listeningDays[$date->format('Y-m-d')]->date    = $date->isoFormat('YYYY-MM-DD');
                     $listeningDays[$date->format('Y-m-d')]->minutes = 0;
                 }
             }
@@ -494,8 +494,8 @@ class SpotifyController extends Controller {
     }
 
     public function renderExplore(): Renderable {
-        $tracks = auth()->user()->spotifyActivity()->select(['track_id'])->groupBy('track_id');
-        $alreadyRated = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
+        $tracks         = auth()->user()->spotifyActivity()->select(['track_id'])->groupBy('track_id');
+        $alreadyRated   = SpotifyTrack::whereIn('id', auth()->user()->spotifyRatedTracks()->select(['track_id']))->select('track_id');
         $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
                                       ->whereNotIn('track_id', $alreadyRated)
                                       ->where('preview_url', '<>', null)

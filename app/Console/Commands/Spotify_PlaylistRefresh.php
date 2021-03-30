@@ -6,6 +6,7 @@ use App\Http\Controllers\SpotifyController;
 use App\User;
 use App\UserSettings;
 use Illuminate\Console\Command;
+use Exception;
 
 class Spotify_PlaylistRefresh extends Command {
 
@@ -42,7 +43,7 @@ class Spotify_PlaylistRefresh extends Command {
                 $user = User::find($user->user_id);
 
                 SpotifyController::generateLostPlaylist($user);
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
                 echo $e->getMessage();
             }
         }

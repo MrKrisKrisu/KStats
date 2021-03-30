@@ -40,7 +40,7 @@ class TwitterController extends Controller {
         if(!TwitterApiController::canRequest($slp, 'account/verify_credentials', 75))
             throw new RateLimitException();
 
-        $connection = TwitterApiController::getNewConnection($slp);
+        $connection   = TwitterApiController::getNewConnection($slp);
         $profile_data = $connection->get("account/verify_credentials");
 
         if(isset($profile_data->errors)) {
