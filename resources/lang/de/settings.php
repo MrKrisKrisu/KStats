@@ -11,8 +11,6 @@ return [
     ],
     'settings'           => 'Einstellungen',
     'telegram'           => [
-        'connected'          => 'Der Account ist bereits mit einem Telegram Konto verknüpft.',
-        'not_connected'      => 'Der Account ist mit keinem Telegram Konto verknüpft.',
         'connection_removed' => 'Die Verknüpfung mit Telegram wurde entfernt.',
         'connect_code'       => 'Telegram-ConnectCode',
         'valid_until'        => 'Code gültig bis',
@@ -37,5 +35,11 @@ return [
     ],
     'select'             => 'Bitte wählen',
     'set_language'       => 'Sprache festlegen',
-    'alert_set_language' => 'Die Spracheinstellungen wurden gespeichert.'
+    'alert_set_language' => 'Die Spracheinstellungen wurden gespeichert.',
+    'third-party'        => [
+        'card-heading'  => 'Verbundene Drittanbieter',
+        'connected'     => 'Statistiken werden gesammelt.',
+        'not-connected' => '¯\_(ツ)_/¯ Nicht verbunden',
+        'connect-to'    => ':thirdparty verbinden'
+    ],
 ];

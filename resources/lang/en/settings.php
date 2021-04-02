@@ -11,8 +11,6 @@ return [
     ],
     'settings'           => 'Settings',
     'telegram'           => [
-        'connected'          => 'Your Account is already connected to an Telegram chat.',
-        'not_connected'      => 'Your Account is not connected to an Telegram chat.',
         'connection_removed' => 'The Connection to Telegram was removed successfully.',
         'connect_code'       => 'Telegram-ConnectCode',
         'valid_until'        => 'Code valid until',
@@ -37,5 +35,11 @@ return [
     ],
     'select'             => 'Please choose',
     'set_language'       => 'Set language',
-    'alert_set_language' => 'The language settings are successfully saved.'
+    'alert_set_language' => 'The language settings are successfully saved.',
+    'third-party'        => [
+        'card-heading'  => 'Connected Third Party',
+        'connected'     => 'Successfully connected.',
+        'not-connected' => '¯\_(ツ)_/¯ Not connected',
+        'connect-to'    => 'Connect to :thirdparty'
+    ],
 ];
