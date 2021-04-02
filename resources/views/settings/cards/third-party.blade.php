@@ -58,12 +58,17 @@
                     <td><i class="fab fa-telegram"></i> Telegram</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedTelegram)
-                            {{__('settings.third-party.connected')}}
+                            <span class="font-weight-bold text-success">
+                                <i class="fas fa-check"></i>
+                                {{__('settings.third-party.connected')}}
+                            </span>
 
                             <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
                                   class="float-right">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    {{__('general.deactivate')}}
+                                </button>
                             </form>
                         @else
                             <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
@@ -72,7 +77,11 @@
                             <div class="alert alert-info" style="text-align: center;">
                                 <p style="font-size: 20px;">{{__('settings.telegram.connect_code')}}:
                                     "<b>{{$telegramConnectCode->val}}</b>"
-                                    <br/><small>{{__('settings.telegram.valid_until')}} {{$telegramConnectCode->updated_at->addHour()->isoFormat('Do MMMM YYYY, HH:mm')}}</small>
+                                    <br/>
+                                    <small>
+                                        {{__('settings.telegram.valid_until')}}
+                                        {{$telegramConnectCode->updated_at->addHour()->isoFormat('Do MMMM YYYY, HH:mm')}}
+                                    </small>
                                 </p>
                             </div>
                             <p>{!! __('settings.telegram.description') !!}</p>
