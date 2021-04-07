@@ -523,7 +523,9 @@ class SpotifyController extends Controller {
 
         }
         if($trackToExplore !== null) {
-            $trackReason = 'Dein Freund "' . $friend->username . '" hat diesen Track in den letzten Wochen gelegentlich gehört.';
+            $trackReason = strtr(__('spotify.explore.reason.friend'), [
+                ':friend' => $friend->username
+            ]);
         } else {
             //Use a popular song from trends
             $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
@@ -531,7 +533,7 @@ class SpotifyController extends Controller {
                                           ->where('preview_url', '<>', null)
                                           ->orderByDesc('popularity')
                                           ->first();
-            $trackReason    = 'Dieser Track ist in den Trends weit oben.';
+            $trackReason = __('spotify.explore.reason.trend');
         }
 
 

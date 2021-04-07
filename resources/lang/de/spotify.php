@@ -56,5 +56,11 @@ return [
     'last_years'        => 'Die letzten Jahre',
     'last_months'       => 'letzte 6 Monate',
     'last_weeks'        => 'letzten 4 Wochen',
-    'time_period'       => 'Zeitraum'
+    'time_period'       => 'Zeitraum',
+    'explore'           => [
+        'reason' => [
+            'trend'  => 'Dieser Track ist in den Trends weit oben.',
+            'friend' => 'Dein Freund ":friend" hat diesen Track in den letzten Wochen gelegentlich gehört.',
+        ]
+    ],
 ];
