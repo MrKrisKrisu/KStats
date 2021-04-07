@@ -58,8 +58,8 @@ return [
     'time_period'       => 'Time Period',
     'explore'           => [
         'reason' => [
-            'trend'  => 'Dieser Track ist in den Trends weit oben.',
-            'friend' => 'Dein Freund ":friend" hat diesen Track in den letzten Wochen gelegentlich gehört.',
+            'trend'  => 'This song is popular and listened to by many people.',
+            'friend' => 'Your friend ":friend" has heard this track over the past few weeks.',
         ]
     ],
 ];
