@@ -503,6 +503,7 @@ class SpotifyController extends Controller {
             //Use a popular song from a friend
             $friend          = $friends->random(1)->first();
             $friendTopTracks = $friend->spotifyActivity()
+                                      ->where('created_at', '>', Carbon::now()->subWeeks(6)->toDateString())
                                       ->groupBy('track_id')
                                       ->select([
                                                    'track_id',
@@ -522,7 +523,7 @@ class SpotifyController extends Controller {
 
         }
         if($trackToExplore !== null) {
-            $trackReason = 'Dein Freund "' . $friend->username . '" hat diesen Track schon mehr als ' . round(ceil($trackToExplore->minutes / 60)) . ' Stunden gehört.';
+            $trackReason = 'Dein Freund "' . $friend->username . '" hat diesen Track in den letzten Wochen gelegentlich gehört.';
         } else {
             //Use a popular song from trends
             $trackToExplore = SpotifyTrack::whereNotIn('track_id', $tracks)
