@@ -14,6 +14,6 @@ class Company extends Model {
     protected $fillable = ['name', 'wikidata_id'];
 
     public function shops(): HasMany {
-        return $this->hasMany(Shop::class, 'brand_id', 'id');
+        return $this->hasMany(Shop::class, 'company_id', 'id');
     }
 }

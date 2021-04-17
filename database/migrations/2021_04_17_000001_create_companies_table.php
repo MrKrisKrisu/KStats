@@ -1,5 +1,6 @@
 <?php
 
+use App\Company;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,8 @@ class CreateCompaniesTable extends Migration {
                   ->default(null);
             $table->timestamps();
         });
+
+        Company::create(['name' => 'REWE', 'wikidata_id' => 'Q16968817']);
     }
 
     public function down(): void {

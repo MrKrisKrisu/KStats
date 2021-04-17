@@ -11,7 +11,10 @@ class Shop extends Model {
 
     use HasFactory;
 
-    protected $fillable = ['company_id', 'name', 'address', 'postal_code', 'city', 'osm_type', 'osm_id'];
+    protected $fillable = [
+        'company_id', 'internal_shop_id', 'name', 'address',
+        'postal_code', 'city', 'osm_type', 'osm_id'
+    ];
 
     public function company(): BelongsTo {
         return $this->belongsTo(Company::class, 'brand_id', 'id');
