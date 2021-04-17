@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Brand;
+use App\Company;
 use App\Shop;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
@@ -22,7 +22,7 @@ class ShopFactory extends Factory {
     ])]
     public function definition(): array {
         return [
-            'brand_id'    => Brand::factory(),
+            'brand_id'    => Company::factory(),
             'name'        => $this->faker->company,
             'address'     => $this->faker->streetAddress,
             'postal_code' => $this->faker->postcode,

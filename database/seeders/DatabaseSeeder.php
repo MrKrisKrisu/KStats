@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Brand;
+use App\Company;
 use App\PaymentMethod;
 use App\Receipt;
 use App\ReceiptPayment;
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder {
         $this->call(SpotifyPlayActivitySeeder::class);
         $this->call(SpotifySessionSeeder::class);
 
-        Brand::factory(2)
+        Company::factory(2)
              ->has(
                  Shop::factory(2)
                      ->has(

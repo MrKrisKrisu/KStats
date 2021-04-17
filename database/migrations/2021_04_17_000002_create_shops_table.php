@@ -10,7 +10,7 @@ class CreateShopsTable extends Migration {
         Schema::create('shops', function(Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('brand_id');
+            $table->unsignedBigInteger('company_id');
 
             $table->string('name')
                   ->nullable();
@@ -28,9 +28,9 @@ class CreateShopsTable extends Migration {
 
             $table->timestamps();
 
-            $table->foreign('brand_id')
+            $table->foreign('company_id')
                   ->references('id')
-                  ->on('brands');
+                  ->on('companies');
         });
     }
 

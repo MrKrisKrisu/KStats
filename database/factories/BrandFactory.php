@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Brand;
+use App\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 
 class BrandFactory extends Factory {
 
-    protected $model = Brand::class;
+    protected $model = Company::class;
 
     #[ArrayShape([
         'name'        => "string",
