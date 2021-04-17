@@ -2,6 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Brand;
+use App\PaymentMethod;
+use App\Receipt;
+use App\ReceiptPayment;
+use App\ReceiptPosition;
+use App\Shop;
 use App\SpotifyAlbum;
 use App\SpotifyTrack;
 use App\User;
@@ -38,5 +44,22 @@ class DatabaseSeeder extends Seeder {
         $this->call(SpotifyDeviceSeeder::class);
         $this->call(SpotifyPlayActivitySeeder::class);
         $this->call(SpotifySessionSeeder::class);
+
+        Brand::factory(2)
+             ->has(
+                 Shop::factory(2)
+                     ->has(
+                         Receipt::factory(['user_id' => 1])
+                                ->count(2)
+                                ->has(
+                                    ReceiptPayment::factory()
+                                                  ->has(
+                                                      PaymentMethod::factory()
+                                                  ), 'payments'
+                                )
+                                ->has(ReceiptPosition::factory(10), 'positions')
+                     )
+             )
+             ->create();
     }
 }
