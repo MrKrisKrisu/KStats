@@ -6,7 +6,7 @@ use App\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 
-class BrandFactory extends Factory {
+class CompanyFactory extends Factory {
 
     protected $model = Company::class;
 
