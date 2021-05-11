@@ -55,5 +55,11 @@ return [
     'last_years'        => 'Last years',
     'last_months'       => 'last 6 months',
     'last_weeks'        => 'last 4 weeks',
-    'time_period'       => 'Time Period'
+    'time_period'       => 'Time Period',
+    'explore'           => [
+        'reason' => [
+            'trend'  => 'This song is popular and listened to by many people.',
+            'friend' => 'Your friend ":friend" has heard this track over the past few weeks.',
+        ]
+    ],
 ];
