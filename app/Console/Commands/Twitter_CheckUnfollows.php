@@ -30,7 +30,7 @@ class Twitter_CheckUnfollows extends Command {
                     echo '**** Social login profile missing for user ' . $relationship->followed->screen_name
                          . ' Skip user for this session.' . PHP_EOL;
                     $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
-                        return $model->follower_id == $sl_profile->twitter_id;
+                        return $model->followed_id == $sl_profile->twitter_id;
                     });
                     continue;
                 }
@@ -38,7 +38,7 @@ class Twitter_CheckUnfollows extends Command {
                 $connection = TwitterApiController::getNewConnection($sl_profile);
                 if(!TwitterApiController::canRequest($sl_profile, 'users/show', 900)) {
                     $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
-                        return $model->follower_id == $sl_profile->twitter_id;
+                        return $model->followed_id == $sl_profile->twitter_id;
                     });
 
                     echo '**** API Limit for user ' . $sl_profile->twitter_id
@@ -67,7 +67,7 @@ class Twitter_CheckUnfollows extends Command {
 
                 if(!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15)) {
                     $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
-                        return $model->follower_id == $sl_profile->twitter_id;
+                        return $model->followed_id == $sl_profile->twitter_id;
                     });
 
                     echo '**** API Limit for user ' . $sl_profile->twitter_id
