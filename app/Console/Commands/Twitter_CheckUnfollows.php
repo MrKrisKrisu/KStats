@@ -66,7 +66,12 @@ class Twitter_CheckUnfollows extends Command {
                 }
 
                 if(!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15)) {
-                    dump("No Requests " . $sl_profile->twitter_id);
+                    $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
+                        return $model->twitter_id == $sl_profile->twitter_id;
+                    });
+
+                    echo '**** API Limit for user ' . $sl_profile->twitter_id
+                         . ' exceeded. Skip user for this session.' . PHP_EOL;
                     continue;
                 }
 
