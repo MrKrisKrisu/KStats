@@ -6,7 +6,7 @@ require("moment");
 require("chart.js");
 require("select2");
 
-const Swal = window.Swal = require('sweetalert2');
+const Swal = window.Swal = require("sweetalert2");
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
@@ -14,7 +14,7 @@ $(function () {
 window.showLoadPopup = function () {
     Swal.fire({
         onBeforeOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
         },
         showConfirmButton: false
     });

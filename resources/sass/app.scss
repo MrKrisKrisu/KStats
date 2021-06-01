@@ -1,28 +1,20 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
 // Datatables
 @import '~datatables.net-bs4';
 @import '~datatables.net-responsive-bs4';
-
 @import '~chart.js/dist/Chart.css';
-
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
-
 @import "bootstrap_improvements.scss";
-
 @import '~select2';
 @import '~select2-bootstrap4-theme';
-
 @import '~sweetalert2/src/sweetalert2.scss';
 
 #dashboard h1,
