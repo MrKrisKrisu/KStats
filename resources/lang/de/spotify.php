@@ -25,7 +25,8 @@ return [
         'history'                   => 'Musikverlauf',
         'heared_tracks'             => 'Gehörte Lieder am :date',
         'mood_o_meter'              => 'Mood-O-Meter',
-        'explore'                   => 'Entdecken'
+        'explore'                   => 'Entdecken',
+        'friendship-playlists'      => 'Freundschaftsplaylisten',
     ],
     'total'             => 'gesamt',
     'last_days'         => 'letzte :days Tage',
@@ -63,4 +64,5 @@ return [
             'friend' => 'Dein Freund ":friend" hat diesen Track in den letzten Wochen gelegentlich gehört.',
         ]
     ],
+    'token-invalid' => 'Der Berechtigungsschlüssel zu deinem Spotify Konto ist nicht mehr gültig. Bitte verbinde dein Konto erneut.'
 ];

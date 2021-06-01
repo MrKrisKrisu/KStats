@@ -533,7 +533,7 @@ class SpotifyController extends Controller {
                                           ->where('preview_url', '<>', null)
                                           ->orderByDesc('popularity')
                                           ->first();
-            $trackReason = __('spotify.explore.reason.trend');
+            $trackReason    = __('spotify.explore.reason.trend');
         }
 
 
