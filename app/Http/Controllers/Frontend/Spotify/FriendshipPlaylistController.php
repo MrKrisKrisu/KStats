@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use App\Http\Controllers\Backend\Spotify\FriendshipPlaylistController as FriendshipPlaylistBackend;
 use Illuminate\Http\RedirectResponse;
 use App\SpotifyFriendshipPlaylist;
+use App\Exceptions\SpotifyTokenExpiredException;
 
 class FriendshipPlaylistController extends Controller {
 
@@ -28,11 +29,15 @@ class FriendshipPlaylistController extends Controller {
 
         $friend = User::find($validated['friend_id']);
 
-        FriendshipPlaylistBackend::getFriendshipPlaylist(
-            user: auth()->user(),
-            friend: $friend,
-            createIfDoesntExist: true
-        );
+        try {
+            FriendshipPlaylistBackend::getFriendshipPlaylist(
+                user: auth()->user(),
+                friend: $friend,
+                createIfDoesntExist: true
+            );
+        } catch(SpotifyTokenExpiredException) {
+            return back()->with('alert-danger', __('spotify.token-invalid'));
+        }
 
         return redirect()->route('spotify.friendship-playlists.show', ['friendId' => $friend->id]);
     }

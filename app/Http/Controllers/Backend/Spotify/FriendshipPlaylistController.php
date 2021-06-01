@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use App\SpotifyFriendshipPlaylist;
 use Illuminate\Database\RecordsNotFoundException;
 use Carbon\Carbon;
+use App\Exceptions\SpotifyTokenExpiredException;
 
 abstract class FriendshipPlaylistController extends Controller {
 
@@ -58,21 +59,15 @@ abstract class FriendshipPlaylistController extends Controller {
      * @param bool $createIfDoesntExist
      *
      * @return array|object
+     * @throws SpotifyTokenExpiredException
      */
-    public static function getFriendshipPlaylist(User $user, User $friend, bool $createIfDoesntExist = false) {
+    public static function getFriendshipPlaylist(User $user, User $friend, bool $createIfDoesntExist = false): object|array {
         $playlistId = SpotifyFriendshipPlaylist::where('user_id', $user->id)
                                                ->where('friend_id', $friend->id)
                                                ->first()?->playlist_id;
 
         if($playlistId != null) {
-            $session = new \SpotifyWebAPI\Session(
-                clientId: config('services.spotify.client_id'),
-                clientSecret: config('services.spotify.client_secret'),
-            );
-            $session->setAccessToken($user->socialProfile->spotify_accessToken);
-
-            $api = new \SpotifyWebAPI\SpotifyWebAPI([], $session);
-            return $api->getPlaylist($playlistId);
+            return SpotifyController::getApi($user)->getPlaylist($playlistId);
         }
 
         if($createIfDoesntExist) {
@@ -83,20 +78,20 @@ abstract class FriendshipPlaylistController extends Controller {
         throw new RecordsNotFoundException;
     }
 
+    /**
+     * @param User $user
+     * @param User $friend
+     *
+     * @return SpotifyFriendshipPlaylist
+     * @throws SpotifyTokenExpiredException
+     */
     private static function createFriendshipPlaylist(User $user, User $friend): SpotifyFriendshipPlaylist {
-        $session = new \SpotifyWebAPI\Session(
-            clientId: config('services.spotify.client_id'),
-            clientSecret: config('services.spotify.client_secret'),
-        );
-        $session->setAccessToken($user->socialProfile->spotify_accessToken);
-
-        $api = new \SpotifyWebAPI\SpotifyWebAPI([], $session);
-
-        $playlist = $api->createPlaylist([
-                                             'name'        => 'Freundschaftsplaylist von ' . $user->username . ' und ' . $friend->username,
-                                             'description' => 'Freundschaftsplaylist - generiert von KStats auf k118.de',
-                                             'public'      => false
-                                         ]);
+        $playlist = SpotifyController::getApi($user)
+                                     ->createPlaylist([
+                                                          'name'        => 'Freundschaftsplaylist von ' . $user->username . ' und ' . $friend->username,
+                                                          'description' => 'Freundschaftsplaylist - generiert von KStats auf k118.de',
+                                                          'public'      => false
+                                                      ]);
 
         SpotifyFriendshipPlaylist::updateOrCreate([
                                                       'user_id'   => $user->id,
@@ -113,16 +108,9 @@ abstract class FriendshipPlaylistController extends Controller {
      * @param User $friend
      *
      * @return SpotifyFriendshipPlaylist
+     * @throws SpotifyTokenExpiredException
      */
     private static function refreshFriendshipPlaylist(User $user, User $friend): SpotifyFriendshipPlaylist {
-        $session = new \SpotifyWebAPI\Session(
-            clientId: config('services.spotify.client_id'),
-            clientSecret: config('services.spotify.client_secret'),
-        );
-        $session->setAccessToken($user->socialProfile->spotify_accessToken);
-
-        $api = new \SpotifyWebAPI\SpotifyWebAPI([], $session);
-
         $friendshipPlaylist = SpotifyFriendshipPlaylist::where('user_id', $user->id)
                                                        ->where('friend_id', $friend->id)
                                                        ->first();
@@ -135,7 +123,7 @@ abstract class FriendshipPlaylistController extends Controller {
             return 'spotify:track:' . $spotifyTack->track_id;
         });
 
-        $api->replacePlaylistTracks($friendshipPlaylist?->playlist_id, $tracks->toArray());
+        SpotifyController::getApi($user)->replacePlaylistTracks($friendshipPlaylist?->playlist_id, $tracks->toArray());
         $friendshipPlaylist->update(['last_refreshed' => Carbon::now()]);
 
         return $friendshipPlaylist;

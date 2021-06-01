@@ -64,4 +64,5 @@ return [
             'friend' => 'Dein Freund ":friend" hat diesen Track in den letzten Wochen gelegentlich gehört.',
         ]
     ],
+    'token-invalid' => 'Der Berechtigungsschlüssel zu deinem Spotify Konto ist nicht mehr gültig. Bitte verbinde dein Konto erneut.'
 ];
