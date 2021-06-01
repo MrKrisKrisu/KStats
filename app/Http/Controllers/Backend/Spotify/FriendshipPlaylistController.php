@@ -7,11 +7,13 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use App\SpotifyTrack;
 use Illuminate\Support\Collection;
+use App\SpotifyFriendshipPlaylist;
+use Illuminate\Database\RecordsNotFoundException;
+use Carbon\Carbon;
 
 abstract class FriendshipPlaylistController extends Controller {
 
-    public static function getCommonTracks(User $user, User $friend) {
-
+    public static function getCommonTracks(User $user, User $friend): Collection {
         $topTracksUser     = self::getTopTrackIds($user, 300);
         $topTracksFriend   = self::getTopTrackIds($friend, 300);
         $likedTracksUser   = self::getLikedTrackIds($user, 300);
@@ -48,6 +50,95 @@ abstract class FriendshipPlaylistController extends Controller {
                  ->select('track_id')
                  ->limit($limit)
                  ->pluck('track_id');
+    }
+
+    /**
+     * @param User $user
+     * @param User $friend
+     * @param bool $createIfDoesntExist
+     *
+     * @return array|object
+     */
+    public static function getFriendshipPlaylist(User $user, User $friend, bool $createIfDoesntExist = false) {
+        $playlistId = SpotifyFriendshipPlaylist::where('user_id', $user->id)
+                                               ->where('friend_id', $friend->id)
+                                               ->first()?->playlist_id;
+
+        if($playlistId != null) {
+            $session = new \SpotifyWebAPI\Session(
+                clientId: config('services.spotify.client_id'),
+                clientSecret: config('services.spotify.client_secret'),
+            );
+            $session->setAccessToken($user->socialProfile->spotify_accessToken);
+
+            $api = new \SpotifyWebAPI\SpotifyWebAPI([], $session);
+            return $api->getPlaylist($playlistId);
+        }
+
+        if($createIfDoesntExist) {
+            self::createFriendshipPlaylist($user, $friend);
+            return self::getFriendshipPlaylist($user, $friend, false);
+        }
+
+        throw new RecordsNotFoundException;
+    }
+
+    private static function createFriendshipPlaylist(User $user, User $friend): SpotifyFriendshipPlaylist {
+        $session = new \SpotifyWebAPI\Session(
+            clientId: config('services.spotify.client_id'),
+            clientSecret: config('services.spotify.client_secret'),
+        );
+        $session->setAccessToken($user->socialProfile->spotify_accessToken);
+
+        $api = new \SpotifyWebAPI\SpotifyWebAPI([], $session);
+
+        $playlist = $api->createPlaylist([
+                                             'name'        => 'Freundschaftsplaylist von ' . $user->username . ' und ' . $friend->username,
+                                             'description' => 'Freundschaftsplaylist - generiert von KStats auf k118.de',
+                                             'public'      => false
+                                         ]);
+
+        SpotifyFriendshipPlaylist::updateOrCreate([
+                                                      'user_id'   => $user->id,
+                                                      'friend_id' => $friend->id,
+                                                  ], [
+                                                      'playlist_id' => $playlist->id
+                                                  ]);
+
+        return self::refreshFriendshipPlaylist($user, $friend);
+    }
+
+    /**
+     * @param User $user
+     * @param User $friend
+     *
+     * @return SpotifyFriendshipPlaylist
+     */
+    private static function refreshFriendshipPlaylist(User $user, User $friend): SpotifyFriendshipPlaylist {
+        $session = new \SpotifyWebAPI\Session(
+            clientId: config('services.spotify.client_id'),
+            clientSecret: config('services.spotify.client_secret'),
+        );
+        $session->setAccessToken($user->socialProfile->spotify_accessToken);
+
+        $api = new \SpotifyWebAPI\SpotifyWebAPI([], $session);
+
+        $friendshipPlaylist = SpotifyFriendshipPlaylist::where('user_id', $user->id)
+                                                       ->where('friend_id', $friend->id)
+                                                       ->first();
+
+        if($friendshipPlaylist?->playlist_id == null) {
+            throw new RecordsNotFoundException();
+        }
+
+        $tracks = self::getCommonTracks($user, $friend)->map(function($spotifyTack) {
+            return 'spotify:track:' . $spotifyTack->track_id;
+        });
+
+        $api->replacePlaylistTracks($friendshipPlaylist?->playlist_id, $tracks->toArray());
+        $friendshipPlaylist->update(['last_refreshed' => Carbon::now()]);
+
+        return $friendshipPlaylist;
     }
 
 }

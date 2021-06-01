@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -67,6 +68,14 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('spotify.lostTracks');
     Route::post('/spotify/lost-tracks/', [SpotifyController::class, 'saveLostTracks'])
          ->name('spotify.saveLostTracks');
+
+    Route::get('/spotify/friendship-playlists', [FriendshipPlaylistController::class, 'renderFriendshipPlaylists'])
+         ->name('spotify.friendship-playlists');
+    Route::post('/spotify/friendship-playlists/create', [FriendshipPlaylistController::class, 'createFriendshipPlaylist'])
+         ->name('spotify.friendship-playlists.create');
+    Route::get('/spotify/friendship-playlists/{friendId}', [FriendshipPlaylistController::class, 'renderList'])
+         ->name('spotify.friendship-playlists.show');
+
 
     Route::get('/rewe/', [ReweController::class, 'index'])
          ->name('rewe');

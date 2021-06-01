@@ -44,6 +44,10 @@ class User extends Authenticatable {
         return $this->hasMany(SpotifySession::class, 'user_id', 'id');
     }
 
+    public function spotifyFriendshipPlaylists(): HasMany {
+        return $this->hasMany(SpotifyFriendshipPlaylist::class, 'user_id', 'id');
+    }
+
     public function friends(): BelongsToMany {
         return $this->belongsToMany(User::class, 'friendships', 'user_id', 'friend_id');
     }

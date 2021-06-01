@@ -20,6 +20,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use stdClass;
+use App\Http\Controllers\Backend\Spotify\FriendshipPlaylistController;
 
 class SpotifyController extends Controller {
 
@@ -533,7 +534,7 @@ class SpotifyController extends Controller {
                                           ->where('preview_url', '<>', null)
                                           ->orderByDesc('popularity')
                                           ->first();
-            $trackReason = __('spotify.explore.reason.trend');
+            $trackReason    = __('spotify.explore.reason.trend');
         }
 
 

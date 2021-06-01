@@ -25,7 +25,8 @@ return [
         'history'                   => 'Musikverlauf',
         'heared_tracks'             => 'Gehörte Lieder am :date',
         'mood_o_meter'              => 'Mood-O-Meter',
-        'explore'                   => 'Entdecken'
+        'explore'                   => 'Entdecken',
+        'friendship-playlists'      => 'Freundschaftsplaylisten',
     ],
     'total'             => 'gesamt',
     'last_days'         => 'letzte :days Tage',
