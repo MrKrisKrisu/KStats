@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\SpotifyAlbum;
-use App\SpotifyTrack;
-use App\User;
+use App\Models\SpotifyAlbum;
+use App\Models\SpotifyTrack;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Friendship;
+use App\Models\Friendship;
 
 class DatabaseSeeder extends Seeder {
 

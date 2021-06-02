@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\SpotifyAPIException;
 use App\Exceptions\SpotifyTokenExpiredException;
-use App\SocialLoginProfile;
+use App\Models\SocialLoginProfile;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;

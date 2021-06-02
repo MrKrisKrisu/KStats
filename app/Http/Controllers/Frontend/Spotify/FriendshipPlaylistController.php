@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Frontend\Spotify;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Backend\Spotify\FriendshipPlaylistController as FriendshipPlaylistBackend;
 use Illuminate\Http\RedirectResponse;
-use App\SpotifyFriendshipPlaylist;
+use App\Models\SpotifyFriendshipPlaylist;
 use App\Exceptions\SpotifyTokenExpiredException;
 
 class FriendshipPlaylistController extends Controller {

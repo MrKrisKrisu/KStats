@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\SpotifyFriendshipPlaylist;
+use App\Models\SpotifyFriendshipPlaylist;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\User;
+use App\Models\User;
 use JetBrains\PhpStorm\ArrayShape;
 
 class SpotifyFriendshipPlaylistFactory extends Factory {

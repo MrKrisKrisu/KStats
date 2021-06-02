@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\SpotifyTrack;
-use App\SpotifyTrackRating;
-use App\User;
+use App\Models\SpotifyTrack;
+use App\Models\SpotifyTrackRating;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SpotifyTrackRatingFactory extends Factory {

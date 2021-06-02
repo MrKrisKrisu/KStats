@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\ReweCrowdsourcingCategory;
-use App\ReweProduct;
-use App\ReweProductCategory;
-use App\User;
+use App\Models\ReweCrowdsourcingCategory;
+use App\Models\ReweProduct;
+use App\Models\ReweProductCategory;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ReweCrowdsourcingCategorySeeder extends Seeder {

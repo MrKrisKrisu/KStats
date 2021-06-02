@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SpotifyDevice extends Model {
+class SpotifyContext extends Model {
 
     use HasFactory;
 
-    protected $fillable = ['device_id', 'name', 'type', 'user_id'];
+    protected $fillable = ['uri'];
 }

@@ -6,9 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
-use App\Friendship;
-use App\FriendshipRequest;
-use App\User;
+use App\Models\Friendship;
+use App\Models\FriendshipRequest;
+use App\Models\User;
 
 class FriendshipController extends Controller {
 

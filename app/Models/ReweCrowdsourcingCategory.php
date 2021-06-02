@@ -1,12 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ReweCrowdsourcingVegetarian extends Model {
-    protected $fillable = ['user_id', 'product_id', 'vegetarian'];
+class ReweCrowdsourcingCategory extends Model {
+
+    protected $fillable = ['user_id', 'product_id', 'category_id'];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
@@ -14,5 +15,9 @@ class ReweCrowdsourcingVegetarian extends Model {
 
     public function product(): BelongsTo {
         return $this->belongsTo(ReweProduct::class);
+    }
+
+    public function category(): BelongsTo {
+        return $this->belongsTo(ReweProductCategory::class);
     }
 }

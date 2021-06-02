@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Exceptions\RateLimitException;
 use App\Exceptions\TwitterException;
 use App\Exceptions\TwitterTokenInvalidException;
-use App\SocialLoginProfile;
-use App\TwitterDaily;
-use App\TwitterProfile;
-use App\User;
+use App\Models\SocialLoginProfile;
+use App\Models\TwitterDaily;
+use App\Models\TwitterProfile;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 

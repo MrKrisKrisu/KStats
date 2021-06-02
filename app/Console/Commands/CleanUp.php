@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\SocialLoginProfile;
-use App\TwitterApiRequest;
+use App\Models\SocialLoginProfile;
+use App\Models\TwitterApiRequest;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 

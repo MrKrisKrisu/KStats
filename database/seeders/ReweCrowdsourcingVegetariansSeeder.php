@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\ReweCrowdsourcingVegetarian;
-use App\ReweProduct;
-use App\User;
+use App\Models\ReweCrowdsourcingVegetarian;
+use App\Models\ReweProduct;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ReweCrowdsourcingVegetariansSeeder extends Seeder {

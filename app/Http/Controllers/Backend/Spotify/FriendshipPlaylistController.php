@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Backend\Spotify;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use App\SpotifyTrack;
+use App\Models\SpotifyTrack;
 use Illuminate\Support\Collection;
-use App\SpotifyFriendshipPlaylist;
+use App\Models\SpotifyFriendshipPlaylist;
 use Illuminate\Database\RecordsNotFoundException;
 use Carbon\Carbon;
 use App\Exceptions\SpotifyTokenExpiredException;
