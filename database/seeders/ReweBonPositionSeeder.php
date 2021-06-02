@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\ReweBon;
-use App\ReweBonPosition;
-use App\ReweProduct;
+use App\Models\ReweBon;
+use App\Models\ReweBonPosition;
+use App\Models\ReweProduct;
 use Illuminate\Database\Seeder;
 
 class ReweBonPositionSeeder extends Seeder {

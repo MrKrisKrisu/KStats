@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Exceptions\SpotifyAPIException;
 use App\Http\Controllers\SpotifyAPIController;
-use App\SpotifyTrack;
+use App\Models\SpotifyTrack;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Exception;

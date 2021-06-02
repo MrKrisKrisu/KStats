@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Spotify;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use SpotifyWebAPI\SpotifyWebAPI;
 use SpotifyWebAPI\Session;
 use App\Exceptions\SpotifyTokenExpiredException;

@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\SpotifyContext;
-use App\SpotifyDevice;
-use App\SpotifyPlayActivity;
-use App\SpotifyTrack;
-use App\User;
+use App\Models\SpotifyContext;
+use App\Models\SpotifyDevice;
+use App\Models\SpotifyPlayActivity;
+use App\Models\SpotifyTrack;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 

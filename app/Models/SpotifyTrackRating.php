@@ -1,21 +1,22 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Friendship extends Model {
+class SpotifyTrackRating extends Model {
+
     use HasFactory;
 
-    protected $fillable = ['user_id', 'friend_id'];
+    protected $fillable = ['user_id', 'track_id', 'rating'];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function friend(): BelongsTo {
-        return $this->belongsTo(User::class, 'friend_id', 'id');
+    public function track(): BelongsTo {
+        return $this->belongsTo(SpotifyTrack::class, 'track_id', 'id');
     }
 }

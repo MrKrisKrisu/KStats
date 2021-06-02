@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\FriendshipRequest;
+use App\Models\FriendshipRequest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FriendshipRequestFactory extends Factory {

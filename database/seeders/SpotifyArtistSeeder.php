@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\SpotifyArtist;
+use App\Models\SpotifyArtist;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 

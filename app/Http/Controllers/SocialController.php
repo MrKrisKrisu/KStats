@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\SocialLoginProfile;
+use App\Models\SocialLoginProfile;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;

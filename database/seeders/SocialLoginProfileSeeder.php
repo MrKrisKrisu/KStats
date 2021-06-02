@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\SocialLoginProfile;
-use App\User;
+use App\Models\SocialLoginProfile;
+use App\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;

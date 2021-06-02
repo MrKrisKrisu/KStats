@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\SpotifyAlbum;
-use App\SpotifyArtist;
+use App\Models\SpotifyAlbum;
+use App\Models\SpotifyArtist;
 use Illuminate\Database\Seeder;
 
 class SpotifyAlbumArtistSeeder extends Seeder {

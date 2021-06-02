@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\SpotifySession;
-use App\User;
+use App\Models\SpotifySession;
+use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Faker\Factory;

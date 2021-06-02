@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\SpotifyDevice;
-use App\User;
+use App\Models\SpotifyDevice;
+use App\Models\User;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 

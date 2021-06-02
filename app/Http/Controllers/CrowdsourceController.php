@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ReweCrowdsourcingCategory;
-use App\ReweCrowdsourcingVegetarian;
-use App\ReweProduct;
-use App\ReweProductCategory;
+use App\Models\ReweCrowdsourcingCategory;
+use App\Models\ReweCrowdsourcingVegetarian;
+use App\Models\ReweProduct;
+use App\Models\ReweProductCategory;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

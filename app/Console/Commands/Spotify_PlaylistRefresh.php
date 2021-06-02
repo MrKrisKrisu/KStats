@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\SpotifyController;
-use App\User;
-use App\UserSettings;
+use App\Models\User;
+use App\Models\UserSettings;
 use Illuminate\Console\Command;
 use Exception;
 

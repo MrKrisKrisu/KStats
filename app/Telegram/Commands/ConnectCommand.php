@@ -2,7 +2,7 @@
 
 namespace App\Telegram\Commands;
 
-use App\UserSettings;
+use App\Models\UserSettings;
 use Carbon\Carbon;
 use Telegram\Bot\Commands\Command;
 

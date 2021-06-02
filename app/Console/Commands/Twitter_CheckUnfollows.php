@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\TwitterApiController;
-use App\SocialLoginProfile;
-use App\TwitterFollower;
-use App\TwitterUnfollower;
+use App\Models\SocialLoginProfile;
+use App\Models\TwitterFollower;
+use App\Models\TwitterUnfollower;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Exception;
