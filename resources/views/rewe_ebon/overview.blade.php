@@ -103,7 +103,7 @@
                                     backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
                                     data: [
                                         @foreach($topMarkets as $row)
-                                        {{$row['spent']}},
+                                                {{$row['spent']}},
                                         @endforeach
                                     ],
                                     label: 'Markt Nr.'
@@ -329,8 +329,8 @@
                                         @foreach(auth()->user()->reweReceipts->groupBy(function ($item, $key) {
             return $item['timestamp_bon']->hour;
         })->union([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])->sortKeys() as $hourly)
-                                        @if($hourly instanceof \Illuminate\Database\Eloquent\Collection)
-                                        {{$hourly->count()}},
+                                                @if($hourly instanceof \Illuminate\Database\Eloquent\Collection)
+                                                {{$hourly->count()}},
                                         @else
                                             0,
                                         @endif
@@ -378,7 +378,7 @@
                                     borderWidth: 1,
                                     data: [
                                         @foreach($monthlySpend as $month => $amount)
-                                        {{$amount}},
+                                                {{$amount}},
                                         @endforeach
                                     ]
                                 }]
