@@ -213,7 +213,7 @@
                                     backgroundColor: ["#38a2a6"],
                                     data: [
                                         @foreach($chartData_hearedByWeek as $weekData)
-                                        {{$weekData->minutes}},
+                                                {{$weekData->minutes}},
                                         @endforeach
                                     ]
                                 }],
@@ -426,7 +426,7 @@
                                     backgroundColor: '#38a3a6',
                                     borderWidth: 1,
                                     data: [@foreach($chartData_hearedByWeekday as $weekData)
-                                        {{$weekData->minutes}},
+                                            {{$weekData->minutes}},
                                         @endforeach
                                     ]
                                 }]
@@ -477,7 +477,7 @@
                                     borderWidth: 1,
                                     data: [
                                         @foreach($chartData_hearedByHour as $weekData)
-                                        {{$weekData->minutes}},
+                                                {{$weekData->minutes}},
                                         @endforeach
                                     ]
                                 }]

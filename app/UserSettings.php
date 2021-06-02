@@ -11,13 +11,13 @@ class UserSettings extends Model {
         'user_id', 'name', 'val'
     ];
 
-    public static function get(int $userID, $key, $defaultVal = NULL) {
+    public static function get(int $userID, $key, $defaultVal = null) {
         $setting = UserSettings::where('user_id', $userID)->where('name', $key)->first();
-        if($setting !== NULL)
+        if($setting !== null)
             return $setting->val;
 
-        if($defaultVal == NULL)
-            return NULL;
+        if($defaultVal == null)
+            return null;
 
         $setting = UserSettings::create([
                                             'user_id' => $userID,

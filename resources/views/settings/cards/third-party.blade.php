@@ -70,7 +70,8 @@
                             <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
                                   class="float-right">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
                             </form>
                         @else
                             <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>

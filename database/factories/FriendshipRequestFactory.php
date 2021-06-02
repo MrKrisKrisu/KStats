@@ -5,8 +5,7 @@ namespace Database\Factories;
 use App\FriendshipRequest;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FriendshipRequestFactory extends Factory
-{
+class FriendshipRequestFactory extends Factory {
     /**
      * The name of the factory's corresponding model.
      *
@@ -19,8 +18,7 @@ class FriendshipRequestFactory extends Factory
      *
      * @return array
      */
-    public function definition()
-    {
+    public function definition() {
         return [
             //
         ];
