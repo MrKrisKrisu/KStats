@@ -41,8 +41,8 @@ class Kernel extends ConsoleKernel {
         $schedule->command('spotify:getTrackInfo')
                  ->everyFifteenMinutes();
 
-        $schedule->command('spotify:playlistRefresh')
-                 ->daily();
+        $schedule->command('spotify:playlistRefresh')->daily();
+        $schedule->command('spotify:fetchGenres')->daily();
 
         //REWE eBon Analyzer
         $schedule->command('rewe:parse')
