@@ -80,9 +80,10 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{__('twitter.follower')}}</h5>
-                    <table class="table table-striped table-hover" id="followers">
+                    <table class="table table-striped table-hover table-responsive" id="followers">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th></th>
                                 <th>{{__('twitter.username')}}</th>
                                 <th>{{__('twitter.follower')}}</th>
@@ -98,6 +99,11 @@
                                         @isset($follower->profile_image_url)
                                             <img src="{{$follower->profile_image_url}}" style="max-height: 30px;"/>
                                         @endisset
+                                    </td>
+                                    <td>
+                                        @if($follower->protected)
+                                            <i class="fas fa-lock"></i>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="https://twitter.com/{{$follower->screen_name}}">
