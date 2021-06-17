@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CrowdsourceController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReweController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SocialController;
@@ -85,6 +86,12 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
 
     Route::get('/twitter', [TwitterController::class, 'index'])
          ->name('twitter');
+
+    Route::prefix('receipts')->group(function() {
+
+        Route::get('/', [ReceiptController::class, 'renderOverview'])->name('receipts');
+
+    });
 });
 
 Route::view('/imprint', 'legal.imprint');
