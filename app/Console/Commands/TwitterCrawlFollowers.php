@@ -15,39 +15,14 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Exception;
 
-class Twitter_CrawlFollowers extends Command {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+class TwitterCrawlFollowers extends Command {
+
     protected $signature = 'twitter:crawl_followers';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle() {
+    public function handle(): int {
         if(!config('app.twitter.crawling')) {
-            dump("Twitter crawling currently deactivated.");
-            return;
+            echo "Twitter crawling currently deactivated." . PHP_EOL;
+            return 0;
         }
 
         $sl_profiles = SocialLoginProfile::where('twitter_token', '<>', null)->get();
@@ -57,13 +32,13 @@ class Twitter_CrawlFollowers extends Command {
 
                 $profile = TwitterController::verifyProfile($sl_profile);
                 $this->crawlFollowers($connection, $profile, $sl_profile);
-            } catch(RateLimitException $e) {
-                echo "Skipping Request due to rate limiting... \r\n";
+            } catch(RateLimitException) {
+                echo "Skipping Request due to rate limiting..." . PHP_EOL;
             } catch(TwitterException $e) {
-                echo "Twitter Exception \r\n";
+                echo "Twitter Exception" . PHP_EOL;
                 report($e);
             } catch(TwitterTokenInvalidException $e) {
-                echo "Twitter Token from User " . $sl_profile->user_id . " invalid or expired... \r\n";
+                echo "Twitter Token from User " . $sl_profile->user_id . " invalid or expired..." . PHP_EOL;
                 $sl_profile->update([
                                         'twitter_id'          => null,
                                         'twitter_token'       => null,
@@ -71,8 +46,10 @@ class Twitter_CrawlFollowers extends Command {
                                     ]);
                 report($e);
             } catch(Exception $e) {
+                echo "Unknown Exception thrown: " . $e->getMessage() . PHP_EOL;
             }
         }
+        return 0;
     }
 
     /**
@@ -84,13 +61,13 @@ class Twitter_CrawlFollowers extends Command {
      * @return bool
      * @throws Exception
      */
-    private function crawlFollowers(TwitterOAuth $connection, TwitterProfile $twp, SocialLoginProfile $sl_profile, array $parameters = []) {
+    private function crawlFollowers(TwitterOAuth $connection, TwitterProfile $twp, SocialLoginProfile $sl_profile, array $parameters = []): bool {
         $parameters['count']       = 200;       //max amount
         $parameters['skip_status'] = 1;         //we don't need the tweets
 
         if(!TwitterApiController::canRequest($sl_profile, 'followers/list', 15)) {
             //TODO: Queue instead of exit...
-            dump("Limit exceeded.");
+            echo "Limit exceeded." . PHP_EOL;
             return false;
         }
 
@@ -106,18 +83,19 @@ class Twitter_CrawlFollowers extends Command {
             $follower = TwitterProfile::updateOrCreate([
                                                            'id' => $follower->id
                                                        ], [
-                                                           'name'             => $follower->name,
-                                                           'screen_name'      => $follower->screen_name,
-                                                           'location'         => $follower->location,
-                                                           'description'      => $follower->description,
-                                                           'url'              => $follower->url,
-                                                           'protected'        => $follower->protected,
-                                                           'followers_count'  => $follower->followers_count,
-                                                           'friends_count'    => $follower->friends_count,
-                                                           'listed_count'     => $follower->listed_count,
-                                                           'statuses_count'   => $follower->statuses_count,
-                                                           'account_creation' => Carbon::parse($follower->created_at),
-                                                           'updated_at'       => Carbon::now()
+                                                           'name'              => $follower->name,
+                                                           'screen_name'       => $follower->screen_name,
+                                                           'location'          => $follower->location,
+                                                           'description'       => $follower->description,
+                                                           'url'               => $follower->url,
+                                                           'profile_image_url' => $follower?->profile_image_url,
+                                                           'protected'         => $follower->protected,
+                                                           'followers_count'   => $follower->followers_count,
+                                                           'friends_count'     => $follower->friends_count,
+                                                           'listed_count'      => $follower->listed_count,
+                                                           'statuses_count'    => $follower->statuses_count,
+                                                           'account_creation'  => Carbon::parse($follower->created_at),
+                                                           'updated_at'        => Carbon::now()->toIso8601String()
                                                        ]);
 
             TwitterFollower::updateOrCreate([
@@ -127,12 +105,13 @@ class Twitter_CrawlFollowers extends Command {
                                                 'updated_at' => Carbon::now()
                                             ]);
 
-            dump($follower->screen_name);
+            echo $twp->screen_name . ' -> ' . $follower->screen_name . PHP_EOL;
 
         }
 
-        if($follower_list->next_cursor != null)
+        if($follower_list->next_cursor != null) {
             $this->crawlFollowers($connection, $twp, $sl_profile, ['cursor' => $follower_list->next_cursor]);
+        }
 
         return true;
     }
