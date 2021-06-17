@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class TwitterProfile extends Model {
 
     protected $fillable = [
-        'id', 'name', 'screen_name', 'location', 'description', 'url', 'protected',
+        'id', 'name', 'screen_name', 'location', 'description', 'url', 'profile_image_url', 'protected',
         'followers_count', 'friends_count', 'listed_count', 'statuses_count', 'account_creation'
     ];
     protected $dates    = ['account_creation'];

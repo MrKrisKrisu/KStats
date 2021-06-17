@@ -83,6 +83,7 @@
                     <table class="table table-striped table-hover" id="followers">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>{{__('twitter.username')}}</th>
                                 <th>{{__('twitter.follower')}}</th>
                                 <th>{{__('twitter.friends')}}</th>
@@ -94,8 +95,14 @@
                             @foreach($twitter_profile->followers as $follower)
                                 <tr>
                                     <td>
-                                        <a href="https://twitter.com/{{$follower->screen_name}}"
-                                           target="twitter">{{'@'.$follower->screen_name}}</a>
+                                        @isset($follower->profile_image_url)
+                                            <img src="{{$follower->profile_image_url}}" style="max-height: 30px;"/>
+                                        @endisset
+                                    </td>
+                                    <td>
+                                        <a href="https://twitter.com/{{$follower->screen_name}}">
+                                            {{'@'.$follower->screen_name}}
+                                        </a>
                                     </td>
                                     <td data-order="{{$follower->followers_count}}">
                                         {{number_format($follower->followers_count, 0, ',','.')}}
