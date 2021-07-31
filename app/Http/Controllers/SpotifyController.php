@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\SpotifyTokenExpiredException;
+use App\Http\Controllers\Backend\Spotify\SpotifySocialExploreController;
 use App\Models\SocialLoginProfile;
 use App\Models\SpotifyArtist;
 use App\Models\SpotifyPlayActivity;

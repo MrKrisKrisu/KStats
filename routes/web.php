@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CrowdsourceController;
+use App\Http\Controllers\Frontend\Spotify\SpotifySocialExploreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReweController;
 use App\Http\Controllers\SettingsController;
@@ -56,6 +57,8 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('spotify.explore');
     Route::post('/spotify/explore/submit', [SpotifyController::class, 'saveExploration'])
          ->name('spotify.explore.submit');
+    Route::post('/spotify/explore/telegram', [SpotifySocialExploreController::class, 'saveTime'])
+         ->name('spotify.explore.telegram');
     Route::get('/spotify/track/{id}', [SpotifyController::class, 'trackDetails'])
          ->name('spotify.track');
     Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])
