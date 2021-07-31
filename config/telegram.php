@@ -1,6 +1,7 @@
 <?php
 
 use App\Telegram\Commands\ConnectCommand;
+use App\Telegram\Commands\ExploreCommand;
 use App\Telegram\Commands\StartCommand;
 
 return [
@@ -122,6 +123,7 @@ return [
         Telegram\Bot\Commands\HelpCommand::class,
         StartCommand::class,
         ConnectCommand::class,
+        ExploreCommand::class,
     ],
 
     /*
