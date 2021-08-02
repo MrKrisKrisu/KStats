@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 abstract class SpotifySocialExploreController extends Controller {
     /**
      * @param User $user
+     *
      * @throws GuzzleException
      * @todo duplicate code, messy code, ... but currently i'm lazy
      */
@@ -87,9 +88,9 @@ abstract class SpotifySocialExploreController extends Controller {
                 'reply_markup' => [
                     'inline_keyboard' => [
                         [
-                            ['text' => 'Gut', 'callback_data' => '/explore 1 ' . $trackToExplore->track_id],
-                            ['text' => 'Schlecht', 'callback_data' => '/explore 0 ' . $trackToExplore->track_id],
-                            ['text' => 'Überspringen', 'callback_data' => '/explore -1 ' . $trackToExplore->track_id]
+                            ['text' => 'Gut', 'callback_data' => base64_encode(json_encode(['track_id' => $trackToExplore->track_id, 'like' => 1]))],
+                            ['text' => 'Schlecht', 'callback_data' => base64_encode(json_encode(['track_id' => $trackToExplore->track_id, 'like' => 0]))],
+                            ['text' => 'Überspringen', 'callback_data' => base64_encode(json_encode(['track_id' => $trackToExplore->track_id, 'like' => -1]))],
                         ]
                     ]],
             ]

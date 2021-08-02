@@ -10,11 +10,10 @@ use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Telegram\Bot\Laravel\Facades\Telegram;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
+use App\Http\Controllers\TelegramController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -105,8 +104,4 @@ Route::view('/privacy', 'legal.privacy_policy')
 Route::post('/privacy/confirm', [SettingsController::class, 'confirmPrivacyPolicy'])
      ->name('legal.privacy_policy.confirm');
 
-Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', function() {
-    $updates = Telegram::commandsHandler(true);
-    Log::debug($updates);
-    return 'ok';
-});
+Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', [TelegramController::class, 'handleTelegram']);
