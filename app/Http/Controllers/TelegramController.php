@@ -64,10 +64,11 @@ class TelegramController extends Controller {
             }
 
             SpotifyTrackRating::updateOrCreate([
-                                                               'user_id'  => $user->id,
-                                                               'track_id' => $track->id,
-                                                               'rating'   => $like,
-                                                           ]);
+                                                   'user_id'  => $user->id,
+                                                   'track_id' => $track->id,
+                                               ], [
+                                                   'rating' => $like,
+                                               ]);
 
             TelegramController::sendMessage($user, "Dein Feedback wurde gespeichert und wird helfen, dass deine Freundschaftsplaylisten besser werden! 🥰");
             return;
