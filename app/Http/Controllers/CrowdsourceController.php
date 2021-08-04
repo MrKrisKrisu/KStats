@@ -39,6 +39,7 @@ class CrowdsourceController extends Controller {
                                             })
                                             ->groupBy('rewe_products.id')
                                             ->select(['rewe_products.*', DB::raw('MAX(rewe_bons.timestamp_bon) AS lastReceipt')])
+                                            ->orderByDesc(DB::raw('MAX(rewe_bons.timestamp_bon) AS lastReceipt'))
                                             ->limit(1)
                                             ->first();
 
