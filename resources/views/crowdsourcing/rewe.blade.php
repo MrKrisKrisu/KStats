@@ -39,8 +39,6 @@
                             <button type="submit" name="btn" value="ka"
                                     class="btn btn-danger">{{__('general.idk')}}</button>
                         </form>
-                        <hr/>
-                        <small class="text-muted">Es folgen noch {{$categories_todo}} Produkte.</small>
                     @endif
                 </div>
             </div>
