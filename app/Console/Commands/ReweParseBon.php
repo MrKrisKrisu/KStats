@@ -29,16 +29,16 @@ class ReweParseBon extends Command {
             try {
                 $userEmail = UserEmail::firstOrCreate(["email" => $bonAttachment->getEMail()]);
 
-                echo strtr('* Parse receipt from <:email>...', [
-                        ':email' => $userEmail->email,
-                    ]) . PHP_EOL;
+                echo strtr('* Parse receipt from <:email>...', [':email' => $userEmail->email,]) . PHP_EOL;
 
                 $filename     = $bonAttachment->getFilename();
                 $uploadedFile = new UploadedFile($filename, md5(time() . rand()) . '.pdf');
 
                 if($userEmail->verifiedUser != null) {
                     $receipt = ImportController::parseReweReceipt($userEmail->verifiedUser, $uploadedFile);
-                    echo '* Receipt successfully parsed. ID=' . $receipt->id . PHP_EOL;
+                    echo strtr('** Receipt successfully parsed. ID=:id', [':id' => $receipt->id]) . PHP_EOL;
+                } else {
+                    echo strtr('** There is no verified user for <:email>...', [':email' => $userEmail->email,]) . PHP_EOL;
                 }
             } catch(ReceiptParseException $e) {
                 report($e);
