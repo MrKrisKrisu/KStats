@@ -32,6 +32,6 @@
     "moment": "^2.29.1",
     "select2": "^4.0.13",
     "select2-bootstrap4-theme": "^1.0.0",
-    "sweetalert2": "^10.16.8"
+    "sweetalert2": "^11.1"
   }
 }
