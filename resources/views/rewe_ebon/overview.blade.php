@@ -89,18 +89,6 @@
     </div>
 
     <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body" style="text-align: center;">
-                    <span style="font-weight: bold;">
-
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
