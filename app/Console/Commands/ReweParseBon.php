@@ -45,7 +45,6 @@ class ReweParseBon extends Command {
                 dump("Error while parsing receipt. Is the format compatible?");
             } catch(PdfNotFound $e) {
                 report($e);
-
             }
         }
 
