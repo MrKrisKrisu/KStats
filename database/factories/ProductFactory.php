@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Product;
-use App\ProductType;
-use App\User;
+use App\Models\Product;
+use App\Models\ProductType;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 

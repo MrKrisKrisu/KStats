@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Product;
-use App\Receipt;
-use App\ReceiptPosition;
+use App\Models\Product;
+use App\Models\Receipt;
+use App\Models\ReceiptPosition;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 

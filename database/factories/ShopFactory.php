@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Company;
-use App\Shop;
+use App\Models\Company;
+use App\Models\Shop;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 

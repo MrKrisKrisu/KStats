@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\PaymentMethod;
-use App\Receipt;
-use App\ReceiptPayment;
+use App\Models\PaymentMethod;
+use App\Models\Receipt;
+use App\Models\ReceiptPayment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 
