@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
 use App\Http\Controllers\TelegramController;
+use App\Http\Controllers\Frontend\Receipt\ImportController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -89,6 +90,11 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('rewe.product');
     Route::get('/rewe/shop/{id}', [ReweController::class, 'showShop'])
          ->name('rewe.shop');
+
+    Route::prefix('receipt')->group(function() {
+        Route::post('/import', [ImportController::class, 'import'])
+             ->name('receipt.import.upload');
+    });
 
     Route::get('/crowdsourcing/rewe/', [CrowdsourceController::class, 'renderRewe'])
          ->name('crowdsourcing_rewe');

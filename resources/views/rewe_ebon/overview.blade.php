@@ -1,6 +1,61 @@
 @extends('layout.app')
 
-@section('title')REWE eBon Analyzer @endsection
+@section('title', 'REWE eBon Analyzer')
+
+@section('before-title')
+    <a class="float-right btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-upload">
+        <i class="fas fa-upload"></i> Kassenzettel hochladen
+    </a>
+@endsection
+
+@section('footer')
+    @parent
+    <div class="modal" tabindex="-1" role="dialog" id="modal-upload">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-upload"></i> Kassenzettel hochladen
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col">
+                            <h3>Manuell</h3>
+
+                            <form method="POST" enctype="multipart/form-data"
+                                  action="{{route('receipt.import.upload')}}">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Kassenzettel <small>(.pdf)</small></label>
+                                    <input id="file" type="file" class="form-control" name="file" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Hochladen</button>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <h3>Automatisch hochladen</h3>
+                            <small>Du kannst eine E-Mail Weiterleitung einrichten. E-Mails müssen von einer deiner
+                                <a href="/settings/">verifizierten E-Mail Adressen</a> gesendet werden.</small>
+                            <hr/>
+                            <p>Empfänger: <b>{{$ebonKey ?? ''}}@reweebon.k118.de</b></p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 @section('content')
     <div class="row">
@@ -28,16 +83,6 @@
                             <small><b>Insgesamt ausgegeben</b></small>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body" style="text-align: center;">
-                    <span style="font-weight: bold;">Sende deine Kassenzettel von einer <a href="/settings/">verifizierten E-Mail Adresse</a> an folgende E-Mail Adresse: <b>{{$ebonKey ?? ''}}@reweebon.k118.de</b></span>
                 </div>
             </div>
         </div>
