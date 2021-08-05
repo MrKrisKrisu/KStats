@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\SpotifyDevice;
-use App\SpotifyPlayActivity;
-use App\SpotifyTrack;
-use App\User;
+use App\Models\SpotifyDevice;
+use App\Models\SpotifyPlayActivity;
+use App\Models\SpotifyTrack;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class SpotifyPlayActivitySeeder extends Seeder {

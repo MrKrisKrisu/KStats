@@ -38,11 +38,15 @@ class Kernel extends ConsoleKernel {
                  ->evenInMaintenanceMode()
                  ->runInBackground();
 
+        $schedule->command('spotify:sendExplore')
+                 ->everyMinute()
+                 ->runInBackground();
+
         $schedule->command('spotify:getTrackInfo')
                  ->everyFifteenMinutes();
 
-        $schedule->command('spotify:playlistRefresh')
-                 ->daily();
+        $schedule->command('spotify:playlistRefresh')->daily();
+        $schedule->command('spotify:fetchGenres')->daily();
 
         //REWE eBon Analyzer
         $schedule->command('rewe:parse')

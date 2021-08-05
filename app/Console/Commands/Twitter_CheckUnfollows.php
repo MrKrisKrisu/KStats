@@ -4,47 +4,22 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\TwitterApiController;
-use App\SocialLoginProfile;
-use App\TwitterFollower;
-use App\TwitterUnfollower;
+use App\Models\SocialLoginProfile;
+use App\Models\TwitterFollower;
+use App\Models\TwitterUnfollower;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Exception;
 
 class Twitter_CheckUnfollows extends Command {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'twitter:check_unfollows {limit=50}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    protected $signature = 'twitter:check_unfollows {limit=500}';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * The requests are not designed the best. We can request 100 connections per request -> TODO
-     *
-     * @return mixed
-     */
-    public function handle() {
+    public function handle(): int {
 
         if(!config('app.twitter.crawling')) {
             dump("Twitter crawling currently deactivated.");
-            return;
+            return 0;
         }
 
         $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit($this->argument('limit'))->get();
@@ -52,13 +27,22 @@ class Twitter_CheckUnfollows extends Command {
             try {
                 $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', null)->first();
                 if($sl_profile == null) {
-                    dump("No SL Profile " . $relationship->followed->screen_name);
+                    echo '**** Social login profile missing for user ' . $relationship->followed->screen_name
+                         . ' Skip user for this session.' . PHP_EOL;
+                    $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
+                        return $model->followed_id == $sl_profile->twitter_id;
+                    });
                     continue;
                 }
 
                 $connection = TwitterApiController::getNewConnection($sl_profile);
                 if(!TwitterApiController::canRequest($sl_profile, 'users/show', 900)) {
-                    dump("No Requests " . $sl_profile->twitter_id);
+                    $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
+                        return $model->followed_id == $sl_profile->twitter_id;
+                    });
+
+                    echo '**** API Limit for user ' . $sl_profile->twitter_id
+                         . ' exceeded. Skip user for this session.' . PHP_EOL;
                     continue;
                 }
 
@@ -82,7 +66,12 @@ class Twitter_CheckUnfollows extends Command {
                 }
 
                 if(!TwitterApiController::canRequest($sl_profile, 'friendships/lookup', 15)) {
-                    dump("No Requests " . $sl_profile->twitter_id);
+                    $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
+                        return $model->followed_id == $sl_profile->twitter_id;
+                    });
+
+                    echo '**** API Limit for user ' . $sl_profile->twitter_id
+                         . ' exceeded. Skip user for this session.' . PHP_EOL;
                     continue;
                 }
 
@@ -121,6 +110,8 @@ class Twitter_CheckUnfollows extends Command {
                 report($e);
             }
         }
+
+        return 0;
     }
 }
 

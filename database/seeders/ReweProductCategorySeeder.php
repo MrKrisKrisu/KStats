@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\ReweProductCategory;
+use App\Models\ReweProductCategory;
 use Illuminate\Database\Seeder;
 
 class ReweProductCategorySeeder extends Seeder {

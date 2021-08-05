@@ -24,7 +24,8 @@ return [
         'history'                   => 'History',
         'heared_tracks'             => 'Listened Tracks on :date',
         'mood_o_meter'              => 'Mood-O-Meter',
-        'explore'                   => 'Explore'
+        'explore'                   => 'Explore',
+        'friendship-playlists'      => 'Friendship playlists',
     ],
     'total'             => 'total',
     'last_days'         => 'last :days days',

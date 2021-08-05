@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\SpotifyContext;
+use App\Models\SpotifyContext;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 

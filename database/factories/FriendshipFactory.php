@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Friendship;
+use App\Models\Friendship;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\User;
+use App\Models\User;
 use JetBrains\PhpStorm\ArrayShape;
 
 class FriendshipFactory extends Factory {

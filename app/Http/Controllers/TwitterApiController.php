@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
-use App\SocialLoginProfile;
-use App\TwitterApiRequest;
+use App\Models\SocialLoginProfile;
+use App\Models\TwitterApiRequest;
 use Carbon\Carbon;
 
 class TwitterApiController extends Controller {

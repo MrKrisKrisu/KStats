@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\SpotifyAlbum;
-use App\SpotifyTrack;
+use App\Models\SpotifyAlbum;
+use App\Models\SpotifyTrack;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SpotifyTrackFactory extends Factory {

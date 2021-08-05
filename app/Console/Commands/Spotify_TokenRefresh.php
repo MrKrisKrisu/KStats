@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\SpotifyAPIController;
-use App\SocialLoginProfile;
+use App\Models\SocialLoginProfile;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;

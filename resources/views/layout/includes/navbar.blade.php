@@ -54,6 +54,9 @@
                                 <a class="dropdown-item" href="{{ route('spotify.explore') }}">
                                     {{__('spotify.title.explore')}}
                                 </a>
+                                <a class="dropdown-item" href="{{ route('spotify.friendship-playlists') }}">
+                                    {{__('spotify.title.friendship-playlists')}}
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item">

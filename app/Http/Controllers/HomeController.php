@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\SpotifyPlayActivity;
+use App\Models\SpotifyPlayActivity;
 use Illuminate\Contracts\Support\Renderable;
 use Exception;
 

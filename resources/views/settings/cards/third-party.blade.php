@@ -58,12 +58,20 @@
                     <td><i class="fab fa-telegram"></i> Telegram</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedTelegram)
-                            {{__('settings.third-party.connected')}}
+                            <span class="font-weight-bold text-success">
+                                <i class="fas fa-check"></i>
+                                {{__('settings.third-party.connected')}}
+                            </span>
+                            <br/>
+                            <span class="text-secondary">
+                                ChatID: {{auth()->user()->socialProfile->telegram_id}}
+                            </span>
 
                             <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
                                   class="float-right">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
                             </form>
                         @else
                             <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>

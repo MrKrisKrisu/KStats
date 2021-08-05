@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\ReweBon;
-use App\ReweBonPosition;
-use App\ReweProduct;
-use App\ReweShop;
-use App\User;
-use App\UserSettings;
+use App\Models\ReweBon;
+use App\Models\ReweBonPosition;
+use App\Models\ReweProduct;
+use App\Models\ReweShop;
+use App\Models\User;
+use App\Models\UserSettings;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;

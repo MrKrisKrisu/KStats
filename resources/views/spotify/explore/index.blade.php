@@ -111,6 +111,23 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h2>Entdecken in Telegram</h2>
+                    <p class="text-muted">
+                        Du kannst einmal am Tag ein Lied per Telegram zugeschickt bekommen, welches du dann ganz einfach
+                        per Knopfdruck bewerten kannst. <br />Wähle hier die Uhrzeit dazu:
+                    </p>
+                    <form method="POST" action="{{route('spotify.explore.telegram')}}">
+                        @csrf
+                        <div class="form-group">
+                            <input type="time" name="time" class="form-control"
+                                   value="{{\App\Models\UserSettings::get(auth()->user()->id, 'tg_explore_time')}}"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Speichern</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 

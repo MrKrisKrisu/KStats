@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\SpotifyTokenExpiredException;
-use App\SocialLoginProfile;
-use App\SpotifyArtist;
-use App\SpotifyPlayActivity;
-use App\SpotifySession;
-use App\SpotifyTrack;
-use App\SpotifyTrackRating;
-use App\User;
-use App\UserSettings;
+use App\Http\Controllers\Backend\Spotify\SpotifySocialExploreController;
+use App\Models\SocialLoginProfile;
+use App\Models\SpotifyArtist;
+use App\Models\SpotifyPlayActivity;
+use App\Models\SpotifySession;
+use App\Models\SpotifyTrack;
+use App\Models\SpotifyTrackRating;
+use App\Models\User;
+use App\Models\UserSettings;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -533,7 +534,7 @@ class SpotifyController extends Controller {
                                           ->where('preview_url', '<>', null)
                                           ->orderByDesc('popularity')
                                           ->first();
-            $trackReason = __('spotify.explore.reason.trend');
+            $trackReason    = __('spotify.explore.reason.trend');
         }
 
 

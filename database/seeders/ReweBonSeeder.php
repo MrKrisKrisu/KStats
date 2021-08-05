@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\ReweBon;
-use App\ReweShop;
-use App\User;
+use App\Models\ReweBon;
+use App\Models\ReweShop;
+use App\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;

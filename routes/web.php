@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CrowdsourceController;
+use App\Http\Controllers\Frontend\Spotify\SpotifySocialExploreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReweController;
@@ -10,10 +11,11 @@ use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Telegram\Bot\Laravel\Facades\Telegram;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
+use App\Http\Controllers\TelegramController;
+use App\Http\Controllers\Frontend\Receipt\ImportController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -56,6 +58,8 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('spotify.explore');
     Route::post('/spotify/explore/submit', [SpotifyController::class, 'saveExploration'])
          ->name('spotify.explore.submit');
+    Route::post('/spotify/explore/telegram', [SpotifySocialExploreController::class, 'saveTime'])
+         ->name('spotify.explore.telegram');
     Route::get('/spotify/track/{id}', [SpotifyController::class, 'trackDetails'])
          ->name('spotify.track');
     Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])
@@ -69,6 +73,14 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
     Route::post('/spotify/lost-tracks/', [SpotifyController::class, 'saveLostTracks'])
          ->name('spotify.saveLostTracks');
 
+    Route::get('/spotify/friendship-playlists', [FriendshipPlaylistController::class, 'renderFriendshipPlaylists'])
+         ->name('spotify.friendship-playlists');
+    Route::post('/spotify/friendship-playlists/create', [FriendshipPlaylistController::class, 'createFriendshipPlaylist'])
+         ->name('spotify.friendship-playlists.create');
+    Route::get('/spotify/friendship-playlists/{friendId}', [FriendshipPlaylistController::class, 'renderList'])
+         ->name('spotify.friendship-playlists.show');
+
+
     Route::get('/rewe/', [ReweController::class, 'index'])
          ->name('rewe');
     Route::get('/rewe/receipt/{id}', [ReweController::class, 'renderBonDetails'])
@@ -79,6 +91,11 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('rewe.product');
     Route::get('/rewe/shop/{id}', [ReweController::class, 'showShop'])
          ->name('rewe.shop');
+
+    Route::prefix('receipt')->group(function() {
+        Route::post('/import', [ImportController::class, 'import'])
+             ->name('receipt.import.upload');
+    });
 
     Route::get('/crowdsourcing/rewe/', [CrowdsourceController::class, 'renderRewe'])
          ->name('crowdsourcing_rewe');
@@ -100,8 +117,4 @@ Route::view('/privacy', 'legal.privacy_policy')
 Route::post('/privacy/confirm', [SettingsController::class, 'confirmPrivacyPolicy'])
      ->name('legal.privacy_policy.confirm');
 
-Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', function() {
-    $updates = Telegram::commandsHandler(true);
-    Log::debug($updates);
-    return 'ok';
-});
+Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', [TelegramController::class, 'handleTelegram']);

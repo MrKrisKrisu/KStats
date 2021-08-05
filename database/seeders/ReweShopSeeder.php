@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\ReweShop;
+use App\Models\ReweShop;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 

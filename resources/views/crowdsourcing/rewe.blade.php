@@ -12,7 +12,7 @@
                         <p class="text-danger">{{__('receipts.crowdsourcing.no_tasks')}}</p>
                     @else
 
-                        <p>Du hast mal <b>"{{$categories_product->name}}"</b>
+                        <p>Du hast <b>"{{$categories_product->name}}"</b>
                             gekauft. {{__('receipts.crowdsourcing.question_category')}}
                             <small><i>{{__('receipts.last_bought')}} {{\Carbon\Carbon::parse($categories_product->lastReceipt)->diffForHumans()}}
                                     .</i></small>
@@ -22,7 +22,7 @@
                             @csrf
                             <div class="form-group">
                                 <div class="dropdown bootstrap-select">
-                                    <select name="category_id" class="form-control" id="categories" required>
+                                    <select name="category_id" class="form-control" id="categories">
                                         <option value="">{{__('general.form.choose')}}</option>
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}">
