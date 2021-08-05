@@ -21,13 +21,17 @@ class ReweParseBon extends Command {
 
         $files = ReweMailController::fetchMailAttachments($this->argument("days"));
 
-        echo '* ' . count($files) . ' mails fetched!' . PHP_EOL;
+        echo strtr('* :count mails fetched!', [
+                ':count' => count($files),
+            ]) . PHP_EOL;
 
         foreach($files as $bonAttachment) {
             try {
                 $userEmail = UserEmail::firstOrCreate(["email" => $bonAttachment->getEMail()]);
 
-                echo '* Parse receipt from <' . $userEmail->email . '>...' . PHP_EOL;
+                echo strtr('* Parse receipt from <:email>...', [
+                        ':email' => $userEmail->email,
+                    ]) . PHP_EOL;
 
                 $filename     = $bonAttachment->getFilename();
                 $uploadedFile = new UploadedFile($filename, md5(time() . rand()) . '.pdf');
