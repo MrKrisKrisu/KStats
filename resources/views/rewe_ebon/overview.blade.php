@@ -37,7 +37,10 @@
         <div class="col">
             <div class="card">
                 <div class="card-body" style="text-align: center;">
-                    <span style="font-weight: bold;">Sende deine Kassenzettel von einer <a href="/settings/">verifizierten E-Mail Adresse</a> an folgende E-Mail Adresse: <b>{{$ebonKey ?? ''}}@reweebon.k118.de</b></span>
+                    <span style="font-weight: bold;">
+                        Sende deine Kassenzettel von einer <a href="/settings/">verifizierten E-Mail Adresse</a>
+                        an folgende E-Mail Adresse: <b>{{$ebonKey ?? ''}}@reweebon.k118.de</b>
+                    </span>
                 </div>
             </div>
         </div>
