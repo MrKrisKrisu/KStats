@@ -21,12 +21,12 @@
                 @yield('before-container')
 
                 <div class="container" id="container_main">
+                    @yield('before-title')
+
+                    <div class="mt-3"></div>
                     @hasSection('title')
-                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 id="mainTitle">@yield('title')</h1>
-                        </div>
-                    @else
-                        <div style="margin-top: 25px;"></div>
+                        <h1 id="mainTitle" >@yield('title')</h1>
+                        <hr/>
                     @endif
 
                     @if ($errors->any())
@@ -83,6 +83,7 @@
         </div>
     </body>
     @yield('javascript')
+    @yield('footer')
     @if(auth()->check() && auth()->user()->privacy_confirmed_at != null)
         <script type="text/javascript">
             var _paq = window._paq = window._paq || [];
