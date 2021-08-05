@@ -4,15 +4,10 @@ namespace App\Http\Controllers\Frontend\Receipt;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use App\Http\Controllers\Backend\Receipt\ImportController as ImportBackend;
 use Illuminate\Http\RedirectResponse;
 
 class ImportController extends Controller {
-
-    public function renderImportPage(): View {
-        return view('receipt.import');
-    }
 
     public function import(Request $request): RedirectResponse {
         $validated = $request->validate([

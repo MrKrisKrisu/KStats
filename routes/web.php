@@ -92,8 +92,6 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('rewe.shop');
 
     Route::prefix('receipt')->group(function() {
-        Route::get('/import', [ImportController::class, 'renderImportPage'])
-             ->name('receipt.import');
         Route::post('/import', [ImportController::class, 'import'])
              ->name('receipt.import.upload');
     });
