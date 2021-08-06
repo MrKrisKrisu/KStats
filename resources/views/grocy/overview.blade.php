@@ -1,13 +1,13 @@
 @extends('layout.app')
 
-@section('title', 'Grocy')
+@section('title', 'grocy - ERP beyond your fridge')
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Deine Instanz</h5>
+                    <h5 class="card-title"><i class="fas fa-server"></i> Deine Instanz</h5>
 
                     @isset(auth()->user()->socialProfile->grocy_host)
                         <p class="text-success">
@@ -17,7 +17,8 @@
                         @isset($systemInfo?->grocy_version?->Version)
 
                             <p>
-                                Die Verbindung zu <b>{{auth()->user()->socialProfile->grocy_host}}</b> ist fehlerfrei.<br/>
+                                Die Verbindung zu <b>{{auth()->user()->socialProfile->grocy_host}}</b> ist
+                                fehlerfrei.<br/>
                                 Software-Version: v{{$systemInfo?->grocy_version?->Version}}
                             </p>
                         @else
@@ -57,5 +58,73 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <img src="{{url('img/grocy_logo.svg')}}" class="float-right" style="height: 1.125rem"/>
+                    <h5 class="card-title"><i class="far fa-question-circle"></i> Über die grocy Integration</h5>
+
+                    <p>grocy ist eine webbasierte, selbst gehostete Lösung zur Verwaltung von Lebensmitteln und
+                        Haushaltswaren für Zuhause. Mit der KStats Integration kann automatisch bei hier aufbereiteten
+                        Kassenzetteln eine Buchung in grocy vorgenommmen werden.</p>
+                    <p>Das heißt: <b>Du gehst einkaufen, dein Kassenzettel wird von KStats verarbeitet, dein
+                            Lagerbestand bei grocy wird erhöht.</b></p>
+
+                    <p>
+                        Mehr Informationen zu grocy gibt es
+                        <a href="https://github.com/grocy/grocy/blob/release/README.md" target="grocy">hier</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-book"></i> Anleitung zum Einrichten</h5>
+                    <p class="text-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Es wird vorausgesetzt, dass du bereits eine grocy Installation besitzt.
+                    </p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h6>1. API-Schlüssel generieren</h6>
+                            <span>
+                                Öffne deine grocy-Installation und klicke oben rechts auf den Schraubenschlüssel.
+                                Wähle im Menü "API-Schlüssel verwalten" aus.
+                                Erstelle einen neuen API-Schlüssel mit dem Button oben rechts und kopiere ihn.
+                            </span>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>2. Instanz verbinden</h6>
+                            <span>
+                                Verbinde deine grocy-Installation mit KStats indem du auf dieser Seite oben deinen
+                                API-Schlüssel einträgst. In das Feld <i>Hostname</i> schreibst du, unter welcher URL
+                                deine Installation erreichbar ist. Am Anfang muss entweder <i>http://</i> oder
+                                <i>https://</i> stehen. Bitte verwende am Schluss keinen Schrägstrich.
+                            </span>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>3. Datenpflege</h6>
+                            <span>
+                                Damit deine Einkäufe korrekt zugeordnet werden können musst du deine grocy-Datenbank
+                                kontinuerlich entsprechend pflegen.
+                                Erfasse dazu bei den Produkten, die du automatisch inventarisieren möchtest den
+                                exakten Produktnamen vom Kassenzettel als Barcode in grocy ein.
+                            </span>
+                            <hr/>
+                            <small class="text-danger">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Steht auf dem Kassenzettel z.B. "EIER FH RES S-XL", dann musst du das exakt so
+                                eintragen. In Großbuchstaben, mit Leerzeichen und Bindestrichen.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 @endsection
 
