@@ -18,37 +18,12 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class Spotify_CatchNowPlaying extends Command {
+class SpotifyCatchNowPlaying extends Command {
 
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'spotify:catchNowPlaying';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature   = 'spotify:catchNowPlaying';
     protected $description = 'Catch the current playing tracks of every user and save to the database';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle() {
+    public function handle(): int {
         $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
                                        ->where('spotify_lastRefreshed', '>', Carbon::parse('-1 hour'))
                                        ->get();
@@ -60,11 +35,14 @@ class Spotify_CatchNowPlaying extends Command {
 
                 $nowPlaying = SpotifyAPIController::getNowPlaying($profile->spotify_accessToken);
 
-                if(!$nowPlaying) //next user...
+                if(!$nowPlaying) {
                     continue;
+                }
 
-                if(isset($nowPlaying->item->uri) && str_contains($nowPlaying->item->uri, 'spotify:local:')) //TODO: Local tracks are currently not supported.
+                //TODO: Local tracks are currently not supported.
+                if(isset($nowPlaying->item->uri) && str_contains($nowPlaying->item->uri, 'spotify:local:')) {
                     continue;
+                }
 
                 if(!isset($nowPlaying->item->id)) {
                     Log::debug('Error: nowPlaying->item->id not found.');
