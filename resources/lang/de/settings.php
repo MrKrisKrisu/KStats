@@ -40,6 +40,10 @@ return [
         'card-heading'  => 'Verbundene Drittanbieter',
         'connected'     => 'Statistiken werden gesammelt.',
         'not-connected' => '¯\_(ツ)_/¯ Nicht verbunden',
-        'connect-to'    => ':thirdparty verbinden'
+        'connect-to'    => ':thirdparty verbinden',
+        'manage'        => 'Verbindung verwalten'
     ],
+    'grocy'              => [
+        'connected' => 'Kassenzettel werden übertragen.',
+    ]
 ];
