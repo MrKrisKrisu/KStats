@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Http\Controllers\Backend\Receipt\Grocy\ApiController as GrocyBackend;
 
 class ApiController extends Controller {
 
     public function renderOverview(): View {
-        return view('grocy.overview');
+
+        if(auth()->user()->socialProfile->grocy_host !== null && auth()->user()->socialProfile->grocy_key !== null) {
+            $systemInfo = GrocyBackend::getSystemInfo(auth()->user());
+        }
+
+        return view('grocy.overview', [
+            'systemInfo' => $systemInfo ?? null,
+        ]);
     }
 
     public function disconnect(): RedirectResponse {

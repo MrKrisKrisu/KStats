@@ -8,7 +8,7 @@ class AddGrocyToSocialLoginProfile extends Migration {
 
     public function up(): void {
         Schema::table('social_login_profiles', function(Blueprint $table) {
-            $table->string('grocy_key')->nullable()->after('spotify_lastRefreshed');
+            $table->text('grocy_key')->nullable()->after('spotify_lastRefreshed');
             $table->string('grocy_host')->nullable()->after('spotify_lastRefreshed');
         });
     }

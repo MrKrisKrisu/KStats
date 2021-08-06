@@ -10,8 +10,24 @@
                     <h5 class="card-title">Deine Instanz</h5>
 
                     @isset(auth()->user()->socialProfile->grocy_host)
-                        <p>Du bist mit deiner Grocy Instanz <b>{{auth()->user()->socialProfile->grocy_host}}</b>
-                            verbunden.</p>
+                        <p class="text-success">
+                            <i class="fas fa-check"></i> Die Zugangsdaten zu deiner Grocy-Instanz sind gespeichert.
+                        </p>
+
+                        @isset($systemInfo?->grocy_version?->Version)
+
+                            <p>
+                                Die Verbindung zu <b>{{auth()->user()->socialProfile->grocy_host}}</b> ist fehlerfrei.<br/>
+                                Software-Version: v{{$systemInfo?->grocy_version?->Version}}
+                            </p>
+                        @else
+                            <p class="text-warning">
+                                <i class="fas fa-exclamation-triangle"></i> Es konnte keine Daten von deiner
+                                Installation ermittelt werden. Bitte prüfe die Verbindung.
+                            </p>
+                        @endisset
+
+                        <hr/>
                         <form method="POST" action="{{route('grocy.disconnect')}}">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-danger">
