@@ -18,8 +18,6 @@ class DatabaseSeeder extends Seeder {
             Friendship::create(['user_id' => $friend->id, 'friend_id' => $user->id]);
         }
 
-        $this->call(SocialLoginProfileSeeder::class);
-
         //REWE eBon Analyzer Tables
         $this->call(ReweShopSeeder::class);
         $this->call(ReweBonSeeder::class);
