@@ -37,7 +37,7 @@ class ApiController extends Controller {
 
     public function connect(Request $request): RedirectResponse {
         $validated = $request->validate([
-                                            'host'   => ['required'],
+                                            'host'   => ['required', 'active_url', 'min:9'],
                                             'apiKey' => ['required'],
                                         ]);
 
@@ -46,14 +46,25 @@ class ApiController extends Controller {
             return back()->with('alert-danger', 'Du bist bereits mit Grocy verbunden. Bitte lösche diese Verbindung erst.');
         }
 
-        //TODO: check instance
+        if(substr($validated['host'], 0, 4) != 'http') {
+            return back()->with('alert-danger', 'Der Hostname muss mit http:// oder https:// beginnen.');
+        }
+        if(substr($validated['host'], -1, 1) == '/') {
+            return back()->with('alert-danger', 'Der Hostname darf nicht mit einem Schrägstrich enden.');
+        }
+
+        $systemInfo = GrocyBackend::getSystemInfoWithAuth($validated['host'], $validated['apiKey']);
+
+        if(!isset($systemInfo->grocy_version->Version)) {
+            return back()->with('alert-danger', 'Wir konnten uns mit den Daten nicht mit einer grocy-Instanz verbinden.');
+        }
 
         $socialProfile->update([
                                    'grocy_host' => $validated['host'],
                                    'grocy_key'  => $validated['apiKey'],
                                ]);
 
-        return back()->with('alert-success', 'Die Verbindung zu Grocy wurde hergestellt.');
+        return back()->with('alert-success', 'Die Verbindung zu deiner grocy v' . $systemInfo->grocy_version->Version . ' Installation wurde hergestellt.');
     }
 
 }

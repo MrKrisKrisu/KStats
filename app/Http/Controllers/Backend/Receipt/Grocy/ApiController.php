@@ -46,13 +46,24 @@ abstract class ApiController extends Controller {
      * @throws GuzzleException
      */
     public static function getSystemInfo(User $user): stdClass {
+        return self::getSystemInfoWithAuth(self::getGrocyHost($user), self::getApiKey($user));
+    }
+
+    /**
+     * @param string $hostname
+     * @param string $apiKey
+     *
+     * @return mixed
+     * @throws GuzzleException
+     */
+    public static function getSystemInfoWithAuth(string $hostname, string $apiKey): stdClass {
         $client = new Client();
         $url    = strtr(':host/api/system/info', [
-            ':host' => self::getGrocyHost($user)
+            ':host' => $hostname
         ]);
         $result = $client->get($url, [
             'headers' => [
-                'GROCY-API-KEY' => self::getApiKey($user),
+                'GROCY-API-KEY' => $apiKey,
             ]
         ]);
         return json_decode($result->getBody()->getContents());

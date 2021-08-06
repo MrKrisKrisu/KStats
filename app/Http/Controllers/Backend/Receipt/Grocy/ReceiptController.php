@@ -17,11 +17,10 @@ abstract class ReceiptController extends Controller {
      * @throws NotConnectedException
      */
     public static function addReceiptToStock(ReweBon $receipt): Collection {
-        $user    = $receipt->user;
         $stocked = collect();
         foreach($receipt->positions->whereNull('grocy_transaction_id') as $position) {
             $grocyStockObject = GrocyBackend::addToStockByBarcode(
-                user: $user,
+                user: $receipt->user,
                 amount: $position->amount ?? $position->weight,
                 price: $position->single_price,
                 barcode: $position->product->name,
