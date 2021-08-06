@@ -11,7 +11,6 @@ use App\Http\Controllers\Backend\Receipt\Grocy\ApiController as GrocyBackend;
 class ApiController extends Controller {
 
     public function renderOverview(): View {
-
         if(auth()->user()->socialProfile->grocy_host !== null && auth()->user()->socialProfile->grocy_key !== null) {
             $systemInfo = GrocyBackend::getSystemInfo(auth()->user());
         }
