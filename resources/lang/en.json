@@ -173,5 +173,11 @@
   "email.nodata": "There are currently no e-mail addresses stored.",
   "email.list": "The following email addresses are associated with your KStats account:",
   "verified": "verified",
-  "unverified": "unverified"
+  "unverified": "unverified",
+  "played": "played",
+  "spotify.no-data": "You haven't listened to any song on Spotify yet or don't use the KStats statistics!",
+  "no-browser-support": "Your browser does not support the audio element.",
+  "no-preview": "no preview available",
+  "open-in-spotify": "Open in Spotify",
+  "spotify.released": "the track was released"
 }

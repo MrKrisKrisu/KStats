@@ -110,7 +110,8 @@
     "spotify.title.favourite_bpm": "Deine Lieblingsgeschwindigkeit",
     "spotify.title.count_tracks": "Anzahl gehörter Lieder",
     "spotify.title.avg_session_length": "hörst du im Schnitt am Stück",
-    "spotify.title.last_heared": "Zuletzt gehört",
+    "spotify.title.last_heared": "Dein zuletzt gehörter Track",
+    "played": "abgespielt",
     "spotify.title.top_tracks": "Deine Top Tracks",
     "spotify.title.top_artists": "Deine Top Künstler",
     "spotify.title.heared_minutes_by_week": "Gehörte Minuten pro Woche",
@@ -169,5 +170,9 @@
     "email.why": "Warum ist das wichtig?",
     "email.why.explain": "Für den REWE eBon Analyzer müssen alle E-Mail Adressen hinzugefügt werden, an die Kassenzettel geschickt werden.",
     "email.nodata": "Es sind aktuell keine E-Mail Adressen hinterlegt.",
-    "email.list": "Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:"
+    "email.list": "Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:",
+    "spotify.no-data": "Du hast bisher noch kein Lied auf Spotify gehört oder nutzt die KStats Statistik nicht!",
+    "no-preview": "leider ist keine Vorschau vorhanden",
+    "open-in-spotify": "In Spotify öffnen",
+    "spotify.released": "wurde der Track veröffentlicht"
 }
