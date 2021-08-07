@@ -65,6 +65,7 @@
   "settings.password.new": "New password",
   "settings.password.new_repeat": "Repeat new password",
   "settings.settings": "Settings",
+  "settings.grocy.connected": "Receipts are being transferred.",
   "settings.telegram.connection_removed": "The Connection to Telegram was removed successfully.",
   "settings.telegram.connect_code": "Telegram-ConnectCode",
   "settings.telegram.valid_until": "Code valid until",
