@@ -34,7 +34,7 @@
                             </div>
                             <input type="hidden" name="product_id" value="{{$categories_product->id}}">
                             <input type="hidden" name="action" value="setCategory"/>
-                            <button type="submit" name="btn" value="save" class="btn btn-success">{{__('general.save')}}
+                            <button type="submit" name="btn" value="save" class="btn btn-success">{{__('save')}}
                             </button>
                             <button type="submit" name="btn" value="ka"
                                     class="btn btn-danger">{{__('general.idk')}}</button>

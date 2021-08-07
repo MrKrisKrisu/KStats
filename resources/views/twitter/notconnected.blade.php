@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title'){{__('settings.connect')}} @endsection
+@section('title', __('settings.connect'))
 
 @section('content')
     <div class="row justify-content-center">
