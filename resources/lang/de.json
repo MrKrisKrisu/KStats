@@ -164,5 +164,6 @@
     "twitter.unfollower": "Unfollower",
     "twitter.unfollowing_time": "Entfolgt am",
     "twitter.no_unfollower": "Es wurden bisher keine Unfollower festgestellt.",
-    "auth.failed": "Die Daten sind nicht korrekt."
+    "auth.failed": "Die Daten sind nicht korrekt.",
+    "auth.throttle": "Zu viele Versuche. Bitte probiere es in :seconds Sekunden erneut."
 }
