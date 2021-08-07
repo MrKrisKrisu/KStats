@@ -30,7 +30,7 @@
   "general.from": "from",
   "general.and": "and",
   "general.idk": "I dont know",
-  "general.save": "Save",
+  "save": "Save",
   "general.activate": "Activate",
   "general.deactivate": "Deactivate",
   "general.yes": "Yes",
@@ -166,5 +166,12 @@
   "twitter.created_at": "Account creation",
   "twitter.unfollower": "Unfollower",
   "twitter.unfollowing_time": "Unfollowed at",
-  "twitter.no_unfollower": "We haven't found any unfollowers yet."
+  "twitter.no_unfollower": "We haven't found any unfollowers yet.",
+  "email.why": "Why is this important?",
+  "email.why.explain": "For the REWE receipt Analyzer, all e-mail addresses to which sales slips are sent must be added.",
+  "email.your": "Your E-Mail addresses",
+  "email.nodata": "There are currently no e-mail addresses stored.",
+  "email.list": "The following email addresses are associated with your KStats account:",
+  "verified": "verified",
+  "unverified": "unverified"
 }

@@ -33,7 +33,7 @@
                                    class="form-control">
                         </div>
                         <button type="submit" name="saveSettings"
-                                class="btn btn-primary">{{__('general.save')}}</button>
+                                class="btn btn-primary">{{__('save')}}</button>
 
                         @if($settings_active && $playlist_id != null)
                             <a href="https://open.spotify.com/playlist/{{$playlist_id}}" target="_blank"

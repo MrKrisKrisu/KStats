@@ -28,7 +28,7 @@
     "general.from": "von",
     "general.and": "und",
     "general.idk": "Keine Ahnung",
-    "general.save": "Speichern",
+    "save": "Speichern",
     "general.activate": "Aktivieren",
     "general.deactivate": "Deaktivieren",
     "general.yes": "Ja",
@@ -165,5 +165,9 @@
     "twitter.unfollowing_time": "Entfolgt am",
     "twitter.no_unfollower": "Es wurden bisher keine Unfollower festgestellt.",
     "auth.failed": "Die Daten sind nicht korrekt.",
-    "auth.throttle": "Zu viele Versuche. Bitte probiere es in :seconds Sekunden erneut."
+    "auth.throttle": "Zu viele Versuche. Bitte probiere es in :seconds Sekunden erneut.",
+    "email.why": "Warum ist das wichtig?",
+    "email.why.explain": "Für den REWE eBon Analyzer müssen alle E-Mail Adressen hinzugefügt werden, an die Kassenzettel geschickt werden.",
+    "email.nodata": "Es sind aktuell keine E-Mail Adressen hinterlegt.",
+    "email.list": "Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:"
 }
