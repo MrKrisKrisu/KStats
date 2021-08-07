@@ -70,7 +70,7 @@ return [
       | to any of the locales which will be supported by the application.
       |
      */
-    'locale'          => 'de',
+    'locale'          => 'en',
     /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale
@@ -81,7 +81,7 @@ return [
       | the language folders that are provided through your application.
       |
      */
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'de',
     /*
       |--------------------------------------------------------------------------
       | Faker Locale
@@ -92,7 +92,7 @@ return [
       | localized telephone numbers, street address information and more.
       |
      */
-    'faker_locale'    => 'de_DE',
+    'faker_locale'    => 'en_US',
     /*
       |--------------------------------------------------------------------------
       | Encryption Key
