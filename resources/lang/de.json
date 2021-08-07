@@ -70,6 +70,7 @@
     "receipts.weight": "Gewicht",
     "receipts.price_single": "Einzelpreis",
     "receipts.subtotal": "Zwischensumme",
+    "settings.grocy.connected": "Kassenzettel werden übertragen.",
     "settings.password.current_wrong": "Das aktuelle Passwort ist nicht korrekt.",
     "settings.password.changed_successfully": "Das Passwort wurde erfolgreich geändert.",
     "settings.password.change": "Passwort ändern",
