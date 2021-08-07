@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Http\Controllers\Backend\Receipt\Grocy\ApiController as GrocyBackend;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 
 class ApiController extends Controller {
 
     public function renderOverview(): View {
         if(auth()->user()->socialProfile->grocy_host !== null && auth()->user()->socialProfile->grocy_key !== null) {
-            $systemInfo = GrocyBackend::getSystemInfo(auth()->user());
+            try {
+                $systemInfo = GrocyBackend::getSystemInfo(auth()->user());
+            } catch(Exception | GuzzleException $exception) {
+                session()->flash('alert-danger', 'Es konnte nicht auf deine grocy-Installation zugegriffen werden: ' . $exception->getMessage());
+            }
         }
 
         return view('grocy.overview', [
