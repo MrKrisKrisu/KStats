@@ -12,22 +12,22 @@
         </a>
         <br>
         @isset($track->artists)
-            <small>von
+            <small>{{__('general.from')}}
                 @foreach($track->artists as $artist)
                     <a href="{{route('spotify.artist', ['id' => $artist->id])}}">{{$artist->name}}</a>
-                    @if(!$loop->last) und @endif
+                    @if(!$loop->last) {{__('general.and')}} @endif
                 @endforeach
             </small>
             <br/>
         @endisset
         @isset($minutes)
-            <small>{{$minutes}} Minuten gehört</small>
+            <small>{{$minutes}} {{__('spotify.minutes.heared')}}</small>
         @endisset
 
         @isset($track->preview_url)
             <audio controls="">
                 <source src="{{$track->preview_url}}" type="audio/mpeg">
-                Your browser does not support the audio element.';
+                {{__('no-browser-support')}}
             </audio>
         @endif
     </div>

@@ -132,7 +132,7 @@
   "spotify.last_hours": "last :hours hours",
   "spotify.time": "Time",
   "spotify.time_suffix": "o'clock",
-  "spotify.rank": "Rank",
+  "spotify.rank": "Rank :rank",
   "spotify.artist": "Artist",
   "spotify.heared_minutes": "Listened minutes",
   "spotify.find_tracks_again": "Rediscover old songs",
@@ -140,7 +140,6 @@
   "spotify.show_playlist": "Show playlist",
   "spotify.device": "Device",
   "spotify.track": "Track",
-  "spotify.place": "Rank",
   "spotify.preview": "Preview",
   "spotify.popular_track": "Currently popular track",
   "spotify.lost_tracks.your_lost_tracks": "Your lost tracks",
@@ -179,5 +178,14 @@
   "no-browser-support": "Your browser does not support the audio element.",
   "no-preview": "no preview available",
   "open-in-spotify": "Open in Spotify",
-  "spotify.released": "the track was released"
+  "spotify.released": "the track was released",
+  "spotify.trending": "Trending",
+  "spotify.popular": "Popular Track",
+  "spotify.lost": "Lost Track",
+  "spotify.happy": "Happy",
+  "spotify.sad": "Sad / Aggressive",
+  "spotify.dance": "For dancing",
+  "show": "Show",
+  "from": "From",
+  "until": "Until"
 }

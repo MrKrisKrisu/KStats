@@ -75,7 +75,7 @@
                                                 <hr/>
                                                 <audio controls>
                                                     <source src="{{$track->preview_url}}" type="audio/mpeg">
-                                                    Your browser does not support the audio element.
+                                                    {{__('no-browser-support')}}
                                                 </audio>
                                             @endisset
                                         </td>

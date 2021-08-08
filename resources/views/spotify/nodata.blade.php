@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title')No data, yet! @endsection
+@section('title', __('no-data'))
 
 @section('content')
     <div class="row justify-content-center">
