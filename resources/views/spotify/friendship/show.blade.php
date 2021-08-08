@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Freundschaftsplaylist von dir und ' . $friend->username)
+@section('title', __('friendship-playlist-friend', ['friendName' => $friend->username]))
 
 @section('content')
     <div class="row">
@@ -8,8 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     @if($tracks->count() == 0)
-                        <span class="text-danger">Ihr habt keine gemeinsamen Lieblingstracks.</span>
-                        <span>Vielleicht entdeckt ihr ja <a href="{{route('spotify.explore')}}">hier</a> welche?</span>
+                        <span class="text-danger">{{__('no-common-tracks')}}</span>
                     @else
                         <table class="table">
                             @foreach($tracks as $track)
@@ -35,7 +34,7 @@
                                             <hr/>
                                             <audio controls>
                                                 <source src="{{$track->preview_url}}" type="audio/mpeg">
-                                                Your browser does not support the audio element.
+                                                {{__('no-browser-support')}}
                                             </audio>
                                         @endisset
                                     </td>
@@ -52,7 +51,7 @@
                 <div class="card-body">
                     <a class="btn btn-success btn-lg btn-block" target="spotify"
                        href="https://open.spotify.com/playlist/{{$playlistId}}">
-                        <i class="fab fa-spotify"></i> Playlist in Spotify öffnen
+                        <i class="fab fa-spotify"></i> {{__('open-in-spotify')}}
                     </a>
                 </div>
             </div>

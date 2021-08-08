@@ -1,10 +1,10 @@
 @extends('layout.app')
 
-@section('title', 'REWE eBon Analyzer')
+@section('title', __('rewe-analyzer'))
 
 @section('before-title')
     <a class="float-right btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-upload">
-        <i class="fas fa-upload"></i> Kassenzettel hochladen
+        <i class="fas fa-upload"></i> {{__('upload-receipt')}}
     </a>
 @endsection
 
@@ -15,7 +15,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        <i class="fas fa-upload"></i> Kassenzettel hochladen
+                        <i class="fas fa-upload"></i> {{__('upload-receipt')}}
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -25,32 +25,31 @@
 
                     <div class="row">
                         <div class="col">
-                            <h3>Manuell</h3>
+                            <h3>{{__('manual-method')}}</h3>
 
                             <form method="POST" enctype="multipart/form-data"
                                   action="{{route('receipt.import.upload')}}">
                                 @csrf
                                 <div class="form-group">
-                                    <label>Kassenzettel <small>(.pdf)</small></label>
+                                    <label>{{__('receipt')}} <small>(.pdf)</small></label>
                                     <input id="file" type="file" class="form-control" name="file" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Hochladen</button>
+                                <button type="submit" class="btn btn-primary">{{__('upload')}}</button>
                             </form>
                         </div>
                         <div class="col">
-                            <h3>Automatisch hochladen</h3>
-                            <small>Du kannst eine E-Mail Weiterleitung einrichten. E-Mails müssen von einer deiner
-                                <a href="/settings/">verifizierten E-Mail Adressen</a> gesendet werden.</small>
+                            <h3>{{__('automatic-method')}}</h3>
+                            <small>{{__('receipt.automatic.explain')}}</small>
                             <hr/>
-                            <p>Empfänger: <b>{{$ebonKey ?? ''}}@reweebon.k118.de</b></p>
+                            <p>{{__('recipient')}}: <b>{{$ebonKey ?? ''}}@reweebon.k118.de</b></p>
                         </div>
                     </div>
 
 
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">{{__('close')}}</button>
                 </div>
             </div>
         </div>
@@ -64,23 +63,36 @@
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col-md-3">
-                            <span class="color-highlight"
-                                  style="font-size: 40px;">{{auth()->user()->reweReceipts->count()}}</span><br>
-                            <small><b>Erfasste Einkäufe</b></small>
+                            <span class="color-highlight" style="font-size: 40px;">
+                                {{auth()->user()->reweReceipts->count()}}
+                            </span>
+                            <br>
+                            <small><b>{{__('receipts.count')}}</b></small>
                         </div>
                         <div class="col-md-3">
-                            <span class="color-highlight" style="font-size: 40px;">{{$mostUsedPaymentMethod}}</span><br>
-                            <small><b>Meistgenutzte Zahlungsmethode</b></small>
+                            <span class="color-highlight" style="font-size: 40px;">
+                                {{$mostUsedPaymentMethod}}
+                            </span>
+                            <br>
+                            <small><b>{{__('most-used-payment-methods')}}</b></small>
                         </div>
                         <div class="col-md-3">
-                                <span class="color-highlight" style="font-size: 40px;">{{ number_format(auth()->user()->reweReceipts->avg('total'), 2, ',', '.') }}<small>€</small><i
-                                            class="mdi mdi-trending-up"
-                                            style="font-size: 25px; color: rgb(255, 99, 132)"></i></span><br>
-                            <small><b>durchschn. pro Einkauf</b></small>
+                                <span class="color-highlight" style="font-size: 40px;">
+                                    {{ number_format(auth()->user()->reweReceipts->avg('total'), 2, ',', '.') }}
+                                    <small>€</small>
+                                    <i class="mdi mdi-trending-up"
+                                       style="font-size: 25px; color: rgb(255, 99, 132)"></i>
+                                </span>
+                            <br>
+                            <small><b>{{__('avg-receipt-price')}}</b></small>
                         </div>
                         <div class="col-md-3">
-                            <span class="color-highlight" style="font-size: 40px;">{{ number_format(auth()->user()->reweReceipts->sum('total'), 2, ',', '.') }}<small>€</small></span><br>
-                            <small><b>Insgesamt ausgegeben</b></small>
+                            <span class="color-highlight" style="font-size: 40px;">
+                                {{ number_format(auth()->user()->reweReceipts->sum('total'), 2, ',', '.') }}
+                                <small>€</small>
+                            </span>
+                            <br>
+                            <small><b>{{__('payed-total')}}</b></small>
                         </div>
                     </div>
                 </div>
@@ -92,12 +104,12 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Bezahlmethoden</h5>
+                    <h5 class="card-title">{{__('receipts.payment_methods')}}</h5>
                     <canvas id="chart_payment"></canvas>
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        var chart_payment = document.getElementById('chart_payment').getContext('2d');
+                        let chart_payment = document.getElementById('chart_payment').getContext('2d');
                         window.chart_payment = new Chart(chart_payment, {
                             type: 'doughnut',
                             data: {
@@ -108,7 +120,7 @@
                                             '{{$count}}',
                                         @endforeach
                                     ],
-                                    label: 'Zahlungsart'
+                                    label: '{{__('receipts.payment_method')}}'
                                 }],
                                 labels: [
                                     @foreach($payment_methods as $paymentMethod => $count)
@@ -129,13 +141,13 @@
                         });
                     });
                 </script>
-                <div class="card-footer"><small>Umsatz je Zahlungsmethode in Prozent</small></div>
+                <div class="card-footer"><small>{{__('percent-paymentmethod')}}</small></div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Meine Märkte</h5>
+                    <h5 class="card-title">{{__('my-markets')}}</h5>
                     <canvas id="chart_shops"></canvas>
                 </div>
                 <script type="text/javascript">
@@ -172,18 +184,18 @@
                         });
                     });
                 </script>
-                <div class="card-footer"><small>Ausgaben pro Markt</small></div>
+                <div class="card-footer"><small>{{__('spending-per-market')}}</small></div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Ernährung</h5>
+                    <h5 class="card-title">{{__('nutrition')}}</h5>
                     <canvas id="chart_vegetarian"></canvas>
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        var chart_vegetarian = document.getElementById('chart_vegetarian').getContext('2d');
+                        let chart_vegetarian = document.getElementById('chart_vegetarian').getContext('2d');
                         window.chart_vegetarian = new Chart(chart_vegetarian, {
                             type: 'doughnut',
                             data: {
@@ -214,7 +226,7 @@
                         });
                     });
                 </script>
-                <div class="card-footer"><small>Anzahl gekaufter Produkte</small></div>
+                <div class="card-footer"><small>{{__('product-count')}}</small></div>
             </div>
         </div>
     </div>
@@ -223,19 +235,21 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Lieblingsprodukte</h5>
+                    <h5 class="card-title">{{__('product-favourite')}}</h5>
                     <table class="table" id="lieblingsprodukte">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Anzahl</th>
+                                <th>{{__('receipts.product')}}</th>
+                                <th>{{__('receipts.amount')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($favouriteProducts as $product)
                                 <tr>
                                     <td>
-                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
+                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">
+                                            {{$product->name}}
+                                        </a>
                                     </td>
                                     <td data-order="{{$product->cnt}}">{{$product->cnt}}x</td>
                                 </tr>
@@ -258,20 +272,22 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Kaufvorhersage</h5>
+                    <h5 class="card-title">{{__('product.prediction')}}</h5>
                     <table class="table" id="kaufvorhersage">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Zuletzt gekauft</th>
-                                <th>Nächster Kauf vrsl.</th>
+                                <th>{{__('receipts.product')}}</th>
+                                <th>{{__('receipts.last_bought')}}</th>
+                                <th>{{__('product.next-buy')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($forecast as $product)
                                 <tr>
                                     <td>
-                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">{{$product->name}}</a>
+                                        <a href="{{route('rewe.product', ['id' => $product->id])}}">
+                                            {{$product->name}}
+                                        </a>
                                     </td>
                                     <td>{{Carbon\Carbon::parse($product->lastTS)->diffForHumans()}}</td>
                                     <td>{{Carbon\Carbon::parse($product->nextTS)->diffForHumans()}}</td>
@@ -289,9 +305,7 @@
                             "lengthMenu": [5, 10, 25, 50, 75, 100]
                         });
                     </script>
-                    <small>Wenn du längere Zeit dieses Tool nutzt, wird dir hier eine
-                        Kaufvorhersage angezeigt. Basierend auf deinen zuletzt
-                        gekauften Produkten und dem Intervall dieser Käufe.</small>
+                    <small>{{__('product.prediction.text')}}</small>
                 </div>
             </div>
         </div>
@@ -301,15 +315,15 @@
         <div class="col">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Kassenzettel</h5>
+                    <h5 class="card-title">{{__('receipt')}}</h5>
                     <table class="table" id="kassenzettel">
                         <thead>
                             <tr>
-                                <th>Zeitpunkt</th>
-                                <th>Markt</th>
-                                <th>Kasse</th>
-                                <th>Zahlungsart</th>
-                                <th>Gesamtbetrag</th>
+                                <th>{{__('time')}}</th>
+                                <th>{{__('receipts.market')}}</th>
+                                <th>{{__('cash-register')}}</th>
+                                <th>{{__('receipts.payment_method')}}</th>
+                                <th>{{__('receipts.price_total')}}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -327,7 +341,7 @@
                                     <td>{{$bon->cashregister_nr}}</td>
                                     <td>{{$bon->paymentmethod}}</td>
                                     <td>{{number_format($bon->total, 2, ",", ".")}} €</td>
-                                    <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">Details</a></td>
+                                    <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">{{__('details')}}</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -352,7 +366,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Einkauf nach Tageszeit</h5>
+                    <h5 class="card-title">{{__('receipts-by-daytime')}}</h5>
                     <canvas id="chart_dayTime"></canvas>
                 </div>
                 <script type="text/javascript">
@@ -367,7 +381,7 @@
                                     @endfor
                                 ],
                                 datasets: [{
-                                    label: 'Anzahl Einkäufe',
+                                    label: '{{__('receipt-count')}}',
                                     backgroundColor: '#38a3a6',
                                     borderWidth: 1,
                                     data: [
@@ -397,14 +411,14 @@
                         });
                     });
                 </script>
-                <div class="card-footer"><small>Anzahl an Einkäufen pro Stunde</small></div>
+                <div class="card-footer"><small>{{__('receipt-count.text')}}</small></div>
             </div>
         </div>
 
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Ausgaben pro Monat</h5>
+                    <h5 class="card-title">{{__('spent-by-month')}}</h5>
                     <canvas id="chart_monthlySpend"></canvas>
                 </div>
                 <script type="text/javascript">
@@ -418,7 +432,7 @@
                                     @endforeach
                                 ],
                                 datasets: [{
-                                    label: 'Ausgaben in Euro',
+                                    label: '{{__('spent-in-currency')}}',
                                     backgroundColor: '#38a3a6',
                                     borderWidth: 1,
                                     data: [
@@ -483,12 +497,12 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Produktkategorien nach Umsatz</h5>
+                    <h5 class="card-title">{{__('category-by-spent')}}</h5>
                     <canvas id="chart_categoryPrice"></canvas>
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        var chart_categoryPrice = document.getElementById('chart_categoryPrice').getContext('2d');
+                        let chart_categoryPrice = document.getElementById('chart_categoryPrice').getContext('2d');
                         window.chart_categoryPrice = new Chart(chart_categoryPrice, {
                             type: 'doughnut',
                             data: {
@@ -499,7 +513,7 @@
                                             '{{$cc->price}}',
                                         @endforeach
                                     ],
-                                    label: 'Zahlungsart'
+                                    label: '{{__('receipts.payment_method')}}'
                                 }],
                                 labels: [
                                     @foreach($topByCategoryPrice as $cc)
@@ -521,21 +535,19 @@
                     });
                 </script>
                 <div class="card-footer">
-                    <small>Ausgaben (in €) in den jeweiligen Kategorien seit Beginn der Aufzeichnung. Dieses
-                        Diagramm wird
-                        durch <a href="{{route('crowdsourcing_rewe')}}">Crowdsourcing</a> ermöglicht.</small>
+                    <small>{{__('category-by-spent.text')}} {{__('chart.crowdsourcing')}}</small>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Produktkategorien nach Anzahl</h5>
+                    <h5 class="card-title">{{__('category-by-count')}}</h5>
                     <canvas id="chart_categoryCount"></canvas>
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
-                        var chart_categoryCount = document.getElementById('chart_categoryCount').getContext('2d');
+                        let chart_categoryCount = document.getElementById('chart_categoryCount').getContext('2d');
                         window.chart_categoryCount = new Chart(chart_categoryCount, {
                             type: 'doughnut',
                             data: {
@@ -546,7 +558,7 @@
                                             '{{$cc->cnt}}',
                                         @endforeach
                                     ],
-                                    label: 'Zahlungsart'
+                                    label: '{{__('receipts.payment_method')}}'
                                 }],
                                 labels: [
                                     @foreach($topByCategoryCount as $cc)
@@ -568,8 +580,7 @@
                     });
                 </script>
                 <div class="card-footer">
-                    <small>Dieses Diagramm wird durch <a href="{{route('crowdsourcing_rewe')}}">Crowdsourcing</a>
-                        ermöglicht.</small>
+                    <small>{{__('chart.crowdsourcing')}}</small>
                 </div>
             </div>
         </div>

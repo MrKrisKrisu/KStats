@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title')Einstellungen @endsection
+@section('title', __('settings.settings'))
 
 @section('content')
     <div class="row" style="margin-top: 10px;">
@@ -11,11 +11,11 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Zugeordnete E-Mail Adressen</h5>
+                    <h5 class="card-title">{{__('email.your')}}</h5>
                     @if(count($emails) == 0)
-                        <p class="text-danger">Es sind aktuell keine E-Mail Adressen hinterlegt.</p>
+                        <p class="text-danger">{{__('email.nodata')}}</p>
                     @else
-                        <p>Folgende E-Mail Adressen sind mit deinem KStats Account verbunden:</p>
+                        <p>{{__('email.list')}}</p>
                         <table class="table">
                             <tbody>
                                 @foreach($emails as $email)
@@ -23,9 +23,9 @@
                                         <td>{{$email->email}}</td>
                                         <td>
                                             @if($email->verified_user_id !== null)
-                                                <span style="color: green;">verifiziert</span>
+                                                <span style="color: green;">{{__('verified')}}</span>
                                             @else
-                                                <span style="color: #E70000;">unverifiziert</span>
+                                                <span style="color: #E70000;">{{__('unverified')}}</span>
                                             @endif
                                         </td>
                                         <td>
@@ -42,17 +42,16 @@
                         </table>
                     @endif
                     <hr/>
-                    <h6>E-Mail Adresse hinzufügen</h6>
+                    <h6>{{__('auth.email')}}</h6>
                     <form method="POST" action="{{route('settings.save.email')}}">
                         @csrf
                         <div class="form-group">
-                            <input type="email" name="email" placeholder="E-Mail Adresse" class="form-control"/>
+                            <input type="email" name="email" placeholder="{{__('auth.email')}}" class="form-control"/>
                         </div>
-                        <button type="submit" class="btn btn-primary">Speichern</button>
+                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
                     </form>
                     <hr/>
-                    <small><b>Warum ist das wichtig?</b> Für den REWE eBon Analyzer müssen alle E-Mail Adressen
-                        hinzugefügt werden, an die Kassenzettel geschickt werden.</small>
+                    <small><b>{{__('email.why')}}</b> {{__('email.why.explain')}}</small>
                 </div>
             </div>
 
@@ -91,7 +90,7 @@
                                        name="new_confirm_password" autocomplete="current-password" required/>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">{{__('general.save')}}</button>
+                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
                     </form>
                 </div>
             </div>
@@ -111,7 +110,7 @@
                                         @if($user->locale == 'en') selected @endif>{{__('settings.lang.en')}}</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">{{__('general.save')}}</button>
+                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
                     </form>
                 </div>
             </div>

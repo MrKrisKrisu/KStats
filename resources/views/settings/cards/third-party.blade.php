@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h2>Verbundene Drittanbieter</h2>
+        <h2>{{__('settings.third-party.card-heading')}}</h2>
 
         <table class="table">
             <tbody>
@@ -20,7 +20,7 @@
                             @isset(auth()->user()->socialProfile->spotify_lastRefreshed)
                                 <p class="font-weight-bold text-danger">
                                     <i class="fas fa-times"></i>
-                                    Verbindung verloren
+                                    {{__('lost-connection')}}
                                     {{auth()->user()->socialProfile->spotify_lastRefreshed->diffForHumans()}}
                                 </p>
                             @else
@@ -70,8 +70,9 @@
                             <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
                                   class="float-right">
                                 @csrf
-                                <button type="submit"
-                                        class="btn btn-sm btn-danger">{{__('general.deactivate')}}</button>
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    {{__('general.deactivate')}}
+                                </button>
                             </form>
                         @else
                             <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>

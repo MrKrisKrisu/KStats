@@ -1,13 +1,16 @@
 @extends('layout.app')
 
-@section('title')Deine Top Tracks zwischen {{$from->format('d.m.Y')}} und {{$to->format('d.m.Y')}} @endsection
+@section('title', __('top-tracks-between', [
+    'from' => $from->format('d.m.Y'),
+    'until' => $to->format('d.m.Y')
+]))
 
 @section('content')
     <div class="row">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h2>Zeitraum wählen</h2>
+                    <h2>{{__('date-range')}}</h2>
                     <a href="?from={{\Carbon\Carbon::now()->subMonths(2)->firstOfMonth()->toDateString()}}&to={{\Carbon\Carbon::now()->subMonths(2)->lastOfMonth()->toDateString()}}"
                        class="btn btn-primary">
                         {{\Carbon\Carbon::now()->subMonths(2)->isoFormat('MMMM YYYY')}}
@@ -22,10 +25,10 @@
                     <hr/>
                     <a href="?from={{\Carbon\Carbon::now()->subYear()->format('Y')}}-01-01&to={{\Carbon\Carbon::now()->subYear()->format('Y')}}-12-31"
                        class="btn btn-primary">
-                        Letztes Jahr ({{\Carbon\Carbon::now()->subYear()->format('Y')}})
+                        {{__('last-year')}} ({{\Carbon\Carbon::now()->subYear()->format('Y')}})
                     </a>
                     <a href="?from={{\Carbon\Carbon::now()->format('Y')}}-01-01" class="btn btn-primary">
-                        Dieses Jahr ({{\Carbon\Carbon::now()->format('Y')}})
+                        {{__('this-year')}} ({{\Carbon\Carbon::now()->format('Y')}})
                     </a>
                 </div>
             </div>
@@ -33,18 +36,25 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h2>Eigenen Zeitraum wählen</h2>
+                    <h2>{{__('date-range')}}</h2>
                     <form method="GET">
                         <input type="hidden" name="page" value="1"/>
-                        <div class="form-group">
-                            <label>Von (Datum)</label>
-                            <input type="date" name="from" class="form-control"/>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>{{__('from')}}</label>
+                                    <input type="date" name="from" class="form-control"
+                                           value="{{$from->format('Y-m-d')}}"/>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>{{__('until')}}</label>
+                                    <input type="date" name="to" class="form-control" value="{{$to->format('Y-m-d')}}"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Bis (Datum)</label>
-                            <input type="date" name="to" class="form-control"/>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Öffnen</button>
+                        <button type="submit" class="btn btn-primary">{{__('show')}}</button>
                     </form>
                 </div>
             </div>
@@ -60,8 +70,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <h2>
-                                Platz {{$loop->index + 1 + ($top_tracks->perPage() * ($top_tracks->currentPage() - 1))}}</h2>
+                            <h2>{{__('spotify.rank', ['rank' => $loop->index + 1 + ($top_tracks->perPage() * ($top_tracks->currentPage() - 1))])}}</h2>
                             @include('spotify.components.track', ['track' => $activity->track, 'minutes' => $activity->minutes])
                         </div>
                     </div>
@@ -76,8 +85,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <p class="text-danger font-weight-bold">Es sind keine TopTracks in diesem Zeitraum
-                            vorhanden.</p>
+                        <p class="text-danger font-weight-bold">{{__('spotify.top-list.none')}}</p>
                     </div>
                 </div>
             </div>
