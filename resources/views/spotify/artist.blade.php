@@ -1,14 +1,14 @@
 @extends('layout.app')
 
-@section('title') {{$artist->name}} @endsection
+@section('title', $artist->name)
 
 @section('content')
     <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
-                    <h2 style="font-size: 30px;">{{number_format($artist->tracks->count(), 0, ',','.')}} Tracks</h2>
-                    <span class="text-muted">Anzahl bei KStats erfasster Tracks</span>
+                    <h2 style="font-size: 30px;">{{__('spotify.tracks', ['count' => $artist->tracks->count()])}}</h2>
+                    <span class="text-muted">{{__('spotify.tracks.count')}}</span>
                 </div>
             </div>
         </div>
@@ -17,16 +17,16 @@
                 <div class="card-body text-center">
                     @if($artist->tracks->avg('valence') > 0.5)
                         <h2 style="font-size: 50px;"><i class="far fa-smile text-success"></i></h2>
-                        <span class="text-muted">Die meisten Tracks von {{$artist->name}} machen eher eine gute Stimmung.</span>
+                        <span class="text-muted">{{__('spotify.tracks.most-happy', ['artistName' => $artist->name])}}</span>
                     @elseif($artist->tracks->avg('valence') > 0.3)
                         <h2 style="font-size: 50px;">
                             <i class="far fa-smile text-success"></i>
                             <i class="far fa-sad-tear text-danger"></i>
                         </h2>
-                        <span class="text-muted">{{$artist->name}} hat für jede Stimmung den passenden Track.</span>
+                        <span class="text-muted">{{__('spotify.tracks.most-neutral', ['artistName' => $artist->name])}}</span>
                     @else
                         <h2 style="font-size: 50px;"><i class="far fa-sad-tear text-danger"></i></h2>
-                        <span class="text-muted">Die meisten Tracks von {{$artist->name}} machen eher eine traurige oder aggressive Stimmung.</span>
+                        <span class="text-muted">{{__('spotify.tracks.most-sad', ['artistName' => $artist->name])}}</span>
                     @endif
                 </div>
             </div>
@@ -35,7 +35,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h2>Tracks</h2>
+                    <h2>{{__('tracks')}}</h2>
                     <table class="table">
                         <tbody>
                             @foreach($artist->tracks->sortByDesc('popularity') as $track)
@@ -57,8 +57,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body text-center">
-                    <span class="text-danger">Hinweis: Es fließen nur Tracks in die Statistik ein, welche von einem KStats-User
-                        mindestens einmal gehört wurden.</span>
+                    <span class="text-danger">{{__('spotify.stats.disclaimer')}}</span>
                 </div>
             </div>
         </div>

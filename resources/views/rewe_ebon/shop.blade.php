@@ -10,10 +10,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Zeitpunkt</th>
-                                <th>Kasse</th>
-                                <th>Zahlungsmethode</th>
-                                <th>Betrag</th>
+                                <th>{{__('time')}}</th>
+                                <th>{{__('cash-register')}}</th>
+                                <th>{{__('receipts.payment_method')}}</th>
+                                <th>{{__('receipts.price_total')}}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -24,7 +24,11 @@
                                     <td>{{$receipt->cashregister_nr}}</td>
                                     <td>{{$receipt->paymentmethod}}</td>
                                     <td>{{number_format($receipt->total, 2, ",", ".")}} €</td>
-                                    <td><a href="{{ route('rewe_receipt', [$receipt->id]) }}">Details</a></td>
+                                    <td>
+                                        <a href="{{ route('rewe_receipt', [$receipt->id]) }}">
+                                            {{__('details')}}
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

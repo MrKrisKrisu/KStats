@@ -2,33 +2,46 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/4dfdd959ca7f4b07b7b6fd57f1f92c91)](https://www.codacy.com/gh/MrKrisKrisu/KStats/dashboard)
 ![PHPUnit](https://github.com/MrKrisKrisu/KStats/workflows/PHPUnit/badge.svg)
+<a href="http://weblate.k118.de/engage/kstats/">
+<img src="http://weblate.k118.de/widgets/kstats/-/web/svg-badge.svg" alt="Translation status" />
+</a>
 
 ![Screenshot](screenshot.png)
 
 ## Features
 
-* Track your heared Songs from Spotify
-    * See your Top tracks, artists
-    * See how many minutes you've listened to music
-    * Generate Playlists with "Lost Tracks" which you like but haven't heard for a long time
-    * Generate Playlists with your TopTracks - updated daily
-* Analyze what you've bought in the supermarket
-    * Send your Receipts to an E-Mail Catcher
+* Track your listened songs from Spotify
+    * See your Top tracks and artists
+    * See how many minutes you have listened to music
+    * Create playlists with "lost tracks" you like but haven't heard in a while
+    * Create playlists with your most popular songs - updated daily
+* Analyze what you bought in the supermarket
+    * Send your receipts automatically and user-friendly to an e-mail address
     * See your top Products
-    * Get an prediction of what you could buy
-    * See how many money you spent by categories
+    * Get an overview of what you could buy
+    * See how much money you have spent by category
     * Currently only compatible with digital receipts from REWE (in Germany)
 
 ## Requirements
 
-* PHP >= 8.0
+* PHP 8.0
 * NodeJS / NPM
-* Composer (and the requirements mentioned in the composer.json)
+* Composer (and the requirements mentioned in composer.json)
 
-## Installation and Contributing
+## Contributing
 
-Nice, that you want to help! :) Feel free to make your magic und create a PullRequest. To install KStats just follow
-these steps:
+### Translation
+
+We use Weblate for managing
+translations. [Click here to help with translations](https://weblate.k118.de/projects/kstats/web/).
+
+<a href="https://weblate.k118.de/engage/kstats/">
+<img src="https://weblate.k118.de/widgets/kstats/-/web/multi-auto.svg" alt="Translation status" />
+</a>
+
+### Development
+Glad you want to help! :) Feel free to work your magic and create a PullRequest. To install KStats, just follow these
+steps:
 
 1. Clone the repository
 2. Run ``npm install`` and ``npm run dev`` to parse CSS and JS

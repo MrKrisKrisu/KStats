@@ -9,14 +9,10 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
-class Spotify_TokenRefresh extends Command {
+class SpotifyTokenRefresh extends Command {
 
     protected $signature   = 'spotify:tokenRefresh';
     protected $description = 'Get new AccessTokens to authorized Spotify Profiles';
-
-    public function __construct() {
-        parent::__construct();
-    }
 
     public function handle(): int {
         $slProfile = SocialLoginProfile::with(['user'])

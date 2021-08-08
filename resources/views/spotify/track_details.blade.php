@@ -21,19 +21,18 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h2>Vorschau</h2>
+                    <h2>{{__('spotify.preview')}}</h2>
                     @isset($track->preview_url)
                         <audio controls="">
                             <source src="{{$track->preview_url}}" type="audio/mpeg">
-                            Your browser does not support the audio element.';
+                            {{__('no-browser-support')}}
                         </audio>
                     @else
-                        <small class="text-muted">leider ist keine Vorschau vorhanden <i
-                                    class="far fa-sad-cry"></i></small>
+                        <small class="text-muted">{{__('no-preview')}} <i class="far fa-sad-cry"></i></small>
                     @endif
                     <hr/>
                     <a class="float-right btn btn-success" href="{{$track->spotify_link}}">
-                        <i class="fab fa-spotify"></i> In Spotify öffnen
+                        <i class="fab fa-spotify"></i> {{__('open-in-spotify')}}
                     </a>
                 </div>
             </div>
@@ -43,7 +42,7 @@
                         <span class="color-primary text-center" style="font-size: 35px;">
                             {{$track->album->release_date->isoFormat('MMMM YYYY')}}
                         </span><br/>
-                        <small class="text-muted" style="font-size: 16px;">wurde der Track veröffentlicht</small>
+                        <small class="text-muted" style="font-size: 16px;">{{__('spotify.released')}}</small>
                     </div>
                 </div>
             @endisset
@@ -52,7 +51,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <h2>Interpreten</h2>
+                    <h2>{{__('spotify.artist')}}</h2>
                     <ul class="list-group">
                         @foreach($track->artists as $artist)
                             <a href="{{route('spotify.artist', ['id' => $artist->id])}}"

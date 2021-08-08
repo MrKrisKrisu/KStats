@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title')Twitter @endsection
+@section('title', 'Twitter')
 
 @section('content')
 

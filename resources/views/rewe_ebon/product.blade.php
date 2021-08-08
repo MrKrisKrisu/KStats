@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title'){{$product->name}} bei REWE @endsection
+@section('title', $product->name)
 
 @section('content')
     <div class="row">
@@ -17,7 +17,7 @@
                                 @endisset
                             </span>
                             <br/>
-                            <small><b>hast du bereits gekauft</b></small>
+                            <small><b>{{__('already-bought')}}</b></small>
                         </div>
 
                         <div class="col">
@@ -25,7 +25,7 @@
                                 {{number_format($mainStats->single_price, 2, ',', '.')}} €
                             </span>
                             <br/>
-                            <small><b>durchschnittlicher Einkaufspreis</b></small>
+                            <small><b>{{__('avg-price')}}</b></small>
                         </div>
                     </div>
                 </div>
@@ -38,17 +38,17 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Markt</th>
-                                <th>Zeitpunkt</th>
-                                <th>Anzahl / Gewicht</th>
-                                <th>Einzelpreis</th>
+                                <th>{{__('receipts.market')}}</th>
+                                <th>{{__('time')}}</th>
+                                <th>{{__('receipts.amount')}} / {{__('receipts.weight')}}</th>
+                                <th>{{__('receipts.price_single')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($history as $position)
                                 <tr>
                                     <td>
-                                        Markt {{$position->bon->shop->id}}<br/>
+                                        {{__('receipts.market')}} {{$position->bon->shop->id}}<br/>
                                         <small>{{$position->bon->shop->zip}} {{$position->bon->shop->city}}</small>
                                     </td>
                                     <td>{{$position->receipt->timestamp_bon->format('d.m.Y H:i')}}</td>

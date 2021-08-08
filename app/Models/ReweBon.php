@@ -18,7 +18,7 @@ class ReweBon extends Model {
     protected $appends = ['cashback_rate'];
 
     public function positions(): HasMany {
-        return $this->hasMany(ReweBonPosition::class, 'id', 'bon_id');
+        return $this->hasMany(ReweBonPosition::class, 'bon_id', 'id');
     }
 
     public function shop(): HasOne {

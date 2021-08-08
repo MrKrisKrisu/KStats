@@ -9,36 +9,12 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Exception;
 
-class Spotify_GetTrackInfo extends Command {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'spotify:getTrackInfo';
+class SpotifyGetTrackInfo extends Command {
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    protected $signature = 'spotify:getTrackInfo';
     protected $description = 'Retrieves track infos from Spotify API';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle() {
+    public function handle(): int {
         $tracksWithMissingData = SpotifyTrack::where('bpm', null)
                                              ->select('track_id')
                                              ->orderBy('updated_at', 'asc')
