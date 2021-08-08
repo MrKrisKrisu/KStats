@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title')Crowdsourcing @endsection
+@section('title', __('crowdsourcing'))
 
 @section('content')
     <div class="row">
@@ -11,11 +11,15 @@
                     @empty($categories_product)
                         <p class="text-danger">{{__('receipts.crowdsourcing.no_tasks')}}</p>
                     @else
-
-                        <p>Du hast <b>"{{$categories_product->name}}"</b>
-                            gekauft. {{__('receipts.crowdsourcing.question_category')}}
-                            <small><i>{{__('receipts.last_bought')}} {{\Carbon\Carbon::parse($categories_product->lastReceipt)->diffForHumans()}}
-                                    .</i></small>
+                        <p>
+                            {{__('crowdsourcing.bought', ['productName' =>$categories_product->name])}}
+                            {{__('receipts.crowdsourcing.question_category')}}
+                            <small>
+                                <i>
+                                    {{__('receipts.last_bought')}}
+                                    {{\Carbon\Carbon::parse($categories_product->lastReceipt)->diffForHumans()}}.
+                                </i>
+                            </small>
                         </p>
                         <hr/>
                         <form method="POST">
@@ -36,8 +40,9 @@
                             <input type="hidden" name="action" value="setCategory"/>
                             <button type="submit" name="btn" value="save" class="btn btn-success">{{__('save')}}
                             </button>
-                            <button type="submit" name="btn" value="ka"
-                                    class="btn btn-danger">{{__('general.idk')}}</button>
+                            <button type="submit" name="btn" value="ka" class="btn btn-danger">
+                                {{__('general.idk')}}
+                            </button>
                         </form>
                     @endif
                 </div>
@@ -83,10 +88,17 @@
                     @empty($vegetarian_product)
                         <p class="text-danger">{{__('receipts.crowdsourcing.no_tasks')}}</p>
                     @else
-                        <p>Du hast mal <b>"{{$vegetarian_product->name}}"</b> gekauft. Ist es vegetarisch?<br>
-                            <small><i>Zuletzt
-                                    gekauft {{\Carbon\Carbon::parse($vegetarian_product->lastReceipt)->diffForHumans()}}
-                                    .</i></small></p>
+                        <p>
+                            {{__('crowdsourcing.bought', ['productName' => $vegetarian_product->name])}}
+                            {{__('is-it-veg')}}
+                            <br>
+                            <small>
+                                <i>
+                                    {{__('receipts.last_bought')}}
+                                    {{\Carbon\Carbon::parse($vegetarian_product->lastReceipt)->diffForHumans()}}.
+                                </i>
+                            </small>
+                        </p>
                         <hr/>
                         <form method="POST">
                             @csrf
@@ -129,7 +141,9 @@
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
                                                 <button type="submit" class="btn btn-sm btn-danger" name="action"
-                                                        value="deleteVegetarian"><i class="fas fa-trash"></i></button>
+                                                        value="deleteVegetarian">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>

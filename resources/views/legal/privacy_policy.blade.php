@@ -4,7 +4,7 @@
     <section class="jumbotron text-center"
              style="background: url('{{url('/img/bg_cover.png')}}') 0% 35%; background-size: 100%; border-radius: 0;">
         <div class="container">
-            <h1 class="jumbotron-heading" style="color: #fff;">Datenschutzerklärung</h1>
+            <h1 class="jumbotron-heading" style="color: #fff;">{{__('privacy')}}</h1>
             <p class="lead" style="color: #fff;">Stand: 7. November 2020</p>
         </div>
     </section>

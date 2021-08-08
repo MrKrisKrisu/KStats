@@ -4,7 +4,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-        <title>KStats - Statistiken</title>
+        <title>KStats - {{__('general.menu.stats')}}</title>
 
         <link href="/css/app.css" rel="stylesheet">
         <link href="/css/cover.css" rel="stylesheet">
