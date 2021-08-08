@@ -110,7 +110,7 @@ abstract class FriendshipPlaylistController extends Controller {
      * @return SpotifyFriendshipPlaylist
      * @throws SpotifyTokenExpiredException
      */
-    private static function refreshFriendshipPlaylist(User $user, User $friend): SpotifyFriendshipPlaylist {
+    public static function refreshFriendshipPlaylist(User $user, User $friend): SpotifyFriendshipPlaylist {
         $friendshipPlaylist = SpotifyFriendshipPlaylist::where('user_id', $user->id)
                                                        ->where('friend_id', $friend->id)
                                                        ->first();
