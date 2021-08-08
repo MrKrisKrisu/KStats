@@ -277,5 +277,11 @@
     "privacy": "Datenschutzerklärung",
     "crowdsourcing": "Crowdsourcing",
     "crowdsourcing.bought": "Du hast \":productName\" gekauft.",
-    "is-it-veg": "Ist es vegetarisch?"
+    "is-it-veg": "Ist es vegetarisch?",
+    "pagination.previous": "&laquo; Zurück",
+    "email.your": "Deine E-Mail-Adressen",
+    "no-browser-support": "Ihr Browser unterstützt das Audioelement nicht.",
+    "pagination.next": "Nächste &raquo;",
+    "verified": "verifiziert",
+    "unverified": "ungeprüft"
 }
