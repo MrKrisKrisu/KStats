@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title') Tagesstatistik vom {{$date->format('d.m.Y')}} @endsection
+@section('title', __('stats.daily', ['date' => $date->format('d.m.Y')]))
 
 @section('content')
     <div class="row">
@@ -24,10 +24,10 @@
             <div class="card">
                 <div class="card-body text-center">
                     <span class="color-primary" style="font-size: 30px;" data-toggle="tooltip" data-placement="top"
-                          title="Das sind etwa {{round($minTotal / 1440 * 100)}}% des ganzen Tages!">
+                          title="{{__('percent-of-day', ['percent' => round($minTotal / 1440 * 100)])}}">
                         <span>{{$minTotal}}</span><small>min</small>
                     </span><br/>
-                    <span class="text-muted">hast du insgesamt gehört</span>
+                    <span class="text-muted">{{__('spotify.listened-total')}}</span>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                     <span class="color-primary" style="font-size: 30px;">
                         <span>{{$tracksDistinct}}</span><small>x</small>
                     </span><br/>
-                    <span class="text-muted">verschiedene Tracks</span>
+                    <span class="text-muted">{{__('spotify.different-tracks')}}</span>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
                     <span class="color-primary" style="font-size: 30px;">
                         <span>{{$sessions}}</span><small>x</small>
                     </span><br/>
-                    <span class="text-muted">Musik-Sessions</span>
+                    <span class="text-muted">{{__('spotify.sessions')}}</span>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title')Spotify {{__('spotify.statistic')}} @endsection
+@section('title', __('spotify'))
 
 @section('content')
     <div class="row">

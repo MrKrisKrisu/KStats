@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title') Mood-O-Meter @endsection
+@section('title', __('spotify.title.mood_o_meter'))
 
 @section('content')
     <div class="row">
