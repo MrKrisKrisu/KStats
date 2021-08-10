@@ -41,6 +41,7 @@ class SpotifyCatchNowPlaying extends Command {
 
                 //TODO: Local tracks are currently not supported.
                 if(isset($nowPlaying->item->uri) && str_contains($nowPlaying->item->uri, 'spotify:local:')) {
+                    echo '* Local tracks are currently unsupported.' . PHP_EOL;
                     continue;
                 }
 
