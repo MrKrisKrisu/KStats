@@ -44,6 +44,12 @@ class SpotifyCatchNowPlaying extends Command {
                     continue;
                 }
 
+                //TODO: Support episodes
+                if(isset($nowPlaying->currently_playing_type) && $nowPlaying->currently_playing_type == 'episode') {
+                    echo '* Episodes are currently unsupported.' . PHP_EOL;
+                    continue;
+                }
+
                 if(!isset($nowPlaying->item->id)) {
                     Log::debug('Error: nowPlaying->item->id not found.');
                     Log::debug(print_r($nowPlaying, true));
