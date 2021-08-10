@@ -283,5 +283,7 @@
     "privacy": "Privacy policy",
     "crowdsourcing": "Crowdsourcing",
     "crowdsourcing.bought": "You have purchased \":productName\".",
-    "is-it-veg": "Is it vegetarian?"
+    "is-it-veg": "Is it vegetarian?",
+    "spotify.error": "Error retrieving your Spotify statistics",
+    "spotify.error.text": "Please reconnect to Spotify and grant all necessary permissions to allow KStats to retrieve your played tracks."
 }

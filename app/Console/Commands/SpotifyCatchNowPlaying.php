@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Exceptions\SpotifyTokenExpiredException;
 use App\Models\SocialLoginProfile;
 use Carbon\Carbon;
 use Exception;
@@ -23,8 +22,6 @@ class SpotifyCatchNowPlaying extends Command {
             try {
                 $user = $profile->user()->first();
                 FetchController::fetchRecentlyPlayed($user);
-            } catch(SpotifyTokenExpiredException) {
-                dump("Access Token expired from User " . $profile->user()->first()->username);
             } catch(Exception $exception) {
                 dump($exception);
                 report($exception);

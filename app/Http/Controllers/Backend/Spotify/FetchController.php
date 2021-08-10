@@ -16,18 +16,23 @@ use App\Models\SpotifyArtist;
 use App\Models\SpotifySession;
 use Illuminate\Support\Facades\DB;
 use stdClass;
-use App\Exceptions\SpotifyTokenExpiredException;
 use SpotifyWebAPI\SpotifyWebAPIException;
+use Exception;
+use App\Exceptions\SpotifyTokenExpiredException;
 
 abstract class FetchController extends Controller {
 
-    /**
-     * @param User $user
-     *
-     * @throws SpotifyTokenExpiredException
-     */
     public static function fetchRecentlyPlayed(User $user) {
         try {
+            if(!str_contains($user->socialProfile->spotify_scopes, 'user-read-recently-played')) {
+                throw new SpotifyWebAPIException('Insufficient client scope');
+            }
+
+            if(Carbon::now()->minute % 5 != 0) {
+                //Temporary reduce api requests if user have permission to read last tracks.
+                return;
+            }
+
             echo strtr('* Fetched recently played for User :userId.', [':userId' => $user->id]) . PHP_EOL;
 
             $spotifyApi = SpotifyController::getApi($user);
@@ -67,6 +72,10 @@ abstract class FetchController extends Controller {
                 echo '***********************+ trying legacy script' . PHP_EOL;
                 self::legacyFetch($user);
             }
+        } catch(SpotifyTokenExpiredException) {
+            echo "Access Token expired from User " . $user->username . PHP_EOL;
+        } catch(Exception $exception) {
+            report($exception);
         }
     }
 
