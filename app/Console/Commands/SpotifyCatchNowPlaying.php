@@ -50,7 +50,7 @@ class SpotifyCatchNowPlaying extends Command {
                     echo '* Episodes are currently unsupported.' . PHP_EOL;
                     continue;
                 }
-                
+
                 if(isset($nowPlaying->currently_playing_type) && $nowPlaying->currently_playing_type == 'ad') {
                     echo '* Ads are unsupported.' . PHP_EOL;
                     continue;
@@ -63,7 +63,6 @@ class SpotifyCatchNowPlaying extends Command {
                 }
 
                 $timestamp_start = date('Y-m-d H:i:s', $nowPlaying->timestamp / 1000);
-                $track_id        = $nowPlaying->item->id;
                 $progress_ms     = (int)$nowPlaying->progress_ms;
                 $context         = isset($nowPlaying->context->uri) ? SpotifyContext::firstOrCreate(['uri' => $nowPlaying->context->uri]) : null;
 
@@ -112,14 +111,23 @@ class SpotifyCatchNowPlaying extends Command {
                     ]
                 );
 
-                SpotifyPlayActivity::create([
-                                                'user_id'         => $user->id,
-                                                'timestamp_start' => $timestamp_start,
-                                                'track_id'        => $track->id,
-                                                'progress_ms'     => $progress_ms,
-                                                'context_id'      => $context?->id,
-                                                'device_id'       => $activeDevice?->id
-                                            ]);
+                $duration = $progress_ms / 1000;
+                if($duration + 60 > $track->duration_ms / 1000) {
+                    //if duration + 60 greater than the length of the track set to maximum,
+                    //because the song will probably have run through by the next script call
+                    $duration = $track->duration_ms / 1000;
+                }
+
+                SpotifyPlayActivity::updateOrCreate([
+                                                        'user_id'         => $user->id,
+                                                        'track_id'        => $track->id,
+                                                        'timestamp_start' => $timestamp_start,
+                                                    ], [
+                                                        'duration'    => $duration,
+                                                        'progress_ms' => $progress_ms,
+                                                        'context_id'  => $context?->id,
+                                                        'device_id'   => $activeDevice?->id
+                                                    ]);
 
                 foreach($nowPlaying->item->album->artists as $artist) {
                     $artist = SpotifyArtist::updateOrCreate(
