@@ -103,8 +103,7 @@ class SpotifyCatchNowPlaying extends Command {
                 SpotifyPlayActivity::create([
                                                 'user_id'         => $user->id,
                                                 'timestamp_start' => $timestamp_start,
-                                                'track_id'        => $track->track_id,
-                                                'trackId'         => $track->id,
+                                                'track_id'        => $track->id,
                                                 'progress_ms'     => $progress_ms,
                                                 'context_id'      => $context?->id,
                                                 'device_id'       => $activeDevice?->id

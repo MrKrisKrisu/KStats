@@ -19,7 +19,7 @@ class SpotifyPlayActivitySeeder extends Seeder {
             for($i = 0; $i < rand(100, 1000); $i++) {
                 SpotifyPlayActivity::factory(rand(1, 20))->create([
                                                                       'user_id'   => $user->id,
-                                                                      'track_id'  => SpotifyTrack::all()->random()->track_id, //TODO: Use database id instead of spotify id
+                                                                      'track_id'  => SpotifyTrack::all()->random()->id,
                                                                       'device_id' => SpotifyDevice::where('user_id', $user->id)->get()->random()->id,
                                                                   ]);
             }
