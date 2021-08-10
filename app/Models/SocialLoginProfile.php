@@ -9,11 +9,11 @@ class SocialLoginProfile extends Model {
 
     protected $fillable = [
         'user_id', 'telegram_id', 'twitter_id', 'twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken',
-        'spotify_lastRefreshed', 'spotify_user_id'
+        'spotify_lastRefreshed', 'spotify_user_id', 'spotify_scopes', 'spotify_expires_at'
     ];
     protected $hidden   = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
     protected $appends  = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
-    protected $dates    = ['spotify_lastRefreshed'];
+    protected $dates    = ['spotify_lastRefreshed', 'spotify_expires_at'];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
