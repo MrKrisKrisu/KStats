@@ -71,10 +71,11 @@ class SpotifyCatchNowPlaying extends Command {
                 }
 
                 $album_release_date = $nowPlaying->item->album->release_date;
-                if($nowPlaying->item->album->release_date_precision == 'month')
+                if($nowPlaying->item->album->release_date_precision == 'month') {
                     $album_release_date .= "-01";
-                elseif($nowPlaying->item->album->release_date_precision == 'year')
+                } elseif($nowPlaying->item->album->release_date_precision == 'year') {
                     $album_release_date .= "-01-01";
+                }
 
                 $album = SpotifyAlbum::updateOrCreate(
                     [
@@ -102,7 +103,8 @@ class SpotifyCatchNowPlaying extends Command {
                 SpotifyPlayActivity::create([
                                                 'user_id'         => $user->id,
                                                 'timestamp_start' => $timestamp_start,
-                                                'track_id'        => $track_id,
+                                                'track_id'        => $track->track_id,
+                                                'trackId'         => $track->id,
                                                 'progress_ms'     => $progress_ms,
                                                 'context_id'      => $context?->id,
                                                 'device_id'       => $activeDevice?->id

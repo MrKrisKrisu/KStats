@@ -10,7 +10,7 @@ class SpotifyPlayActivity extends Model {
 
     use HasFactory;
 
-    protected $fillable = ['user_id', 'track_id', 'timestamp_start', 'progress_ms', 'context_id', 'device_id'];
+    protected $fillable = ['user_id', 'track_id', 'trackId', 'timestamp_start', 'progress_ms', 'context_id', 'device_id'];
     protected $dates    = ['timestamp_start'];
 
     public function track(): BelongsTo {
