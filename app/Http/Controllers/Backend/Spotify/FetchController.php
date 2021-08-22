@@ -143,7 +143,7 @@ abstract class FetchController extends Controller {
 
     private static function updateSession(User $user, Carbon $since) {
         $session = SpotifySession::where('user_id', $user->id)
-                                 ->where('timestamp_end', '>', DB::raw('(NOW() - INTERVAL 5 MINUTE)'))
+                                 ->where('timestamp_end', '>', DB::raw('(NOW() - INTERVAL 15 MINUTE)'))
                                  ->first();
 
         if($session == null) {

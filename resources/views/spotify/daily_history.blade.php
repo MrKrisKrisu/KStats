@@ -73,7 +73,7 @@
                                         <td>
                                             <a href="{{route('spotify.track' ,['id' => $playActivity->track->id])}}">{{$playActivity->track->name}}</a>
                                         </td>
-                                        <td>{{$playActivity->device->name}}</td>
+                                        <td>{{$playActivity->device?->name}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
