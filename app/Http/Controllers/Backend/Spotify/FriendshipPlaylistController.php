@@ -34,7 +34,7 @@ abstract class FriendshipPlaylistController extends Controller {
 
     private static function getTopTrackIds(User $user, int $limit = 50): Collection {
         return DB::table('spotify_play_activities')
-                 ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
+                 ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_play_activities.track_id')
                  ->where('user_id', $user->id)
                  ->groupBy('spotify_tracks.id')
                  ->select(['spotify_tracks.id', DB::raw('COUNT(*) AS cnt')])
