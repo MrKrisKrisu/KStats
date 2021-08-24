@@ -134,6 +134,7 @@
     "spotify.time": "Uhrzeit",
     "spotify.time_suffix": "Uhr",
     "spotify.rank": "Platz :rank",
+    "spotify.rank.heading": "Platz",
     "spotify.artist": "Künstler",
     "spotify.heared_minutes": "Hörzeit",
     "spotify.find_tracks_again": "Entdecke alte Lieder wieder!",

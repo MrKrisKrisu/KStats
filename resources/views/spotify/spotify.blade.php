@@ -265,7 +265,7 @@
                     <table class="ui table unstackable" id="top_artists_total">
                         <thead>
                             <tr>
-                                <th>{{ __('spotify.rank') }}</th>
+                                <th>{{ __('spotify.rank.heading') }}</th>
                                 <th>{{ __('spotify.artist') }}</th>
                                 <th>{{ __('spotify.heared_minutes') }}</th>
                             </tr>
@@ -293,7 +293,7 @@
                                                 )
                                                 .append($('<td>')
                                                     .append($('<span>')
-                                                        .text(value.minutes + 'min')
+                                                        .text(Math.round(value.minutes) + 'min')
                                                     )
                                                 )
                                             );
@@ -314,7 +314,7 @@
                     <table class="ui table unstackable" id="top_artists_30days">
                         <thead>
                             <tr>
-                                <th>{{ __('spotify.rank') }}</th>
+                                <th>{{ __('spotify.rank.heading') }}</th>
                                 <th>{{ __('spotify.artist') }}</th>
                                 <th>{{ __('spotify.heared_minutes') }}</th>
                             </tr>
@@ -342,7 +342,7 @@
                                                 )
                                                 .append($('<td>')
                                                     .append($('<span>')
-                                                        .text(value.minutes + 'min')
+                                                        .text(Math.round(value.minutes) + 'min')
                                                     )
                                                 )
                                             );
@@ -363,7 +363,7 @@
                     <table class="ui table unstackable" id="top_artists_7days">
                         <thead>
                             <tr>
-                                <th>{{ __('spotify.rank') }}</th>
+                                <th>{{ __('spotify.rank.heading') }}</th>
                                 <th>{{ __('spotify.artist') }}</th>
                                 <th>{{ __('spotify.heared_minutes') }}</th>
                             </tr>
@@ -391,7 +391,7 @@
                                                 )
                                                 .append($('<td>')
                                                     .append($('<span>')
-                                                        .text(value.minutes + 'min')
+                                                        .text(Math.round(value.minutes) + 'min')
                                                     )
                                                 )
                                             );

@@ -321,7 +321,7 @@ class SpotifyController extends Controller {
 
     public function getFavouriteYear(): string|int {
         $favouriteYearQ = SpotifyPlayActivity::where('user_id', auth()->user()->id)
-                                             ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
+                                             ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_play_activities.track_id')
                                              ->join('spotify_albums', 'spotify_tracks.album_id', '=', 'spotify_albums.album_id')
                                              ->where('spotify_albums.release_date', '<>', null)
                                              ->groupBy('release_year')
@@ -334,7 +334,7 @@ class SpotifyController extends Controller {
 
     public function getAverageBPM(): int {
         $bpm = SpotifyPlayActivity::where('user_id', auth()->user()->id)
-                                  ->join('spotify_tracks', 'spotify_tracks.track_id', '=', 'spotify_play_activities.track_id')
+                                  ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_play_activities.track_id')
                                   ->select(DB::raw('AVG(bpm) as bpm'))
                                   ->first()->bpm;
         return round($bpm);
@@ -354,13 +354,12 @@ class SpotifyController extends Controller {
     public function getTopArtists($timeFrom = null, $timeTo = null, int $limit = 5): Collection {
         $query = SpotifyArtist::join('spotify_track_artists', 'spotify_track_artists.artist_id', '=', 'spotify_artists.id')
                               ->join('spotify_tracks', 'spotify_tracks.id', '=', 'spotify_track_artists.track_id')
-                              ->join('spotify_play_activities', 'spotify_play_activities.track_id', '=', 'spotify_tracks.track_id')
+                              ->join('spotify_play_activities', 'spotify_play_activities.track_id', '=', 'spotify_tracks.id')
                               ->where('spotify_play_activities.user_id', auth()->user()->id)
                               ->groupBy('spotify_artists.id')
                               ->select('spotify_artists.*', DB::raw('SUM(duration) / 60 AS minutes'))
                               ->orderBy('minutes', 'desc')
                               ->limit($limit);
-
         if($timeTo != null) {
             $timeTo = Carbon::parse($timeTo);
             $query->where('spotify_play_activities.created_at', '<=', $timeTo);
