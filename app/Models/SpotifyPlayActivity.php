@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Carbon\Carbon;
 
 class SpotifyPlayActivity extends Model {
 
@@ -16,6 +17,7 @@ class SpotifyPlayActivity extends Model {
         'duration'    => 'integer',
         'progress_ms' => 'integer',
     ];
+    protected $appends  = ['timestamp_end'];
 
     public function track(): BelongsTo {
         return $this->belongsTo(SpotifyTrack::class, 'track_id', 'id');
@@ -27,5 +29,9 @@ class SpotifyPlayActivity extends Model {
 
     public function context(): BelongsTo {
         return $this->belongsTo(SpotifyContext::class, 'context_id', 'id');
+    }
+
+    public function getTimestampEndAttribute(): Carbon {
+        return $this->timestamp_start->clone()->addSeconds($this->duration);
     }
 }

@@ -423,7 +423,7 @@ class SpotifyController extends Controller {
                                   ->first();
     }
 
-    public function renderDailyHistory(Request $request, $date = null): RedirectResponse|View {
+    public function renderDailyHistory($date = null): RedirectResponse|View {
         $date = $date == null ? Carbon::today() : Carbon::parse($date);
 
         if($date->isAfter(Carbon::now())) {
@@ -436,9 +436,8 @@ class SpotifyController extends Controller {
                                        ->where('timestamp_start', '<=', $date->toDateString() . ' 23:59:59');
 
         $history = (clone $dayQuery)->with(['track', 'device'])
-                                    ->select(['timestamp_start', 'track_id', 'device_id', DB::raw('MAX(created_at) AS played_until')])
-                                    ->groupBy(['timestamp_start', 'track_id', 'device_id'])
-                                    ->orderBy('timestamp_start')
+                                    ->select(['timestamp_start', 'track_id', 'duration'])
+                                    ->orderByDesc('timestamp_start')
                                     ->paginate(10);
 
         $tracksDistinct = (clone $dayQuery)->select('track_id')->groupBy('track_id')->get()->count();

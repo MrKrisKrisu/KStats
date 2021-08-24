@@ -30,7 +30,7 @@ abstract class FetchController extends Controller {
 
             if(Carbon::now()->minute % 5 != 0) {
                 //Temporary reduce api requests if user have permission to read last tracks.
-                return;
+               // return;
             }
 
             echo strtr('* Fetched recently played for User :userId.', [':userId' => $user->id]) . PHP_EOL;
