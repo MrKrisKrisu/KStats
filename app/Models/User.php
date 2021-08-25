@@ -56,4 +56,8 @@ class User extends Authenticatable {
         return $this->hasMany(ReweBon::class, 'user_id', 'id')->orderBy('timestamp_bon');
     }
 
+    public function publicTransportCards(): HasMany {
+        return $this->hasMany(PublicTransportCard::class, 'user_id', 'id');
+    }
+
 }

@@ -70,6 +70,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('public-transport') }}">
+                                <i class="far fa-credit-card"></i> {{ __('public-transport-card') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link"
                                href="{{ route('crowdsourcing_rewe') }}">
                                 <i class="fas fa-magic"></i> {{ __('general.menu.crowdsourcing') }}

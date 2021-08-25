@@ -15,6 +15,10 @@ use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\Frontend\Receipt\ImportController;
+use App\Http\Controllers\Frontend\PublicTransport\PublicTransportController;
+use App\Http\Controllers\Frontend\PublicTransport\CardController;
+use App\Http\Controllers\Frontend\PublicTransport\JourneyController;
+use App\Http\Controllers\Frontend\PublicTransport\ComplaintController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -102,6 +106,17 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
 
     Route::get('/twitter', [TwitterController::class, 'index'])
          ->name('twitter');
+
+    Route::prefix('public-transport')->group(function() {
+        Route::get('/', [PublicTransportController::class, 'renderOverview'])
+             ->name('public-transport');
+        Route::post('/card/add', [CardController::class, 'addNewCard'])
+             ->name('public-transport.card.add');
+        Route::post('/journey/add', [JourneyController::class, 'addNewJourney'])
+             ->name('public-transport.journey.add');
+        Route::post('/complaint/add', [ComplaintController::class, 'addNewComplaint'])
+             ->name('public-transport.complaint.add');
+    });
 });
 
 Route::view('/imprint', 'legal.imprint');

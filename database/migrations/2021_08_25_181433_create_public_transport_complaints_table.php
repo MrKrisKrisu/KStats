@@ -12,8 +12,8 @@ class CreatePublicTransportComplaintsTable extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('journey_id')->nullable()->default(null);
             $table->unsignedBigInteger('card_id');
-            $table->date('date');
             $table->decimal('cashback');
+            $table->text('description')->nullable()->default(null);
             $table->timestamps();
 
             $table->foreign('user_id')

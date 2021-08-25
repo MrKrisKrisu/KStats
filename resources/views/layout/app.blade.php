@@ -72,7 +72,7 @@
                     <hr/>
                     <p class="float-left">
                         <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=bug" target="ghub"
-                           style="color: #E70000;">{{ __('general.report_bug') }}</a> |
+                           style="color: #E70000 !important;">{{ __('general.report_bug') }}</a> |
                         <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement"
                            target="ghub">{{ __('general.suggestion') }}</a> |
                         <a href="https://github.com/MrKrisKrisu/KStats/"

@@ -10,8 +10,9 @@ class PublicTransportJourney extends Model {
 
     use HasFactory;
 
-    protected $fillable = ['public_transport_card_id', 'origin', 'destination', 'price_without_card', 'price_with_card'];
+    protected $fillable = ['public_transport_card_id', 'date', 'origin', 'destination', 'price_without_card', 'price_with_card'];
     protected $appends  = ['saved'];
+    protected $dates    = ['date'];
     protected $casts    = [
         'public_transport_card_id' => 'integer',
         'price_without_card'       => 'float',

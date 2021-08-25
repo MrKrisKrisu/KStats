@@ -10,13 +10,12 @@ class PublicTransportComplaint extends Model {
 
     use HasFactory;
 
-    protected $fillable = ['user_id', 'journey_id', 'card_id', 'date', 'cashback'];
-    protected $dates    = ['date'];
+    protected $fillable = ['user_id', 'journey_id', 'card_id', 'description', 'cashback'];
     protected $casts    = [
         'user_id'    => 'integer',
         'journey_id' => 'integer',
         'card_id'    => 'integer',
-        'cashback'   => 'double',
+        'cashback'   => 'float',
     ];
 
     public function user(): BelongsTo {

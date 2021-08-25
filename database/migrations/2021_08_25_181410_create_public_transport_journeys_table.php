@@ -10,6 +10,7 @@ class CreatePublicTransportJourneysTable extends Migration {
         Schema::create('public_transport_journeys', function(Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('public_transport_card_id');
+            $table->date('date');
             $table->string('origin');
             $table->string('destination');
             $table->decimal('price_without_card');

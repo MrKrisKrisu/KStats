@@ -26,8 +26,9 @@
 #dashboard a:not(.btn),
 #dashboard .color-highlight,
 #dashboard .pagination .page-item:not(.active) .page-link,
-.color-primary {
-  color: $color_main;
+.color-primary,
+.text-primary {
+  color: $color_main !important;
 }
 
 #dashboard .spotify-cover {
