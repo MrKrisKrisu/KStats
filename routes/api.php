@@ -11,7 +11,7 @@ Route::middleware('auth:web')->get('/spotify/user/average_session_length', 'Spot
 Route::middleware('auth:web')->get('/spotify/user/track_count', 'SpotifyController@getTrackCount');
 Route::middleware('auth:web')->get('/spotify/user/top_artists/{time_from?}/{time_to?}/{limit?}', [SpotifyController::class, 'getTopArtists']);
 Route::middleware('auth:web')->get('/spotify/user/top_tracks/{time_from?}/{time_to?}/{limit?}', [SpotifyController::class, 'getTopTracks']);
-Route::middleware('auth:web')->get('/spotify/user/playtime/{time_from?}/{time_to?}', 'SpotifyController@getPlaytime');
+Route::middleware('auth:web')->get('/spotify/user/playtime/{time_from?}/{time_to?}', [SpotifyController::class, 'getPlaytime']);
 Route::middleware('auth:web')->get('/spotify/user/last_played', 'SpotifyController@getLastPlayed');
 
 
