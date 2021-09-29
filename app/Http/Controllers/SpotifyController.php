@@ -376,8 +376,7 @@ class SpotifyController extends Controller {
      * @param null $timeFrom
      * @param null $timeTo
      *
-     * @return int
-     * @todo in use?
+     * @return int Duration in Minutes
      */
     public function getPlaytime($timeFrom = null, $timeTo = null): int {
         $query = SpotifyPlayActivity::where('user_id', auth()->user()->id);
@@ -390,8 +389,7 @@ class SpotifyController extends Controller {
             $timeTo = Carbon::parse($timeTo);
             $query->where('created_at', '<=', $timeTo->toIso8601String());
         }
-
-        return $query->count();
+        return round($query->sum('duration') / 60);
     }
 
     public function getTopTracks($timeFrom = null, $timeTo = null, int $limit = 3): Collection {
