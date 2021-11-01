@@ -68,7 +68,7 @@
                             </span>
 
                             <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
-                                  class="float-right">
+                                  class="float-end">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     {{__('general.deactivate')}}

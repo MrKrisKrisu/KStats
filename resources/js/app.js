@@ -9,7 +9,7 @@ require("select2");
 const Swal = window.Swal = require("sweetalert2");
 
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-bs-toggle="tooltip"]').tooltip()
 })
 window.showLoadPopup = function () {
     Swal.fire({

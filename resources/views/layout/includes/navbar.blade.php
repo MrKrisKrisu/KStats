@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/"><i class="far fa-chart-bar"></i> KStats</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,7 +32,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fab fa-spotify"></i> Spotify
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -79,7 +79,7 @@
                     <ul class="navbar-nav mr-right">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <i class="fas fa-user"></i> {{ Auth::user()->username }} <span class="caret"></span>
                             </a>
 

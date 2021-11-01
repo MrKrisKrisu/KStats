@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     @isset($lastSpotifyTrack)
-                        <small class="text-muted float-right">{{__('played')}} {{$lastSpotifyTrack->timestamp_start->diffForHumans()}}</small>
+                        <small class="text-muted float-end">{{__('played')}} {{$lastSpotifyTrack->timestamp_start->diffForHumans()}}</small>
                     @endisset
                     <h5 class="card-title">{{__('spotify.title.last_heared')}}</h5>
                     @isset($lastSpotifyTrack)

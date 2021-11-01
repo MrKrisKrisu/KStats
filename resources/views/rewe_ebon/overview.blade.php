@@ -3,7 +3,7 @@
 @section('title', __('rewe-analyzer'))
 
 @section('before-title')
-    <a class="float-right btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-upload">
+    <a class="float-end btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-upload">
         <i class="fas fa-upload"></i> {{__('upload-receipt')}}
     </a>
 @endsection
@@ -17,7 +17,7 @@
                     <h5 class="modal-title">
                         <i class="fas fa-upload"></i> {{__('upload-receipt')}}
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close"data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -49,7 +49,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">{{__('close')}}</button>
+                    <button type="reset" class="btn btn-secondary"data-bs-dismiss="modal">{{__('close')}}</button>
                 </div>
             </div>
         </div>

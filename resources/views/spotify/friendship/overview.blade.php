@@ -32,7 +32,7 @@
                                     @else
                                         <td>
                                             <a class="btn btn-sm btn-success"
-                                               data-toggle="modal" data-target="#createModal"
+                                               data-bs-toggle="modal" data-bs-target="#createModal"
                                                onclick="$('#confirm-create-btn').attr('form', 'create-{{$friend->id}}')">
                                                 <i class="fas fa-plus-square"></i> {{__('create-playlist')}}
                                             </a>
@@ -59,7 +59,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{__('create-playlist')}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close"data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -71,7 +71,7 @@
                             onclick="$('#createModal').modal('hide'); showLoadPopup();">
                         {{__('create-playlist')}}
                     </button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('abort')}}</button>
+                    <button type="button" class="btn btn-secondary"data-bs-dismiss="modal">{{__('abort')}}</button>
                 </div>
             </div>
         </div>
