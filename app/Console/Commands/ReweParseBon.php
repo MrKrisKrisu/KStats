@@ -10,6 +10,7 @@ use REWEParser\Exception\ReceiptParseException;
 use Spatie\PdfToText\Exceptions\PdfNotFound;
 use App\Http\Controllers\Backend\Receipt\ImportController;
 use Illuminate\Http\UploadedFile;
+use App\Http\Controllers\Backend\Receipt\Grocy\ReceiptController;
 
 class ReweParseBon extends Command {
 
@@ -28,15 +29,19 @@ class ReweParseBon extends Command {
         foreach($files as $bonAttachment) {
             try {
                 $userEmail = UserEmail::firstOrCreate(["email" => $bonAttachment->getEMail()]);
+                $user      = $userEmail->verifiedUser;
 
                 echo strtr('* Parse receipt from <:email>...', [':email' => $userEmail->email,]) . PHP_EOL;
 
                 $filename     = $bonAttachment->getFilename();
                 $uploadedFile = new UploadedFile($filename, md5(time() . rand()) . '.pdf');
 
-                if($userEmail->verifiedUser != null) {
-                    $receipt = ImportController::parseReweReceipt($userEmail->verifiedUser, $uploadedFile);
+                if($user != null) {
+                    $receipt = ImportController::parseReweReceipt($user, $uploadedFile);
                     echo strtr('** Receipt successfully parsed. ID=:id', [':id' => $receipt->id]) . PHP_EOL;
+                    if(isset($user->socialProfile->grocy_host) && $receipt->wasRecentlyCreated == 1) {
+                        ReceiptController::addReceiptToStock($receipt);
+                    }
                 } else {
                     echo strtr('** There is no verified user for <:email>...', [':email' => $userEmail->email,]) . PHP_EOL;
                 }

@@ -4,16 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\Encryptable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SocialLoginProfile extends Model {
 
-    protected $fillable = [
-        'user_id', 'telegram_id', 'twitter_id', 'twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken',
-        'spotify_lastRefreshed', 'spotify_user_id', 'spotify_scopes', 'spotify_expires_at'
+    use HasFactory, Encryptable;
+
+    protected $fillable    = [
+        'user_id', 'telegram_id',
+        'twitter_id', 'twitter_token', 'twitter_tokenSecret',
+        'spotify_accessToken', 'spotify_refreshToken', 'spotify_lastRefreshed', 'spotify_user_id', 'spotify_scopes', 'spotify_expires_at',
+        'grocy_host', 'grocy_key'
     ];
-    protected $hidden   = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
-    protected $appends  = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
+    protected $hidden      = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
+    protected $appends     = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
     protected $dates    = ['spotify_lastRefreshed', 'spotify_expires_at'];
+    protected $encryptable = ['grocy_key'];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);

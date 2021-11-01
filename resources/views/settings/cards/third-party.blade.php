@@ -96,6 +96,31 @@
                         </form>
                     </td>
                 </tr>
+
+                <tr>
+                    <td><img src="{{url('img/grocy_logo.svg')}}" style="height: 0.9rem;" alt="grocy Logo"></td>
+                    <td>
+                        @isset(auth()->user()->socialProfile->grocy_host)
+                            <span class="font-weight-bold text-success">
+                                <i class="fas fa-check"></i>
+                                {{__('settings.grocy.connected')}}
+                            </span>
+                            <br/>
+                            <small class="text-secondary">
+                                Instanz: <i>{{auth()->user()->socialProfile->grocy_host}}</i>
+                            </small>
+                            <br/>
+                            <a href="{{route('grocy')}}" class="btn btn-sm btn-success">
+                                {{__('settings.third-party.manage')}}
+                            </a>
+                        @else
+                            <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                            <a href="{{route('grocy')}}" class="btn btn-sm btn-primary">
+                                {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'grocy'])}}
+                            </a>
+                        @endisset
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
