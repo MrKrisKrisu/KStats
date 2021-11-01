@@ -31,10 +31,10 @@ class SocialLoginProfile extends Model {
     }
 
     public function getIsConnectedSpotifyAttribute(): bool {
-        if($this->spotify_accessToken === null || $this->spotify_refreshToken === null || $this->spotify_user_id === null || $this->spotify_lastRefreshed === null) {
+        if($this->spotify_accessToken === null || $this->spotify_refreshToken === null || $this->spotify_user_id === null) {
             return false;
         }
-        if($this->spotify_lastRefreshed?->diffInMinutes() > 120) {
+        if($this->spotify_lastRefreshed === null || $this->spotify_lastRefreshed?->diffInMinutes() > 120) {
             return false;
         }
         //TODO: Check if Token is valid
