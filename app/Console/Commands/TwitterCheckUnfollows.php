@@ -23,7 +23,10 @@ class TwitterCheckUnfollows extends Command {
             return 0;
         }
 
-        $toCheck = TwitterFollower::orderBy('updated_at', 'asc')->limit($this->argument('limit'))->get();
+        $toCheck = TwitterFollower::whereIn('followed_id', SocialLoginProfile::select('twitter_id')->whereNotNull('twitter_id'))
+                                  ->orderBy('updated_at', 'asc')
+                                  ->limit($this->argument('limit'))
+                                  ->get();
         foreach($toCheck as $relationship) {
             try {
                 $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', null)->first();
