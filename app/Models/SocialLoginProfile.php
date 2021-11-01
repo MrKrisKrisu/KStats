@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class SocialLoginProfile extends Model {
 
@@ -19,7 +20,7 @@ class SocialLoginProfile extends Model {
     ];
     protected $hidden      = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
     protected $appends     = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
-    protected $dates       = ['spotify_lastRefreshed', 'spotify_expires_at'];
+    protected $dates       = ['spotify_expires_at', 'spotify_lastRefreshed'];
     protected $encryptable = ['grocy_key'];
 
     public function user(): BelongsTo {
@@ -34,7 +35,7 @@ class SocialLoginProfile extends Model {
         if($this->spotify_accessToken === null || $this->spotify_refreshToken === null || $this->spotify_user_id === null) {
             return false;
         }
-        if($this->spotify_lastRefreshed === null || $this->spotify_lastRefreshed?->diffInMinutes() > 120) {
+        if($this->spotify_lastRefreshed === null || Carbon::parse($this->spotify_lastRefreshed)->diffInMinutes() > 120) {
             return false;
         }
         //TODO: Check if Token is valid
