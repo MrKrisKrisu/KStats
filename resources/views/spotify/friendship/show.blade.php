@@ -49,7 +49,7 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-body">
-                    <a class="btn btn-success btn-lg btn-block" target="spotify"
+                    <a class="btn btn-success btn-lg" target="spotify"
                        href="https://open.spotify.com/playlist/{{$playlistId}}">
                         <i class="fab fa-spotify"></i> {{__('open-in-spotify')}}
                     </a>

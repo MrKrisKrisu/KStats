@@ -39,13 +39,13 @@
                         <form method="POST" action="{{route('grocy.connect')}}">
                             @csrf
 
-                            <div class="form-group">
+                            <div class="mb-2">
                                 <label>Hostname</label>
                                 <input type="url" name="host" placeholder="beginnt mit http:// oder https://"
                                        class="form-control"/>
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-2">
                                 <label>API-Key</label>
                                 <input type="password" name="apiKey" class="form-control"/>
                             </div>
@@ -62,7 +62,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <img src="{{url('img/grocy_logo.svg')}}" class="float-right" style="height: 1.125rem"/>
+                    <img src="{{url('img/grocy_logo.svg')}}" class="float-end" style="height: 1.125rem"/>
                     <h5 class="card-title"><i class="far fa-question-circle"></i> Über die grocy Integration</h5>
 
                     <p>grocy ist eine webbasierte, selbst gehostete Lösung zur Verwaltung von Lebensmitteln und

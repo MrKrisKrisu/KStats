@@ -8,7 +8,7 @@
                     <td><i class="fab fa-spotify"></i> Spotify</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedSpotify)
-                            <span class="font-weight-bold text-success">
+                            <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
                                 {{__('settings.third-party.connected')}}
                             </span>
@@ -18,13 +18,13 @@
                             </span>
                         @else
                             @isset(auth()->user()->socialProfile->spotify_lastRefreshed)
-                                <p class="font-weight-bold text-danger">
+                                <p class="fs-bold text-danger">
                                     <i class="fas fa-times"></i>
                                     {{__('lost-connection')}}
                                     {{auth()->user()->socialProfile->spotify_lastRefreshed->diffForHumans()}}
                                 </p>
                             @else
-                                <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                                <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
                             @endisset
                             <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-sm btn-primary">
                                 {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Spotify'])}}
@@ -37,7 +37,7 @@
                     <td><i class="fab fa-twitter"></i> Twitter</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedTwitter)
-                            <span class="font-weight-bold text-success">
+                            <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
                                 {{__('settings.third-party.connected')}}
                             </span>
@@ -46,7 +46,7 @@
                                 Twitter UserID: {{auth()->user()->socialProfile->twitter_id}}
                             </span>
                         @else
-                            <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                            <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
                             <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-sm btn-primary">
                                 {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Twitter'])}}
                             </a>
@@ -58,7 +58,7 @@
                     <td><i class="fab fa-telegram"></i> Telegram</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedTelegram)
-                            <span class="font-weight-bold text-success">
+                            <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
                                 {{__('settings.third-party.connected')}}
                             </span>
@@ -68,14 +68,14 @@
                             </span>
 
                             <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
-                                  class="float-right">
+                                  class="float-end">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     {{__('general.deactivate')}}
                                 </button>
                             </form>
                         @else
-                            <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                            <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
                         @endif
                         @if(isset($telegramConnectCode) && ($telegramConnectCode != null && $telegramConnectCode->val != ''))
                             <div class="alert alert-info" style="text-align: center;">
@@ -101,7 +101,7 @@
                     <td><img src="{{url('img/grocy_logo.svg')}}" style="height: 0.9rem;" alt="grocy Logo"></td>
                     <td>
                         @isset(auth()->user()->socialProfile->grocy_host)
-                            <span class="font-weight-bold text-success">
+                            <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
                                 {{__('settings.grocy.connected')}}
                             </span>
@@ -114,7 +114,7 @@
                                 {{__('settings.third-party.manage')}}
                             </a>
                         @else
-                            <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                            <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
                             <a href="{{route('grocy')}}" class="btn btn-sm btn-primary">
                                 {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'grocy'])}}
                             </a>

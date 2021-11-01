@@ -31,7 +31,7 @@
                         <small class="text-muted">{{__('no-preview')}} <i class="far fa-sad-cry"></i></small>
                     @endif
                     <hr/>
-                    <a class="float-right btn btn-success" href="{{$track->spotify_link}}">
+                    <a class="float-end btn btn-success" href="{{$track->spotify_link}}">
                         <i class="fab fa-spotify"></i> {{__('open-in-spotify')}}
                     </a>
                 </div>

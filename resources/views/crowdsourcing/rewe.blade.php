@@ -24,7 +24,7 @@
                         <hr/>
                         <form method="POST">
                             @csrf
-                            <div class="form-group">
+                            <div class="mb-2">
                                 <div class="dropdown bootstrap-select">
                                     <select name="category_id" class="form-control" id="categories">
                                         <option value="">{{__('general.form.choose')}}</option>
