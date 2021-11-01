@@ -71,7 +71,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h2>{{__('spotify.rank', ['rank' => $loop->index + 1 + ($top_tracks->perPage() * ($top_tracks->currentPage() - 1))])}}</h2>
-                            @include('spotify.components.track', ['track' => $activity->track, 'minutes' => $activity->minutes])
+                            @include('spotify.components.track', ['track' => $activity->track, 'minutes' => round($activity->minutes)])
                         </div>
                     </div>
                 </div>

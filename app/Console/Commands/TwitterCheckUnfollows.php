@@ -10,8 +10,9 @@ use App\Models\TwitterUnfollower;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Exception;
+use Abraham\TwitterOAuth\TwitterOAuthException;
 
-class Twitter_CheckUnfollows extends Command {
+class TwitterCheckUnfollows extends Command {
 
     protected $signature = 'twitter:check_unfollows {limit=500}';
 
@@ -105,9 +106,13 @@ class Twitter_CheckUnfollows extends Command {
                         $relationship->update();
                     }
                 }
-            } catch(Exception $e) {
-                dump($e);
-                report($e);
+            } catch(TwitterOAuthException $exception) {
+                if(!str_contains($exception->getMessage(), 'Resolving timed out')) {
+                    report($exception);
+                }
+            } catch(Exception $exception) {
+                dump($exception);
+                report($exception);
             }
         }
 

@@ -25,9 +25,22 @@
 
                     <div class="mt-3"></div>
                     @hasSection('title')
-                        <h1 id="mainTitle" >@yield('title')</h1>
+                        <h1 id="mainTitle">@yield('title')</h1>
                         <hr/>
                     @endif
+
+                    @auth
+                        @if(auth()->user()->socialProfile->spotify_user_id != null && !str_contains(auth()->user()->socialProfile->spotify_scopes, 'user-read-recently-played'))
+                            <div class="alert alert-danger">
+                                <b>{{__('spotify.error')}}</b>
+                                <p>{{__('spotify.error.text')}}</p>
+                                <a class="btn btn-success btn-sm" href="{{route('redirectProvider', 'spotify')}}">
+                                    <i class="fab fa-spotify"></i>
+                                    {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Spotify'])}}
+                                </a>
+                            </div>
+                        @endif
+                    @endauth
 
                     @if ($errors->any())
                         <div class="alert alert-danger">

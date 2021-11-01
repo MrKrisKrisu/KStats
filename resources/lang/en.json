@@ -133,6 +133,7 @@
     "spotify.time": "Time",
     "spotify.time_suffix": "o'clock",
     "spotify.rank": "Rank :rank",
+    "spotify.rank.heading": "Rank",
     "spotify.artist": "Artist",
     "spotify.heared_minutes": "Listened minutes",
     "spotify.find_tracks_again": "Rediscover old songs",
@@ -283,5 +284,7 @@
     "privacy": "Privacy policy",
     "crowdsourcing": "Crowdsourcing",
     "crowdsourcing.bought": "You have purchased \":productName\".",
-    "is-it-veg": "Is it vegetarian?"
+    "is-it-veg": "Is it vegetarian?",
+    "spotify.error": "Error retrieving your Spotify statistics",
+    "spotify.error.text": "Please reconnect to Spotify and grant all necessary permissions to allow KStats to retrieve your played tracks."
 }
