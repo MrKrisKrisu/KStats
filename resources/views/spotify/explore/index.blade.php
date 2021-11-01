@@ -115,7 +115,7 @@
                     <p class="text-muted">{{__('explore.telegram.text')}}</p>
                     <form method="POST" action="{{route('spotify.explore.telegram')}}">
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-2">
                             <input type="time" name="time" class="form-control"
                                    value="{{\App\Models\UserSettings::get(auth()->user()->id, 'tg_explore_time')}}"/>
                         </div>

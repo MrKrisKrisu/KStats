@@ -59,8 +59,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{__('create-playlist')}}</h5>
-                    <button type="button" class="close"data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
                     </button>
                 </div>
                 <div class="modal-body">
@@ -71,7 +71,7 @@
                             onclick="$('#createModal').modal('hide'); showLoadPopup();">
                         {{__('create-playlist')}}
                     </button>
-                    <button type="button" class="btn btn-secondary"data-bs-dismiss="modal">{{__('abort')}}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{__('abort')}}</button>
                 </div>
             </div>
         </div>

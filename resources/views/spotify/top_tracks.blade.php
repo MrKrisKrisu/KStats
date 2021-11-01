@@ -41,14 +41,14 @@
                         <input type="hidden" name="page" value="1"/>
                         <div class="row">
                             <div class="col">
-                                <div class="form-group">
+                                <div class="mb-2">
                                     <label>{{__('from')}}</label>
                                     <input type="date" name="from" class="form-control"
                                            value="{{$from->format('Y-m-d')}}"/>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-group">
+                                <div class="mb-2">
                                     <label>{{__('until')}}</label>
                                     <input type="date" name="to" class="form-control" value="{{$to->format('Y-m-d')}}"/>
                                 </div>
@@ -85,7 +85,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <p class="text-danger font-weight-bold">{{__('spotify.top-list.none')}}</p>
+                        <p class="text-danger fs-bold">{{__('spotify.top-list.none')}}</p>
                     </div>
                 </div>
             </div>

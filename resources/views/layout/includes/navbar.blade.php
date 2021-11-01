@@ -8,12 +8,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 @guest
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="/">{{__('general.menu.home')}}</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav mr-right">
+                    <ul class="navbar-nav me-right">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                         </li>
@@ -24,7 +24,7 @@
                         @endif
                     </ul>
                 @else
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="{{ route('home') }}">
                                 <i class="fas fa-home"></i> {{__('general.menu.dashboard')}}
@@ -76,7 +76,7 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav mr-right">
+                    <ul class="navbar-nav me-right">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

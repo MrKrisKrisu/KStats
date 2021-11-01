@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <span class="color-primary" style="font-size: 50px;" id="lieblingsjahr">...</span><br/>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.favourite_year')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.favourite_year')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -27,7 +27,7 @@
                                 <span id="bpm">...</span><small>BPM</small>
                             </span>
                             <br/>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.favourite_bpm')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.favourite_bpm')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -42,7 +42,7 @@
                         <div class="col-md-3">
                                 <span class="color-primary" style="font-size: 50px;"
                                       id="track_count">...</span><br>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.count_tracks')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.count_tracks')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -58,7 +58,7 @@
                             <span class="color-primary" style="font-size: 50px;">
                                 <span id="avgPerSession">...</span><small>{{__('spotify.minutes.short')}}</small>
                             </span><br>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.avg_session_length')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.avg_session_length')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({

@@ -39,13 +39,13 @@
                         <form method="POST" action="{{route('grocy.connect')}}">
                             @csrf
 
-                            <div class="form-group">
+                            <div class="mb-2">
                                 <label>Hostname</label>
                                 <input type="url" name="host" placeholder="beginnt mit http:// oder https://"
                                        class="form-control"/>
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-2">
                                 <label>API-Key</label>
                                 <input type="password" name="apiKey" class="form-control"/>
                             </div>

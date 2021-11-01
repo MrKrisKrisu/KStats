@@ -17,9 +17,7 @@
                     <h5 class="modal-title">
                         <i class="fas fa-upload"></i> {{__('upload-receipt')}}
                     </h5>
-                    <button type="button" class="close"data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -30,7 +28,7 @@
                             <form method="POST" enctype="multipart/form-data"
                                   action="{{route('receipt.import.upload')}}">
                                 @csrf
-                                <div class="form-group">
+                                <div class="mb-2">
                                     <label>{{__('receipt')}} <small>(.pdf)</small></label>
                                     <input id="file" type="file" class="form-control" name="file" required>
                                 </div>
@@ -49,7 +47,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary"data-bs-dismiss="modal">{{__('close')}}</button>
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">{{__('close')}}</button>
                 </div>
             </div>
         </div>
