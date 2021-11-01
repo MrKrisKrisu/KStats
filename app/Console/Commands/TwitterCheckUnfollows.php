@@ -27,11 +27,11 @@ class TwitterCheckUnfollows extends Command {
         foreach($toCheck as $relationship) {
             try {
                 $sl_profile = SocialLoginProfile::where('twitter_id', $relationship->followed_id)->where('twitter_token', '<>', null)->first();
-                if($sl_profile == null) {
+                if($sl_profile === null) {
                     echo '**** Social login profile missing for user ' . $relationship->followed->screen_name
                          . ' Skip user for this session.' . PHP_EOL;
-                    $toCheck = $toCheck->reject(function($model) use ($sl_profile) {
-                        return $model->followed_id == $sl_profile->twitter_id;
+                    $toCheck = $toCheck->reject(function($model) use ($relationship) {
+                        return $model->followed_id === $relationship->followed->followed_id;
                     });
                     continue;
                 }
