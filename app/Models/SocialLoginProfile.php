@@ -16,7 +16,7 @@ class SocialLoginProfile extends Model {
     protected $dates    = ['spotify_lastRefreshed', 'spotify_expires_at'];
 
     public function user(): BelongsTo {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function twitterUser(): BelongsTo {
