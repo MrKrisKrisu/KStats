@@ -78,8 +78,6 @@ class TelegramController extends Controller {
 
         //Log::debug($updates['callback_query']['data']);
         //Log::debug($updates['callback_query']['from']['id']);
-        Log::debug();
-
 
         Log::debug(json_decode($updates));
         return 'ok';
