@@ -11,7 +11,7 @@ use JetBrains\PhpStorm\Pure;
 class ReweBonPosition extends Model {
 
     protected $fillable = [
-        'bon_id', 'product_id', 'amount', 'weight', 'single_price'
+        'bon_id', 'product_id', 'amount', 'weight', 'single_price', 'grocy_transaction_id'
     ];
     protected $appends  = ['total'];
 

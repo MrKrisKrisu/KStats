@@ -45,7 +45,7 @@
                     <h6>{{__('auth.email')}}</h6>
                     <form method="POST" action="{{route('settings.save.email')}}">
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-2">
                             <input type="email" name="email" placeholder="{{__('auth.email')}}" class="form-control"/>
                         </div>
                         <button type="submit" class="btn btn-primary">{{__('save')}}</button>
@@ -61,7 +61,7 @@
                     <h5 class="card-title">{{__('settings.password.change')}}</h5>
                     <form method="POST" action="{{route('settings.user.password.change')}}">
                         @csrf
-                        <div class="form-group row">
+                        <div class="mb-2 row">
                             <label for="password"
                                    class="col-md-4 col-form-label text-md-right">{{__('settings.password.current')}}</label>
 
@@ -71,7 +71,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="mb-2 row">
                             <label for="password"
                                    class="col-md-4 col-form-label text-md-right">{{__('settings.password.new')}}</label>
 
@@ -81,7 +81,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="mb-2 row">
                             <label for="password"
                                    class="col-md-4 col-form-label text-md-right">{{__('settings.password.new_repeat')}}</label>
 
@@ -101,7 +101,7 @@
 
                     <form method="POST" action="{{route('settings.set.lang')}}">
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-2">
                             <select name="locale" class="form-control" required>
                                 <option value="">{{__('settings.select')}}</option>
                                 <option value="de"

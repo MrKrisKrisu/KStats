@@ -2,18 +2,18 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/"><i class="far fa-chart-bar"></i> KStats</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 @guest
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="/">{{__('general.menu.home')}}</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav mr-right">
+                    <ul class="navbar-nav me-right">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                         </li>
@@ -24,7 +24,7 @@
                         @endif
                     </ul>
                 @else
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="{{ route('home') }}">
                                 <i class="fas fa-home"></i> {{__('general.menu.dashboard')}}
@@ -32,7 +32,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fab fa-spotify"></i> Spotify
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -76,10 +76,10 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav mr-right">
+                    <ul class="navbar-nav me-right">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <i class="fas fa-user"></i> {{ Auth::user()->username }} <span class="caret"></span>
                             </a>
 

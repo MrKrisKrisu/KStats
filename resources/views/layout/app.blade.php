@@ -55,8 +55,8 @@
                     <div class="flash-message">
                         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                             @if(Session::has('alert-' . $msg))
-                                <p class="alert alert-{{ $msg }}">{!! Session::get('alert-' . $msg) !!}
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <p class="alert alert-{{ $msg }}">
+                                    {!! Session::get('alert-' . $msg) !!}
                                 </p>
                             @endif
                         @endforeach
@@ -70,7 +70,7 @@
             <footer class="text-muted">
                 <div class="container">
                     <hr/>
-                    <p class="float-left">
+                    <p class="float-start">
                         <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=bug" target="ghub"
                            style="color: #E70000;">{{ __('general.report_bug') }}</a> |
                         <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement"
@@ -86,7 +86,7 @@
                             </a>
                         </small>
                     </p>
-                    <p class="float-right">
+                    <p class="float-end">
                         <a href="/imprint">{{ __('general.menu.imprint') }}</a> |
                         <a href="/privacy">{{ __('general.menu.privacy_policy') }}</a> |
                         <a href="#">{{ __('general.back_to_top') }}</a>
