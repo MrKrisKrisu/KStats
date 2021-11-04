@@ -1,21 +1,21 @@
 <?php
 
 use App\Http\Controllers\CrowdsourceController;
+use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\Frontend\Receipt\Grocy\ApiController;
+use App\Http\Controllers\Frontend\Receipt\ImportController;
+use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
 use App\Http\Controllers\Frontend\Spotify\SpotifySocialExploreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReweController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FriendshipController;
-use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
-use App\Http\Controllers\TelegramController;
-use App\Http\Controllers\Frontend\Receipt\ImportController;
-use App\Http\Controllers\Frontend\Receipt\Grocy\ApiController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -62,8 +62,6 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
          ->name('spotify.explore');
     Route::post('/spotify/explore/submit', [SpotifyController::class, 'saveExploration'])
          ->name('spotify.explore.submit');
-    Route::post('/spotify/explore/telegram', [SpotifySocialExploreController::class, 'saveTime'])
-         ->name('spotify.explore.telegram');
     Route::get('/spotify/track/{id}', [SpotifyController::class, 'trackDetails'])
          ->name('spotify.track');
     Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])

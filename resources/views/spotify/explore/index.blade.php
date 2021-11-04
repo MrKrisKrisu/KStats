@@ -49,11 +49,13 @@
                                             onclick="$('#likedModal').modal('show'); $('#btnPlaylist').focus();">
                                         <i class="fas fa-thumbs-up"></i>
                                     </button>
-                                    <button type="submit" class="btn btn-danger" data-bs-toggle="tooltip" id="btnDislike"
+                                    <button type="submit" class="btn btn-danger" data-bs-toggle="tooltip"
+                                            id="btnDislike"
                                             data-placement="top" title="{{__('dislike')}}" name="rating" value="0">
                                         <i class="fas fa-thumbs-down"></i>
                                     </button>
-                                    <button type="submit" class="btn btn-secondary" data-bs-toggle="tooltip" id="btnSkip"
+                                    <button type="submit" class="btn btn-secondary" data-bs-toggle="tooltip"
+                                            id="btnSkip"
                                             data-placement="top" title="{{__('skip')}}" name="rating" value="-1">
                                         <i class="fas fa-forward"></i>
                                     </button>
@@ -107,20 +109,6 @@
                             <span>{{__('rated.total')}}</span>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h2>{{__('explore.telegram')}}</h2>
-                    <p class="text-muted">{{__('explore.telegram.text')}}</p>
-                    <form method="POST" action="{{route('spotify.explore.telegram')}}">
-                        @csrf
-                        <div class="mb-2">
-                            <input type="time" name="time" class="form-control"
-                                   value="{{\App\Models\UserSettings::get(auth()->user()->id, 'tg_explore_time')}}"/>
-                        </div>
-                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
-                    </form>
                 </div>
             </div>
         </div>

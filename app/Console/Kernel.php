@@ -25,10 +25,6 @@ class Kernel extends ConsoleKernel {
                  ->everyMinute()
                  ->runInBackground();
 
-        $schedule->command('spotify:sendExplore')
-                 ->everyMinute()
-                 ->runInBackground();
-
         $schedule->command('spotify:getTrackInfo')
                  ->everyFifteenMinutes();
 
