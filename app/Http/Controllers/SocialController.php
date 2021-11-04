@@ -56,7 +56,7 @@ class SocialController extends Controller {
                                        'last_login'           => Carbon::now()->toIso8601String(),
                                    ]);
 
-            Auth::login($socialProfile->user);
+            Auth::login($socialProfile->user()->first()); //wtf?
         }
 
         $socialProfile = SocialLoginProfile::firstOrCreate(['user_id' => auth()->user()->id]);
