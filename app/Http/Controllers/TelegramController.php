@@ -38,7 +38,11 @@ class TelegramController extends Controller {
 
     public function handleTelegram(): ?string {
         $updates = Telegram::commandsHandler(true);
-        Log::debug(json_decode($updates));
+        try {
+            Log::debug(print_r(json_decode($updates), true));
+        } catch(Exception $exception) {
+            report($exception);
+        }
         return 'ok';
     }
 
