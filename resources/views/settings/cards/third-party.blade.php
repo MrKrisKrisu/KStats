@@ -10,7 +10,7 @@
                         @if(auth()->user()->socialProfile->isConnectedSpotify)
                             <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
-                                {{__('settings.third-party.connected')}}
+                                {{__('settings.third-party.statistics-enabled')}}
                             </span>
                             <br/>
                             <span class="text-secondary">
@@ -39,7 +39,7 @@
                         @if(auth()->user()->socialProfile->isConnectedTwitter)
                             <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
-                                {{__('settings.third-party.connected')}}
+                                {{__('settings.third-party.statistics-enabled')}}
                             </span>
                             <br/>
                             <span class="text-secondary">
