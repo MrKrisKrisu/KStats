@@ -30,51 +30,57 @@
                                 <i class="fas fa-home"></i> {{__('general.menu.dashboard')}}
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fab fa-spotify"></i> Spotify
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('spotify') }}">
-                                    {{__('spotify.statistic')}}
+                        @if(auth()->user()->socialProfile->isConnectedSpotify)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fab fa-spotify"></i> Spotify
                                 </a>
-                                <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">
-                                    {{__('spotify.title.top_tracks')}}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('spotify.history') }}">
-                                    {{__('spotify.title.history')}}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">
-                                    {{__('spotify.title.lost_tracks')}}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('spotify.mood-o-meter') }}">
-                                    {{__('spotify.title.mood_o_meter')}}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('spotify.explore') }}">
-                                    {{__('spotify.title.explore')}}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('spotify.friendship-playlists') }}">
-                                    {{__('spotify.title.friendship-playlists')}}
-                                </a>
-                            </div>
-                        </li>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('spotify') }}">
+                                        {{__('spotify.statistic')}}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('spotify.topTracks') }}">
+                                        {{__('spotify.title.top_tracks')}}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('spotify.history') }}">
+                                        {{__('spotify.title.history')}}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('spotify.lostTracks') }}">
+                                        {{__('spotify.title.lost_tracks')}}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('spotify.mood-o-meter') }}">
+                                        {{__('spotify.title.mood_o_meter')}}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('spotify.explore') }}">
+                                        {{__('spotify.title.explore')}}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('spotify.friendship-playlists') }}">
+                                        {{__('spotify.title.friendship-playlists')}}
+                                    </a>
+                                </div>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('rewe') }}">
                                 <i class="fas fa-shopping-cart"></i> {{ __('general.menu.receipts') }}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('twitter') }}">
-                                <i class="fab fa-twitter"></i> Twitter
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('crowdsourcing_rewe') }}">
-                                <i class="fas fa-magic"></i> {{ __('general.menu.crowdsourcing') }}
-                            </a>
-                        </li>
+                        @if(auth()->user()->socialProfile->isConnectedTwitter)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('twitter') }}">
+                                    <i class="fab fa-twitter"></i> Twitter
+                                </a>
+                            </li>
+                        @endif
+                        @if(auth()->user()->reweReceipts()->count() > 0)
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ route('crowdsourcing_rewe') }}">
+                                    <i class="fas fa-magic"></i> {{ __('general.menu.crowdsourcing') }}
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                     <ul class="navbar-nav me-right">
                         <li class="nav-item dropdown">

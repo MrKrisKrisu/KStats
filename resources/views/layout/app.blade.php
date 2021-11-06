@@ -97,7 +97,7 @@
     </body>
     @yield('javascript')
     @yield('footer')
-    @if(auth()->check() && auth()->user()->privacy_confirmed_at != null)
+    @if(auth()->check() && auth()->user()->privacy_confirmed_at !== null)
         <script type="text/javascript">
             var _paq = window._paq = window._paq || [];
             _paq.push(['trackPageView']);
