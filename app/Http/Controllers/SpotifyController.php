@@ -447,7 +447,7 @@ class SpotifyController extends Controller {
         return view('spotify.daily_history', [
             'date'           => $date,
             'history'        => $history,
-            'minTotal'       => (clone $dayQuery)->count(),
+            'minTotal'       => round((clone $dayQuery)->sum('duration') / 60),
             'tracksDistinct' => $tracksDistinct,
             'sessions'       => $sessions
         ]);
