@@ -106,7 +106,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="https://twitter.com/{{$follower->screen_name}}">
+                                        <a href="https://twitter.com/{{$follower->screen_name}}" target="_blank">
                                             {{'@'.$follower->screen_name}}
                                         </a>
                                     </td>
