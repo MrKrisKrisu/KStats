@@ -4,27 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Traits\Encryptable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SocialLoginProfile extends Model {
 
-    use HasFactory, Encryptable;
+    use HasFactory;
 
-    protected $fillable    = [
+    protected $fillable = [
         'user_id', 'telegram_id',
         'twitter_id', 'twitter_token', 'twitter_tokenSecret',
         'spotify_accessToken', 'spotify_refreshToken', 'spotify_lastRefreshed', 'spotify_user_id', 'spotify_scopes',
         'spotify_expires_at', 'grocy_host', 'grocy_key',
     ];
-    protected $hidden      = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
-    protected $appends     = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
-    protected $dates       = ['spotify_expires_at', 'spotify_lastRefreshed'];
-    protected $encryptable = ['grocy_key'];
+    protected $hidden   = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
+    protected $appends  = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
+    protected $dates    = ['spotify_expires_at', 'spotify_lastRefreshed'];
+    public    $casts    = [
+        'grocy_key' => 'encrypted',
+    ];
 
-    public function user(): BelongsTo {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+    public function user(): HasOne {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 
     public function twitterUser(): BelongsTo {
@@ -43,15 +45,10 @@ class SocialLoginProfile extends Model {
     }
 
     public function getIsConnectedTwitterAttribute(): bool {
-        if($this->twitter_id === null || $this->twitter_token === null || $this->twitter_tokenSecret === null) {
-            return false;
-        }
-        //TODO: Check if Token is valid
-        return true;
+        return !($this->twitter_id === null || $this->twitter_token === null || $this->twitter_tokenSecret === null);
     }
 
     public function getIsConnectedTelegramAttribute(): bool {
         return $this->telegram_id !== null;
     }
-
 }

@@ -19,7 +19,7 @@ class SocialController extends Controller {
      */
     public function redirect($provider): \Symfony\Component\HttpFoundation\RedirectResponse {
         $driver = Socialite::driver($provider);
-        if($provider == 'spotify') {
+        if($provider === 'spotify') {
             $driver->scopes([
                                 'user-read-recently-played', 'user-top-read', 'user-read-playback-state',
                                 'user-read-currently-playing', 'user-modify-playback-state', 'playlist-modify-private',
@@ -44,7 +44,7 @@ class SocialController extends Controller {
             }
 
             $socialProfile = SocialLoginProfile::where('spotify_user_id', $getInfo->id)->first();
-            if($socialProfile == null) {
+            if($socialProfile === null) {
                 //TODO: Registration with Spotify
                 return redirect('login')->with('status', 'You are not connected to an KStats Account. Please register first and connect your Spotify Account.');
             }
@@ -56,19 +56,19 @@ class SocialController extends Controller {
                                        'last_login'           => Carbon::now()->toIso8601String(),
                                    ]);
 
-            Auth::login($socialProfile->user()->first()); //wtf?
+            Auth::login($socialProfile->user);
         }
 
         $socialProfile = SocialLoginProfile::firstOrCreate(['user_id' => auth()->user()->id]);
 
-        if($provider == "twitter") {
+        if($provider === 'twitter') {
             $socialProfile->update([
                                        'twitter_token'       => $getInfo->token,
                                        'twitter_tokenSecret' => $getInfo->tokenSecret
                                    ]);
 
             TwitterController::verifyProfile($socialProfile);
-        } elseif($provider == "spotify") {
+        } elseif($provider === 'spotify') {
             $socialProfile->update([
                                        'spotify_user_id'       => $getInfo->id,
                                        'spotify_accessToken'   => $getInfo->token,
@@ -83,5 +83,4 @@ class SocialController extends Controller {
 
         return redirect()->to('/settings');
     }
-
 }

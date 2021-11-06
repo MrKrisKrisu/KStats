@@ -5,7 +5,6 @@ use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\Frontend\Receipt\Grocy\ApiController;
 use App\Http\Controllers\Frontend\Receipt\ImportController;
 use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
-use App\Http\Controllers\Frontend\Spotify\SpotifySocialExploreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReweController;
 use App\Http\Controllers\SettingsController;
