@@ -82,10 +82,10 @@ abstract class FriendshipPlaylistController extends Controller {
      * @param User $user
      * @param User $friend
      *
-     * @return SpotifyFriendshipPlaylist
+     * @return void
      * @throws SpotifyTokenExpiredException
      */
-    private static function createFriendshipPlaylist(User $user, User $friend): SpotifyFriendshipPlaylist {
+    private static function createFriendshipPlaylist(User $user, User $friend) {
         $playlist = SpotifyController::getApi($user)
                                      ->createPlaylist([
                                                           'name'        => 'Freundschaftsplaylist von ' . $user->username . ' und ' . $friend->username,
@@ -93,14 +93,17 @@ abstract class FriendshipPlaylistController extends Controller {
                                                           'public'      => false
                                                       ]);
 
-        SpotifyFriendshipPlaylist::updateOrCreate([
-                                                      'user_id'   => $user->id,
-                                                      'friend_id' => $friend->id,
-                                                  ], [
-                                                      'playlist_id' => $playlist->id
-                                                  ]);
+        SpotifyFriendshipPlaylist::updateOrCreate(
+            [
+                'user_id'   => $user->id,
+                'friend_id' => $friend->id,
+            ],
+            [
+                'playlist_id' => $playlist->id
+            ]
+        );
 
-        return self::refreshFriendshipPlaylist($user, $friend);
+        self::refreshFriendshipPlaylist($user, $friend);
     }
 
     /**
@@ -115,7 +118,7 @@ abstract class FriendshipPlaylistController extends Controller {
                                                        ->where('friend_id', $friend->id)
                                                        ->first();
 
-        if($friendshipPlaylist?->playlist_id == null) {
+        if($friendshipPlaylist?->playlist_id === null) {
             throw new RecordsNotFoundException();
         }
 
@@ -123,7 +126,18 @@ abstract class FriendshipPlaylistController extends Controller {
             return 'spotify:track:' . $spotifyTack->track_id;
         });
 
-        SpotifyController::getApi($user)->replacePlaylistTracks($friendshipPlaylist?->playlist_id, $tracks->toArray());
+        SpotifyController::getApi($user)->replacePlaylistTracks($friendshipPlaylist->playlist_id, $tracks->toArray());
+        SpotifyController::getApi($user)->updatePlaylist($friendshipPlaylist->playlist_id, [
+            'name'        => __(
+                key:     'spotify.playlist.friendship.name',
+                replace: [
+                             'user'   => $user->username,
+                             'friend' => $friend->username,
+                         ],
+                locale:  $user->locale
+            ),
+            'description' => __(key: 'spotify.playlist.friendship.description', locale: $user->locale),
+        ]);
         $friendshipPlaylist->update(['last_refreshed' => Carbon::now()]);
 
         return $friendshipPlaylist;

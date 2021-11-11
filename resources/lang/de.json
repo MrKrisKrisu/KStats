@@ -217,6 +217,8 @@
     "tracks": "Tracks",
     "spotify.stats.disclaimer": "Hinweis: Es fließen nur Tracks in die Statistik ein, welche von einem KStats-User mindestens einmal gehört wurden.",
     "friendship-playlist-friend": "Freundschaftsplaylist von dir und :friendName",
+    "spotify.playlist.friendship.name": "Freundschaftsplaylist von :user und :friend",
+    "spotify.playlist.friendship.description": "Freundschaftsplaylist - generiert von kstats.k118.de",
     "no-common-tracks": "Ihr habt keine gemeinsamen Lieblingstracks.",
     "no-friends": "Du hast keine Freunde.",
     "add-friends": "Freunde hinzufügen",

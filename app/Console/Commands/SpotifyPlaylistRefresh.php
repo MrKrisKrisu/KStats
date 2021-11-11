@@ -20,8 +20,13 @@ class SpotifyPlaylistRefresh extends Command {
         return 0;
     }
 
-    private function regenerateFriendshipPlaylists() {
-        $playlists = SpotifyFriendshipPlaylist::where('last_refreshed', '<', Carbon::now()->subDay()->toIso8601String())->get();
+    private function regenerateFriendshipPlaylists(): void {
+        $playlists = SpotifyFriendshipPlaylist::where('last_refreshed', '<', Carbon::now()->subDay()->toIso8601String())
+                                              ->orWhereNull('last_refreshed')
+                                              ->get()
+                                              ->filter(function(SpotifyFriendshipPlaylist $playlist) {
+                                                  return $playlist->user->socialProfile->isConnectedSpotify;
+                                              });
 
         foreach($playlists as $playlist) {
             try {
