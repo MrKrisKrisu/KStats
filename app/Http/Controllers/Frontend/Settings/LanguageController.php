@@ -12,7 +12,7 @@ class LanguageController extends Controller {
 
     public static function updateLanguage(Request $request): RedirectResponse {
         $validated = $request->validate([
-                                            'locale' => ['required', Rule::in(['en', 'de'])],
+                                            'locale' => ['required', Rule::in(config('app.supported_locales'))],
                                         ]);
 
         LanguageBackend::updateLanguage($validated['locale']);

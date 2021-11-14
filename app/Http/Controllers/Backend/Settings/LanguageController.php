@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\App;
 abstract class LanguageController extends Controller {
 
     public static function updateLanguage(string $locale): void {
-
-        if(!in_array($locale, ['de', 'en'])) {
+        if(!in_array($locale, config('app.supported_locales'), true)) {
             throw new InvalidArgumentException('Invalid language');
         }
 
