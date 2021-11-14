@@ -104,10 +104,11 @@
                         <div class="mb-2">
                             <select name="locale" class="form-control" required>
                                 <option value="">{{__('settings.select')}}</option>
-                                <option value="de"
-                                        @if($user->locale == 'de') selected @endif>{{__('settings.lang.de')}}</option>
-                                <option value="en"
-                                        @if($user->locale == 'en') selected @endif>{{__('settings.lang.en')}}</option>
+                                @foreach(config('app.supported_locales') as $locale)
+                                    <option value="{{$locale}}" @if($user->locale === $locale) selected @endif>
+                                        {{__('settings.lang.' . $locale)}}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">{{__('save')}}</button>
