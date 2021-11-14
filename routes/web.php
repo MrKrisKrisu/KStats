@@ -15,6 +15,7 @@ use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\Settings\LanguageController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -46,7 +47,7 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
              ->name('settings.save.email');
         Route::post('/delete_mail', [SettingsController::class, 'deleteEmail'])
              ->name('settings.delete.email');
-        Route::post('/set_lang', [SettingsController::class, 'setLanguage'])
+        Route::post('/set_lang', [LanguageController::class, 'updateLanguage'])
              ->name('settings.set.lang');
     });
 
