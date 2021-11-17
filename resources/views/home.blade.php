@@ -5,7 +5,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-body">
                     @isset($lastSpotifyTrack)
                         <small class="text-muted float-end">{{__('played')}} {{$lastSpotifyTrack->timestamp_start->diffForHumans()}}</small>
@@ -16,6 +16,22 @@
                     @else
                         <p class="text-danger">{{__('spotify.no-data')}}</p>
                     @endisset
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-language"></i> {{__('languages')}}</h5>
+                    <p>
+                        {{__('languages.other1')}}
+                        {{__('languages.support.de-en')}}
+                        {{__('languages.support')}}
+                    </p>
+
+                    <a href="https://weblate.k118.de/engage/kstats/" target="weblate"
+                       class="btn btn-sm btn-primary float-end">
+                        <i class="fas fa-mouse-pointer"></i> {{__('languages.help')}}
+                    </a>
                 </div>
             </div>
         </div>
