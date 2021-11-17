@@ -1,4 +1,4 @@
-@if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->privacy_confirmed_at === null)
+@if(auth()->check() && auth()->user()->privacy_confirmed_at === null)
     <hr/>
     <div class="card border-info mb-3">
         <div class="card-body text-info">
