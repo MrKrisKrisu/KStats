@@ -20,12 +20,12 @@ class ReweController extends Controller {
         auth()->user()->loadMissing(['reweReceipts', 'reweReceipts.shop']);
 
         $favouriteProducts = DB::table('rewe_bons')
-                               ->join('rewe_bon_positions', 'rewe_bon_positions.bon_id', 'rewe_bons.id')
-                               ->join('rewe_products', 'rewe_products.id', 'rewe_bon_positions.product_id')
+                               ->join('rewe_bon_positions', 'rewe_bon_positions.bon_id', '=', 'rewe_bons.id')
+                               ->join('rewe_products', 'rewe_products.id', '=', 'rewe_bon_positions.product_id')
                                ->where('rewe_bons.user_id', auth()->user()->id)
                                ->where('rewe_products.hide', 0)
-                               ->groupBy('rewe_products.id')
-                               ->select('rewe_products.*', DB::raw('COUNT(*) as cnt'))
+                               ->groupBy(['rewe_products.id', 'rewe_products.name'])
+                               ->select(['rewe_products.id', 'rewe_products.name', DB::raw('COUNT(*) as cnt')])
                                ->orderByDesc('cnt')
                                ->limit(5)
                                ->get();
@@ -47,7 +47,7 @@ class ReweController extends Controller {
                                 ->join('rewe_bons', 'rewe_bons.id', '=', 'rewe_bon_positions.bon_id')
                                 ->join('rewe_product_categories_view', 'rewe_product_categories_view.product_id', '=', 'rewe_products.id')
                                 ->join('rewe_product_categories', 'rewe_product_categories_view.category_id', '=', 'rewe_product_categories.id')
-                                ->groupBy('rewe_product_categories.id')
+                                ->groupBy(['rewe_product_categories.id', 'rewe_product_categories.name'])
                                 ->select([
                                              DB::raw('rewe_product_categories.id AS category_id'),
                                              DB::raw('rewe_product_categories.name AS category_name'),
@@ -63,7 +63,7 @@ class ReweController extends Controller {
                                 ->join('rewe_bons', 'rewe_bons.id', '=', 'rewe_bon_positions.bon_id')
                                 ->join('rewe_product_categories_view', 'rewe_product_categories_view.product_id', '=', 'rewe_products.id')
                                 ->join('rewe_product_categories', 'rewe_product_categories_view.category_id', '=', 'rewe_product_categories.id')
-                                ->groupBy('rewe_product_categories.id')
+                                ->groupBy(['rewe_product_categories.id', 'rewe_product_categories.name'])
                                 ->select([
                                              DB::raw('rewe_product_categories.id AS category_id'),
                                              DB::raw('rewe_product_categories.name AS category_name'),
@@ -132,15 +132,16 @@ class ReweController extends Controller {
     /**
      * @return Collection
      */
-    public static function getForecast() {
+    public static function getForecast(): Collection {
         return DB::table('rewe_bons')
                  ->join('rewe_bon_positions', 'rewe_bons.id', '=', 'rewe_bon_positions.bon_id')
                  ->join('rewe_products', 'rewe_bon_positions.product_id', '=', 'rewe_products.id')
                  ->where('rewe_bons.user_id', auth()->user()->id)
-                 ->groupBy('rewe_bon_positions.product_id')
+                 ->groupBy(['rewe_products.id', 'rewe_products.name'])
                  ->havingRaw('cnt > 2 AND nextTS > (NOW() - INTERVAL 10 DAY)')
                  ->select([
-                              'rewe_products.*',
+                              'rewe_products.id',
+                              'rewe_products.name',
                               DB::raw('MAX(rewe_bons.timestamp_bon) AS lastTS'),
                               DB::raw('MIN(rewe_bons.timestamp_bon) AS firstTS'),
                               DB::raw('COUNT(rewe_bons.timestamp_bon) AS cnt'),
