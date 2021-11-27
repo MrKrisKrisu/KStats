@@ -294,5 +294,6 @@
     "crowdsourcing.bought": "You have purchased \":productName\".",
     "is-it-veg": "Is it vegetarian?",
     "spotify.error": "Error retrieving your Spotify statistics",
-    "spotify.error.text": "Please reconnect to Spotify and grant all necessary permissions to allow KStats to retrieve your played tracks."
+    "spotify.error.text": "Please reconnect to Spotify and grant all necessary permissions to allow KStats to retrieve your played tracks.",
+    "spotify.show_history": "Show history"
 }

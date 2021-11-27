@@ -16,6 +16,11 @@
                     </h2>
                     @isset($lastSpotifyTrack)
                         @include('spotify.components.track', ['track' => $lastSpotifyTrack->track])
+
+                        <a href="{{route('spotify.history')}}" class="btn btn-sm btn-outline-secondary float-end">
+                            <i class="fas fa-history"></i>
+                            {{__('spotify.show_history')}}
+                        </a>
                     @else
                         <p class="text-danger">{{__('spotify.no-data')}}</p>
                     @endisset
