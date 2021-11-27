@@ -22,7 +22,7 @@
                                 Software-Version: v{{$systemInfo?->grocy_version?->Version}}
                             </p>
                         @else
-                            <p class="text-warning">
+                            <p class="text-danger">
                                 <i class="fas fa-exclamation-triangle"></i> Es konnte keine Daten von deiner
                                 Installation ermittelt werden. Bitte prüfe die Verbindung.
                             </p>
@@ -32,6 +32,7 @@
                         <form method="POST" action="{{route('grocy.disconnect')}}">
                             @csrf
                             <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="far fa-times-circle"></i>
                                 Verbindung trennen
                             </button>
                         </form>

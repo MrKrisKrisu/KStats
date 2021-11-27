@@ -1,6 +1,9 @@
 <div class="card">
     <div class="card-body">
-        <h2>{{__('settings.third-party.card-heading')}}</h2>
+        <h2 class="fs-5">
+            <i class="fas fa-link"></i>
+            {{__('settings.third-party.card-heading')}}
+        </h2>
 
         <table class="table">
             <tbody>
@@ -103,15 +106,16 @@
                         @isset(auth()->user()->socialProfile->grocy_host)
                             <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
-                                {{__('settings.grocy.connected')}}
+                                {{__('settings.third-party.connected')}}
                             </span>
                             <br/>
                             <small class="text-secondary">
                                 Instanz: <i>{{auth()->user()->socialProfile->grocy_host}}</i>
                             </small>
                             <br/>
-                            <a href="{{route('grocy')}}" class="btn btn-sm btn-success">
-                                {{__('settings.third-party.manage')}}
+                            <a href="{{route('grocy')}}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-cog"></i>
+                                {{__('settings.settings')}}
                             </a>
                         @else
                             <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>

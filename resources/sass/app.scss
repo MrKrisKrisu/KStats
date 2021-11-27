@@ -23,76 +23,91 @@
 
 @import '~sweetalert2/src/sweetalert2.scss';
 
-#dashboard h1,
-#dashboard h2,
-#dashboard h3,
-#dashboard h4,
-#dashboard h5,
-#dashboard h6,
-#dashboard a:not(.btn),
-#dashboard .color-highlight,
-#dashboard .pagination .page-item:not(.active) .page-link,
-.color-primary {
-  color: $color_main;
-}
+#dashboard {
+  a {
+    text-decoration: none;
+  }
 
-#dashboard .spotify-cover {
-  border: $color_main solid 2px;
-  max-width: 100%;
-}
+  a:hover {
+    text-decoration: underline;
+  }
 
-#dashboard .card {
-  margin-bottom: 15px;
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  a:not(.btn),
+  .color-highlight,
+  .pagination .page-item:not(.active) .page-link,
+  .color-primary {
+    color: $color_main;
+  }
 
-#dashboard .pagination .page-item.active .page-link,
-.dropdown-item:active {
-  background-color: $color_main;
-  border-color: $color_main;
-  color: #fff;
-}
+  .spotify-cover {
+    border: $color_main solid 2px;
+    max-width: 100%;
+  }
 
-#dashboard .btn.btn-primary {
-  background-color: $color_main;
-  border-color: $color_main;
-  color: #fff;
-}
+  .card {
+    margin-bottom: 15px;
+  }
 
-.text-danger,
-.text-warning,
-.text-success {
-  font-weight: bold;
-}
+  .pagination .page-item.active .page-link,
+  .dropdown-item:active {
+    background-color: $color_main;
+    border-color: $color_main;
+    color: #fff;
+  }
 
-.select2-container {
-  width: 100% !important;
-}
+  .btn.btn-primary {
+    background-color: $color_main;
+    border-color: $color_main;
+  }
 
-#mainTitle, h1 {
-  font-weight: bold;
-  font-size: 25px;
-}
+  .btn.btn-danger,
+  .btn.btn-success,
+  .btn.btn-primary {
+    color: #fff;
+  }
 
-h2 {
-  font-size: 20px;
-}
+  .text-danger,
+  .text-warning,
+  .text-success {
+    font-weight: bold;
+  }
 
-h3 {
-  font-size: 17px;
-}
+  .select2-container {
+    width: 100% !important;
+  }
 
-h4 {
-  font-size: 14px;
-}
+  #mainTitle, h1 {
+    font-weight: bold;
+    font-size: 25px;
+  }
 
-.text-danger {
-  font-weight: bold;
-}
+  h2 {
+    font-size: 20px;
+  }
 
-.card + .card {
-  margin-top: 15px;
-}
+  h3 {
+    font-size: 17px;
+  }
 
-a + .emoticons {
-  margin-top: 10px;
+  h4 {
+    font-size: 14px;
+  }
+
+  .text-danger {
+    font-weight: bold;
+  }
+
+  .card + .card {
+    margin-top: 15px;
+  }
+
+  a + .emoticons {
+    margin-top: 10px;
+  }
 }

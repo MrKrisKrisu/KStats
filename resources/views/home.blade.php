@@ -10,7 +10,10 @@
                     @isset($lastSpotifyTrack)
                         <small class="text-muted float-end">{{__('played')}} {{$lastSpotifyTrack->timestamp_start->diffForHumans()}}</small>
                     @endisset
-                    <h5 class="card-title">{{__('spotify.title.last_heared')}}</h5>
+                    <h2 class="fs-5">
+                        <i class="fas fa-headphones-alt"></i>
+                        {{__('spotify.title.last_heared')}}
+                    </h2>
                     @isset($lastSpotifyTrack)
                         @include('spotify.components.track', ['track' => $lastSpotifyTrack->track])
                     @else
@@ -21,7 +24,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-language"></i> {{__('languages')}}</h5>
+                    <h2 class="fs-5"><i class="fas fa-language"></i> {{__('languages')}}</h2>
                     <p>
                         {{__('languages.other1')}}
                         {{__('languages.support.de-en')}}
