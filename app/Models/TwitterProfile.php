@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TwitterProfile extends Model {
 
@@ -14,8 +15,12 @@ class TwitterProfile extends Model {
     ];
     protected $dates    = ['account_creation'];
 
+    public function socialProfile(): BelongsTo {
+        return $this->belongsTo(SocialLoginProfile::class, 'id', 'twitter_id');
+    }
+
     public function followers(): BelongsToMany {
-        return $this->belongsToMany(TwitterProfile::class, 'twitter_followers', 'followed_id', 'follower_id');
+        return $this->belongsToMany(__CLASS__, 'twitter_followers', 'followed_id', 'follower_id');
     }
 
     public function unfollower(): HasMany {

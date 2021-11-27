@@ -42,9 +42,7 @@ class Kernel extends ConsoleKernel {
                  ->runInBackground()
                  ->withoutOverlapping();
         $schedule->command('twitter:check_unfollows')
-                 ->everyMinute()
-                 ->runInBackground()
-                 ->withoutOverlapping();
+                 ->everyFifteenMinutes();
 
         $schedule->command('telegram:set_webhook')->daily();
     }

@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TwitterFollower extends Model {
 
-    protected $fillable = ['follower_id', 'followed_id', 'updated_at'];
+    protected $fillable = ['follower_id', 'followed_id', 'last_checked'];
+    protected $casts    = [
+        'follower_id'  => 'integer',
+        'followed_id'  => 'integer',
+        'last_checked' => 'datetime',
+    ];
 
     public function follower(): BelongsTo {
         return $this->belongsTo(TwitterProfile::class, 'follower_id', 'id');
