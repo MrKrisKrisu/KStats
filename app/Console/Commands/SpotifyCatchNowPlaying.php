@@ -6,7 +6,8 @@ use App\Models\SocialLoginProfile;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
-use App\Http\Controllers\Backend\Spotify\FetchController;
+use App\Jobs\FetchSpotifyLastPlayed;
+use Illuminate\Database\Eloquent\Builder;
 
 class SpotifyCatchNowPlaying extends Command {
 
@@ -15,15 +16,20 @@ class SpotifyCatchNowPlaying extends Command {
 
     public function handle(): int {
         $slProfile = SocialLoginProfile::whereNotNull('spotify_accessToken')
-                                       ->where('spotify_lastRefreshed', '>', Carbon::parse('-1 hour'))
+                                       ->where('spotify_lastRefreshed', '>', Carbon::now()->subHour()->toIso8601String())
+                                       ->where(function(Builder $query) {
+                                           $query->where('spotify_last_fetched', '<', Carbon::now()->subMinutes(5)->toIso8601String())
+                                                 ->orWhereNull('spotify_last_fetched');
+                                       })
+                                       ->limit(10)
                                        ->get();
 
         foreach($slProfile as $profile) {
             try {
                 $user = $profile->user()->first();
-                FetchController::fetchRecentlyPlayed($user);
+                FetchSpotifyLastPlayed::dispatch($user);
+                echo "Add user #" . $user->id . " to queue.\n";
             } catch(Exception $exception) {
-                dump($exception);
                 report($exception);
             }
         }

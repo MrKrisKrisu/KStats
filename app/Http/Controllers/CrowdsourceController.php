@@ -10,22 +10,11 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class CrowdsourceController extends Controller {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->middleware('auth');
-    }
-
-    /**
-     * @return Renderable
-     */
-    public function renderRewe(): Renderable {
+    public function renderRewe(): View {
         $categories = ReweProductCategory::with(['parent'])->where('parent_id', '<>', null)->get();
 
         $nextProductAtCategory = ReweProduct::join('rewe_bon_positions', 'rewe_bon_positions.product_id', '=', 'rewe_products.id')
@@ -37,8 +26,8 @@ class CrowdsourceController extends Controller {
                                                       ->from('rewe_crowdsourcing_categories')
                                                       ->where('user_id', auth()->user()->id);
                                             })
-                                            ->groupBy('rewe_products.id')
-                                            ->select(['rewe_products.*', DB::raw('MAX(rewe_bons.timestamp_bon) AS lastReceipt')])
+                                            ->groupBy(['rewe_products.id', 'rewe_products.name'])
+                                            ->select(['rewe_products.id', 'rewe_products.name', DB::raw('MAX(rewe_bons.timestamp_bon) AS lastReceipt')])
                                             ->orderByDesc('lastReceipt')
                                             ->limit(1)
                                             ->first();
@@ -55,8 +44,8 @@ class CrowdsourceController extends Controller {
                                                         ->from('rewe_crowdsourcing_vegetarians')
                                                         ->where('user_id', auth()->user()->id);
                                               })
-                                              ->groupBy('rewe_products.id')
-                                              ->select(['rewe_products.*', DB::raw('MAX(rewe_bons.timestamp_bon) AS lastReceipt')])
+                                              ->groupBy(['rewe_products.id', 'rewe_products.name'])
+                                              ->select(['rewe_products.id', 'rewe_products.name', DB::raw('MAX(rewe_bons.timestamp_bon) AS lastReceipt')])
                                               ->orderByDesc('lastReceipt')
                                               ->limit(1)
                                               ->first();
@@ -73,11 +62,6 @@ class CrowdsourceController extends Controller {
         ]);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Renderable
-     */
     public function handleSubmit(Request $request): Renderable {
 
         switch($request->action) {

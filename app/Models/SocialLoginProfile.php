@@ -16,13 +16,14 @@ class SocialLoginProfile extends Model {
         'user_id', 'telegram_id',
         'twitter_id', 'twitter_token', 'twitter_tokenSecret',
         'spotify_accessToken', 'spotify_refreshToken', 'spotify_lastRefreshed', 'spotify_user_id', 'spotify_scopes',
-        'spotify_expires_at', 'grocy_host', 'grocy_key',
+        'spotify_expires_at', 'spotify_last_fetched', 'grocy_host', 'grocy_key',
     ];
     protected $hidden   = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
     protected $appends  = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
     protected $dates    = ['spotify_expires_at', 'spotify_lastRefreshed'];
     public    $casts    = [
-        'grocy_key' => 'encrypted',
+        'grocy_key'            => 'encrypted',
+        'spotify_last_fetched' => 'datetime',
     ];
 
     public function user(): HasOne {

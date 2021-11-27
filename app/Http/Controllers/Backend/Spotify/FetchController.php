@@ -22,18 +22,15 @@ use App\Exceptions\SpotifyTokenExpiredException;
 
 abstract class FetchController extends Controller {
 
-    public static function fetchRecentlyPlayed(User $user) {
+    public static function fetchRecentlyPlayed(User $user): void {
         try {
             if(!str_contains($user->socialProfile->spotify_scopes, 'user-read-recently-played')) {
                 throw new SpotifyWebAPIException('Insufficient client scope');
             }
 
-            if(Carbon::now()->minute % 5 != 0) {
-                //Temporary reduce api requests if user have permission to read last tracks.
-                return;
-            }
-
             echo strtr('* Fetched recently played for User :userId.', [':userId' => $user->id]) . PHP_EOL;
+
+            $user->socialProfile->update(['spotify_last_fetched' => Carbon::now()->toIso8601String()]);
 
             $spotifyApi = SpotifyController::getApi($user);
             $data       = $spotifyApi->getMyRecentTracks();
