@@ -117,7 +117,7 @@ abstract class UnfollowerTrackingController extends Controller {
         $relationship->delete();
 
         //TODO: Check if user wants to receive notifications
-
+        return;
         TelegramController::sendMessage(
             user:    $twitterUnfollower->twitter_profile->socialProfile->user,
             message: "<b>Neuer Twitter Unfollower</b>\r\n" .
