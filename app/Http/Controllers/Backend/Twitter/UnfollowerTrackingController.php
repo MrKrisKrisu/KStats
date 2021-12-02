@@ -37,6 +37,8 @@ abstract class UnfollowerTrackingController extends Controller {
             throw new RateLimitException();
         }
 
+        $relationship->update(['last_checked' => Carbon::now()->toIso8601String()]);
+
         $follower = $connection->get('users/show', ['user_id' => $relationship->follower_id]);
         if(isset($follower->errors)) {
             foreach($follower->errors as $error) {
@@ -44,6 +46,7 @@ abstract class UnfollowerTrackingController extends Controller {
                     echo '**** User ' . $relationship->follower->screen_name . ' is suspended.' .
                          'Handle as unfollow.' . PHP_EOL;
                     self::handleSuspension($relationship);
+                    $relationship->delete();
                     return;
                 }
             }
@@ -76,7 +79,6 @@ abstract class UnfollowerTrackingController extends Controller {
             }
 
             echo "Follow still exists." . PHP_EOL;
-            $relationship->update(['last_checked' => Carbon::now()->toIso8601String()]);
             return;
         }
     }
