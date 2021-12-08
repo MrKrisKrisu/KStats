@@ -109,7 +109,7 @@ abstract class ImportController extends Controller {
             $message .= $position->product->name . " (" . number_format($position->single_price, 2, ',', '.') . " €)" . "\r\n";
         }
         $message .= "============================" . "\r\n";
-        $message .= "<a href='https://kstats.k118.de/rewe/receipt/" . $receipt->id . "'>" . __(key: 'receipt.show', locale: $receipt->user->locale) . "</a>";
+        $message .= "<a href='" . config('app.url') . "/rewe/receipt/" . $receipt->id . "'>" . __(key: 'receipt.show', locale: $receipt->user->locale) . "</a>";
 
         TelegramController::sendMessage($receipt->user, $message);
     }
