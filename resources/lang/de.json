@@ -300,5 +300,7 @@
     "new-receipt-saved.text": ":count Produkte für :amount €",
     "cashback": "Erhaltenes Cashback",
     "receipt.show": "Kassenzettel anzeigen",
-    "store": "Geschäft"
+    "store": "Geschäft",
+    "grocy.saved": "Lagerbestand gebucht",
+    "grocy.saved.text": "Der Lagerbestand von folgenden Positionen wurde erfolgreich in Grocy erhöht:"
 }

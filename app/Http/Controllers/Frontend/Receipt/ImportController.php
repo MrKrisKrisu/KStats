@@ -17,7 +17,7 @@ class ImportController extends Controller {
 
         $receipt = ImportBackend::parseReweReceipt(auth()->user(), $validated['file']);
 
-        if(isset(auth()->user()->socialProfile->grocy_host)){// && $receipt->wasRecentlyCreated == 1) {
+        if(isset(auth()->user()->socialProfile->grocy_host)) {// && $receipt->wasRecentlyCreated == 1) {
             ReceiptController::addReceiptToStock($receipt);
         }
 

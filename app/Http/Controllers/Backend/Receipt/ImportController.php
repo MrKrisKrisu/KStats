@@ -113,5 +113,4 @@ abstract class ImportController extends Controller {
 
         TelegramController::sendMessage($receipt->user, $message);
     }
-
 }

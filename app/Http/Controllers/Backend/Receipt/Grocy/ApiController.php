@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Exceptions\NotConnectedException;
 use GuzzleHttp\Exception\GuzzleException;
 use stdClass;
+use GuzzleHttp\Exception\ClientException;
+use App\Exceptions\Grocy\ProductNotAssignableException;
+use JsonException;
 
 abstract class ApiController extends Controller {
 
@@ -76,7 +79,7 @@ abstract class ApiController extends Controller {
                 return false;
             }
             return true;
-        } catch(NotConnectedException | GuzzleException) {
+        } catch(NotConnectedException|GuzzleException) {
             return false;
         }
     }
@@ -88,27 +91,39 @@ abstract class ApiController extends Controller {
      * @param string $barcode
      *
      * @return stdClass|null
-     * @throws NotConnectedException|GuzzleException
-     * @todo Waiting until https://github.com/grocy/grocy/pull/1565 is released...
+     * @throws NotConnectedException
+     * @throws ProductNotAssignableException
+     * @throws JsonException
      */
     public static function addToStockByBarcode(User $user, int $amount, float $price, string $barcode): ?stdClass {
-        $client = new Client();
-        $url    = strtr(':host/api/stock/products/by-barcode/:barcode/add', [
-            ':host'    => self::getGrocyHost($user),
-            ':barcode' => urlencode($barcode),
-        ]);
-        $result = $client->post($url, [
-            'headers' => [
-                'GROCY-API-KEY' => self::getApiKey($user),
-            ],
-            'json'    => [
-                'amount'           => $amount,
-                'transaction_type' => 'purchase',
-                'price'            => $price,
-            ],
-        ]);
-        $data   = json_decode($result->getBody()->getContents());
-        return $data[0] ?? null;
+        try {
+            $client = new Client();
+            $url    = strtr(':host/api/stock/products/by-barcode/:barcode/add', [
+                ':host'    => self::getGrocyHost($user),
+                ':barcode' => urlencode($barcode),
+            ]);
+            $result = $client->post($url, [
+                'headers' => [
+                    'GROCY-API-KEY' => self::getApiKey($user),
+                ],
+                'json'    => [
+                    'amount'           => $amount,
+                    'transaction_type' => 'purchase',
+                    'price'            => $price,
+                ],
+            ]);
+            $data   = json_decode($result->getBody()->getContents(), false, 512, JSON_THROW_ON_ERROR);
+            return $data[0] ?? null;
+        } catch(ClientException $exception) {
+            if(str_contains($exception->getMessage(), 'No product with barcode')) {
+                throw new ProductNotAssignableException();
+            }
+            report($exception);
+            return null;
+        } catch(GuzzleException $exception) {
+            report($exception);
+            return null;
+        }
     }
 
 }
