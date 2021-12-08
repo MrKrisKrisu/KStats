@@ -81,7 +81,7 @@ abstract class ImportController extends Controller {
                 foreach($positions as $position)
                     $message .= ($position->getWeight() !== null ? $position->getWeight() . "kg" : $position->getAmount() . "x") . " " . $position->getName() . " <i>" . number_format($position->getPriceTotal(), 2, ',', '.') . "€</i> \r\n";
                 $message .= "============================ \r\n";
-                $message .= "<a href='https://k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
+                $message .= "<a href='https://kstats.k118.de/rewe/receipt/" . $bon->id . "'>Bon anzeigen</a>";
 
                 TelegramController::sendMessage($user, $message);
             } catch(TelegramException $e) {
