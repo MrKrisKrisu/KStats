@@ -10,7 +10,7 @@
  *
  * @return string|array|null
  */
-function __($key = null, $replace = [], $locale = null) {
+function __(string $key = null, array $replace = [], string $locale = null) {
     if(is_null($key)) {
         return $key;
     }

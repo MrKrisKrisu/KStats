@@ -295,5 +295,10 @@
     "is-it-veg": "Is it vegetarian?",
     "spotify.error": "Error retrieving your Spotify statistics",
     "spotify.error.text": "Please reconnect to Spotify and grant all necessary permissions to allow KStats to retrieve your played tracks.",
-    "spotify.show_history": "Show history"
+    "spotify.show_history": "Show history",
+    "new-receipt-saved": "New purchase saved",
+    "new-receipt-saved.text": ":count products for :amount €",
+    "cashback": "Cashback received",
+    "receipt.show": "Show receipt",
+    "store": "Store"
 }

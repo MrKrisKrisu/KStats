@@ -16,7 +16,7 @@ class TelegramController extends Controller {
      * @return bool
      * @deprecated Will be removed later
      */
-    public static function sendMessage(User $user, string $message) {
+    public static function sendMessage(User $user, string $message): bool {
         $telegramID = $user->socialProfile->telegram_id;
 
         if($telegramID === null) {
@@ -45,5 +45,4 @@ class TelegramController extends Controller {
         }
         return 'ok';
     }
-
 }

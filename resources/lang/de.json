@@ -295,5 +295,10 @@
     "unverified": "ungeprüft",
     "spotify.error": "Fehler beim Abrufen deiner Spotify Statistik",
     "spotify.error.text": "Bitte verbinde dich erneut mit Spotify und erteile alle benötigten Berechtigungen, damit KStats deine abgespielten Tracks abrufen kann.",
-    "spotify.show_history": "Musikverlauf anzeigen"
+    "spotify.show_history": "Musikverlauf anzeigen",
+    "new-receipt-saved": "Neuer Einkauf gespeichert",
+    "new-receipt-saved.text": ":count Produkte für :amount €",
+    "cashback": "Erhaltenes Cashback",
+    "receipt.show": "Kassenzettel anzeigen",
+    "store": "Geschäft"
 }
