@@ -27,7 +27,7 @@ class ReweController extends Controller {
                                ->groupBy(['rewe_products.id', 'rewe_products.name'])
                                ->select(['rewe_products.id', 'rewe_products.name', DB::raw('COUNT(*) as cnt')])
                                ->orderByDesc('cnt')
-                               ->limit(5)
+                               ->limit(50)
                                ->get();
 
         $products_vegetarian = DB::table('rewe_products')
