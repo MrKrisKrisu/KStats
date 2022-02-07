@@ -29,7 +29,7 @@
     "chart.js": "^2.9.3",
     "moment": "^2.29.1",
     "datatables.net": "^1.11.3",
-    "datatables.net-bs5": "^1.11.3",
+    "datatables.net-bs5": "^1.11.4",
     "datatables.net-responsive": "^2.2.9",
     "datatables.net-responsive-bs5": "^2.2.9",
     "select2": "^4.0.13",
