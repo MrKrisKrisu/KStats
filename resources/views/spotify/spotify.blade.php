@@ -210,7 +210,7 @@
                             type: 'line',
                             data: {
                                 datasets: [{
-                                    backgroundColor: ["#38a2a6"],
+                                    backgroundColor: colorGradients,
                                     data: [
                                         @foreach($chartData_hearedByWeek as $weekData)
                                                 {{$weekData->minutes}},
@@ -423,7 +423,7 @@
                                 ],
                                 datasets: [{
                                     label: '{{ __('spotify.minutes.heared') }}',
-                                    backgroundColor: '#38a3a6',
+                                    backgroundColor: colorGradients[0],
                                     borderWidth: 1,
                                     data: [@foreach($chartData_hearedByWeekday as $weekData)
                                             {{$weekData->minutes}},
@@ -473,7 +473,7 @@
                                 ],
                                 datasets: [{
                                     label: '{{ __('spotify.minutes.heared') }}',
-                                    backgroundColor: '#38a3a6',
+                                    backgroundColor: colorGradients[0],
                                     borderWidth: 1,
                                     data: [
                                         @foreach($chartData_hearedByHour as $weekData)
