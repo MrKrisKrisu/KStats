@@ -5,7 +5,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <p class="fs-bold text-danger">Mit dem Klick auf den folgenden Button bestätigst du, dass
                         du dich mit

@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2 class="fs-5"><i class="fas fa-language"></i> {{__('languages')}}</h2>
                     <p>

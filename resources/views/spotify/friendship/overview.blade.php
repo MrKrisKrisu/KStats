@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-7">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     @if(auth()->user()->friends->count() == 0)
                         <span class="text-danger">{{__('no-friends')}}</span>

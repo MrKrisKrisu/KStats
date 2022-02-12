@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('receipts.product_category')}}</h5>
                     @empty($categories_product)
@@ -49,7 +49,7 @@
             </div>
 
             @if(count($lastCategories) > 0)
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body">
                         <table class="table table-striped table-hover">
                             <thead>
@@ -64,7 +64,7 @@
                                     <tr>
                                         <td>{{$c->product->name ?? '?'}}</td>
                                         <td>{{$c->category->name ?? '?'}}</td>
-                                        <td>
+                                        <td class="text-end">
                                             <form method="POST">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
@@ -82,7 +82,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('receipts.vegetarian')}}</h5>
                     @empty($vegetarian_product)
@@ -112,7 +112,7 @@
                                     class="btn btn-dark">{{__('receipts.crowdsourcing.non_food')}}
                             </button>
                             <button type="submit" name="setVegetarian" value="ka"
-                                    class="btn btn-warning">{{__('general.idk')}}
+                                    class="btn btn-outline-secondary">{{__('general.idk')}}
                             </button>
                         </form>
                     @endif
@@ -121,7 +121,7 @@
 
 
             @if(count($lastVegetarians) > 0)
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body">
                         <table class="table table-striped table-hover">
                             <thead>
@@ -136,7 +136,7 @@
                                     <tr>
                                         <td>{{$c->product->name}}</td>
                                         <td>{{$c->vegetarian === null ? '?' : str_replace(array('-1', '0', '1'), array('Kein Lebensmittel', 'Nein', 'Ja'), $c->vegetarian)}}</td>
-                                        <td>
+                                        <td class="text-end">
                                             <form method="POST">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{$c->product->id}}"/>
@@ -158,8 +158,8 @@
 
     <script>
         $('#categories').select2({
-            closeOnSelect: true,
-            theme: 'bootstrap4',
+            theme: "bootstrap-5",
+            closeOnSelect: true
         });
     </script>
 @endsection

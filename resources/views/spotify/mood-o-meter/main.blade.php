@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <i class="far fa-sad-cry fa-3x text-danger float-start"></i>
                     <i class="far fa-smile fa-3x text-success float-end"></i>

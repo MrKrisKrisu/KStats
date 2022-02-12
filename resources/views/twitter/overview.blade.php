@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('twitter.your_profile')}}</h5>
                     <table class="table">
@@ -35,7 +35,7 @@
 
             </div>
 
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('twitter.unfollower')}}</h5>
 
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('twitter.follower')}}</h5>
                     <table class="table table-striped table-hover table-responsive" id="followers">
@@ -139,7 +139,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <canvas id="chart_followers"></canvas>
                     <script>

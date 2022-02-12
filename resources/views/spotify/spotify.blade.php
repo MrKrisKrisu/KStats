@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col-md-3">
@@ -78,7 +78,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('spotify.title.last_heared')}}</h5>
                     <div id="last_played"></div>
@@ -127,7 +127,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.heared_minutes') }}</h5>
                     <table class="ui table">
@@ -177,7 +177,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" id="topTracksTotal">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }} [{{ __('spotify.total') }}]</h5>
                     @include('spotify.card_topTracks', ['topTracks' => $topTracksTotal, 'fragment' => 'topTracksTotal'])
@@ -185,7 +185,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" id="topTracks30">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }}
                         [{{ __('spotify.last_days', ['days' => 30]) }}]</h5>
@@ -197,7 +197,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_week') }}</h5>
                     <canvas id="chart_hearedByWeek"></canvas>
@@ -259,7 +259,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }} [{{ __('spotify.total') }}]</h5>
                     <table class="ui table unstackable" id="top_artists_total">
@@ -306,7 +306,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }}
                         [{{ __('spotify.last_days', ['days' => 30]) }}]</h5>
@@ -355,7 +355,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }}
                         [{{ __('spotify.last_days', ['days' => 7]) }}]</h5>
@@ -405,7 +405,7 @@
         </div>
 
         <div class="col-md-12">
-            <div class="card" style="margin-top: 10px;">
+            <div class="card mb-2" style="margin-top: 10px;">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_weekday') }}</h5>
                     <canvas id="chart_listenedByWeekday"></canvas>
@@ -455,7 +455,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="card" style="margin-top: 10px;">
+            <div class="card mb-2" style="margin-top: 10px;">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_daytime') }}</h5>
                     <canvas id="chart_listenedByHour"></canvas>

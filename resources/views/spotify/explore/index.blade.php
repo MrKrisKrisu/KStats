@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('track.opinion')}}</h2>
                     <div class="row">
@@ -87,13 +87,13 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('how-does-it-work')}}</h2>
                     <p class="text-muted">{{__('explore.explain')}}</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <div class="row text-center">
                         <div class="col">

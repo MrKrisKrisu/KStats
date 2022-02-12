@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('date-range')}}</h2>
                     <a href="?from={{\Carbon\Carbon::now()->subMonths(2)->firstOfMonth()->toDateString()}}&to={{\Carbon\Carbon::now()->subMonths(2)->lastOfMonth()->toDateString()}}"
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('date-range')}}</h2>
                     <form method="GET">
@@ -68,7 +68,7 @@
             </div>
             @foreach($top_tracks as $activity)
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card mb-2">
                         <div class="card-body">
                             <h2>{{__('spotify.rank', ['rank' => $loop->index + 1 + ($top_tracks->perPage() * ($top_tracks->currentPage() - 1))])}}</h2>
                             @include('spotify.components.track', ['track' => $activity->track, 'minutes' => round($activity->minutes)])
@@ -83,7 +83,7 @@
     @else
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body">
                         <p class="text-danger fs-bold">{{__('spotify.top-list.none')}}</p>
                     </div>

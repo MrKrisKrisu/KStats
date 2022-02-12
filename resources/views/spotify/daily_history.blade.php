@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <a href="{{route('spotify.history', ['date' => $date->clone()->addDays(-1)->toDateString()])}}"
                        class="btn btn-sm btn-primary float-start">
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     <span class="color-primary" style="font-size: 30px;" data-bs-toggle="tooltip" data-placement="top"
                           title="{{__('percent-of-day', ['percent' => round($minTotal / 1440 * 100)])}}">
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     <span class="color-primary" style="font-size: 30px;">
                         <span>{{$tracksDistinct}}</span><small>x</small>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     <span class="color-primary" style="font-size: 30px;">
                         <span>{{$sessions}}</span><small>x</small>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     @if(count($history) == 0)
                         <p class="text-danger">{{__('general.error.no_data_day')}}</p>

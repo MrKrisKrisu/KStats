@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.create_playlist') }}</h5>
                     <p>{{ __('spotify.lost_tracks.description') }}</p>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.lost_tracks.your_lost_tracks') }}</h5>
                     @if(count($lostTracks) == 0)

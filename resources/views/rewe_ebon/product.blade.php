@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12" style="font-weight: bold;">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="col-md-7">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <table class="table">
                         <thead>

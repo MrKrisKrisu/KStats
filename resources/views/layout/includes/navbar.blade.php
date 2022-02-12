@@ -1,5 +1,5 @@
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="/"><i class="far fa-chart-bar"></i> KStats</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"

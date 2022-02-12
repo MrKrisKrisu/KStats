@@ -1,7 +1,11 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
 // Variables
-@import 'variables';
+@import '_variables';
+
+$primary: #184C8F;
+$success: #417B5A;
+$warning: #F5DD90;
+$danger: #9C3848;
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
@@ -15,8 +19,6 @@
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
-
-@import "bootstrap_improvements.scss";
 
 @import '~select2';
 @import '~select2-bootstrap-5-theme/src/include-all';
@@ -42,28 +44,24 @@
   .color-highlight,
   .pagination .page-item:not(.active) .page-link,
   .color-primary {
-    color: $color_main;
+    color: $primary;
   }
 
   .spotify-cover {
-    border: $color_main solid 2px;
+    border: $primary solid 2px;
     max-width: 100%;
-  }
-
-  .card {
-    margin-bottom: 15px;
   }
 
   .pagination .page-item.active .page-link,
   .dropdown-item:active {
-    background-color: $color_main;
-    border-color: $color_main;
+    background-color: $primary;
+    border-color: $primary;
     color: #fff;
   }
 
   .btn.btn-primary {
-    background-color: $color_main;
-    border-color: $color_main;
+    background-color: $primary;
+    border-color: $primary;
   }
 
   .btn.btn-danger,

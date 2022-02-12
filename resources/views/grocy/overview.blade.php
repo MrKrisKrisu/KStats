@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-server"></i> Deine Instanz</h5>
 
@@ -61,7 +61,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <img src="{{url('img/grocy_logo.svg')}}" class="float-end" style="height: 1.125rem"/>
                     <h5 class="card-title"><i class="far fa-question-circle"></i> Über die grocy Integration</h5>
@@ -81,7 +81,7 @@
         </div>
 
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-book"></i> Anleitung zum Einrichten</h5>
                     <p class="text-danger">

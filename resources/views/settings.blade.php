@@ -9,7 +9,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('email.your')}}</h5>
                     @if(count($emails) == 0)
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-2">
 
                 <div class="card-body">
                     <h5 class="card-title">{{__('settings.password.change')}}</h5>
@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('settings.set_language')}}</h5>
 

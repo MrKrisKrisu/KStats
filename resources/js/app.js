@@ -19,3 +19,27 @@ window.showLoadPopup = function () {
         showConfirmButton: false
     });
 };
+
+window.colorGradients = [
+    "#184C8F",
+    "#245595",
+    "#2F5E9A",
+    "#3B67A0",
+    "#4670A5",
+    "#5279AB",
+    "#5D82B1",
+    "#698BB6",
+    "#7494BC",
+    "#809DC1",
+    "#8CA6C7",
+    "#97AECD",
+    "#A3B7D2",
+    "#AEC0D8",
+    "#BAC9DD",
+    "#C5D2E3",
+    "#D1DBE9",
+    "#DCE4EE",
+    "#E8EDF4",
+    "#F3F6F9",
+    "#FFFFFF",
+];
