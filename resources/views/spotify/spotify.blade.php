@@ -210,7 +210,7 @@
                             type: 'line',
                             data: {
                                 datasets: [{
-                                    backgroundColor: colorGradients,
+                                    backgroundColor: [colorGradients[0]],
                                     data: [
                                         @foreach($chartData_hearedByWeek as $weekData)
                                                 {{$weekData->minutes}},
