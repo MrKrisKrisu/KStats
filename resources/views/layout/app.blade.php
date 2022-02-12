@@ -6,9 +6,9 @@
 
         <title>@hasSection('title')@yield('title') - @endif{{__('KStats')}}</title>
 
-        <link rel="stylesheet" href="/css/app.css"/>
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}"/>
 
-        <script type="text/javascript" src="/js/app.js"></script>
+        <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.svg">
