@@ -81,8 +81,9 @@ class SettingsController extends Controller {
     public static function sendEmailVerification(UserEmail $userEmail): bool {
         Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
 
-        if(Mail::failures())
+        if(Mail::failures()) {
             throw new Exception("Failure on sending mail: " . json_encode(Mail::failures()));
+        }
 
         return true;
     }
