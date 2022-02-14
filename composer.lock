@@ -4,26 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8be9adb03b41afdc180bd3aa1a0559f2",
+    "content-hash": "b7e1fff0f7da37f7582b8ce906f01d8d",
     "packages": [
         {
             "name": "abraham/twitteroauth",
-            "version": "2.0.2",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/abraham/twitteroauth.git",
-                "reference": "5a424e80a1200674451844fbaae8a0098a316a01"
+                "reference": "2e640c1e8bb9b5dbcb2230703f97c89a852e30b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/5a424e80a1200674451844fbaae8a0098a316a01",
-                "reference": "5a424e80a1200674451844fbaae8a0098a316a01",
+                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/2e640c1e8bb9b5dbcb2230703f97c89a852e30b5",
+                "reference": "2e640c1e8bb9b5dbcb2230703f97c89a852e30b5",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.2",
                 "ext-curl": "*",
-                "php": "^7.3 || ^7.4 || ^8.0"
+                "php": "^7.4 || ^8.0 || ^8.1"
             },
             "require-dev": {
                 "php-vcr/php-vcr": "^1",
@@ -65,7 +65,7 @@
                 "issues": "https://github.com/abraham/twitteroauth/issues",
                 "source": "https://github.com/abraham/twitteroauth"
             },
-            "time": "2021-06-11T02:56:14+00:00"
+            "time": "2022-01-19T01:10:09+00:00"
         },
         {
             "name": "brick/math",
@@ -9550,5 +9550,5 @@
         "php": "^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

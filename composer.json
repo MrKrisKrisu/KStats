@@ -3,7 +3,7 @@
   "description": "Statistics for your shopping behaviour at REWE, Some Spotify Charts and more.",
   "type": "project",
   "require": {
-    "abraham/twitteroauth": "^2.0",
+    "abraham/twitteroauth": "^3.3",
     "doctrine/dbal": "^3.0",
     "ext-gd": "*",
     "ext-imap": "*",
