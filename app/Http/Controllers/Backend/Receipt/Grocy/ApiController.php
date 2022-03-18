@@ -100,7 +100,7 @@ abstract class ApiController extends Controller {
             $client = new Client();
             $url    = strtr(':host/api/stock/products/by-barcode/:barcode/add', [
                 ':host'    => self::getGrocyHost($user),
-                ':barcode' => urlencode($barcode),
+                ':barcode' => $barcode,
             ]);
             $result = $client->post($url, [
                 'headers' => [
