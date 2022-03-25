@@ -5,15 +5,15 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
-                    <p class="font-weight-bold text-danger">Mit dem Klick auf den folgenden Button bestätigst du, dass
+                    <p class="fs-bold text-danger">Mit dem Klick auf den folgenden Button bestätigst du, dass
                         du dich mit
                         anderen KStats-Usern verbinden möchtest. Dir ist bewusst, dass dein Nutzername für andere Nutzer
                         sichtbar wird.</p>
                     <form method="POST" action="{{route('friendships.module.activate')}}">
                         @csrf
-                        <button type="submit" class="btn btn-success btn-lg btn-block">
+                        <button type="submit" class="btn btn-success btn-lg">
                             Freundschaftsfunktion aktivieren
                         </button>
                     </form>

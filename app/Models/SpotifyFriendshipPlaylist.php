@@ -11,7 +11,9 @@ class SpotifyFriendshipPlaylist extends Model {
     use HasFactory;
 
     protected $fillable = ['user_id', 'friend_id', 'playlist_id', 'last_refreshed'];
-    protected $casts    = ['last_refreshed'];
+    protected $casts    = [
+        'last_refreshed' => 'datetime',
+    ];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id', 'id');

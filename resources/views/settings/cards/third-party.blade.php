@@ -1,6 +1,9 @@
-<div class="card">
+<div class="card mb-2">
     <div class="card-body">
-        <h2>{{__('settings.third-party.card-heading')}}</h2>
+        <h2 class="fs-5">
+            <i class="fas fa-link"></i>
+            {{__('settings.third-party.card-heading')}}
+        </h2>
 
         <table class="table">
             <tbody>
@@ -8,9 +11,9 @@
                     <td><i class="fab fa-spotify"></i> Spotify</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedSpotify)
-                            <span class="font-weight-bold text-success">
+                            <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
-                                {{__('settings.third-party.connected')}}
+                                {{__('settings.third-party.statistics-enabled')}}
                             </span>
                             <br/>
                             <span class="text-secondary">
@@ -18,13 +21,13 @@
                             </span>
                         @else
                             @isset(auth()->user()->socialProfile->spotify_lastRefreshed)
-                                <p class="font-weight-bold text-danger">
+                                <p class="fs-bold text-danger">
                                     <i class="fas fa-times"></i>
                                     {{__('lost-connection')}}
                                     {{auth()->user()->socialProfile->spotify_lastRefreshed->diffForHumans()}}
                                 </p>
                             @else
-                                <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                                <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
                             @endisset
                             <a href="{{route('redirectProvider', 'spotify')}}" class="btn btn-sm btn-primary">
                                 {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Spotify'])}}
@@ -37,16 +40,16 @@
                     <td><i class="fab fa-twitter"></i> Twitter</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedTwitter)
-                            <span class="font-weight-bold text-success">
+                            <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
-                                {{__('settings.third-party.connected')}}
+                                {{__('settings.third-party.statistics-enabled')}}
                             </span>
                             <br/>
                             <span class="text-secondary">
                                 Twitter UserID: {{auth()->user()->socialProfile->twitter_id}}
                             </span>
                         @else
-                            <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                            <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
                             <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-sm btn-primary">
                                 {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Twitter'])}}
                             </a>
@@ -58,7 +61,7 @@
                     <td><i class="fab fa-telegram"></i> Telegram</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedTelegram)
-                            <span class="font-weight-bold text-success">
+                            <span class="fs-bold text-success">
                                 <i class="fas fa-check"></i>
                                 {{__('settings.third-party.connected')}}
                             </span>
@@ -68,14 +71,14 @@
                             </span>
 
                             <form method="POST" action="{{route('settings.connections.telegram.delete')}}"
-                                  class="float-right">
+                                  class="float-end">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     {{__('general.deactivate')}}
                                 </button>
                             </form>
                         @else
-                            <p class="font-weight-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                            <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
                         @endif
                         @if(isset($telegramConnectCode) && ($telegramConnectCode != null && $telegramConnectCode->val != ''))
                             <div class="alert alert-info" style="text-align: center;">
@@ -94,6 +97,32 @@
                                 {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Telegram'])}}
                             </button>
                         </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><img src="{{url('img/grocy_logo.svg')}}" style="height: 0.9rem;" alt="grocy Logo"></td>
+                    <td>
+                        @isset(auth()->user()->socialProfile->grocy_host)
+                            <span class="fs-bold text-success">
+                                <i class="fas fa-check"></i>
+                                {{__('settings.third-party.connected')}}
+                            </span>
+                            <br/>
+                            <small class="text-secondary">
+                                Instanz: <i>{{auth()->user()->socialProfile->grocy_host}}</i>
+                            </small>
+                            <br/>
+                            <a href="{{route('grocy')}}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-cog"></i>
+                                {{__('settings.settings')}}
+                            </a>
+                        @else
+                            <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
+                            <a href="{{route('grocy')}}" class="btn btn-sm btn-primary">
+                                {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'grocy'])}}
+                            </a>
+                        @endisset
                     </td>
                 </tr>
             </tbody>

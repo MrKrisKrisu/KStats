@@ -1,21 +1,22 @@
 <?php
 
 use App\Http\Controllers\CrowdsourceController;
-use App\Http\Controllers\Frontend\Spotify\SpotifySocialExploreController;
+use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\Frontend\Receipt\Grocy\ApiController;
+use App\Http\Controllers\Frontend\Receipt\ImportController;
+use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReweController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\SpotifyController;
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FriendshipController;
-use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
-use App\Http\Controllers\TelegramController;
-use App\Http\Controllers\Frontend\Receipt\ImportController;
+use App\Http\Controllers\Frontend\Settings\LanguageController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -34,19 +35,23 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
     Route::post('/friends/action/cancel', [FriendshipController::class, 'cancelFriendship'])->name('friendships.action.cancel');
     Route::post('/friends/action/request', [FriendshipController::class, 'requestFriendship'])->name('friendships.action.request');
 
-    Route::get('/settings/', [SettingsController::class, 'index'])
-         ->name('settings');
-    Route::post('/settings/', [SettingsController::class, 'save']);
-    Route::post('/settings/user/password/change', [SettingsController::class, 'changePassword'])
-         ->name('settings.user.password.change');
-    Route::post('/settings/connections/telegram/delete', [SettingsController::class, 'deleteTelegramConnection'])
-         ->name('settings.connections.telegram.delete');
-    Route::post('/settings/add_mail', [SettingsController::class, 'addEmail'])
-         ->name('settings.save.email');
-    Route::post('/settings/delete_mail', [SettingsController::class, 'deleteEmail'])
-         ->name('settings.delete.email');
-    Route::post('/settings/set_lang', [SettingsController::class, 'setLanguage'])
-         ->name('settings.set.lang');
+    Route::prefix('settings')->group(function() {
+        Route::get('/', [SettingsController::class, 'index'])
+             ->name('settings');
+        Route::post('/', [SettingsController::class, 'save']);
+
+        Route::post('/user/password/change', [SettingsController::class, 'changePassword'])
+             ->name('settings.user.password.change');
+        Route::post('/connections/telegram/delete', [SettingsController::class, 'deleteTelegramConnection'])
+             ->name('settings.connections.telegram.delete');
+        Route::post('/add_mail', [SettingsController::class, 'addEmail'])
+             ->name('settings.save.email');
+        Route::post('/delete_mail', [SettingsController::class, 'deleteEmail'])
+             ->name('settings.delete.email');
+        Route::post('/set_lang', [LanguageController::class, 'updateLanguage'])
+             ->name('settings.set.lang');
+    });
+
     Route::get('/user/verify_mail/{user_id}/{verification_key}', [UnauthorizedSettingsController::class, 'verifyMail'])
          ->name('user.verify');
 
@@ -103,6 +108,12 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
 
     Route::get('/twitter', [TwitterController::class, 'index'])
          ->name('twitter');
+
+    Route::prefix('grocy')->group(function() {
+        Route::get('/', [ApiController::class, 'renderOverview'])->name('grocy');
+        Route::post('/connect', [ApiController::class, 'connect'])->name('grocy.connect');
+        Route::post('/disconnect', [ApiController::class, 'disconnect'])->name('grocy.disconnect');
+    });
 
     Route::prefix('receipts')->group(function() {
 

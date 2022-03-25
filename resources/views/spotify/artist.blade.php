@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     <h2 style="font-size: 30px;">{{__('spotify.tracks', ['count' => $artist->tracks->count()])}}</h2>
                     <span class="text-muted">{{__('spotify.tracks.count')}}</span>
@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     @if($artist->tracks->avg('valence') > 0.5)
                         <h2 style="font-size: 50px;"><i class="far fa-smile text-success"></i></h2>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('tracks')}}</h2>
                     <table class="table">
@@ -55,7 +55,7 @@
 
 
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     <span class="text-danger">{{__('spotify.stats.disclaimer')}}</span>
                 </div>

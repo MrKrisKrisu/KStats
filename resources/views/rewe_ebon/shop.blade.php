@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-7">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <table class="table">
                         <thead>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" style="font-size: 16px;">
                     <h2>Einkaufsfreunde</h2>
                     @if($countOther == 0)
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{$shop->name}}</h2>
                     {{$shop->address}}<br/>

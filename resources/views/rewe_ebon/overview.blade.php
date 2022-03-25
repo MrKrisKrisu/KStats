@@ -3,7 +3,7 @@
 @section('title', __('rewe-analyzer'))
 
 @section('before-title')
-    <a class="float-right btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-upload">
+    <a class="float-end btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-upload">
         <i class="fas fa-upload"></i> {{__('upload-receipt')}}
     </a>
 @endsection
@@ -17,9 +17,7 @@
                     <h5 class="modal-title">
                         <i class="fas fa-upload"></i> {{__('upload-receipt')}}
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -30,7 +28,7 @@
                             <form method="POST" enctype="multipart/form-data"
                                   action="{{route('receipt.import.upload')}}">
                                 @csrf
-                                <div class="form-group">
+                                <div class="mb-2">
                                     <label>{{__('receipt')}} <small>(.pdf)</small></label>
                                     <input id="file" type="file" class="form-control" name="file" required>
                                 </div>
@@ -49,7 +47,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-secondary" data-dismiss="modal">{{__('close')}}</button>
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">{{__('close')}}</button>
                 </div>
             </div>
         </div>
@@ -59,7 +57,7 @@
 @section('content')
     <div class="row">
         <div class="col" style="font-weight: bold;">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col-md-3">
@@ -102,7 +100,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('receipts.payment_methods')}}</h5>
                     <canvas id="chart_payment"></canvas>
@@ -114,7 +112,7 @@
                             type: 'doughnut',
                             data: {
                                 datasets: [{
-                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    backgroundColor: colorGradients,
                                     data: [
                                         @foreach($payment_methods as $paymentMethod => $count)
                                             '{{$count}}',
@@ -145,7 +143,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('my-markets')}}</h5>
                     <canvas id="chart_shops"></canvas>
@@ -157,7 +155,7 @@
                             type: 'doughnut',
                             data: {
                                 datasets: [{
-                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    backgroundColor: colorGradients,
                                     data: [
                                         @foreach($topMarkets as $row)
                                                 {{$row['spent']}},
@@ -188,7 +186,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('nutrition')}}</h5>
                     <canvas id="chart_vegetarian"></canvas>
@@ -200,7 +198,7 @@
                             type: 'doughnut',
                             data: {
                                 datasets: [{
-                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    backgroundColor: colorGradients,
                                     data: [
                                         @foreach($products_vegetarian as $pv)
                                             '{{$pv->cnt}}',
@@ -233,7 +231,7 @@
 
     <div class="row">
         <div class="col-md-5">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('product-favourite')}}</h5>
                     <table class="table" id="lieblingsprodukte">
@@ -270,7 +268,7 @@
             </div>
         </div>
         <div class="col-md-7">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('product.prediction')}}</h5>
                     <table class="table" id="kaufvorhersage">
@@ -313,7 +311,7 @@
 
     <div class="row">
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('receipt')}}</h5>
                     <table class="table" id="kassenzettel">
@@ -364,7 +362,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('receipts-by-daytime')}}</h5>
                     <canvas id="chart_dayTime"></canvas>
@@ -382,7 +380,7 @@
                                 ],
                                 datasets: [{
                                     label: '{{__('receipt-count')}}',
-                                    backgroundColor: '#38a3a6',
+                                    backgroundColor: colorGradients[0],
                                     borderWidth: 1,
                                     data: [
                                         @foreach(auth()->user()->reweReceipts->groupBy(function ($item, $key) {
@@ -416,7 +414,7 @@
         </div>
 
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('spent-by-month')}}</h5>
                     <canvas id="chart_monthlySpend"></canvas>
@@ -433,7 +431,7 @@
                                 ],
                                 datasets: [{
                                     label: '{{__('spent-in-currency')}}',
-                                    backgroundColor: '#38a3a6',
+                                    backgroundColor: colorGradients[0],
                                     borderWidth: 1,
                                     data: [
                                         @foreach($monthlySpend as $month => $amount)
@@ -462,7 +460,7 @@
 
     <!--<div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">Einkaufswert pro Einkauf</h5>
                     <p>Dieser Statistik steht in Kürze wieder zur Verfügung.</p>
@@ -473,7 +471,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">Ausgaben nach Kategorie</h5>
                     <p>Dieser Statistik steht in Kürze wieder zur Verfügung.</p>
@@ -484,7 +482,7 @@
 
     <div class="row">
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">Top Kategorien (nach Anzahl Produkte)</h5>
                     <p>Dieser Statistik steht in Kürze wieder zur Verfügung.</p>
@@ -495,7 +493,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('category-by-spent')}}</h5>
                     <canvas id="chart_categoryPrice"></canvas>
@@ -507,7 +505,7 @@
                             type: 'doughnut',
                             data: {
                                 datasets: [{
-                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    backgroundColor: colorGradients,
                                     data: [
                                         @foreach($topByCategoryPrice as $cc)
                                             '{{$cc->price}}',
@@ -540,7 +538,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('category-by-count')}}</h5>
                     <canvas id="chart_categoryCount"></canvas>
@@ -552,7 +550,7 @@
                             type: 'doughnut',
                             data: {
                                 datasets: [{
-                                    backgroundColor: ["#38A2A6", "#4FD6E8", "#63E0FF", "#4FBDE8", "#57C1FF", "#4FBDE8", "#63E0FF", "#4FD6E8", "#57F9FF"],
+                                    backgroundColor: colorGradients,
                                     data: [
                                         @foreach($topByCategoryCount as $cc)
                                             '{{$cc->cnt}}',

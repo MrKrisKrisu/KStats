@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -20,9 +19,10 @@ class User extends Authenticatable {
     protected $casts    = ['visible' => 'boolean'];
 
     public function socialProfile(): HasOne {
-        if($this->hasOne(SocialLoginProfile::class)->count() == 0)
+        if($this->hasOne(SocialLoginProfile::class, 'user_id', 'id')->count() == 0) {
             SocialLoginProfile::create(['user_id' => $this->id]);
-        return $this->hasOne(SocialLoginProfile::class);
+        }
+        return $this->hasOne(SocialLoginProfile::class, 'user_id', 'id');
     }
 
     public function settings(): HasMany {

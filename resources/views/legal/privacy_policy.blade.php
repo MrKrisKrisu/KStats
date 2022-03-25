@@ -1,8 +1,8 @@
 @extends('layout.app')
 
 @section('before-container')
-    <section class="jumbotron text-center"
-             style="background: url('{{url('/img/bg_cover.png')}}') 0% 35%; background-size: 100%; border-radius: 0;">
+    <section class="p-5 mb-4 bg-light text-center"
+             style="background: url('{{url('/img/bg_cover.png')}}') 0 35%; background-size: 100%;">
         <div class="container">
             <h1 class="jumbotron-heading" style="color: #fff;">{{__('privacy')}}</h1>
             <p class="lead" style="color: #fff;">Stand: 7. November 2020</p>

@@ -12,12 +12,13 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>Freundesliste</h2>
                     @if(auth()->user()->friends->count() == 0)
-                        <span class="font-weight-bold text-danger">Du hast keine Freunde.</span>
+                        <span class="fs-bold text-danger">Du hast keine Freunde.</span>
                     @else
+                        <div class="table-responsive">
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
@@ -29,7 +30,7 @@
                                 @foreach(auth()->user()->friends as $friend)
                                     <tr>
                                         <td>{{$friend->username}}</td>
-                                        <td>
+                                        <td class="text-end">
                                             <form method="POST" action="{{route('friendships.action.cancel')}}">
                                                 @csrf
                                                 <input type="hidden" name="friend_id" value="{{$friend->id}}"/>
@@ -42,17 +43,18 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>Freund hinzufügen</h2>
                     <form method="POST" action="{{route('friendships.action.request')}}">
                         @csrf
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label for="request-username">Benutzername</label>
                             <input type="text" name="username" class="form-control" id="request-username"/>
                         </div>

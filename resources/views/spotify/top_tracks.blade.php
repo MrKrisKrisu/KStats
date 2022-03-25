@@ -8,7 +8,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('date-range')}}</h2>
                     <a href="?from={{\Carbon\Carbon::now()->subMonths(2)->firstOfMonth()->toDateString()}}&to={{\Carbon\Carbon::now()->subMonths(2)->lastOfMonth()->toDateString()}}"
@@ -34,21 +34,21 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('date-range')}}</h2>
                     <form method="GET">
                         <input type="hidden" name="page" value="1"/>
                         <div class="row">
                             <div class="col">
-                                <div class="form-group">
+                                <div class="mb-2">
                                     <label>{{__('from')}}</label>
                                     <input type="date" name="from" class="form-control"
                                            value="{{$from->format('Y-m-d')}}"/>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="form-group">
+                                <div class="mb-2">
                                     <label>{{__('until')}}</label>
                                     <input type="date" name="to" class="form-control" value="{{$to->format('Y-m-d')}}"/>
                                 </div>
@@ -68,10 +68,10 @@
             </div>
             @foreach($top_tracks as $activity)
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card mb-2">
                         <div class="card-body">
                             <h2>{{__('spotify.rank', ['rank' => $loop->index + 1 + ($top_tracks->perPage() * ($top_tracks->currentPage() - 1))])}}</h2>
-                            @include('spotify.components.track', ['track' => $activity->track, 'minutes' => $activity->minutes])
+                            @include('spotify.components.track', ['track' => $activity->track, 'minutes' => round($activity->minutes)])
                         </div>
                     </div>
                 </div>
@@ -83,9 +83,9 @@
     @else
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body">
-                        <p class="text-danger font-weight-bold">{{__('spotify.top-list.none')}}</p>
+                        <p class="text-danger fs-bold">{{__('spotify.top-list.none')}}</p>
                     </div>
                 </div>
             </div>

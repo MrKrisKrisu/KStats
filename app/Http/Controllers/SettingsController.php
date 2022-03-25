@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
 
 class SettingsController extends Controller {
 
@@ -82,8 +81,9 @@ class SettingsController extends Controller {
     public static function sendEmailVerification(UserEmail $userEmail): bool {
         Mail::to($userEmail->email)->send(new MailVerificationMessage($userEmail));
 
-        if(Mail::failures())
+        if(Mail::failures()) {
             throw new Exception("Failure on sending mail: " . json_encode(Mail::failures()));
+        }
 
         return true;
     }
@@ -113,18 +113,6 @@ class SettingsController extends Controller {
                                             ]);
 
         return back()->with('alert-success', __('settings.telegram.connection_removed'));
-    }
-
-    public function setLanguage(Request $request): RedirectResponse {
-        $validated = $request->validate([
-                                            'locale' => ['required', Rule::in(['de', 'en'])]
-                                        ]);
-
-        Auth::user()->update([
-                                 'locale' => $validated['locale']
-                             ]);
-
-        return back()->with('alert-success', __('settings.alert_set_language'));
     }
 
     public function changePassword(Request $request): RedirectResponse {

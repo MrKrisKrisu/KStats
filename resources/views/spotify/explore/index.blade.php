@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('track.opinion')}}</h2>
                     <div class="row">
@@ -38,22 +38,24 @@
                                 </audio>
                             @endif
 
-                            <div class="button-group float-right">
+                            <div class="button-group float-end">
                                 <form method="POST" action="{{route('spotify.explore.submit')}}">
                                     @csrf
 
                                     <input type="hidden" name="track_id" value="{{$track->id}}"/>
 
-                                    <button type="button" class="btn btn-success" data-toggle="tooltip"
+                                    <button type="button" class="btn btn-success" data-bs-toggle="tooltip"
                                             data-placement="top" title="{{__('like')}}" id="btnLike"
                                             onclick="$('#likedModal').modal('show'); $('#btnPlaylist').focus();">
                                         <i class="fas fa-thumbs-up"></i>
                                     </button>
-                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip" id="btnDislike"
+                                    <button type="submit" class="btn btn-danger" data-bs-toggle="tooltip"
+                                            id="btnDislike"
                                             data-placement="top" title="{{__('dislike')}}" name="rating" value="0">
                                         <i class="fas fa-thumbs-down"></i>
                                     </button>
-                                    <button type="submit" class="btn btn-secondary" data-toggle="tooltip" id="btnSkip"
+                                    <button type="submit" class="btn btn-secondary" data-bs-toggle="tooltip"
+                                            id="btnSkip"
                                             data-placement="top" title="{{__('skip')}}" name="rating" value="-1">
                                         <i class="fas fa-forward"></i>
                                     </button>
@@ -85,13 +87,13 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('how-does-it-work')}}</h2>
                     <p class="text-muted">{{__('explore.explain')}}</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <div class="row text-center">
                         <div class="col">
@@ -107,20 +109,6 @@
                             <span>{{__('rated.total')}}</span>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h2>{{__('explore.telegram')}}</h2>
-                    <p class="text-muted">{{__('explore.telegram.text')}}</p>
-                    <form method="POST" action="{{route('spotify.explore.telegram')}}">
-                        @csrf
-                        <div class="form-group">
-                            <input type="time" name="time" class="form-control"
-                                   value="{{\App\Models\UserSettings::get(auth()->user()->id, 'tg_explore_time')}}"/>
-                        </div>
-                        <button type="submit" class="btn btn-primary">{{__('save')}}</button>
-                    </form>
                 </div>
             </div>
         </div>

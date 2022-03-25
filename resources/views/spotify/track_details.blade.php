@@ -11,7 +11,7 @@
     <div class="row">
         @isset($track->album->imageUrl)
             <div class="col-md-4">
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body">
                         <img src="{{$track->album->imageUrl}}" class="spotify-cover"/>
                     </div>
@@ -19,7 +19,7 @@
             </div>
         @endisset
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('spotify.preview')}}</h2>
                     @isset($track->preview_url)
@@ -31,13 +31,13 @@
                         <small class="text-muted">{{__('no-preview')}} <i class="far fa-sad-cry"></i></small>
                     @endif
                     <hr/>
-                    <a class="float-right btn btn-success" href="{{$track->spotify_link}}">
+                    <a class="float-end btn btn-success" href="{{$track->spotify_link}}">
                         <i class="fab fa-spotify"></i> {{__('open-in-spotify')}}
                     </a>
                 </div>
             </div>
             @isset($track->album->release_date)
-                <div class="card">
+                <div class="card mb-2">
                     <div class="card-body text-center">
                         <span class="color-primary text-center" style="font-size: 35px;">
                             {{$track->album->release_date->isoFormat('MMMM YYYY')}}
@@ -49,7 +49,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h2>{{__('spotify.artist')}}</h2>
                     <ul class="list-group">
@@ -65,7 +65,7 @@
         </div>
 
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_day') }}</h5>
                     <canvas id="chart_minutes"></canvas>

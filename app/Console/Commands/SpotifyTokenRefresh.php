@@ -18,10 +18,12 @@ class SpotifyTokenRefresh extends Command {
         $slProfile = SocialLoginProfile::with(['user'])
                                        ->whereNotNull('spotify_accessToken')
                                        ->where(function($query) {
-                                           $query->where('spotify_lastRefreshed', '<', Carbon::now()->subMinutes(30));
-                                           $query->where('spotify_lastRefreshed', '>', Carbon::now()->subDays(1));
+                                           $query->where(function($query) {
+                                               $query->where('spotify_lastRefreshed', '<', Carbon::now()->subMinutes(30)->toIso8601String());
+                                               $query->where('spotify_lastRefreshed', '>', Carbon::now()->subDay()->toIso8601String());
+                                           });
+                                           $query->orWhere('spotify_lastRefreshed', null);
                                        })
-                                       ->orWhere('spotify_lastRefreshed', null)
                                        ->get();
 
         foreach($slProfile as $profile) {

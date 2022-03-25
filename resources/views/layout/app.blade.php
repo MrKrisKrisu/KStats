@@ -6,9 +6,9 @@
 
         <title>@hasSection('title')@yield('title') - @endif{{__('KStats')}}</title>
 
-        <link rel="stylesheet" href="/css/app.css"/>
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}"/>
 
-        <script type="text/javascript" src="/js/app.js"></script>
+        <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.svg">
@@ -25,9 +25,22 @@
 
                     <div class="mt-3"></div>
                     @hasSection('title')
-                        <h1 id="mainTitle" >@yield('title')</h1>
+                        <h1 id="mainTitle">@yield('title')</h1>
                         <hr/>
                     @endif
+
+                    @auth
+                        @if(auth()->user()->socialProfile->spotify_user_id != null && !str_contains(auth()->user()->socialProfile->spotify_scopes, 'user-read-recently-played'))
+                            <div class="alert alert-danger">
+                                <b>{{__('spotify.error')}}</b>
+                                <p>{{__('spotify.error.text')}}</p>
+                                <a class="btn btn-success btn-sm" href="{{route('redirectProvider', 'spotify')}}">
+                                    <i class="fab fa-spotify"></i>
+                                    {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Spotify'])}}
+                                </a>
+                            </div>
+                        @endif
+                    @endauth
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -42,8 +55,8 @@
                     <div class="flash-message">
                         @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                             @if(Session::has('alert-' . $msg))
-                                <p class="alert alert-{{ $msg }}">{!! Session::get('alert-' . $msg) !!}
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <p class="alert alert-{{ $msg }}">
+                                    {!! Session::get('alert-' . $msg) !!}
                                 </p>
                             @endif
                         @endforeach
@@ -57,7 +70,7 @@
             <footer class="text-muted">
                 <div class="container">
                     <hr/>
-                    <p class="float-left">
+                    <p class="float-start">
                         <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=bug" target="ghub"
                            style="color: #E70000;">{{ __('general.report_bug') }}</a> |
                         <a href="https://github.com/MrKrisKrisu/KStats/issues/new?labels=enhancement"
@@ -73,7 +86,7 @@
                             </a>
                         </small>
                     </p>
-                    <p class="float-right">
+                    <p class="float-end">
                         <a href="/imprint">{{ __('general.menu.imprint') }}</a> |
                         <a href="/privacy">{{ __('general.menu.privacy_policy') }}</a> |
                         <a href="#">{{ __('general.back_to_top') }}</a>
@@ -84,7 +97,7 @@
     </body>
     @yield('javascript')
     @yield('footer')
-    @if(auth()->check() && auth()->user()->privacy_confirmed_at != null)
+    @if(auth()->check() && auth()->user()->privacy_confirmed_at !== null)
         <script type="text/javascript">
             var _paq = window._paq = window._paq || [];
             _paq.push(['trackPageView']);

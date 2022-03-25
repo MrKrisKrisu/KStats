@@ -5,15 +5,15 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <a href="{{route('spotify.history', ['date' => $date->clone()->addDays(-1)->toDateString()])}}"
-                       class="btn btn-sm btn-primary float-left">
+                       class="btn btn-sm btn-primary float-start">
                         <i class="fas fa-arrow-left"></i> {{__('general.pagination.previous_day')}}
                     </a>
                     @if($date->isBefore(\Carbon\Carbon::today()))
                         <a href="{{route('spotify.history', ['date' => $date->clone()->addDays(1)->toDateString()])}}"
-                           class="btn btn-sm btn-primary float-right">
+                           class="btn btn-sm btn-primary float-end">
                             {{__('general.pagination.next_day')}} <i class="fas fa-arrow-right"></i>
                         </a>
                     @endif
@@ -21,9 +21,9 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
-                    <span class="color-primary" style="font-size: 30px;" data-toggle="tooltip" data-placement="top"
+                    <span class="color-primary" style="font-size: 30px;" data-bs-toggle="tooltip" data-placement="top"
                           title="{{__('percent-of-day', ['percent' => round($minTotal / 1440 * 100)])}}">
                         <span>{{$minTotal}}</span><small>min</small>
                     </span><br/>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     <span class="color-primary" style="font-size: 30px;">
                         <span>{{$tracksDistinct}}</span><small>x</small>
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body text-center">
                     <span class="color-primary" style="font-size: 30px;">
                         <span>{{$sessions}}</span><small>x</small>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     @if(count($history) == 0)
                         <p class="text-danger">{{__('general.error.no_data_day')}}</p>
@@ -62,18 +62,21 @@
                                 <tr>
                                     <th>{{__('spotify.time_period')}}</th>
                                     <th>{{__('spotify.track')}}</th>
-                                    <th>{{__('spotify.device')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($history as $playActivity)
                                     <tr>
-                                        <td>{{$playActivity->timestamp_start->format('H:i')}}
-                                            - {{\Carbon\Carbon::parse($playActivity->played_until)->format('H:i')}}</td>
                                         <td>
-                                            <a href="{{route('spotify.track' ,['id' => $playActivity->track->id])}}">{{$playActivity->track->name}}</a>
+                                            {{$playActivity->timestamp_start->format('H:i')}}
+                                            -
+                                            {{$playActivity->timestamp_end->format('H:i')}}
                                         </td>
-                                        <td>{{$playActivity->device->name}}</td>
+                                        <td>
+                                            <a href="{{route('spotify.track' ,['id' => $playActivity->track->id])}}">
+                                                {{$playActivity->track->name}}
+                                            </a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

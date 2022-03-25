@@ -8,23 +8,11 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel {
 
-    /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
     protected $commands = [
         Telegram_SetWebhook::class
     ];
 
-    /**
-     * Define the application's command schedule.
-     *
-     * @param Schedule $schedule
-     *
-     * @return void
-     */
-    protected function schedule(Schedule $schedule) {
+    protected function schedule(Schedule $schedule): void {
         $schedule->command('kstats:cleanup')
                  ->everySixHours();
 
@@ -34,11 +22,6 @@ class Kernel extends ConsoleKernel {
                  ->evenInMaintenanceMode();
 
         $schedule->command('spotify:catchNowPlaying')
-                 ->everyMinute()
-                 ->evenInMaintenanceMode()
-                 ->runInBackground();
-
-        $schedule->command('spotify:sendExplore')
                  ->everyMinute()
                  ->runInBackground();
 
@@ -59,19 +42,12 @@ class Kernel extends ConsoleKernel {
                  ->runInBackground()
                  ->withoutOverlapping();
         $schedule->command('twitter:check_unfollows')
-                 ->everyMinute()
-                 ->runInBackground()
-                 ->withoutOverlapping();
+                 ->everyTenMinutes();
 
         $schedule->command('telegram:set_webhook')->daily();
     }
 
-    /**
-     * Register the commands for the application.
-     *
-     * @return void
-     */
-    protected function commands() {
+    protected function commands(): void {
         $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');

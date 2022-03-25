@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.create_playlist') }}</h5>
                     <p>{{ __('spotify.lost_tracks.description') }}</p>
@@ -17,17 +17,17 @@
                             <label class="form-check-label"
                                    for="playlistcreate">{{ __('spotify.create_playlist') }}</label>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label>{{__('spotify.lost_tracks.minutes_until_liked')}}</label>
                             <input type="number" name="spotify_oldPlaylist_minutesTop" value="{{$settings_minutes}}"
                                    class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label>{{__('spotify.lost_tracks.daycount_lost_tracks')}}</label>
                             <input type="number" name="spotify_oldPlaylist_days" value="{{$settings_days}}"
                                    class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="mb-2">
                             <label>{{__('spotify.lost_tracks.max_tracks', ['max' => 99])}}</label>
                             <input type="number" name="spotify_oldPlaylist_songlimit" value="{{$settings_limit}}"
                                    class="form-control">
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.lost_tracks.your_lost_tracks') }}</h5>
                     @if(count($lostTracks) == 0)

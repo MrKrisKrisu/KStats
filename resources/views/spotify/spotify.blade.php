@@ -5,12 +5,12 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" style="text-align: center;">
                     <div class="row">
                         <div class="col-md-3">
                             <span class="color-primary" style="font-size: 50px;" id="lieblingsjahr">...</span><br/>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.favourite_year')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.favourite_year')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -27,7 +27,7 @@
                                 <span id="bpm">...</span><small>BPM</small>
                             </span>
                             <br/>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.favourite_bpm')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.favourite_bpm')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -42,7 +42,7 @@
                         <div class="col-md-3">
                                 <span class="color-primary" style="font-size: 50px;"
                                       id="track_count">...</span><br>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.count_tracks')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.count_tracks')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -58,7 +58,7 @@
                             <span class="color-primary" style="font-size: 50px;">
                                 <span id="avgPerSession">...</span><small>{{__('spotify.minutes.short')}}</small>
                             </span><br>
-                            <small class="text-muted font-weight-bold">{{__('spotify.title.avg_session_length')}}</small>
+                            <small class="text-muted fs-bold">{{__('spotify.title.avg_session_length')}}</small>
                             <script>
                                 $(document).ready(function () {
                                     $.ajax({
@@ -78,7 +78,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{__('spotify.title.last_heared')}}</h5>
                     <div id="last_played"></div>
@@ -127,7 +127,7 @@
         </div>
 
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.heared_minutes') }}</h5>
                     <table class="ui table">
@@ -177,7 +177,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" id="topTracksTotal">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }} [{{ __('spotify.total') }}]</h5>
                     @include('spotify.card_topTracks', ['topTracks' => $topTracksTotal, 'fragment' => 'topTracksTotal'])
@@ -185,7 +185,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body" id="topTracks30">
                     <h5 class="card-title">{{ __('spotify.title.top_tracks') }}
                         [{{ __('spotify.last_days', ['days' => 30]) }}]</h5>
@@ -197,7 +197,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_week') }}</h5>
                     <canvas id="chart_hearedByWeek"></canvas>
@@ -210,7 +210,7 @@
                             type: 'line',
                             data: {
                                 datasets: [{
-                                    backgroundColor: ["#38a2a6"],
+                                    backgroundColor: [colorGradients[0]],
                                     data: [
                                         @foreach($chartData_hearedByWeek as $weekData)
                                                 {{$weekData->minutes}},
@@ -259,13 +259,13 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }} [{{ __('spotify.total') }}]</h5>
                     <table class="ui table unstackable" id="top_artists_total">
                         <thead>
                             <tr>
-                                <th>{{ __('spotify.rank') }}</th>
+                                <th>{{ __('spotify.rank.heading') }}</th>
                                 <th>{{ __('spotify.artist') }}</th>
                                 <th>{{ __('spotify.heared_minutes') }}</th>
                             </tr>
@@ -293,7 +293,7 @@
                                                 )
                                                 .append($('<td>')
                                                     .append($('<span>')
-                                                        .text(value.minutes + 'min')
+                                                        .text(Math.round(value.minutes) + 'min')
                                                     )
                                                 )
                                             );
@@ -306,7 +306,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }}
                         [{{ __('spotify.last_days', ['days' => 30]) }}]</h5>
@@ -314,7 +314,7 @@
                     <table class="ui table unstackable" id="top_artists_30days">
                         <thead>
                             <tr>
-                                <th>{{ __('spotify.rank') }}</th>
+                                <th>{{ __('spotify.rank.heading') }}</th>
                                 <th>{{ __('spotify.artist') }}</th>
                                 <th>{{ __('spotify.heared_minutes') }}</th>
                             </tr>
@@ -342,7 +342,7 @@
                                                 )
                                                 .append($('<td>')
                                                     .append($('<span>')
-                                                        .text(value.minutes + 'min')
+                                                        .text(Math.round(value.minutes) + 'min')
                                                     )
                                                 )
                                             );
@@ -355,7 +355,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }}
                         [{{ __('spotify.last_days', ['days' => 7]) }}]</h5>
@@ -363,7 +363,7 @@
                     <table class="ui table unstackable" id="top_artists_7days">
                         <thead>
                             <tr>
-                                <th>{{ __('spotify.rank') }}</th>
+                                <th>{{ __('spotify.rank.heading') }}</th>
                                 <th>{{ __('spotify.artist') }}</th>
                                 <th>{{ __('spotify.heared_minutes') }}</th>
                             </tr>
@@ -391,7 +391,7 @@
                                                 )
                                                 .append($('<td>')
                                                     .append($('<span>')
-                                                        .text(value.minutes + 'min')
+                                                        .text(Math.round(value.minutes) + 'min')
                                                     )
                                                 )
                                             );
@@ -405,7 +405,7 @@
         </div>
 
         <div class="col-md-12">
-            <div class="card" style="margin-top: 10px;">
+            <div class="card mb-2" style="margin-top: 10px;">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_weekday') }}</h5>
                     <canvas id="chart_listenedByWeekday"></canvas>
@@ -423,7 +423,7 @@
                                 ],
                                 datasets: [{
                                     label: '{{ __('spotify.minutes.heared') }}',
-                                    backgroundColor: '#38a3a6',
+                                    backgroundColor: colorGradients[0],
                                     borderWidth: 1,
                                     data: [@foreach($chartData_hearedByWeekday as $weekData)
                                             {{$weekData->minutes}},
@@ -455,7 +455,7 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="card" style="margin-top: 10px;">
+            <div class="card mb-2" style="margin-top: 10px;">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_daytime') }}</h5>
                     <canvas id="chart_listenedByHour"></canvas>
@@ -473,7 +473,7 @@
                                 ],
                                 datasets: [{
                                     label: '{{ __('spotify.minutes.heared') }}',
-                                    backgroundColor: '#38a3a6',
+                                    backgroundColor: colorGradients[0],
                                     borderWidth: 1,
                                     data: [
                                         @foreach($chartData_hearedByHour as $weekData)
