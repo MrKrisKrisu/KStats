@@ -36,5 +36,7 @@ class DatabaseSeeder extends Seeder {
         $this->call(SpotifyDeviceSeeder::class);
         $this->call(SpotifyPlayActivitySeeder::class);
         $this->call(SpotifySessionSeeder::class);
+
+        $this->call(MeterSeeder::class);
     }
 }

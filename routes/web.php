@@ -16,6 +16,7 @@ use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\Settings\LanguageController;
+use App\Http\Controllers\Frontend\Meter\MeterManagementController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -109,6 +110,11 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
         Route::get('/', [ApiController::class, 'renderOverview'])->name('grocy');
         Route::post('/connect', [ApiController::class, 'connect'])->name('grocy.connect');
         Route::post('/disconnect', [ApiController::class, 'disconnect'])->name('grocy.disconnect');
+    });
+
+    Route::prefix('meter')->group(function() {
+        Route::get('/', [MeterManagementController::class, 'dashboard'])->name('meter.dashboard');
+        Route::get('/{uuid}', [MeterManagementController::class, 'view'])->name('meter.view');
     });
 });
 
