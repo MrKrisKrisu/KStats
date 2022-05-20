@@ -113,8 +113,12 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
     });
 
     Route::prefix('meter')->group(function() {
-        Route::get('/', [MeterManagementController::class, 'dashboard'])->name('meter.dashboard');
-        Route::get('/{uuid}', [MeterManagementController::class, 'view'])->name('meter.view');
+        Route::get('/', [MeterManagementController::class, 'dashboard'])
+             ->name('meter.dashboard');
+        Route::post('/create', [MeterManagementController::class, 'create'])
+             ->name('meter.create');
+        Route::get('/{uuid}', [MeterManagementController::class, 'view'])
+             ->name('meter.view');
     });
 });
 
