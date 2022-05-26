@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="col-md-7">
+        <div class="col-md-6">
             <div class="card mb-2">
                 <div class="card-body">
                     <table class="table">
@@ -65,6 +65,91 @@
                         </tbody>
                     </table>
                     {{$history->links()}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div id="chartPrice"></div>
+                    <script>
+                        let options = {
+                            series: [
+                                {
+                                    name: 'Einzelpreis',
+                                    data: [
+                                            @foreach($historyAll as $position)
+                                        {
+                                            x: new Date('{{$position->receipt->timestamp_bon->toIso8601String()}}').getTime(),
+                                            y: {{round($position->single_price, 2) }}
+                                        }@if(!$loop->last),@endif
+                                        @endforeach
+                                    ]
+                                }
+                            ],
+                            chart: {
+                                type: 'area',
+                                stacked: false,
+                                height: 350,
+                                zoom: {
+                                    type: 'x',
+                                    enabled: true,
+                                    autoScaleYaxis: true
+                                },
+                                toolbar: {
+                                    autoSelected: 'zoom'
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            markers: {
+                                size: 0,
+                            },
+                            title: {
+                                text: 'Preisverlauf',
+                                align: 'left'
+                            },
+                            fill: {
+                                type: 'gradient',
+                                gradient: {
+                                    shadeIntensity: 1,
+                                    inverseColors: false,
+                                    opacityFrom: 0.5,
+                                    opacityTo: 0,
+                                    stops: [0, 90, 100]
+                                },
+                            },
+                            yaxis: {
+                                labels: {
+                                    formatter: function (value) {
+                                        return value + " €";
+                                    }
+                                },
+                            },
+                            xaxis: {
+                                type: 'datetime',
+                                labels: {
+                                    datetimeUTC: false,
+                                    datetimeFormatter: {
+                                        year: 'yyyy',
+                                        month: 'MMM \'yy',
+                                        day: 'dd MMM',
+                                        hour: 'HH:mm'
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                shared: false,
+                                x: {
+                                    format: 'dd MMM yyyy HH:mm'
+                                }
+                            }
+                        };
+
+                        var chart = new ApexCharts(document.querySelector("#chartPrice"), options);
+                        chart.render();
+                    </script>
                 </div>
             </div>
         </div>

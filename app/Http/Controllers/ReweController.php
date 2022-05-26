@@ -205,18 +205,21 @@ class ReweController extends Controller {
                                              ])
                                     ->first();
 
-        $history = ReweBonPosition::join('rewe_bons', 'rewe_bons.id', '=', 'rewe_bon_positions.bon_id')
-                                  ->where('rewe_bons.user_id', Auth::user()->id)
-                                  ->where('rewe_bon_positions.product_id', $product->id)
-                                  ->with(['receipt'])
-                                  ->orderBy('rewe_bons.timestamp_bon', 'DESC')
-                                  ->select(['rewe_bon_positions.*'])
-                                  ->paginate(7);
+        $historyQuery = ReweBonPosition::join('rewe_bons', 'rewe_bons.id', '=', 'rewe_bon_positions.bon_id')
+                                       ->where('rewe_bons.user_id', Auth::user()->id)
+                                       ->where('rewe_bon_positions.product_id', $product->id)
+                                       ->with(['receipt'])
+                                       ->orderBy('rewe_bons.timestamp_bon', 'DESC')
+                                       ->select(['rewe_bon_positions.*']);
+
+        $history    = (clone $historyQuery)->paginate(7);
+        $historyAll = (clone $historyQuery)->get();
 
         return view('rewe_ebon.product', [
-            'product'   => $product,
-            'mainStats' => $mainStats,
-            'history'   => $history
+            'product'    => $product,
+            'mainStats'  => $mainStats,
+            'history'    => $history,
+            'historyAll' => $historyAll
         ]);
     }
 
