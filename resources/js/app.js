@@ -43,7 +43,4 @@ window.colorGradients = [
     "#C5D2E3",
     "#D1DBE9",
     "#DCE4EE",
-    "#E8EDF4",
-    "#F3F6F9",
-    "#FFFFFF",
 ];
