@@ -85,42 +85,36 @@ abstract class ImportController extends Controller {
     public static function parseLidlReceipt(User $user, UploadedFile $file): ?ReweBon {
         //TODO
         $receipt = \LidlParser\Parser::parse($file->path());
-        dd($receipt);
 
-        if($receipt->getBonNr() === null || $receipt->getTimestamp() === null || $receipt->getShopNr() === null) {
-            dump("Error while parsing eBon. Some important data can't be retrieved.");
+        if($receipt->getTimestamp() === null) {
+            dump("Error while parsing receipt. Some important data can't be retrieved.");
             return null;
         }
 
-        $shop = $receipt->getShop();
-
-        ReweShop::updateOrCreate(
+        $shop = ReweShop::updateOrCreate(
             [
-                "id" => $receipt->getShopNr()
+                "id" => 1 //TODO: split markets; unique will fail
             ],
             [
-                'brand_id' => Brand::where('name', 'REWE')->firstOrFail()->id,
-                "name"     => $shop->getName(),
-                "address"  => $shop->getAddress(),
-                "zip"      => $shop->getPostalCode(),
-                "city"     => $shop->getCity(),
+                'brand_id' => Brand::where('name', 'Lidl')->firstOrFail()->id
             ]
         );
-        $bon = ReweBon::updateOrCreate(
+
+        $receipt = ReweBon::updateOrCreate(
             [
-                "shop_id"       => $receipt->getShopNr(),
+                "shop_id"       => $shop->id,
                 "timestamp_bon" => $receipt->getTimestamp(),
-                "bon_nr"        => $receipt->getBonNr()
+                //"bon_nr"        => $receipt->getBonNr()
             ],
             [
                 "user_id"               => $user->id,
-                "cashier_nr"            => $receipt->getCashierNr(),
-                "cashregister_nr"       => $receipt->getCashregisterNr(),
-                "paymentmethod"         => $receipt->getPaymentMethods()[0], //TODO: Support multiple payment methods
+                "cashier_nr"            => 0,//TODO: $receipt->getCashierNr(),
+                "cashregister_nr"       => 0,//TODO: $receipt->getCashregisterNr(),
+                "paymentmethod"         => $receipt->getPaymentMethod(),
                 "payed_cashless"        => $receipt->hasPayedCashless(),
-                "payed_contactless"     => $receipt->hasPayedContactless(),
+                "payed_contactless"     => null, //TODO
                 "total"                 => $receipt->getTotal(),
-                "earned_payback_points" => $receipt->getEarnedPaybackPoints(),
+                "earned_payback_points" => null,//$receipt->getEarnedPaybackPoints(),
                 "receipt_pdf"           => file_get_contents($file->path())
             ]
         );
@@ -132,7 +126,7 @@ abstract class ImportController extends Controller {
 
             ReweBonPosition::updateOrCreate(
                 [
-                    "bon_id"     => $bon->id,
+                    "bon_id"     => $receipt->id,
                     "product_id" => $product->id
                 ],
                 [
@@ -143,11 +137,11 @@ abstract class ImportController extends Controller {
             );
         }
 
-        if($bon->wasRecentlyCreated && $bon->user !== null) {
-            self::notifyUser($bon);
+        if($receipt->wasRecentlyCreated && $receipt->user !== null) {
+            self::notifyUser($receipt);
         }
 
-        return $bon;
+        return $receipt;
     }
 
     private static function notifyUser(ReweBon $receipt): void {
