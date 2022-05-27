@@ -10,15 +10,15 @@
                     <div class="row">
                         <div class="col">
                             <span class="color-highlight" style="font-size: 40px;">
-                                @isset($mainStats->weight)
-                                    {{$mainStats->weight}} kg
-                                @endif
-                                @isset($mainStats->amount, $mainStats->weight)
-                                    {{__('and')}}
-                                @endisset
                                 @isset($mainStats->amount)
                                     {{$mainStats->amount}} x
                                 @endisset
+                                @isset($mainStats->amount, $mainStats->weight)
+                                    {{__('and')}}
+                                @endisset
+                                @isset($mainStats->weight)
+                                    {{$mainStats->weight}} kg
+                                @endif
                             </span>
                             <br/>
                             <small><b>{{__('already-bought')}}</b></small>
@@ -112,8 +112,12 @@
                             },
                             title: {
                                 text: 'Preisverlauf',
-                                align: 'left'
+                                align: 'left',
+                                style: {
+                                    color: colorGradients[0]
+                                }
                             },
+                            colors: colorGradients,
                             fill: {
                                 type: 'gradient',
                                 gradient: {

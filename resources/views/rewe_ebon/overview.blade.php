@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', __('rewe-analyzer'))
+@section('title', __('shopping-statistic'))
 
 @section('before-title')
     <a class="float-end btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-upload">
