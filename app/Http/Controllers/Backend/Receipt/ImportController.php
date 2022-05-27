@@ -93,18 +93,19 @@ abstract class ImportController extends Controller {
 
         $shop = ReweShop::updateOrCreate(
             [
-                "id" => 1 //TODO: split markets; unique will fail
+                'name' => 'Lidl',
             ],
             [
-                'brand_id' => Brand::where('name', 'Lidl')->firstOrFail()->id
+                'brand_id' => Brand::where('name', 'Lidl')->firstOrFail()->id,
+                "id"       => 151954 //TODO: split markets; unique will fail
             ]
         );
 
-        $receipt = ReweBon::updateOrCreate(
+        $bon = ReweBon::updateOrCreate(
             [
                 "shop_id"       => $shop->id,
-                "timestamp_bon" => $receipt->getTimestamp(),
-                //"bon_nr"        => $receipt->getBonNr()
+                "timestamp_bon" => $receipt->getTimestamp()->format('Y-m-d H:i:s'),
+                "bon_nr"        => $receipt->getID()
             ],
             [
                 "user_id"               => $user->id,
@@ -112,10 +113,10 @@ abstract class ImportController extends Controller {
                 "cashregister_nr"       => 0,//TODO: $receipt->getCashregisterNr(),
                 "paymentmethod"         => $receipt->getPaymentMethod(),
                 "payed_cashless"        => $receipt->hasPayedCashless(),
-                "payed_contactless"     => null, //TODO
+                "payed_contactless"     => 0, //TODO
                 "total"                 => $receipt->getTotal(),
-                "earned_payback_points" => null,//$receipt->getEarnedPaybackPoints(),
-                "receipt_pdf"           => file_get_contents($file->path())
+                "earned_payback_points" => 0,//TODO
+                //"receipt_pdf"           => file_get_contents($file->path())
             ]
         );
 
@@ -126,7 +127,7 @@ abstract class ImportController extends Controller {
 
             ReweBonPosition::updateOrCreate(
                 [
-                    "bon_id"     => $receipt->id,
+                    "bon_id"     => $bon->id,
                     "product_id" => $product->id
                 ],
                 [
@@ -137,11 +138,11 @@ abstract class ImportController extends Controller {
             );
         }
 
-        if($receipt->wasRecentlyCreated && $receipt->user !== null) {
-            self::notifyUser($receipt);
+        if($bon->wasRecentlyCreated && $bon->user !== null) {
+            self::notifyUser($bon);
         }
 
-        return $receipt;
+        return $bon;
     }
 
     private static function notifyUser(ReweBon $receipt): void {

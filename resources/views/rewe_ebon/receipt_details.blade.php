@@ -1,6 +1,8 @@
 @extends('layout.app')
 
-@section('title'){{__('receipts.your_purchase')}} {{ $bon->timestamp_bon->diffForHumans() }}@endsection
+@section('title')
+    {{__('receipts.your_purchase')}} {{ $bon->timestamp_bon->diffForHumans() }}
+@endsection
 
 @section('content')
     <div class="row">
@@ -9,6 +11,14 @@
                 <div class="card-body">
                     <table class="table">
                         <tbody>
+                            @isset($bon->shop->brand->vector_logo)
+                                <tr class="text-center">
+                                    <td colspan="2">
+                                        <img src="data:image/svg+xml;base64,{{base64_encode($bon->shop->brand->vector_logo)}}"
+                                             style="max-height: 300px; max-width: 100%; min-height: 30px;"/>
+                                    </td>
+                                </tr>
+                            @endisset
                             <tr>
                                 <td>{{__('receipts.market')}}</td>
                                 <td>

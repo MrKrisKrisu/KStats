@@ -10,10 +10,12 @@ use App\Models\ReweShop;
 use App\Models\User;
 use App\Models\UserSettings;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ReweController extends Controller {
 
@@ -98,21 +100,23 @@ class ReweController extends Controller {
     public function downloadRawReceipt(int $receipt_id) {
         $receipt = ReweBon::find($receipt_id);
 
-        if($receipt == null || $receipt->user_id != auth()->user()->id)
+        if($receipt === null || $receipt->user_id !== auth()->user()->id) {
             return response("No permission", 401);
+        }
 
         return response($receipt->receipt_pdf, 200)
             ->header('Content-Type', 'application/pdf');
     }
 
-    public function renderBonDetails(int $receipt_id) {
-        $bon = ReweBon::find($receipt_id);
+    public function renderBonDetails(int $receipt_id): View|RedirectResponse {
+        $receipt = ReweBon::find($receipt_id);
 
-        if($bon->user->id != auth()->user()->id)
+        if($receipt->user->id !== auth()->user()->id) {
             return Redirect::route('rewe')->withErrors(['msg', 'No Permissions to access this bon.']);
+        }
 
         return view('rewe_ebon.receipt_details', [
-            'bon' => $bon
+            'bon' => $receipt
         ]);
     }
 
