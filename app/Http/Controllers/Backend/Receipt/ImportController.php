@@ -82,6 +82,74 @@ abstract class ImportController extends Controller {
         return $bon;
     }
 
+    public static function parseLidlReceipt(User $user, UploadedFile $file): ?ReweBon {
+        //TODO
+        $receipt = \LidlParser\Parser::parse($file->path());
+        dd($receipt);
+
+        if($receipt->getBonNr() === null || $receipt->getTimestamp() === null || $receipt->getShopNr() === null) {
+            dump("Error while parsing eBon. Some important data can't be retrieved.");
+            return null;
+        }
+
+        $shop = $receipt->getShop();
+
+        ReweShop::updateOrCreate(
+            [
+                "id" => $receipt->getShopNr()
+            ],
+            [
+                'brand_id' => Brand::where('name', 'REWE')->firstOrFail()->id,
+                "name"     => $shop->getName(),
+                "address"  => $shop->getAddress(),
+                "zip"      => $shop->getPostalCode(),
+                "city"     => $shop->getCity(),
+            ]
+        );
+        $bon = ReweBon::updateOrCreate(
+            [
+                "shop_id"       => $receipt->getShopNr(),
+                "timestamp_bon" => $receipt->getTimestamp(),
+                "bon_nr"        => $receipt->getBonNr()
+            ],
+            [
+                "user_id"               => $user->id,
+                "cashier_nr"            => $receipt->getCashierNr(),
+                "cashregister_nr"       => $receipt->getCashregisterNr(),
+                "paymentmethod"         => $receipt->getPaymentMethods()[0], //TODO: Support multiple payment methods
+                "payed_cashless"        => $receipt->hasPayedCashless(),
+                "payed_contactless"     => $receipt->hasPayedContactless(),
+                "total"                 => $receipt->getTotal(),
+                "earned_payback_points" => $receipt->getEarnedPaybackPoints(),
+                "receipt_pdf"           => file_get_contents($file->path())
+            ]
+        );
+
+        $positions = $receipt->getPositions();
+
+        foreach($positions as $position) {
+            $product = ReweProduct::firstOrCreate(["name" => $position->getName()]);
+
+            ReweBonPosition::updateOrCreate(
+                [
+                    "bon_id"     => $bon->id,
+                    "product_id" => $product->id
+                ],
+                [
+                    "amount"       => $position->getAmount(),
+                    "weight"       => $position->getWeight(),
+                    "single_price" => $position->getPriceSingle()
+                ]
+            );
+        }
+
+        if($bon->wasRecentlyCreated && $bon->user !== null) {
+            self::notifyUser($bon);
+        }
+
+        return $bon;
+    }
+
     private static function notifyUser(ReweBon $receipt): void {
         if($receipt->user === null) {
             return;

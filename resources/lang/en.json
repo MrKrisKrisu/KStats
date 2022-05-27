@@ -302,5 +302,7 @@
   "receipt.show": "Show receipt",
   "store": "Store",
   "shopping-statistic": "Purchasing statistics",
-  "most-spent-brand": "most spent at"
+  "most-spent-brand": "most spent at",
+  "please-select": "Please select",
+  "brand": "Brand"
 }

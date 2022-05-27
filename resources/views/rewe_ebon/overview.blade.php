@@ -14,30 +14,37 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
+                    <h2 class="modal-title fs-5">
                         <i class="fas fa-upload"></i> {{__('upload-receipt')}}
-                    </h5>
+                    </h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div class="row">
                         <div class="col">
-                            <h3>{{__('manual-method')}}</h3>
+                            <h3 class="fs-6">{{__('manual-method')}}</h3>
 
                             <form method="POST" enctype="multipart/form-data"
                                   action="{{route('receipt.import.upload')}}">
                                 @csrf
-                                <div class="mb-2">
-                                    <label>{{__('receipt')}} <small>(.pdf)</small></label>
-                                    <input id="file" type="file" class="form-control" name="file" required>
+                                <div class="form-floating mb-2">
+                                    <select class="form-control" name="brand" required id="uplBrand">
+                                        <option value="">{{__('please-select')}}</option>
+                                        <option>REWE</option>
+                                        <option>Lidl</option>
+                                    </select>
+                                    <label for="uplBrand">{{__('brand')}}</label>
                                 </div>
+
+                                <input id="file" type="file" class="form-control mb-2" name="file" required/>
 
                                 <button type="submit" class="btn btn-primary">{{__('upload')}}</button>
                             </form>
                         </div>
                         <div class="col">
-                            <h3>{{__('automatic-method')}}</h3>
+                            <h3 class="fs-6">{{__('automatic-method')}}</h3>
+
                             <small>{{__('receipt.automatic.explain')}}</small>
                             <hr/>
                             <p>{{__('recipient')}}: <b>{{$ebonKey ?? ''}}@reweebon.k118.de</b></p>
