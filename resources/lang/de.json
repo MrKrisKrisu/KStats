@@ -272,7 +272,7 @@
     "product.prediction.text": "Wenn du längere Zeit dieses Tool nutzt, wird dir hier eine Kaufvorhersage angezeigt. Basierend auf deinen zuletzt gekauften Produkten und dem Intervall dieser Käufe.",
     "cash-register": "Kasse",
     "details": "Details",
-    "receipts-by-daytime": "Einkauf nach Tageszeit",
+    "receipts-by-daytime": "Einkäufe nach Tageszeit",
     "receipt-count": "Anzahl Einkäufe",
     "receipt-count.text": "Anzahl an Einkäufen pro Stunde",
     "spent-by-month": "Ausgaben pro Monat",

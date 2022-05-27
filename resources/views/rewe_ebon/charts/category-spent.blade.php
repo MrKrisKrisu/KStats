@@ -1,23 +1,23 @@
 <div class="card mb-2">
     <div class="card-body">
-        <div id="chartVegetarian"></div>
+        <div id="chartCategorySpent"></div>
         <script>
-            new ApexCharts(document.querySelector("#chartVegetarian"), {
+            new ApexCharts(document.querySelector("#chartCategorySpent"), {
                 series: [
-                    @foreach($products_vegetarian as $pv)
-                            {{$pv->cnt}},
+                    @foreach($topByCategoryPrice as $cc)
+                            {{$cc->price}},
                     @endforeach
                 ],
                 chart: {
                     type: 'pie',
                 },
                 labels: [
-                    @foreach($products_vegetarian as $pv)
-                        '{{$pv->vegetarian === null ? 'Unbekannt' : str_replace(array('-1', '0', '1'), array('Kein Lebensmittel', 'Nicht vegetarisch', 'vegetarisch'), $pv->vegetarian)}}',
+                    @foreach($topByCategoryPrice as $cc)
+                        '{{ $cc->category_name }}',
                     @endforeach
                 ],
                 title: {
-                    text: '{{__('nutrition')}}',
+                    text: '{{__('category-by-spent')}}',
                     style: {
                         color: colorGradients[0]
                     }
@@ -29,5 +29,5 @@
             }).render();
         </script>
     </div>
-    <div class="card-footer"><small>{{__('product-count')}}</small></div>
+    <div class="card-footer"><small>{{__('chart.crowdsourcing')}}</small></div>
 </div>

@@ -279,7 +279,7 @@
     "product.next-buy": "Next purchase expected",
     "cash-register": "Cash register",
     "details": "Details",
-    "receipts-by-daytime": "Purchase by time of day",
+    "receipts-by-daytime": "Receipts by hour of day",
     "receipt-count": "Number of purchases",
     "receipt-count.text": "Number of purchases per hour",
     "spent-by-month": "Expenditure per month",
