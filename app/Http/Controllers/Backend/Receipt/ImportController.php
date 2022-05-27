@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Receipt;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\User;
 use REWEParser\Parser;
 use App\Models\ReweShop;
@@ -30,10 +31,11 @@ abstract class ImportController extends Controller {
                 "id" => $receipt->getShopNr()
             ],
             [
-                "name"    => $shop->getName(),
-                "address" => $shop->getAddress(),
-                "zip"     => $shop->getPostalCode(),
-                "city"    => $shop->getCity(),
+                'brand_id' => Brand::where('name', 'REWE')->firstOrFail()->id,
+                "name"     => $shop->getName(),
+                "address"  => $shop->getAddress(),
+                "zip"      => $shop->getPostalCode(),
+                "city"     => $shop->getCity(),
             ]
         );
         $bon = ReweBon::updateOrCreate(

@@ -19,10 +19,18 @@
                 title: {
                     text: '{{__('my-markets')}}',
                     style: {
-                        color: colorGradients[0]
+                        color: colorGradients[0],
                     }
                 },
-                colors: colorGradients,
+                colors: [
+                    @foreach($topMarkets as $row)
+                            @isset($row['shop']->brand?->primary_color)
+                        '{{$row['shop']->brand?->primary_color}}',
+                    @else
+                        colorGradients[0],
+                    @endif
+                    @endforeach
+                ],
                 legend: {
                     show: false,
                 }
@@ -31,3 +39,5 @@
     </div>
     <div class="card-footer"><small>{{__('spending-per-market')}}</small></div>
 </div>
+
+primary_color

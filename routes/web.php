@@ -4,6 +4,7 @@ use App\Http\Controllers\CrowdsourceController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\Frontend\Receipt\Grocy\ApiController;
 use App\Http\Controllers\Frontend\Receipt\ImportController;
+use App\Http\Controllers\Frontend\Settings\LanguageController;
 use App\Http\Controllers\Frontend\Spotify\FriendshipPlaylistController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReweController;
@@ -15,7 +16,6 @@ use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Frontend\Settings\LanguageController;
 
 Route::view('/', 'welcome')->name('welcome');
 
@@ -29,10 +29,12 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
 
     Route::get('/home/', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/friends', [FriendshipController::class, 'renderFriendshipPage'])->name('friendships');
-    Route::post('/friends/module/activate', [FriendshipController::class, 'activateModule'])->name('friendships.module.activate');
-    Route::post('/friends/action/cancel', [FriendshipController::class, 'cancelFriendship'])->name('friendships.action.cancel');
-    Route::post('/friends/action/request', [FriendshipController::class, 'requestFriendship'])->name('friendships.action.request');
+    Route::prefix('friends')->group(static function() {
+        Route::get('/', [FriendshipController::class, 'renderFriendshipPage'])->name('friendships');
+        Route::post('/module/activate', [FriendshipController::class, 'activateModule'])->name('friendships.module.activate');
+        Route::post('/action/cancel', [FriendshipController::class, 'cancelFriendship'])->name('friendships.action.cancel');
+        Route::post('/action/request', [FriendshipController::class, 'requestFriendship'])->name('friendships.action.request');
+    });
 
     Route::prefix('settings')->group(function() {
         Route::get('/', [SettingsController::class, 'index'])
@@ -54,44 +56,48 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
     Route::get('/user/verify_mail/{user_id}/{verification_key}', [UnauthorizedSettingsController::class, 'verifyMail'])
          ->name('user.verify');
 
-    Route::get('/spotify/', [SpotifyController::class, 'index'])
-         ->name('spotify');
-    Route::get('/spotify/mood-o-meter', [SpotifyController::class, 'renderMoodMeter'])
-         ->name('spotify.mood-o-meter');
-    Route::get('/spotify/explore', [SpotifyController::class, 'renderExplore'])
-         ->name('spotify.explore');
-    Route::post('/spotify/explore/submit', [SpotifyController::class, 'saveExploration'])
-         ->name('spotify.explore.submit');
-    Route::get('/spotify/track/{id}', [SpotifyController::class, 'trackDetails'])
-         ->name('spotify.track');
-    Route::get('/spotify/artist/{id}', [SpotifyController::class, 'renderArtist'])
-         ->name('spotify.artist');
-    Route::get('/spotify/history/{date?}', [SpotifyController::class, 'renderDailyHistory'])
-         ->name('spotify.history');
-    Route::get('/spotify/top-tracks/{term?}', [SpotifyController::class, 'topTracks'])
-         ->name('spotify.topTracks');
-    Route::get('/spotify/lost-tracks/', [SpotifyController::class, 'lostTracks'])
-         ->name('spotify.lostTracks');
-    Route::post('/spotify/lost-tracks/', [SpotifyController::class, 'saveLostTracks'])
-         ->name('spotify.saveLostTracks');
+    Route::prefix('spotify')->group(static function() {
+        Route::get('/', [SpotifyController::class, 'index'])
+             ->name('spotify');
+        Route::get('/mood-o-meter', [SpotifyController::class, 'renderMoodMeter'])
+             ->name('spotify.mood-o-meter');
+        Route::get('/explore', [SpotifyController::class, 'renderExplore'])
+             ->name('spotify.explore');
+        Route::post('/explore/submit', [SpotifyController::class, 'saveExploration'])
+             ->name('spotify.explore.submit');
+        Route::get('/track/{id}', [SpotifyController::class, 'trackDetails'])
+             ->name('spotify.track');
+        Route::get('/artist/{id}', [SpotifyController::class, 'renderArtist'])
+             ->name('spotify.artist');
+        Route::get('/history/{date?}', [SpotifyController::class, 'renderDailyHistory'])
+             ->name('spotify.history');
+        Route::get('/top-tracks/{term?}', [SpotifyController::class, 'topTracks'])
+             ->name('spotify.topTracks');
+        Route::get('/lost-tracks/', [SpotifyController::class, 'lostTracks'])
+             ->name('spotify.lostTracks');
+        Route::post('/lost-tracks/', [SpotifyController::class, 'saveLostTracks'])
+             ->name('spotify.saveLostTracks');
 
-    Route::get('/spotify/friendship-playlists', [FriendshipPlaylistController::class, 'renderFriendshipPlaylists'])
-         ->name('spotify.friendship-playlists');
-    Route::post('/spotify/friendship-playlists/create', [FriendshipPlaylistController::class, 'createFriendshipPlaylist'])
-         ->name('spotify.friendship-playlists.create');
-    Route::get('/spotify/friendship-playlists/{friendId}', [FriendshipPlaylistController::class, 'renderList'])
-         ->name('spotify.friendship-playlists.show');
+        Route::get('/friendship-playlists', [FriendshipPlaylistController::class, 'renderFriendshipPlaylists'])
+             ->name('spotify.friendship-playlists');
+        Route::post('/friendship-playlists/create', [FriendshipPlaylistController::class, 'createFriendshipPlaylist'])
+             ->name('spotify.friendship-playlists.create');
+        Route::get('/friendship-playlists/{friendId}', [FriendshipPlaylistController::class, 'renderList'])
+             ->name('spotify.friendship-playlists.show');
+    });
 
-    Route::get('/rewe/', [ReweController::class, 'index'])
-         ->name('rewe');
-    Route::get('/rewe/receipt/{id}', [ReweController::class, 'renderBonDetails'])
-         ->name('rewe_receipt');
-    Route::get('/rewe/receipt/download/{id}', [ReweController::class, 'downloadRawReceipt'])
-         ->name('download_raw_rewe_receipt');
-    Route::get('/rewe/product/{id}', [ReweController::class, 'showProduct'])
-         ->name('rewe.product');
-    Route::get('/rewe/shop/{id}', [ReweController::class, 'showShop'])
-         ->name('rewe.shop');
+    Route::prefix('shopping')->group(static function() {
+        Route::get('/', [ReweController::class, 'index'])
+             ->name('rewe');
+        Route::get('/receipt/{id}', [ReweController::class, 'renderBonDetails'])
+             ->name('rewe_receipt');
+        Route::get('/receipt/download/{id}', [ReweController::class, 'downloadRawReceipt'])
+             ->name('download_raw_rewe_receipt');
+        Route::get('/product/{id}', [ReweController::class, 'showProduct'])
+             ->name('rewe.product');
+        Route::get('/shop/{id}', [ReweController::class, 'showShop'])
+             ->name('rewe.shop');
+    });
 
     Route::prefix('receipt')->group(function() {
         Route::post('/import', [ImportController::class, 'import'])
