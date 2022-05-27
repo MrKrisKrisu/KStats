@@ -93,11 +93,11 @@ abstract class ImportController extends Controller {
 
         $shop = ReweShop::updateOrCreate(
             [
-                'name' => 'Lidl',
+                'brand_id'      => Brand::where('name', 'Lidl')->firstOrFail()->id,
+                'local_shop_id' => 1,
             ],
             [
-                'brand_id' => Brand::where('name', 'Lidl')->firstOrFail()->id,
-                "id"       => 151954 //TODO: split markets; unique will fail
+                'name' => 'Lidl',
             ]
         );
 
