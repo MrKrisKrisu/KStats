@@ -100,132 +100,13 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{__('receipts.payment_methods')}}</h5>
-                    <canvas id="chart_payment"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        let chart_payment = document.getElementById('chart_payment').getContext('2d');
-                        window.chart_payment = new Chart(chart_payment, {
-                            type: 'doughnut',
-                            data: {
-                                datasets: [{
-                                    backgroundColor: colorGradients,
-                                    data: [
-                                        @foreach($payment_methods as $paymentMethod => $count)
-                                            '{{$count}}',
-                                        @endforeach
-                                    ],
-                                    label: '{{__('receipts.payment_method')}}'
-                                }],
-                                labels: [
-                                    @foreach($payment_methods as $paymentMethod => $count)
-                                        '{{$paymentMethod}}',
-                                    @endforeach
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <div class="card-footer"><small>{{__('percent-paymentmethod')}}</small></div>
-            </div>
+            @include('rewe_ebon.charts.payment')
         </div>
         <div class="col-md-4">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{__('my-markets')}}</h5>
-                    <canvas id="chart_shops"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        var chart_shops = document.getElementById('chart_shops').getContext('2d');
-                        window.chart_shops = new Chart(chart_shops, {
-                            type: 'doughnut',
-                            data: {
-                                datasets: [{
-                                    backgroundColor: colorGradients,
-                                    data: [
-                                        @foreach($topMarkets as $row)
-                                                {{$row['spent']}},
-                                        @endforeach
-                                    ],
-                                    label: 'Markt Nr.'
-                                }],
-                                labels: [
-                                    @foreach($topMarkets as $row)
-                                        '{{$row['shop']->name ?? ""}} {{$row['shop']->city ?? ""}} (Markt {{$row['shop']->id}})',
-                                    @endforeach
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <div class="card-footer"><small>{{__('spending-per-market')}}</small></div>
-            </div>
+            @include('rewe_ebon.charts.markets')
         </div>
         <div class="col-md-4">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{__('nutrition')}}</h5>
-                    <canvas id="chart_vegetarian"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        let chart_vegetarian = document.getElementById('chart_vegetarian').getContext('2d');
-                        window.chart_vegetarian = new Chart(chart_vegetarian, {
-                            type: 'doughnut',
-                            data: {
-                                datasets: [{
-                                    backgroundColor: colorGradients,
-                                    data: [
-                                        @foreach($products_vegetarian as $pv)
-                                            '{{$pv->cnt}}',
-                                        @endforeach
-                                    ]
-                                }],
-                                labels: [
-                                    @foreach($products_vegetarian as $pv)
-                                        '{{$pv->vegetarian === null ? 'Unbekannt' : str_replace(array('-1', '0', '1'), array('Kein Lebensmittel', 'Nicht vegetarisch', 'vegetarisch'), $pv->vegetarian)}}',
-                                    @endforeach
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <div class="card-footer"><small>{{__('product-count')}}</small></div>
-            </div>
+            @include('rewe_ebon.charts.vegetarian')
         </div>
     </div>
 
@@ -362,99 +243,11 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{__('receipts-by-daytime')}}</h5>
-                    <canvas id="chart_dayTime"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        let chart_dayTime = document.getElementById('chart_dayTime').getContext('2d');
-                        window.chart_dayTime = new Chart(chart_dayTime, {
-                            type: 'bar',
-                            data: {
-                                labels: [
-                                    @for($hour = 0; $hour < 24; $hour++)
-                                        '{{$hour}} Uhr',
-                                    @endfor
-                                ],
-                                datasets: [{
-                                    label: '{{__('receipt-count')}}',
-                                    backgroundColor: colorGradients[0],
-                                    borderWidth: 1,
-                                    data: [
-                                        @foreach(auth()->user()->reweReceipts->groupBy(function ($item, $key) {
-            return $item['timestamp_bon']->hour;
-        })->union([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])->sortKeys() as $hourly)
-                                                @if($hourly instanceof \Illuminate\Database\Eloquent\Collection)
-                                                {{$hourly->count()}},
-                                        @else
-                                            0,
-                                        @endif
-                                        @endforeach
-                                    ]
-                                }]
-
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <div class="card-footer"><small>{{__('receipt-count.text')}}</small></div>
-            </div>
+            @include('rewe_ebon.charts.daytime')
         </div>
 
         <div class="col-md-12">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{__('spent-by-month')}}</h5>
-                    <canvas id="chart_monthlySpend"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        window.chart_dayTime = new Chart(document.getElementById('chart_monthlySpend').getContext('2d'), {
-                            type: 'bar',
-                            data: {
-                                labels: [
-                                    @foreach($monthlySpend as $month => $amount)
-                                        '{{$month}}',
-                                    @endforeach
-                                ],
-                                datasets: [{
-                                    label: '{{__('spent-in-currency')}}',
-                                    backgroundColor: colorGradients[0],
-                                    borderWidth: 1,
-                                    data: [
-                                        @foreach($monthlySpend as $month => $amount)
-                                                {{$amount}},
-                                        @endforeach
-                                    ]
-                                }]
-
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                }
-                            }
-                        });
-                    });
-                </script>
-            </div>
+            @include('rewe_ebon.charts.spent-month')
         </div>
     </div>
 
@@ -493,94 +286,10 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{__('category-by-spent')}}</h5>
-                    <canvas id="chart_categoryPrice"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        let chart_categoryPrice = document.getElementById('chart_categoryPrice').getContext('2d');
-                        window.chart_categoryPrice = new Chart(chart_categoryPrice, {
-                            type: 'doughnut',
-                            data: {
-                                datasets: [{
-                                    backgroundColor: colorGradients,
-                                    data: [
-                                        @foreach($topByCategoryPrice as $cc)
-                                            '{{$cc->price}}',
-                                        @endforeach
-                                    ],
-                                    label: '{{__('receipts.payment_method')}}'
-                                }],
-                                labels: [
-                                    @foreach($topByCategoryPrice as $cc)
-                                        '{!! $cc->category_name !!}',
-                                    @endforeach
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <div class="card-footer">
-                    <small>{{__('category-by-spent.text')}} {{__('chart.crowdsourcing')}}</small>
-                </div>
-            </div>
+            @include('rewe_ebon.charts.category-spent')
         </div>
         <div class="col-md-6">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{__('category-by-count')}}</h5>
-                    <canvas id="chart_categoryCount"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        let chart_categoryCount = document.getElementById('chart_categoryCount').getContext('2d');
-                        window.chart_categoryCount = new Chart(chart_categoryCount, {
-                            type: 'doughnut',
-                            data: {
-                                datasets: [{
-                                    backgroundColor: colorGradients,
-                                    data: [
-                                        @foreach($topByCategoryCount as $cc)
-                                            '{{$cc->cnt}}',
-                                        @endforeach
-                                    ],
-                                    label: '{{__('receipts.payment_method')}}'
-                                }],
-                                labels: [
-                                    @foreach($topByCategoryCount as $cc)
-                                        '{!! $cc->category_name !!}',
-                                    @endforeach
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <div class="card-footer">
-                    <small>{{__('chart.crowdsourcing')}}</small>
-                </div>
-            </div>
+            @include('rewe_ebon.charts.category-amount')
         </div>
     </div>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Backend\Receipt\StatisticController;
 use App\Models\ReweBon;
 use App\Models\ReweBonPosition;
 use App\Models\ReweProduct;
@@ -88,7 +89,8 @@ class ReweController extends Controller {
             'topByCategoryPrice'    => $topByCategoryPrice,
             'ebonKey'               => UserSettings::get(auth()->user()->id, 'eBonKey', md5(rand(0, 99) . time())),
             'monthlySpend'          => $monthlySpend,
-            'topMarkets'            => $this->getTopMarkets(auth()->user())
+            'topMarkets'            => $this->getTopMarkets(auth()->user()),
+            'receiptsByHour'        => StatisticController::getReceiptsByHour(auth()->user()),
         ]);
     }
 
