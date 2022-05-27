@@ -68,11 +68,16 @@
                             <small><b>{{__('receipts.count')}}</b></small>
                         </div>
                         <div class="col-md-3">
-                            <span class="color-highlight" style="font-size: 40px;">
-                                {{$mostUsedPaymentMethod}}
-                            </span>
+                            @isset($topBrand['brand']->vector_logo)
+                                <img src="data:image/svg+xml;base64,{{base64_encode($topBrand['brand']->vector_logo)}}"
+                                     style="max-height: 50px; max-width: 200px; min-height: 15px;"/>
+                            @else
+                                <span class="color-highlight" style="font-size: 40px;">
+                                    {{$topBrand['brand']->name}}
+                                </span>
+                            @endif
                             <br>
-                            <small><b>{{__('most-used-payment-methods')}}</b></small>
+                            <small><b>{{__('most-spent-brand')}}</b></small>
                         </div>
                         <div class="col-md-3">
                                 <span class="color-highlight" style="font-size: 40px;">
@@ -208,7 +213,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @foreach(auth()->user()->reweReceipts->sortByDesc('timestamp_bon') as $receipt)
                                 <tr>
                                     <td>

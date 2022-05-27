@@ -91,6 +91,7 @@ class ReweController extends Controller {
             'monthlySpend'          => $monthlySpend,
             'topMarkets'            => $this->getTopMarkets(auth()->user()),
             'receiptsByHour'        => StatisticController::getReceiptsByHour(auth()->user()),
+            'topBrand'              => StatisticController::getTopBrands(auth()->user())->sortByDesc('sum')->first(),
         ]);
     }
 
