@@ -197,63 +197,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-12">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_week') }}</h5>
-                    <canvas id="chart_hearedByWeek"></canvas>
-
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        var chart_hearedByWeek = document.getElementById('chart_hearedByWeek').getContext('2d');
-                        window.chart_hearedByWeek = new Chart(chart_hearedByWeek, {
-                            type: 'line',
-                            data: {
-                                datasets: [{
-                                    backgroundColor: [colorGradients[0]],
-                                    data: [
-                                        @foreach($chartData_hearedByWeek as $weekData)
-                                                {{$weekData->minutes}},
-                                        @endforeach
-                                    ]
-                                }],
-                                labels: [
-                                    @foreach($chartData_hearedByWeek as $weekData)
-                                        'KW {{$weekData->week}} / {{$weekData->year}}',
-                                    @endforeach
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                },
-                                tooltips: {
-                                    enabled: true,
-                                    mode: 'single',
-                                    callbacks: {
-                                        label: function (tooltipItems, data) {
-                                            return tooltipItems.yLabel + 'min';
-                                        }
-                                    }
-                                },
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            min: 0
-                                        }
-                                    }]
-                                }
-                            }
-                        })
-                        ;
-                    });
-                </script>
-            </div>
+            @include('spotify.charts.week')
         </div>
     </div>
 
@@ -262,7 +206,7 @@
             <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }} [{{ __('spotify.total') }}]</h5>
-                    <table class="ui table unstackable" id="top_artists_total">
+                    <table class="table" id="top_artists_total">
                         <thead>
                             <tr>
                                 <th>{{ __('spotify.rank.heading') }}</th>
@@ -403,107 +347,9 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-12">
-            <div class="card mb-2" style="margin-top: 10px;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_weekday') }}</h5>
-                    <canvas id="chart_listenedByWeekday"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        var chart_listenedByWeekday = document.getElementById('chart_listenedByWeekday').getContext('2d');
-                        window.chart_listenedByWeekday = new Chart(chart_listenedByWeekday, {
-                            type: 'bar',
-                            data: {
-                                labels: [
-                                    @foreach($chartData_hearedByWeekday as $weekData)
-                                        '{{\App\Http\Controllers\SpotifyController::getWeekdayName($weekData->weekday)}}',
-                                    @endforeach
-                                ],
-                                datasets: [{
-                                    label: '{{ __('spotify.minutes.heared') }}',
-                                    backgroundColor: colorGradients[0],
-                                    borderWidth: 1,
-                                    data: [@foreach($chartData_hearedByWeekday as $weekData)
-                                            {{$weekData->minutes}},
-                                        @endforeach
-                                    ]
-                                }]
-
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                },
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            min: 0
-                                        }
-                                    }]
-                                }
-                            }
-                        });
-                    });
-                </script>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="card mb-2" style="margin-top: 10px;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_daytime') }}</h5>
-                    <canvas id="chart_listenedByHour"></canvas>
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        var chart_listenedByHour = document.getElementById('chart_listenedByHour').getContext('2d');
-                        window.chart_listenedByHour = new Chart(chart_listenedByHour, {
-                            type: 'bar',
-                            data: {
-                                labels: [
-                                    @foreach($chartData_hearedByHour as $weekData)
-                                        '{{$weekData->hour}} {{ __('spotify.time_suffix') }}',
-                                    @endforeach
-                                ],
-                                datasets: [{
-                                    label: '{{ __('spotify.minutes.heared') }}',
-                                    backgroundColor: colorGradients[0],
-                                    borderWidth: 1,
-                                    data: [
-                                        @foreach($chartData_hearedByHour as $weekData)
-                                                {{$weekData->minutes}},
-                                        @endforeach
-                                    ]
-                                }]
-
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                },
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            min: 0
-                                        }
-                                    }]
-                                }
-                            }
-                        });
-                    });
-                </script>
-            </div>
+            @include('spotify.charts.weekly')
+            @include('spotify.charts.hourly')
         </div>
     </div>
 @endsection
