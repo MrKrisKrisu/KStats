@@ -12,7 +12,11 @@
                             <span class="color-highlight" style="font-size: 40px;">
                                 @isset($mainStats->weight)
                                     {{$mainStats->weight}} kg
-                                @else
+                                @endif
+                                @isset($mainStats->amount, $mainStats->weight)
+                                    {{__('and')}}
+                                @endisset
+                                @isset($mainStats->amount)
                                     {{$mainStats->amount}} x
                                 @endisset
                             </span>
