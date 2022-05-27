@@ -43,7 +43,11 @@ class SpotifyController extends Controller {
                                        ->groupBy('year', 'week')
                                        ->orderBy('year', 'asc')
                                        ->orderBy('week', 'asc')
-                                       ->get();
+                                       ->get()
+                                       ->map(function($row) {
+                                           $row->timestamp = Carbon::now()->setISODate($row->year, $row->week)->startOfWeek();
+                                           return $row;
+                                       });
 
         $chartDataHearedByWeekday = auth()->user()->spotifyActivity()
                                           ->select(DB::raw('WEEKDAY(created_at) AS weekday'), DB::raw('SUM(duration) / 60 as minutes'))

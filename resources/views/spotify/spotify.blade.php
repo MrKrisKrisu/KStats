@@ -197,63 +197,7 @@
 
     <div class="row" style="margin-top: 10px;">
         <div class="col-md-12">
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{ __('spotify.title.heared_minutes_by_week') }}</h5>
-                    <canvas id="chart_hearedByWeek"></canvas>
-
-                </div>
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        var chart_hearedByWeek = document.getElementById('chart_hearedByWeek').getContext('2d');
-                        window.chart_hearedByWeek = new Chart(chart_hearedByWeek, {
-                            type: 'line',
-                            data: {
-                                datasets: [{
-                                    backgroundColor: [colorGradients[0]],
-                                    data: [
-                                        @foreach($chartData_hearedByWeek as $weekData)
-                                                {{$weekData->minutes}},
-                                        @endforeach
-                                    ]
-                                }],
-                                labels: [
-                                    @foreach($chartData_hearedByWeek as $weekData)
-                                        'KW {{$weekData->week}} / {{$weekData->year}}',
-                                    @endforeach
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                legend: {
-                                    display: false,
-                                },
-                                animation: {
-                                    animateScale: true,
-                                    animateRotate: true
-                                },
-                                tooltips: {
-                                    enabled: true,
-                                    mode: 'single',
-                                    callbacks: {
-                                        label: function (tooltipItems, data) {
-                                            return tooltipItems.yLabel + 'min';
-                                        }
-                                    }
-                                },
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            min: 0
-                                        }
-                                    }]
-                                }
-                            }
-                        })
-                        ;
-                    });
-                </script>
-            </div>
+            @include('spotify.charts.week')
         </div>
     </div>
 
@@ -262,7 +206,7 @@
             <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('spotify.title.top_artists') }} [{{ __('spotify.total') }}]</h5>
-                    <table class="ui table unstackable" id="top_artists_total">
+                    <table class="table" id="top_artists_total">
                         <thead>
                             <tr>
                                 <th>{{ __('spotify.rank.heading') }}</th>

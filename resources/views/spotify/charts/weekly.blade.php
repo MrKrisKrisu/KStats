@@ -54,8 +54,8 @@
                 }
             };
 
-            let chartWeek = new ApexCharts(document.querySelector("#chartWeekly"), optionsWeekly);
-            chartWeek.render();
+            let chartWeekly = new ApexCharts(document.querySelector("#chartWeekly"), optionsWeekly);
+            chartWeekly.render();
         </script>
     </div>
 </div>
