@@ -15,7 +15,7 @@ use Illuminate\Http\UploadedFile;
 
 abstract class StatisticController extends Controller {
 
-    public static function getReceiptsByHour(User $user) {
+    public static function getReceiptsByHour(User $user): Collection {
         return $user->reweReceipts
             ->groupBy(function($item, $key) {
                 return $item['timestamp_bon']->hour;
@@ -24,6 +24,20 @@ abstract class StatisticController extends Controller {
             ->sortKeys()
             ->map(function($row) {
                 return $row instanceof Collection ? $row->count() : 0;
+            });
+    }
+
+    public static function getTopBrands(User $user): Collection {
+        return $user->reweReceipts
+            ->groupBy(function(ReweBon $receipt) {
+                return $receipt?->shop?->brand_id;
+            })
+            ->map(function(Collection $rows) {
+                return [
+                    'brand' => $rows->first()?->shop?->brand,
+                    'sum'   => $rows->sum('total'),
+                    'count' => $rows->count(),
+                ];
             });
     }
 }

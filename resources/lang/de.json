@@ -303,5 +303,6 @@
     "store": "Geschäft",
     "grocy.saved": "Lagerbestand gebucht",
     "grocy.saved.text": "Der Lagerbestand von folgenden Positionen wurde erfolgreich in Grocy erhöht:",
-    "shopping-statistic": "Einkaufsstatistik"
+    "shopping-statistic": "Einkaufsstatistik",
+    "most-spent-brand": "meiste Ausgaben bei"
 }
