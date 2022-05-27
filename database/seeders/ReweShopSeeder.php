@@ -18,6 +18,7 @@ class ReweShopSeeder extends Seeder {
         for($i = 0; $i < rand(4, 10); $i++) {
             ReweShop::create([
                                  'name'          => "REWE " . $faker->lastName . " oHG",
+                                 'brand_id'      => 1,
                                  'address'       => $faker->streetAddress,
                                  'zip'           => $faker->postcode,
                                  'city'          => $faker->city,

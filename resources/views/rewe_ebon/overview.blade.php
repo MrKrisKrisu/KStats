@@ -198,29 +198,45 @@
                     <table class="table" id="kassenzettel">
                         <thead>
                             <tr>
+                                <th class="no-sort"></th>
                                 <th>{{__('time')}}</th>
-                                <th>{{__('receipts.market')}}</th>
-                                <th>{{__('cash-register')}}</th>
-                                <th>{{__('receipts.payment_method')}}</th>
+                                <th class="no-sort">{{__('receipts.market')}}</th>
+                                <th class="no-sort">{{__('cash-register')}}</th>
+                                <th class="no-sort">{{__('receipts.payment_method')}}</th>
                                 <th>{{__('receipts.price_total')}}</th>
-                                <th></th>
+                                <th class="no-sort"></th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @foreach(auth()->user()->reweReceipts->sortByDesc('timestamp_bon') as $bon)
+                            @foreach(auth()->user()->reweReceipts->sortByDesc('timestamp_bon') as $receipt)
                                 <tr>
-                                    <td data-order="{{$bon->timestamp_bon}}">{{$bon->timestamp_bon->format('d.m.Y H:i')}}</td>
                                     <td>
-                                        <a href="{{route('rewe.shop', ['id' => $bon->shop->id])}}">
-                                            Markt {{$bon->shop->id}}<br/>
-                                            <small>in {{$bon->shop->zip}} {{$bon->shop->city}}</small>
+                                        @isset($receipt->shop->brand?->vector_logo)
+                                            <img src="data:image/svg+xml;base64,{{base64_encode($receipt->shop->brand->vector_logo)}}"
+                                                 style="max-height: 25px; max-width: 100px; min-height: 15px;"/>
+                                        @endisset
+                                    </td>
+                                    <td data-order="{{$receipt->timestamp_bon}}">
+                                        {{$receipt->timestamp_bon->format('d.m.Y H:i')}}
+                                    </td>
+                                    <td>
+                                        <a href="{{route('rewe.shop', ['id' => $receipt->shop->id])}}">
+                                            Markt {{$receipt->shop->id}}<br/>
+                                            <small>in {{$receipt->shop->zip}} {{$receipt->shop->city}}</small>
                                         </a>
                                     </td>
-                                    <td>{{$bon->cashregister_nr}}</td>
-                                    <td>{{$bon->paymentmethod}}</td>
-                                    <td>{{number_format($bon->total, 2, ",", ".")}} €</td>
-                                    <td><a href="{{ route('rewe_receipt', [$bon->id]) }}">{{__('details')}}</a></td>
+                                    <td>{{$receipt->cashregister_nr}}</td>
+                                    <td>{{$receipt->paymentmethod}}</td>
+                                    <td data-order="{{$receipt->total}}">
+                                        {{number_format($receipt->total, 2, ",", ".")}} €
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{{ route('rewe_receipt', [$receipt->id]) }}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            {{__('details')}}
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -230,9 +246,12 @@
                             "language": {
                                 "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/German.json"
                             },
-                            "order": [[0, 'desc']],
+                            "order": [[1, 'desc']],
                             "pageLength": 5,
-                            "lengthMenu": [5, 10, 25, 50, 75, 100]
+                            "lengthMenu": [5, 10, 25, 50, 75, 100],
+                            columnDefs: [
+                                {targets: 'no-sort', orderable: false}
+                            ]
                         });
                     </script>
                 </div>
