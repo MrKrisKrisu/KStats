@@ -1533,16 +1533,16 @@
         },
         {
             "name": "jwilsson/spotify-web-api-php",
-            "version": "5.0.3",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jwilsson/spotify-web-api-php.git",
-                "reference": "4ec7242fbaaf2df382d1545f169e8ef8ad7b2006"
+                "reference": "0d163356c9cc2fefb8716c16ddef85a0fe509361"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jwilsson/spotify-web-api-php/zipball/4ec7242fbaaf2df382d1545f169e8ef8ad7b2006",
-                "reference": "4ec7242fbaaf2df382d1545f169e8ef8ad7b2006",
+                "url": "https://api.github.com/repos/jwilsson/spotify-web-api-php/zipball/0d163356c9cc2fefb8716c16ddef85a0fe509361",
+                "reference": "0d163356c9cc2fefb8716c16ddef85a0fe509361",
                 "shasum": ""
             },
             "require": {
@@ -1577,9 +1577,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jwilsson/spotify-web-api-php/issues",
-                "source": "https://github.com/jwilsson/spotify-web-api-php/tree/5.0.3"
+                "source": "https://github.com/jwilsson/spotify-web-api-php/tree/5.1.0"
             },
-            "time": "2022-01-15T12:55:35+00:00"
+            "time": "2022-07-04T17:07:48+00:00"
         },
         {
             "name": "laravel/framework",
