@@ -3943,16 +3943,16 @@
         },
         {
             "name": "spatie/pdf-to-text",
-            "version": "1.51",
+            "version": "1.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/pdf-to-text.git",
-                "reference": "cf12152df4fbf49b1f9630c734fee96b59cda153"
+                "reference": "3f1033a5fb25c8b4d2f7bc72d2120fac3723bf5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/pdf-to-text/zipball/cf12152df4fbf49b1f9630c734fee96b59cda153",
-                "reference": "cf12152df4fbf49b1f9630c734fee96b59cda153",
+                "url": "https://api.github.com/repos/spatie/pdf-to-text/zipball/3f1033a5fb25c8b4d2f7bc72d2120fac3723bf5c",
+                "reference": "3f1033a5fb25c8b4d2f7bc72d2120fac3723bf5c",
                 "shasum": ""
             },
             "require": {
@@ -3988,7 +3988,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/pdf-to-text/issues",
-                "source": "https://github.com/spatie/pdf-to-text/tree/1.51"
+                "source": "https://github.com/spatie/pdf-to-text/tree/1.52.0"
             },
             "funding": [
                 {
@@ -3996,7 +3996,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-01-01T13:34:40+00:00"
+            "time": "2022-07-14T20:49:11+00:00"
         },
         {
             "name": "symfony/console",
