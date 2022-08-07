@@ -1,4 +1,5 @@
 import ApexCharts from 'apexcharts'
+import {Notyf} from 'notyf';
 
 require("./bootstrap");
 require("datatables.net-bs5/js/dataTables.bootstrap5.min");
@@ -12,6 +13,13 @@ const Swal = window.Swal = require("sweetalert2");
 
 $(function () {
     $('[data-bs-toggle="tooltip"]').tooltip()
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    window.notyf = new Notyf({
+        duration: 5000,
+        position: {x: "right", y: "top"}
+    });
 });
 
 window.showLoadPopup = function () {

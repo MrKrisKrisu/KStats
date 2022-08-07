@@ -30,6 +30,7 @@
     "datatables.net-responsive": "^2.2.9",
     "datatables.net-responsive-bs5": "^2.3.0",
     "moment": "^2.29.4",
+    "notyf": "^3.10.0",
     "select2": "^4.0.13",
     "select2-bootstrap-5-theme": "^1.1.1",
     "sweetalert2": "^11.4"

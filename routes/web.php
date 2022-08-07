@@ -16,12 +16,16 @@ use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\SharedLink\SharedLinkController;
 
 Route::view('/', 'welcome')->name('welcome');
 
 Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])
      ->name('redirectProvider');
 Route::get('/auth/callback/{provider}', [SocialController::class, 'callback']);
+
+Route::get('/public/{username}/{shareId}', [SharedLinkController::class, 'show'])
+     ->name('public.show');
 
 Auth::routes();
 
@@ -51,6 +55,15 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
              ->name('settings.delete.email');
         Route::post('/set_lang', [LanguageController::class, 'updateLanguage'])
              ->name('settings.set.lang');
+
+        Route::prefix('shared-link')->group(static function() {
+            Route::get('/', [SharedLinkController::class, 'showSharedLinks'])
+                 ->name('shared-links');
+            Route::post('/create', [SharedLinkController::class, 'createSharedLink'])
+                 ->name('shared-links.create');
+            Route::post('/delete', [SharedLinkController::class, 'deleteSharedLink'])
+                 ->name('shared-links.delete');
+        });
     });
 
     Route::get('/user/verify_mail/{user_id}/{verification_key}', [UnauthorizedSettingsController::class, 'verifyMail'])

@@ -1,21 +1,28 @@
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-4">
         @isset($track->album->imageUrl)
             <a href="/spotify/track/{{$track->id}}">
                 <img src="{{$track->album->imageUrl}}" class="spotify-cover"/>
             </a>
         @endisset
     </div>
-    <div class="col">
+    <div class="col-sm-8">
         <a href="/spotify/track/{{$track->id}}">
-            <b>{{$track->name}}</b>
+            <b>
+                @if($showIteration ?? false)
+                    {{$loop->iteration}}.
+                @endif
+                {{$track->name}}
+            </b>
         </a>
         <br>
         @isset($track->artists)
             <small>{{__('general.from')}}
                 @foreach($track->artists as $artist)
                     <a href="{{route('spotify.artist', ['id' => $artist->id])}}">{{$artist->name}}</a>
-                    @if(!$loop->last) {{__('general.and')}} @endif
+                    @if(!$loop->last)
+                        {{__('general.and')}}
+                    @endif
                 @endforeach
             </small>
             <br/>

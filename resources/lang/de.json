@@ -1,4 +1,5 @@
 {
+    "datetime-format": "d.m.Y H:i",
     "auth.pw_confirm": "Passwort bestätigen",
     "auth.password": "Passwort",
     "auth.pw_confirm_pls": "Bitte gib dein Passwort ein, beovor du fortfährst.",
@@ -304,5 +305,20 @@
     "grocy.saved": "Lagerbestand gebucht",
     "grocy.saved.text": "Der Lagerbestand von folgenden Positionen wurde erfolgreich in Grocy erhöht:",
     "shopping-statistic": "Einkaufsstatistik",
-    "most-spent-brand": "meiste Ausgaben bei"
+    "most-spent-brand": "meiste Ausgaben bei",
+    "shared-links": "Geteilte Statistiken",
+    "shared-links.created": "Du kannst den folgenden Link jetzt nutzen, um deine Statistiken zu teilen. Beachte, dass jeder, der diesen Link kennt deine Statistiken sehen kann.",
+    "shared-links.deleted": "Der geteilte Link wurde deaktiviert.",
+    "no-shared-links": "Du hast bisher noch keine geteilten Links für deine Statistiken erstellt.",
+    "shared-links.note": "Jeder mit Zugriff auf den Link kann deine TopTracks in Spotify sehen.",
+    "max-tracks": "Max. anzuzeigende Tracks",
+    "tracks-since": "Top Tracks der letzten x Tage",
+    "days": "Tage",
+    "copy-link": "Link kopieren",
+    "copied": "Kopiert!",
+    "created_at": "Erstellt am",
+    "link": "Link",
+    "shared-link.title": "Freigegebene KStats-Statistiken von :name",
+    "top-tracks-days": "Top Tracks der letzten :days Tage",
+    "create-own-shared-link": "Erstelle jetzt deine eigene Statistik mit KStats"
 }

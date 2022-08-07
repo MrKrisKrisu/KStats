@@ -98,6 +98,10 @@
                                     <i class="fas fa-cog"></i>
                                     {{ __('settings.settings') }}
                                 </a>
+                                <a class="dropdown-item" href="{{ route('shared-links') }}">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                    {{ __('shared-links') }}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
