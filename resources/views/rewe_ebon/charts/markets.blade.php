@@ -39,5 +39,3 @@
     </div>
     <div class="card-footer"><small>{{__('spending-per-market')}}</small></div>
 </div>
-
-primary_color
