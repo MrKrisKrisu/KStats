@@ -17,7 +17,7 @@
     "laravel/tinker": "^2.0",
     "laravel/ui": "^3.0",
     "mews/captcha": "^3.2.5",
-    "mrkriskrisu/rewe-ereceipt-parser": "^0.3.7",
+    "mrkriskrisu/rewe-ereceipt-parser": "^1.0",
     "php": "^8.0",
     "socialiteproviders/spotify": "^4.0",
     "socialiteproviders/twitter": "^4.0",
