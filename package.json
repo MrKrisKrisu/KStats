@@ -33,6 +33,6 @@
     "notyf": "^3.10.0",
     "select2": "^4.0.13",
     "select2-bootstrap-5-theme": "^1.1.1",
-    "sweetalert2": "^11.4"
+    "sweetalert2": "^11.5"
   }
 }
