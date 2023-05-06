@@ -63,24 +63,6 @@
             prüfen, wenn uns konkrete Anhaltspunkte für eine rechtswidrige Nutzung bekannt
             werden.</p>
         <hr/>
-        <h2>Twitter</h2>
-        <p>Auf unseren Seiten sind Funktionen des Dienstes Twitter eingebunden. Diese
-            Funktionen werden angeboten durch die Twitter Inc., 1355 Market Street, Suite 900, San
-            Francisco, CA
-            94103, USA. Durch das Benutzen von Twitter und der Funktion "Re-Tweet" werden die von Ihnen
-            besuchten Websites mit Ihrem Twitter-Account verknüpft und anderen Nutzern bekannt gegeben.
-            Dabei werden auch Daten an Twitter übertragen. Wir weisen darauf hin, dass wir als Anbieter
-            der
-            Seiten keine Kenntnis vom Inhalt der übermittelten Daten sowie deren Nutzung durch Twitter
-            erhalten. Weitere Informationen hierzu finden Sie in der Datenschutzerklärung von Twitter
-            unter <a href="https://twitter.com/privacy" target="_blank">https://twitter.com/privacy</a>.
-        </p>
-        <p>Ihre
-            Datenschutzeinstellungen bei Twitter können Sie in den Konto-Einstellungen unter: <a
-                    href="https://twitter.com/account/settings" target="_blank">https://twitter.com/account/settings</a>
-
-            ändern.</p>
-        <hr/>
         <h2>Spotify</h2>
         <p>Auf unseren Seiten sind Funktionen des Musik-
             Dienstes Spotify eingebunden. Anbieter ist die Spotify AB, Birger Jarlsgatan 61, 113 56

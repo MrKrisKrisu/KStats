@@ -3,7 +3,6 @@
   "description": "Statistics for your shopping behaviour at REWE, Some Spotify Charts and more.",
   "type": "project",
   "require": {
-    "abraham/twitteroauth": "^4.0",
     "doctrine/dbal": "^3.0",
     "ext-gd": "*",
     "ext-imap": "*",
@@ -20,7 +19,6 @@
     "mrkriskrisu/rewe-ereceipt-parser": "^0.3.7",
     "php": "^8.0",
     "socialiteproviders/spotify": "^4.0",
-    "socialiteproviders/twitter": "^4.0",
     "spatie/pdf-to-text": "^1.3"
   },
   "require-dev": {

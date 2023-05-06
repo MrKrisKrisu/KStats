@@ -68,7 +68,6 @@
         <ul>
             <li>Spotify: Gehörte Tracks inkl. Zeitstempel und Metadaten</li>
             <li>REWE: Inhalte des eBon</li>
-            <li>Twitter: Öffentliche Informationen, Tweets, Likes, Follower</li>
         </ul>
         <h3>Kategorien betroffener Personen</h3>
         <ul>
@@ -336,14 +335,6 @@
         </ul>
         <p><strong>Eingesetzte Dienste und Diensteanbieter:</strong></p>
         <ul class="m-elements">
-            <li><strong>Twitter Single-Sign-On:</strong> Authentifizierungsdienst; Dienstanbieter: Twitter International
-                Company, One Cumberland Place, Fenian Street, Dublin 2 D02 AX07, Irland, Mutterunternehmen: Twitter
-                Inc., 1355 Market Street, Suite 900, San Francisco, CA 94103, USA; Website: <a
-                        href="https://twitter.com" target="_blank">https://twitter.com</a>; Datenschutzerklärung: <a
-                        href="https://twitter.com/de/privacy" target="_blank">https://twitter.com/de/privacy</a>;
-                Widerspruchsmöglichkeit (Opt-Out): <a href="https://twitter.com/personalization" target="_blank">https://twitter.com/personalization</a>.
-            </li>
-
             <li><strong>Spotify Single-Sign-On:</strong>
                 Authentifizierungsdienst; Dienstanbieter: Spotify AB, Regeringsgatan 19, SE-111 53 Stockholm, Schweden;
                 Website: <a

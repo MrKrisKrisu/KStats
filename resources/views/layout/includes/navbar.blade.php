@@ -66,13 +66,6 @@
                                 <i class="fas fa-shopping-cart"></i> {{ __('general.menu.receipts') }}
                             </a>
                         </li>
-                        @if(auth()->user()->socialProfile->isConnectedTwitter)
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('twitter') }}">
-                                    <i class="fab fa-twitter"></i> Twitter
-                                </a>
-                            </li>
-                        @endif
                         @if(auth()->user()->reweReceipts()->count() > 0)
                             <li class="nav-item">
                                 <a class="nav-link"

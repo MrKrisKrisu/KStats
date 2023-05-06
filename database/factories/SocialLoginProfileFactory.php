@@ -15,9 +15,6 @@ class SocialLoginProfileFactory extends Factory {
         return [
             'user_id'               => User::factory(),
             'telegram_id'           => null,
-            'twitter_id'            => null,
-            'twitter_token'         => null,
-            'twitter_tokenSecret'   => null,
             'spotify_user_id'       => $this->faker->unique()->userName,
             'spotify_accessToken'   => 'example for testing',
             'spotify_refreshToken'  => 'example for testing',

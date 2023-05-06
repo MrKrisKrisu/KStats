@@ -19,7 +19,6 @@ class EventServiceProvider extends ServiceProvider {
             SendEmailVerificationNotification::class,
         ],
         SocialiteWasCalled::class => [
-            'SocialiteProviders\\Twitter\\TwitterExtendSocialite@handle',
             'SocialiteProviders\\Spotify\\SpotifyExtendSocialite@handle',
         ],
     ];

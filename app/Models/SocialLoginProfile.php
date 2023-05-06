@@ -14,12 +14,11 @@ class SocialLoginProfile extends Model {
 
     protected $fillable = [
         'user_id', 'telegram_id',
-        'twitter_id', 'twitter_token', 'twitter_tokenSecret',
         'spotify_accessToken', 'spotify_refreshToken', 'spotify_lastRefreshed', 'spotify_user_id', 'spotify_scopes',
         'spotify_expires_at', 'spotify_last_fetched', 'grocy_host', 'grocy_key',
     ];
-    protected $hidden   = ['twitter_token', 'twitter_tokenSecret', 'spotify_accessToken', 'spotify_refreshToken'];
-    protected $appends  = ['isConnectedSpotify', 'isConnectedTwitter', 'isConnectedTelegram'];
+    protected $hidden   = ['spotify_accessToken', 'spotify_refreshToken'];
+    protected $appends  = ['isConnectedSpotify', 'isConnectedTelegram'];
     protected $dates    = ['spotify_expires_at', 'spotify_lastRefreshed'];
     public    $casts    = [
         'grocy_key'            => 'encrypted',
@@ -28,10 +27,6 @@ class SocialLoginProfile extends Model {
 
     public function user(): HasOne {
         return $this->hasOne(User::class, 'id', 'user_id');
-    }
-
-    public function twitterUser(): BelongsTo {
-        return $this->belongsTo(TwitterProfile::class, 'twitter_id', 'id');
     }
 
     public function getIsConnectedSpotifyAttribute(): bool {
@@ -43,10 +38,6 @@ class SocialLoginProfile extends Model {
         }
         //TODO: Check if Token is valid
         return true;
-    }
-
-    public function getIsConnectedTwitterAttribute(): bool {
-        return !($this->twitter_id === null || $this->twitter_token === null || $this->twitter_tokenSecret === null);
     }
 
     public function getIsConnectedTelegramAttribute(): bool {

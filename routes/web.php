@@ -12,7 +12,6 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\SpotifyController;
 use App\Http\Controllers\TelegramController;
-use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\UnauthorizedSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -120,9 +119,6 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
     Route::get('/crowdsourcing/rewe/', [CrowdsourceController::class, 'renderRewe'])
          ->name('crowdsourcing_rewe');
     Route::post('/crowdsourcing/rewe/', [CrowdsourceController::class, 'handleSubmit']);
-
-    Route::get('/twitter', [TwitterController::class, 'index'])
-         ->name('twitter');
 
     Route::prefix('grocy')->group(function() {
         Route::get('/', [ApiController::class, 'renderOverview'])->name('grocy');

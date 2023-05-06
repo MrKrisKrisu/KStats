@@ -61,14 +61,7 @@ class SocialController extends Controller {
 
         $socialProfile = SocialLoginProfile::firstOrCreate(['user_id' => auth()->user()->id]);
 
-        if($provider === 'twitter') {
-            $socialProfile->update([
-                                       'twitter_token'       => $getInfo->token,
-                                       'twitter_tokenSecret' => $getInfo->tokenSecret
-                                   ]);
-
-            TwitterController::verifyProfile($socialProfile);
-        } elseif($provider === 'spotify') {
+        if($provider === 'spotify') {
             $socialProfile->update([
                                        'spotify_user_id'       => $getInfo->id,
                                        'spotify_accessToken'   => $getInfo->token,

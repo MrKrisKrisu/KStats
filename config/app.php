@@ -216,10 +216,6 @@ return [
         ]
     ],
 
-    'twitter' => [
-        'crawling' => env('TWITTER_CRAWL')
-    ],
-
     'imprint' => [
         'name'    => env('IMPRINT_NAME'),
         'address' => env('IMPRINT_ADDRESS'),

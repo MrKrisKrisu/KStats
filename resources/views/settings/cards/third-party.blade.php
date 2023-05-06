@@ -37,27 +37,6 @@
                 </tr>
 
                 <tr>
-                    <td><i class="fab fa-twitter"></i> Twitter</td>
-                    <td>
-                        @if(auth()->user()->socialProfile->isConnectedTwitter)
-                            <span class="fs-bold text-success">
-                                <i class="fas fa-check"></i>
-                                {{__('settings.third-party.statistics-enabled')}}
-                            </span>
-                            <br/>
-                            <span class="text-secondary">
-                                Twitter UserID: {{auth()->user()->socialProfile->twitter_id}}
-                            </span>
-                        @else
-                            <p class="fs-bold text-secondary">{{__('settings.third-party.not-connected')}}</p>
-                            <a href="{{route('redirectProvider', 'twitter')}}" class="btn btn-sm btn-primary">
-                                {{strtr(__('settings.third-party.connect-to'), [':thirdparty' => 'Twitter'])}}
-                            </a>
-                        @endif
-                    </td>
-                </tr>
-
-                <tr>
                     <td><i class="fab fa-telegram"></i> Telegram</td>
                     <td>
                         @if(auth()->user()->socialProfile->isConnectedTelegram)
