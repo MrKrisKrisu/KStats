@@ -2,9 +2,6 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/4dfdd959ca7f4b07b7b6fd57f1f92c91)](https://www.codacy.com/gh/MrKrisKrisu/KStats/dashboard)
 ![PHPUnit](https://github.com/MrKrisKrisu/KStats/workflows/PHPUnit/badge.svg)
-<a href="http://weblate.k118.de/engage/kstats/">
-<img src="http://weblate.k118.de/widgets/kstats/-/web/svg-badge.svg" alt="Translation status" />
-</a>
 
 ![Screenshot](screenshot.png)
 
@@ -30,17 +27,7 @@
 
 ## Contributing
 
-### Translation
-
-We use Weblate for managing
-translations. [Click here to help with translations](https://weblate.k118.de/projects/kstats/web/).
-
-<a href="https://weblate.k118.de/engage/kstats/">
-<img src="https://weblate.k118.de/widgets/kstats/-/web/multi-auto.svg" alt="Translation status" />
-</a>
-
-### Development
-Glad you want to help! :) Feel free to work your magic and create a PullRequest. To install KStats, just follow these
+To install KStats, just follow these
 steps:
 
 1. Clone the repository
