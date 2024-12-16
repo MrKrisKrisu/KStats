@@ -8,6 +8,7 @@ $danger: #9C3848;
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+$s2bs5-clear-icon: str-replace($btn-close-bg, #{$btn-close-color}, #{shade-color(red, 50%)}) !default;
 
 // Datatables
 @import '~datatables.net-bs5';
