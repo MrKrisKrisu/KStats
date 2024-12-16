@@ -26,7 +26,7 @@ Route::get('/auth/callback/{provider}', [SocialController::class, 'callback']);
 Route::get('/public/{username}/{shareId}', [SharedLinkController::class, 'show'])
      ->name('public.show');
 
-Auth::routes();
+Auth::routes(['register' => config('auth.registration_enabled')]);
 
 Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
 
