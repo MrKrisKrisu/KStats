@@ -127,10 +127,12 @@ Route::middleware(['auth', 'privacy_confirmation'])->group(function() {
     });
 });
 
-Route::view('/imprint', 'legal.imprint');
-Route::view('/privacy', 'legal.privacy_policy')
-     ->name('legal.privacy_policy');
-Route::post('/privacy/confirm', [SettingsController::class, 'confirmPrivacyPolicy'])
-     ->name('legal.privacy_policy.confirm');
+if(config('auth.registration_enabled')) {
+    Route::view('/imprint', 'legal.imprint');
+    Route::view('/privacy', 'legal.privacy_policy')
+         ->name('legal.privacy_policy');
+    Route::post('/privacy/confirm', [SettingsController::class, 'confirmPrivacyPolicy'])
+         ->name('legal.privacy_policy.confirm');
+}
 
 Route::post('/' . config('telegram.bots.mybot.token') . '/webhook', [TelegramController::class, 'handleTelegram']);

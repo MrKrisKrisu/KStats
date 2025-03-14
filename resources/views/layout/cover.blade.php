@@ -38,9 +38,12 @@
         <div class="inner">
             <p>
                 <a href="https://github.com/MrKrisKrisu/KStats"
-                   target="github">{{ __('general.show_sourcecode') }}</a> -
-                <a href="/imprint/">{{__('general.menu.imprint')}}</a> -
-                <a href="/privacy">{{ __('general.menu.privacy_policy') }}</a>
+                   target="github">{{ __('general.show_sourcecode') }}</a>
+                @if(config('auth.registration_enabled'))
+                    -
+                    <a href="/imprint/">{{__('general.menu.imprint')}}</a> -
+                    <a href="/privacy">{{ __('general.menu.privacy_policy') }}</a>
+                @endif
             </p>
         </div>
     </footer>

@@ -116,6 +116,6 @@ return [
 
     'password_timeout' => 10800,
 
-    'registration_enabled' => env('REGISTRATION_ENABLED', true),
+    'registration_enabled' => (bool)env('REGISTRATION_ENABLED', true),
 
 ];

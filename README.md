@@ -1,7 +1,7 @@
 # KStats
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4dfdd959ca7f4b07b7b6fd57f1f92c91)](https://www.codacy.com/gh/MrKrisKrisu/KStats/dashboard)
-![PHPUnit](https://github.com/MrKrisKrisu/KStats/workflows/PHPUnit/badge.svg)
+> [!IMPORTANT]  
+> This project is discontinued and not actively maintained anymore.
 
 ![Screenshot](screenshot.png)
 
